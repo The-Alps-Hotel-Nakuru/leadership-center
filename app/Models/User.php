@@ -57,5 +57,31 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'name',
+        'is_admin',
+        'is_employee'
     ];
+
+
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->role->id == 1 || $this->role->id == 2;
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function getIsEmployeeAttribute()
+    {
+        return $this->role->id == 3;
+    }
+
+
 }
