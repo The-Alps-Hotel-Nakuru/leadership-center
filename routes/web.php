@@ -2,7 +2,6 @@
 
 use App\Http\Livewire\Admin;
 use App\Http\Livewire\Employee;
-use App\Models\Attendance;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,10 +49,30 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
             Route::get('/{id}/edit', Admin\Employees\Edit::class)->name('admin.employees.edit');
         });
 
-        Route::prefix('attendance')->group(function(){
-            Route::get('/', Admin\Attendance\Index::class)->name('admin.attendance.index');
-            Route::get('/create', Admin\Attendance\Create::class)->name('admin.attendance.create');
-            Route::get('/{id}/edit', Admin\Attendance\Edit::class)->name('admin.attendance.edit');
+        Route::prefix('attendances')->group(function(){
+            Route::get('/', Admin\Attendances\Index::class)->name('admin.attendances.index');
+            Route::get('/create', Admin\Attendances\Create::class)->name('admin.attendances.create');
+            Route::get('/{id}/edit', Admin\Attendances\Edit::class)->name('admin.attendances.edit');
+        });
+        Route::prefix('product_categories')->group(function(){
+            Route::get('/', Admin\ProductCategories\Index::class)->name('admin.product_categories.index');
+            Route::get('/create', Admin\ProductCategories\Create::class)->name('admin.product_categories.create');
+            Route::get('/{id}/edit', Admin\ProductCategories\Edit::class)->name('admin.product_categories.edit');
+        });
+        Route::prefix('products')->group(function(){
+            Route::get('/', Admin\Products\Index::class)->name('admin.products.index');
+            Route::get('/create', Admin\Products\Create::class)->name('admin.products.create');
+            Route::get('/{id}/edit', Admin\Products\Edit::class)->name('admin.products.edit');
+        });
+        Route::prefix('asset_categories')->group(function(){
+            Route::get('/', Admin\AssetCategories\Index::class)->name('admin.asset_categories.index');
+            Route::get('/create', Admin\AssetCategories\Create::class)->name('admin.asset_categories.create');
+            Route::get('/{id}/edit', Admin\AssetCategories\Edit::class)->name('admin.asset_categories.edit');
+        });
+        Route::prefix('assets')->group(function(){
+            Route::get('/', Admin\Assets\Index::class)->name('admin.assets.index');
+            Route::get('/create', Admin\Assets\Create::class)->name('admin.assets.create');
+            Route::get('/{id}/edit', Admin\Assets\Edit::class)->name('admin.assets.edit');
         });
 
     });

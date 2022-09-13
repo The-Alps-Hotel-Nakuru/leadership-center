@@ -5,19 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="Responsive HTML Admin Dashboard Template based on Bootstrap 5">
-    <meta name="author" content="NobleUI">
-    <meta name="keywords"
-        content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- Scripts -->
-    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
     <link rel="stylesheet" href="/assets/vendors/core/core.css">
     <link rel="stylesheet" href="/assets/fonts/feather-font/css/iconfont.css">
     <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    @vite(['resources/sass/app.scss'])
     <link rel="stylesheet" href="/assets/css/demo1/style.css">
     <link rel="shortcut icon" href="/assets/images/favicon.png" />
 
@@ -338,11 +334,19 @@
             <!-- partial -->
 
             <div class="page-content">
+                @if (isset($header))
+                    <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+                        <div>
+                            <h4 class="mb-3 mb-md-0">{{ $header }}</h4>
+                        </div>
+                    </div>
+                @endif
                 {{ $slot }}
             </div>
 
         </div>
     </div>
+    {{-- @vite(['resources/js/app.js']) --}}
     <script src="/assets/vendors/core/core.js"></script>
     <script src="/assets/vendors/feather-icons/feather.min.js"></script>
     <script src="/assets/js/template.js"></script>
