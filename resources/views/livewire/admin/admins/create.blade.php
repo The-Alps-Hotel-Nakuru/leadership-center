@@ -10,12 +10,34 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                          <label for="first_name" class="form-label">First Name</label>
-                          <input type="text" wire:model='admin.first_name'
-                            class="form-control" name="" id="" aria-describedby="name" placeholder="Enter the First Name">
-                          @error('admin.first_name')
-                              <small id="name" class="form-text text-danger">{{ $message }}</small>
-                          @enderror
+                            <label for="first_name" class="form-label">First Name</label>
+                            <input type="text" wire:model='admin.first_name' class="form-control" name=""
+                                id="" aria-describedby="name" placeholder="Enter the First Name">
+                            @error('admin.first_name')
+                                <small id="name" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">Last Name</label>
+                            <input type="text" wire:model='admin.last_name' class="form-control" name=""
+                                id="" aria-describedby="name" placeholder="Enter the Last Name">
+                            @error('admin.last_name')
+                                <small id="name" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="admin.role_id" class="form-label">Administrator Type</label>
+                            <select class="form-control" name="admin.role_id" id="admin.role_id">
+                                <option selected>Select the Type of Administrator</option>
+                                @if (auth()->user()->is_super)
+                                    <option value="1">Super Administrator</option>
+                                @endif
+                                <option value="2">Junior Administrator</option>
+                            </select>
                         </div>
                     </div>
                 </div>

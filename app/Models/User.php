@@ -72,6 +72,10 @@ class User extends Authenticatable
     {
         return $this->role->id == 1 || $this->role->id == 2;
     }
+    public function getIsSuperAttribute()
+    {
+        return $this->role->id == 1 ;
+    }
 
     public function role()
     {
