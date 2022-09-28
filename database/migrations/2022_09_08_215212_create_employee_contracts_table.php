@@ -19,8 +19,9 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->foreignId('designation_id')->constrained();
+            $table->foreignId('employment_type_id');
             $table->float('amount_kes');
-            $table->string('contract_path');
+            $table->string('contract_path')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

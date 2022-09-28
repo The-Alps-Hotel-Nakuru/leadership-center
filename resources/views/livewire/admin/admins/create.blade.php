@@ -30,17 +30,34 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" wire:model='admin.email' class="form-control" name=""
+                                id="" aria-describedby="email" placeholder="Enter the Email Address">
+                            @error('admin.email')
+                                <small id="name" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
                             <label for="admin.role_id" class="form-label">Administrator Type</label>
-                            <select class="form-control" name="admin.role_id" id="admin.role_id">
+                            <select class="form-control" wire:model="admin.role_id" name="admin.role_id" id="admin.role_id">
                                 <option selected>Select the Type of Administrator</option>
                                 @if (auth()->user()->is_super)
                                     <option value="1">Super Administrator</option>
                                 @endif
                                 <option value="2">Junior Administrator</option>
                             </select>
+
+                            @error('admin.role_id')
+                                <small id="name" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
                 </div>
+                <button wire:click="save" class="btn btn-dark text-uppercase">
+                    Save
+                </button>
             </div>
         </div>
     </div>

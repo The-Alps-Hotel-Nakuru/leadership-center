@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('salaries', function (Blueprint $table) {
+        Schema::create('product_subcategories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employees_detail_id')->unique()->constrained();
-            $table->foreignId('employment_type_id')->constrained();
-            $table->float('amount');
+            $table->foreignId('product_category_id')->constrained();
+            $table->string('title');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
             $table->unsignedBigInteger('updated_by')->nullable();
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salaries');
+        Schema::dropIfExists('product_subcategories');
     }
 };

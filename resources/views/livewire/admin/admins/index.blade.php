@@ -6,13 +6,13 @@
             <div class="card-header d-flex">
                 <h4>List of Administrators</h4>
                 <div class="flex-col ms-auto">
-                    <a href="{{ route('admin.admins.create') }}" class="btn btn-primary">
+                    <a wire:ignore href="{{ route('admin.admins.create') }}" class="btn btn-primary">
                         <i data-feather="user-plus"></i>
                     </a>
                 </div>
             </div>
             <div class=" card-body table-responsive">
-                <table class="table table-light">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>User ID</th>
@@ -32,17 +32,20 @@
                                 <td>
                                     <div class="d-flex flex-row justify-content-center">
                                         <div class="flex-col m-2">
-                                            <a href="{{ route('admin.admins.edit', $admin->id) }}"
+                                            <a wire:ignore href="{{ route('admin.admins.edit', $admin->id) }}"
                                                 class="btn btn-xs btn-secondary">
                                                 <i data-feather="edit"></i>
                                             </a>
                                         </div>
-                                        <div class="flex-col  m-2">
-                                            <button class="btn btn-xs btn-danger"
-                                                wire:click='delete({{ $admin->id }})'>
-                                                <i data-feather="x"></i>
-                                            </button>
-                                        </div>
+                                        @if (auth()->user()->id != $admin->id)
+                                            <div class="flex-col  m-2">
+                                                <button wire:ignore class="btn btn-xs btn-danger"
+                                                    onclick="confirm('Are you sure you want to Delete this Administrator?')||event.stopImmediatePropagation()"
+                                                    wire:click='delete({{ $admin->id }})'>
+                                                    <i data-feather="x"></i>
+                                                </button>
+                                            </div>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

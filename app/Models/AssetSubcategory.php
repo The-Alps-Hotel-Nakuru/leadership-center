@@ -4,17 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AssetCategory extends Model
+class AssetSubcategory extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-
-    public function subCategories()
-    {
-        return $this->hasMany(AssetSubcategory::class);
-    }
 
     public function creator()
     {
@@ -25,4 +18,3 @@ class AssetCategory extends Model
         return $this->hasOne(User::class, 'id', 'updated_by');
     }
 }
-

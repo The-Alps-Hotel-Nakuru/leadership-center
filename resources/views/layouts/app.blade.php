@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/assets/vendors/core/core.css">
     <link rel="stylesheet" href="/assets/fonts/feather-font/css/iconfont.css">
     <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
-    @vite(['resources/sass/app.scss'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="/assets/css/demo1/style.css">
     <link rel="shortcut icon" href="/assets/images/favicon.png" />
 
@@ -60,7 +60,7 @@
                         </div>
                     </form>
                     <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="languageDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="flag-icon flag-icon-us mt-1" title="us"></i> <span
@@ -79,8 +79,8 @@
                                 <a href="javascript:;" class="dropdown-item py-2"><i class="flag-icon flag-icon-es"
                                         title="es" id="es"></i> <span class="ms-1"> Spanish </span></a>
                             </div>
-                        </li>
-                        <li class="nav-item dropdown">
+                        </li> --}}
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="appsDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i data-feather="grid"></i>
@@ -124,8 +124,8 @@
                                     <a href="javascript:;">View all</a>
                                 </div>
                             </div>
-                        </li>
-                        <li class="nav-item dropdown">
+                        </li> --}}
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="messageDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i data-feather="mail"></i>
@@ -206,7 +206,9 @@
                                     <a href="javascript:;">View all</a>
                                 </div>
                             </div>
-                        </li>
+                        </li> --}}
+
+                        {{-- Notifications --}}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="notificationDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -291,29 +293,18 @@
                                             src="https://via.placeholder.com/80x80" alt="">
                                     </div>
                                     <div class="text-center">
-                                        <p class="tx-16 fw-bolder">Amiah Burton</p>
-                                        <p class="tx-12 text-muted">amiahburton@gmail.com</p>
+                                        <p class="tx-16 fw-bolder">{{auth()->user()->name}}</p>
+                                        <p class="tx-12 text-muted">{{auth()->user()->email}}</p>
                                     </div>
                                 </div>
                                 <ul class="list-unstyled p-1">
                                     <li class="dropdown-item py-2">
-                                        <a href="../../pages/general/profile.html" class="text-body ms-0">
+                                        <a href="{{route('profile.show')}}" class="text-body ms-0">
                                             <i class="me-2 icon-md" data-feather="user"></i>
                                             <span>Profile</span>
                                         </a>
                                     </li>
-                                    <li class="dropdown-item py-2">
-                                        <a href="javascript:;" class="text-body ms-0">
-                                            <i class="me-2 icon-md" data-feather="edit"></i>
-                                            <span>Edit Profile</span>
-                                        </a>
-                                    </li>
-                                    <li class="dropdown-item py-2">
-                                        <a href="javascript:;" class="text-body ms-0">
-                                            <i class="me-2 icon-md" data-feather="repeat"></i>
-                                            <span>Switch User</span>
-                                        </a>
-                                    </li>
+
                                     <li class="dropdown-item py-2">
                                         <a href="javascript:;"
                                             onclick="document.getElementById('logout-form').submit()"
@@ -353,6 +344,18 @@
     @stack('modals')
     @livewireScripts
     @stack('scripts')
+
+    <script>
+        Livewire.on('done', (e)=>{
+            if (e.success) {
+                Toast.fire({
+                    icon:'success',
+                    text:e.success
+                })
+            }
+        })
+    </script>
+
 </body>
 
 </html>

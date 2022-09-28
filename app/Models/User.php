@@ -24,7 +24,8 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
     ];
@@ -70,11 +71,11 @@ class User extends Authenticatable
 
     public function getIsAdminAttribute()
     {
-        return $this->role->id == 1 || $this->role->id == 2;
+        return $this->role_id == 1 || $this->role_id == 2;
     }
     public function getIsSuperAttribute()
     {
-        return $this->role->id == 1 ;
+        return $this->role_id == 1 ;
     }
 
     public function role()
@@ -84,7 +85,7 @@ class User extends Authenticatable
 
     public function getIsEmployeeAttribute()
     {
-        return $this->role->id == 3;
+        return $this->role_id == 3;
     }
 
 

@@ -134,6 +134,10 @@
                     <a href="{{ route('admin.asset_categories.create') }}"
                         class="nav-link @if (Route::currentRouteName() == 'admin.asset_categories.create') active @endif">Create a new Asset Category</a>
                 </li>
+                <li class="nav-item ">
+                    <a href="{{ route('admin.asset_subcategories.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.asset_subcategories.create') active @endif">New Asset Subcategory</a>
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.assets.create') }}"
                         class="nav-link @if (Route::currentRouteName() == 'admin.assets.create') active @endif">Create new Asset</a>
