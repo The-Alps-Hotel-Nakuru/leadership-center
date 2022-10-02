@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('designation_id')->constrained();
-            $table->foreignId('employment_type_id')->constrained();
             $table->string('phone_number');
             $table->longText('physical_address');
-            $table->enum('status',['married', 'single', 'divorced', 'widowed'])->default('single');
+            $table->enum('marital_status',['married', 'single', 'divorced', 'widowed'])->default('single');
+            $table->enum('gender',['male', 'female']);
             $table->integer('children')->default(0);
             $table->string('kra_pin');
             $table->string('kra_pin_path')->nullable();
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('nhif')->nullable();
             $table->string('nhif_path')->nullable();
             $table->date('birth_date');
-            $table->boolean('is_disabled')->default(false);
+            $table->mediumText('handicap')->nullable();
             $table->string('religion')->nullable();
             $table->softDeletes();
             $table->timestamps();

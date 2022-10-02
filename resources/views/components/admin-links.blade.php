@@ -48,6 +48,14 @@
                         class="nav-link @if (Route::currentRouteName() == 'admin.employees.create') active @endif">Create a new
                         employee</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.employee_contracts.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_contracts.index') active @endif">View Employee Contracts</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.employee_contracts.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_contracts.create') active @endif">Create an Employee Contract</a>
+                </li>
             </ul>
         </div>
     </li>

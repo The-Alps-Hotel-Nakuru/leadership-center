@@ -3,6 +3,9 @@
 use App\Http\Livewire\Admin;
 use App\Http\Livewire\Employee;
 use Illuminate\Support\Facades\Route;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Faker\Factory;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,8 +48,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         });
         Route::prefix('employees')->group(function () {
             Route::get('/', Admin\Employees\Index::class)->name('admin.employees.index');
+            Route::get('/{id}/profile', Admin\Employees\Show::class)->name('admin.employees.show');
             Route::get('/create', Admin\Employees\Create::class)->name('admin.employees.create');
             Route::get('/{id}/edit', Admin\Employees\Edit::class)->name('admin.employees.edit');
+        });
+        Route::prefix('employee_contracts')->group(function () {
+            Route::get('/', Admin\EmployeeContracts\Index::class)->name('admin.employee_contracts.index');
+            Route::get('/{id}/contract', Admin\EmployeeContracts\Show::class)->name('admin.employee_contracts.show');
+            Route::get('/create', Admin\EmployeeContracts\Create::class)->name('admin.employee_contracts.create');
+            Route::get('/{id}/edit', Admin\EmployeeContracts\Edit::class)->name('admin.employee_contracts.edit');
         });
 
         Route::prefix('attendances')->group(function () {
@@ -92,4 +102,27 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::middleware('employee')->prefix('employee')->group(function () {
         Route::get('dashboard', Employee\Dashboard::class)->name('employee.dashboard');
     });
+});
+
+
+
+Route::get('testPDF', function () {
+
+    $faker = Factory::create();
+
+    $pdf = Pdf::loadView('test_pdf', [
+        'title' => 'Test PDF',
+        'document' => 'Contract',
+        'doc_no' => '1',
+        'date' => Carbon::now()->toDateString(),
+        'client_name' => 'Steve Nyanumba',
+        'client_phone' => '+254712345678',
+        'client_address' => $faker->address,
+        'client_city' => $faker->city,
+        'client_country' => $faker->country,
+        'amount' => rand(3, 50) * 1000,
+        'bo'
+    ]);
+
+    return $pdf->stream();
 });

@@ -39,7 +39,7 @@ return new class extends Migration
                 'title'=>'Front Office'
             ],
             [
-                'title'=>'Service'
+                'title'=>'Food, Beverage and Service'
             ],
             [
                 'title'=>'Kitchen'

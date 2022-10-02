@@ -32,10 +32,6 @@ return new class extends Migration
                 'title'=>'Fixed-term',
                 'description'=> 'apply to employees who work regular hours and are paid a salary. The contracts are ongoing until the set end date approaches, for example, after six months or one year'
             ],
-            [
-                'title'=>'Permanent',
-                'description'=> 'apply to employees who work regular hours and are paid a salary. The contracts are ongoing until terminated by either the employer or employee and may be for full or part time work.'
-            ],
         ]);
     }
 
