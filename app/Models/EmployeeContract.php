@@ -21,11 +21,27 @@ class EmployeeContract extends Model
 
     public function employee()
     {
-        return $this->hasOne(EmployeesDetail::class, 'id');
+        return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
     }
 
-    public function terminate(){
+    public function employment_type()
+    {
+        return $this->belongsTo(EmploymentType::class);
+    }
+
+    public function terminate()
+    {
         $this->end_date = Carbon::now()->toDateString();
         $this->save();
+    }
+
+
+    public function getHouseAllowanceAttribute()
+    {
+        if ($this->employment_type_id == 1) {
+            return 0;
+        } else {
+            return $this->salary_kes * 0.15;
+        }
     }
 }

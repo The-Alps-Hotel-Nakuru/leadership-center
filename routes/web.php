@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Admin;
 use App\Http\Livewire\Employee;
+use App\Models\EmployeeContract;
 use Illuminate\Support\Facades\Route;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -91,6 +92,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/create', Admin\Assets\Create::class)->name('admin.assets.create');
             Route::get('/{id}/edit', Admin\Assets\Edit::class)->name('admin.assets.edit');
         });
+        Route::prefix('responsibilities')->group(function () {
+            Route::get('/', Admin\Responsibilities\Index::class)->name('admin.responsibilities.index');
+            Route::get('/{designation_id}/create', Admin\Responsibilities\Create::class)->name('admin.responsibilities.create');
+            Route::get('/{id}/edit', Admin\Responsibilities\Edit::class)->name('admin.responsibilities.edit');
+        });
     });
 
 
@@ -126,3 +132,13 @@ Route::get('testPDF', function () {
 
     return $pdf->stream();
 });
+Route::get('/{id}/draft_contract', function ($id) {
+
+    $faker = Factory::create();
+
+    $pdf = Pdf::loadView('doc.contract', [
+        'contract' => EmployeeContract::find($id)
+    ])->setOptions(['defaultFont' => 'sans-serif']);
+
+    return $pdf->stream();
+})->name('doc.contract');

@@ -4,17 +4,19 @@ namespace App\Http\Livewire\Admin\EmployeeContracts;
 
 use App\Models\EmployeeContract;
 use App\Models\EmployeesDetail;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Create extends Component
 {
 
     public EmployeeContract $contract;
+    public $months;
 
     protected $rules = [
         'contract.employees_detail_id'=>'required',
         'contract.start_date'=>'required',
-        'contract.end_date'=>'required',
+        'months'=>'required',
         'contract.employment_type_id'=>'required',
         'contract.salary_kes'=>'required',
     ];
@@ -29,8 +31,10 @@ class Create extends Component
     {
         $this->validate();
 
-        if (EmployeesDetail::find($this->contract->employees_detail_id)->has_active_contract) {
-            foreach ($this->contract->employee->contracts as $cont) {
+        $this->contract->end_date = Carbon::parse($this->contract->start_date)->addMonths($this->months)->toDateString();
+        $employee = EmployeesDetail::find($this->contract->employees_detail_id);
+        if ($employee->has_active_contract) {
+            foreach ($employee->contracts as $cont) {
                 $cont->terminate();
             }
         }

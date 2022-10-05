@@ -29,10 +29,16 @@
             </ul>
         </div>
     </li>
+    <li class="nav-item  @if (Request::is('admin/responsibilities*')) active @endif">
+        <a href="{{ route('admin.responsibilities.index') }}" class="nav-link">
+            <i class="link-icon" data-feather="trello"></i>
+            <span class="link-title">Responsibilities</span>
+        </a>
+    </li>
     <li class="nav-item @if (Request::is('admin/employees*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#emails" role="button" aria-expanded="false"
             aria-controls="emails">
-            <i class="link-icon" data-feather="anchor"></i>
+            <i class="link-icon" data-feather="list"></i>
             <span class="link-title">Employees</span>
             <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
@@ -78,6 +84,14 @@
                 </li>
             </ul>
         </div>
+    </li>
+    <li class="nav-item @if (Request::is('admin/admins*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="javascript:void(0)" role="button" aria-expanded="false"
+            aria-controls="admins">
+            <i class="link-icon" data-feather="dollar-sign"></i>
+            <span class="link-title">Payroll</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
     </li>
 
     <li class="nav-item nav-category">Supply Chain & Procurement</li>

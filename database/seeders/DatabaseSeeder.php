@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             AssetsSeeder::class,
             EmployeesSeeder::class,
             ContractsSeeder::class,
+            ResponsibilitiesSeeder::class,
         ]);
     }
 }

@@ -5,16 +5,14 @@ namespace App\Http\Livewire\Admin\EmployeeContracts;
 use App\Models\EmployeeContract;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
-    public $contracts;
 
+    use WithPagination;
 
-    public function mount()
-    {
-        $this->contracts = EmployeeContract::orderBy('id', 'DESC')->get();
-    }
+    protected $paginationTheme = 'bootstrap';
 
     public function makeInactive($id)
     {
@@ -32,6 +30,8 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.admin.employee-contracts.index');
+        return view('livewire.admin.employee-contracts.index', [
+            'contracts'=>EmployeeContract::orderBy('id', 'DESC')->paginate(10),
+        ]);
     }
 }

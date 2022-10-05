@@ -54,13 +54,20 @@
                                                     class="btn btn-dark m-1">
                                                     <i class="fas fa-file-contract"></i>
                                                 </a>
+                                            @else
+                                                <a target="_blank" href="{{ route('doc.contract', $contract->id) }}" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="View Signed Contract"
+                                                    class="btn btn-light shadow-sm m-1">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </a>
                                             @endif
                                             <a href="{{ route('admin.employee_contracts.edit', $contract->id) }}"
                                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Contract"
                                                 class="btn btn-warning m-1">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button data-bs-toggle="tooltip" data-bs-placement="top"
+                                            <button wire:click="makeInactive({{ $contract->id }})"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="Terminate Contract" class="btn btn-danger m-1">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -68,10 +75,14 @@
                                     </td>
                                 </tr>
                             @endif
+                            {{-- @endif --}}
                         @endforeach
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="my-2">
+            {{ $contracts->links() }}
         </div>
     </div>
 </div>

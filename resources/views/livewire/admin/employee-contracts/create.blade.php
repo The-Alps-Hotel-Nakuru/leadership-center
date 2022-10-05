@@ -52,19 +52,35 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="end_date" class="form-label">Expiry Date</label>
                             <input wire:model="contract.end_date" type="date" class="form-control" name="end_date" id="end_date"
                                 aria-describedby="end_date" placeholder="Enter the Appointment Date">
                             @error('contract.end_date')
                                 <small id="end_date" class="form-text text-danger">{{ $message }}</small>
                             @enderror
+                        </div> --}}
+
+                        <div class="mb-3">
+                            <label for="months" class="form-label">Duration</label>
+                            <select wire:model="months" class="form-select form-select-sm" name="months" id="months">
+                                <option selected>Select Duration</option>
+                                <option value="6">6 Months</option>
+                                <option value="12">1 year</option>
+                                <option value="36">3 years</option>
+                            </select>
+                            @error('months')
+                                <small id="end_date" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-4 col-6">
                         <div class="mb-3">
-                            <label for="salary_kes" class="form-label">Gross Salary <small class="text-muted">(per
-                                    Employment Terms)</small></label>
+                            <label for="salary_kes" class="form-label">Gross Salary <small class="text-muted">(KES @if ($contract->employment_type_id == 1)
+                                per day
+                                @elseif ($contract->employment_type_id == 2)
+                                per month
+                            @endif)</small></label>
                             <input wire:model="contract.salary_kes" type="number" class="form-control" name="salary_kes" id="salary_kes"
                                 aria-describedby="salary_kes" placeholder="Enter your Salary">
                             @error('contract.salary_kes')

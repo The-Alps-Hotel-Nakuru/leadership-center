@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^2.0",
         "deployer/deployer": "^7.0",
         "guzzlehttp/guzzle": "^7.2",
+        "laracasts/generators": "^2.0",
         "laravel/framework": "^9.19",
         "laravel/jetstream": "^2.10",
         "laravel/sanctum": "^2.14.1",

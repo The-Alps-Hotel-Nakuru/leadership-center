@@ -42,8 +42,8 @@
                             </td>
                             <td class="text-center">
                                 @if ($employee->has_active_contract)
-                                    <span
-                                        class="badge rounded-pill text-bg-success  text-white text-uppercase">Active</span>
+                                    <a
+                                        class="badge rounded-pill text-bg-success  text-white text-uppercase">Active</a >
                                 @else
                                     <span
                                         class="badge rounded-pill  text-bg-danger text-white text-uppercase">Inactive</span>
@@ -51,6 +51,14 @@
                             </td>
                             <td>
                                 <div class="d-flex flex-row justify-content-center">
+                                    <div class="flex-col mx-1">
+                                        @foreach ($employee->contracts as $contract)
+                                            @if ($contract->is_active)
+                                            <a href="{{ route('admin.employee_contracts.edit', $contract->id) }}" class="btn btn-light shadow-sm"><i
+                                                class="fas fa-file-signature"></i></a>
+                                            @endif
+                                        @endforeach
+                                    </div>
                                     <div class="flex-col mx-1"><a href="{{ route('admin.employees.show', $employee->id) }}" class="btn btn-dark"><i
                                                 class="fas fa-address-card"></i></a></div>
                                     <div class="flex-col mx-1"><a href="{{ route('admin.employees.edit', $employee->id) }}" class="btn btn-secondary"><i

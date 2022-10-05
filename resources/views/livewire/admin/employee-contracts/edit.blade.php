@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-header">
                 <h5>
-                    Create a new Contract
+                    Edit Contract Details
                 </h5>
             </div>
             <div class="card-body">
@@ -15,7 +15,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="employees_detail_id" class="form-label">Employee</label>
-                            <select disabled  wire:model="contract.employees_detail_id" class="form-control" name="employees_detail_id" id="employees_detail_id">
+                            <select disabled wire:model="contract.employees_detail_id" class="form-control" name="employees_detail_id" id="employees_detail_id">
                                 <option>Select Which Employee to Give a Contract</option>
                                 @foreach (App\Models\EmployeesDetail::all() as $employee)
                                     <option @if ($employee->has_active_contract) disabled @endif
@@ -52,11 +52,24 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="end_date" class="form-label">Expiry Date</label>
                             <input wire:model="contract.end_date" type="date" class="form-control" name="end_date" id="end_date"
                                 aria-describedby="end_date" placeholder="Enter the Appointment Date">
                             @error('contract.end_date')
+                                <small id="end_date" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div> --}}
+
+                        <div class="mb-3">
+                            <label for="months" class="form-label">Duration</label>
+                            <select wire:model="months" class="form-select form-select-sm" name="months" id="months">
+                                <option selected>Select Duration</option>
+                                <option value="6">6 Months</option>
+                                <option value="12">1 year</option>
+                                <option value="36">3 years</option>
+                            </select>
+                            @error('months')
                                 <small id="end_date" class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
