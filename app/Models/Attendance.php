@@ -10,4 +10,9 @@ class Attendance extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    public function employee()
+    {
+        return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
+    }
 }
