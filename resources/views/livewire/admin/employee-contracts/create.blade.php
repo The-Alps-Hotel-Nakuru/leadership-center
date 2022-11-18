@@ -19,7 +19,7 @@
                                 <option>Select Which Employee to Give a Contract</option>
                                 @foreach (App\Models\EmployeesDetail::all() as $employee)
                                     <option @if ($employee->has_active_contract) disabled @endif
-                                        value="{{ $employee->id }}">{{ $employee->user->name }}</option>
+                                        value="{{ $employee->id }}">{{ $employee->user->name }} - ({{ $employee->designation->title }})</option>
                                 @endforeach
                             </select>
                             @error('contract.employees_detail_id')
