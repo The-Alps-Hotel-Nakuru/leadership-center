@@ -15,11 +15,15 @@
     <!-- Scripts -->
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    @livewireStyles
+    @stack('css')
 </head>
 
 <body class="bg-light font-sans antialiased">
     {{ $slot }}
 
+    @livewireScripts
     @stack('scripts')
 </body>
 

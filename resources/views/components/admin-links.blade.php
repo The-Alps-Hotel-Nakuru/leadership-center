@@ -172,18 +172,18 @@
         <a class="nav-link" data-bs-toggle="collapse" href="#products" role="button" aria-expanded="false"
             aria-controls="products">
             <i class="link-icon" data-feather="package"></i>
-            <span class="link-title">Products</span>
+            <span class="link-title">Event Orders</span>
             <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
-        <div class="collapse @if (Request::is('admin/products*')) show @endif" id="products">
+        <div class="collapse @if (Request::is('admin/event-orders*')) show @endif" id="products">
             <ul class="nav sub-menu">
                 <li class="nav-item ">
-                    <a href="{{ route('admin.products.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.products.index') active @endif">Overview</a>
+                    <a href="{{ route('admin.event-orders.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.event-orders.index') active @endif">Overview</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.products.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.products.create') active @endif">Create new Product</a>
+                    <a href="{{ route('admin.event-orders.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.event-orders.create') active @endif">Create new Event Order</a>
                 </li>
             </ul>
         </div>

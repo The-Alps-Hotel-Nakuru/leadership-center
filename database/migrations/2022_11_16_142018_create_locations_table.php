@@ -14,35 +14,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('conference_halls', function (Blueprint $table) {
+        Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('location_id')->constrained();
             $table->timestamps();
         });
 
-        /* locationIds
-
-        1:Main Area
-        2: Residental
-        3: Administration
-
-        */
-
-
-        DB::table('conference_halls')->insert([
-
+        DB::table('locations')->insert([
             [
-                'name'=>'Bankika',
-                'location_id'=>1
+                'name' => 'Main Area'
             ],
             [
-                'name'=>'Kilimanjaro',
-                'location_id'=>2
+                'name' => 'Residential'
             ],
             [
-                'name'=>'Lewa',
-                'location_id'=>2
+                'name' => 'Administration'
             ],
         ]);
     }
@@ -54,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conference_halls');
+        Schema::dropIfExists('locations');
     }
 };

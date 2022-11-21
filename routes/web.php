@@ -97,6 +97,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/{designation_id}/create', Admin\Responsibilities\Create::class)->name('admin.responsibilities.create');
             Route::get('/{id}/edit', Admin\Responsibilities\Edit::class)->name('admin.responsibilities.edit');
         });
+        Route::prefix('event-orders')->group(function () {
+            Route::get('/', Admin\EventOrders\Index::class)->name('admin.event-orders.index');
+            Route::get('/create', Admin\EventOrders\Create::class)->name('admin.event-orders.create');
+            Route::get('/{id}/edit', Admin\EventOrders\Edit::class)->name('admin.event-orders.edit');
+        });
+
     });
 
 
@@ -142,3 +148,11 @@ Route::get('/{id}/draft_contract', function ($id) {
 
     return $pdf->stream();
 })->name('doc.contract');
+Route::get('/event-summary-today', function () {
+
+    $pdf = Pdf::loadView('doc.summary', [
+        'date' => Carbon::now()->today()->toDateString()
+    ])->setOptions(['defaultFont' => 'sans-serif']);
+
+    return $pdf->stream();
+})->name('today-event-summary');

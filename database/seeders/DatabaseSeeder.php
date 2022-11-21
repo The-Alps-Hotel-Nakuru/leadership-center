@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             EmployeesSeeder::class,
             ContractsSeeder::class,
             ResponsibilitiesSeeder::class,
+            EventOrdersSeeder::class,
         ]);
+
     }
 }
