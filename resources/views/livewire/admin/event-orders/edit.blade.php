@@ -1,13 +1,13 @@
 <div>
     <x-slot name="header">
         <h4>
-            Edit Event Order
+            Edit Event #{{ $event_order->id }}
         </h4>
     </x-slot>
 
     <div class="card">
         <div class="card-header">
-            <h5>Update Event Order # {{ Sprintf('%04d', $event_order->id) }}</h5>
+            <h5>Edit Event Order</h5>
         </div>
         <div class="card-body">
             <div class="row justify-content-center">
@@ -19,7 +19,7 @@
                             name="organization_name" id="organization_name" aria-describedby="organization_name"
                             placeholder="Enter the Name of the Organization">
                         @error('event_order.organization_name')
-                            <small id="organization_name" class="form-text text-muted">{{ $message }}</small>
+                            <small id="organization_name" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                         <input wire:model='event_order.event_name' type="text" class="form-control" name="event_name"
                             id="event_name" aria-describedby="event_name" placeholder="Enter the name of the event">
                         @error('event_order.event_name')
-                            <small id="event_name" class="form-text text-muted">{{ $message }}</small>
+                            <small id="event_name" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                             name="contact_name" id="contact_name" aria-describedby="contact_name"
                             placeholder="Enter the Name of the contact">
                         @error('event_order.contact_name')
-                            <small id="contact_name" class="form-text text-muted">{{ $message }}</small>
+                            <small id="contact_name" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -49,14 +49,15 @@
                     <div class="mb-3">
                         <label for="conference_hall_id" class="form-label">Conference Hall <span
                                 class="text-danger"><b>*</b></span></label>
-                        <select class="form-select" name="conference_hall_id" id="conference_hall_id">
+                        <select multiple wire:model="conference_halls" class="form-select" name="conference_hall_id"
+                            id="conference_hall_id">
                             <option disabled selected>Select a Conference Hall</option>
                             @foreach (App\Models\ConferenceHall::all() as $hall)
                                 <option value="{{ $hall->id }}">{{ $hall->name }}</option>
                             @endforeach
                         </select>
                         @error('event_order.conference_hall_id')
-                            <small id="contact_name" class="form-text text-muted">{{ $message }}</small>
+                            <small id="contact_name" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -67,7 +68,7 @@
                         <input wire:model="event_order.start_date" type="date" class="form-control" name="start_date"
                             id="start_date" aria-describedby="start_date" placeholder="Enter the Starting Date">
                         @error('event_order.start_date')
-                            <small id="start_date" class="form-text text-muted">{{ $message }}</small>
+                            <small id="start_date" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -78,7 +79,7 @@
                         <input wire:model="event_order.end_date" type="date" class="form-control" name="end_date"
                             id="end_date" aria-describedby="end_date" placeholder="Enter the Ending Date">
                         @error('event_order.end_date')
-                            <small id="end_date" class="form-text text-muted">{{ $message }}</small>
+                            <small id="end_date" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -89,7 +90,7 @@
                         <input wire:model="event_order.pax" type="number" class="form-control" name="event_order.pax"
                             id="event_order.pax" aria-describedby="pax" placeholder="Enter the Pax Expected">
                         @error('event_order.pax')
-                            <small id="pax" class="form-text text-muted">{{ $message }}</small>
+                            <small id="pax" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -113,7 +114,7 @@
                             name="event_order.rate_kes" id="event_order.rate_kes" aria-describedby="rate_kes"
                             placeholder="Enter the Rate in Kenyan Shillings">
                         @error('event_order.rate_kes')
-                            <small id="rate_kes" class="form-text text-muted">{{ $message }}</small>
+                            <small id="rate_kes" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -126,7 +127,7 @@
                             name="table_setup" id="table_setup" aria-describedby="table_setup"
                             placeholder="Enter the Style of Table Setup">
                         @error('event_order.table_setup')
-                            <small id="table_setup" class="form-text text-muted">{{ $message }}</small>
+                            <small id="table_setup" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -135,6 +136,9 @@
                     <div class="form-check">
                         <input wire:model="event_order.breakfast" class="form-check-input" type="checkbox"
                             value="" id="">
+                        @error('event_order.breakfast')
+                            <small id="breakfast" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                         <label class="form-check-label" for="">
                             Breakfast
                         </label>
@@ -142,6 +146,9 @@
                     <div class="form-check">
                         <input wire:model="event_order.early_morning_tea" class="form-check-input" type="checkbox"
                             value="" id="">
+                        @error('event_order.early_morning_tea')
+                            <small id="early_morning_tea" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                         <label class="form-check-label" for="">
                             Early Morning Tea
                         </label>
@@ -149,6 +156,9 @@
                     <div class="form-check">
                         <input wire:model="event_order.midmorning_tea" class="form-check-input" type="checkbox"
                             value="" id="">
+                        @error('event_order.midmorning_tea')
+                            <small id="midmorning_tea" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                         <label class="form-check-label" for="">
                             Midmorning Tea
                         </label>
@@ -158,6 +168,9 @@
                     <div class="form-check">
                         <input wire:model="event_order.lunch" class="form-check-input" type="checkbox"
                             value="" id="">
+                        @error('event_order.lunch')
+                            <small id="lunch" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                         <label class="form-check-label" for="">
                             Lunch
                         </label>
@@ -165,6 +178,9 @@
                     <div class="form-check">
                         <input wire:model="event_order.afternoon_tea" class="form-check-input" type="checkbox"
                             value="" id="">
+                        @error('event_order.afternoon_tea')
+                            <small id="afternoon_tea" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                         <label class="form-check-label" for="">
                             Afternoon Tea
                         </label>
@@ -172,6 +188,9 @@
                     <div class="form-check">
                         <input wire:model="event_order.dinner" class="form-check-input" type="checkbox"
                             value="" id="">
+                        @error('event_order.dinner')
+                            <small id="dinner" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                         <label class="form-check-label" for="">
                             Dinner
                         </label>
@@ -186,12 +205,18 @@
                     <div class="mb-3">
                         <label for="meals" class="form-label">Meals and Menu</label>
                         <textarea wire:model="event_order.meals" class="form-control" name="meals" id="meals" rows="3"></textarea>
+                        @error('event_order.meals')
+                            <small id="meals" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label for="beverages" class="form-label">Beverages</label>
                         <textarea wire:model="event_order.beverages" class="form-control" name="beverages" id="beverages" rows="3"></textarea>
+                        @error('event_order.beverages')
+                            <small id="beverages" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -199,22 +224,31 @@
                         <label for="seminar_room" class="form-label">Seminar Room</label>
                         <textarea wire:model="event_order.seminar_room" class="form-control" name="seminar_room" id="seminar_room"
                             rows="3"></textarea>
+                        @error('event_order.seminar_room')
+                            <small id="table_setup" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label for="equipment" class="form-label">Equipment</label>
                         <textarea wire:model="event_order.equipment" class="form-control" name="equipment" id="equipment" rows="3"></textarea>
+                        @error('event_order.equipment')
+                            <small id="table_setup" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label for="additions" class="form-label">Additional Notes</label>
                         <textarea wire:model="event_order.additions" class="form-control" name="additions" id="additions" rows="5"></textarea>
+                        @error('event_order.additions')
+                            <small id="additions" class="form-text text-muted">{{ $message }}</small>
+                        @enderror
                     </div>
                 </div>
             </div>
-            <button wire:click="save" class="btn btn-primary">Update</button>
+            <button wire:click="save" class="btn btn-primary">Save</button>
         </div>
     </div>
 </div>

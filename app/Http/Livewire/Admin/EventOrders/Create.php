@@ -41,6 +41,12 @@ class Create extends Component
     {
         $this->event_order = new EventOrder();
         $this->packages = ConferencePackage::all();
+        $this->event_order->breakfast = false;
+        $this->event_order->early_morning_tea = false;
+        $this->event_order->midmorning_tea = false;
+        $this->event_order->lunch = false;
+        $this->event_order->afternoon_tea = false;
+        $this->event_order->dinner = false;
     }
 
     public function changedPackage()

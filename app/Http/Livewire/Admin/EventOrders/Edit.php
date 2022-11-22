@@ -12,22 +12,24 @@ class Edit extends Component
 
     public $packages, $package_id;
 
+    public $conference_halls = [];
+
     protected $rules = [
         'event_order.organization_name' => 'required',
         'event_order.event_name' => 'nullable',
         'event_order.contact_name' => 'required',
-        'event_order.conference_hall_id' => 'required',
+        'conference_halls' => 'required',
         'event_order.start_date' => 'required',
         'event_order.end_date' => 'required',
         'event_order.pax' => 'required',
         'event_order.table_setup' => 'nullable',
         'event_order.rate_kes' => 'required',
-        'event_order.breakfast' => 'nullable',
-        'event_order.early_morning_tea' => 'nullable',
-        'event_order.midmorning_tea' => 'nullable',
-        'event_order.lunch' => 'nullable',
-        'event_order.afternoon_tea' => 'nullable',
-        'event_order.dinner' => 'nullable',
+        'event_order.breakfast' => 'boolean',
+        'event_order.early_morning_tea' => 'boolean',
+        'event_order.midmorning_tea' => 'boolean',
+        'event_order.lunch' => 'boolean',
+        'event_order.afternoon_tea' => 'boolean',
+        'event_order.dinner' => 'boolean',
         'event_order.meals' => 'nullable',
         'event_order.beverages' => 'nullable',
         'event_order.seminar_room' => 'nullable',
@@ -39,6 +41,9 @@ class Edit extends Component
     {
         $this->event_order = EventOrder::find($id);
         $this->packages = ConferencePackage::all();
+        foreach ($this->event_order->conferenceHall as $value) {
+            array_push($this->conference_halls, $value->id."");
+        }
     }
 
     public function changedPackage()
@@ -50,10 +55,12 @@ class Edit extends Component
     {
         $this->validate();
         $this->event_order->save();
+        foreach ($this->conference_halls as $key => $value) {
+            $this->event_order->conferenceHall()->attach($value);
+        }
 
         return redirect()->route('admin.event-orders.index');
     }
-
     public function render()
     {
         return view('livewire.admin.event-orders.edit');

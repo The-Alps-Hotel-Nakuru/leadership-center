@@ -37,7 +37,7 @@ class EventOrder extends Model
 
     public function getNewOrderAttribute()
     {
-        if (Carbon::parse($this->created_at)->greaterThan(Carbon::now()->subDay()->toDate())) {
+        if (Carbon::parse($this->created_at)->greaterThan(Carbon::now()->subMinutes(10)->toDate())) {
             return true;
         }
         return false;
