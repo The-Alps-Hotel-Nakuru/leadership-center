@@ -20,7 +20,6 @@ return new class extends Migration
             $table->foreignId('department_id')->constrained();
             $table->string('title');
             $table->longText('description');
-            $table->unsignedBigInteger('quantity');
             $table->float('unit_cost_kes');
             $table->string('image_path')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();

@@ -27,6 +27,27 @@ class EmployeesDetail extends Model
         return $this->hasMany(EmployeeContract::class);
     }
 
+    public function getAgeAttribute()
+    {
+        return Carbon::parse($this->birth_date)->age;
+    }
+
+    public function getTitleAttribute()
+    {
+        if ($this->gender == 'male') {
+            return 'Mr.';
+        }
+        if ($this->gender == 'female') {
+            if ($this->marital_status == 'married'||$this->marital_status == 'widowed') {
+                return 'Mrs.';
+            }
+            if ($this->marital_status == 'single'||$this->marital_status == 'divorced') {
+                return 'Ms.';
+            }
+        }
+
+    }
+
 
     public function getHasActiveContractAttribute()
     {

@@ -51,18 +51,22 @@ class Index extends Component
         ]);
     }
 
-    public function signOut($employee_id, $date)
+    public function signOut($id)
     {
-
         $this->validate();
-        $attendance = Attendance::where('employees_detail_id', $employee_id)->where('date', Carbon::parse($date)->toDateString())->first();
 
-        dd($attendance);
+        $attendance = Attendance::find($id);
+        $attendance->sign_out = Carbon::parse($this->sign_out)->toDateTimeString();
+
+        $attendance->save();
+
+        $this->emit('done', [
+            'success' => 'Successfully Signed out ' . $attendance->employee->user->name . ' at ' . $attendance->sign_out,
+        ]);
     }
 
     public function render()
     {
-
         return view('livewire.admin.attendances.index');
     }
 }

@@ -22,9 +22,10 @@ return new class extends Migration
         });
 
         DB::table('designations')->insert([
-            // [
+
+
             //     'title'=>'Housekeeping'
-            // ],
+
 
             [
                 'department_id' => 1,
@@ -42,9 +43,11 @@ return new class extends Migration
                 'department_id' => 1,
                 'title' => 'Housekeeping Supervisor'
             ],
-            // [
+
+
             //     'title'=>'Accounts'
-            // ],
+
+
             [
                 'department_id' => 2,
                 'title' => 'Senior Accountant'
@@ -53,9 +56,11 @@ return new class extends Migration
                 'department_id' => 2,
                 'title' => 'Junior Accountant'
             ],
-            // [
+
+
             //     'title'=>'Information Technology'
-            // ],
+
+
             [
                 'department_id' => 3,
                 'title' => 'Chief Technology Officer'
@@ -72,9 +77,11 @@ return new class extends Migration
                 'department_id' => 3,
                 'title' => 'Systems Analyst'
             ],
-            // [
+
+
             //     'title'=>'Supply Chain & Procurement'
-            // ],
+
+
             [
                 'department_id' => 4,
                 'title' => 'Procurement Officer'
@@ -91,9 +98,11 @@ return new class extends Migration
                 'department_id' => 4,
                 'title' => 'Storage Clerk'
             ],
-            // [
+
+
             //     'title'=>'Front Office'
-            // ],
+
+
             [
                 'department_id' => 5,
                 'title' => 'Receptionist'
@@ -110,9 +119,10 @@ return new class extends Migration
                 'department_id' => 5,
                 'title' => 'Concierge'
             ],
-            // [
+
+
             //     'title'=>'Service'
-            // ],
+
             [
                 'department_id' => 6,
                 'title' => 'Cart Waiter/Waitress'
@@ -133,8 +143,11 @@ return new class extends Migration
                 'department_id' => 6,
                 'title' => 'Food, Beverage and Service Supervisor'
             ],
-            // [
+
+
             //     'title'=>'Kitchen'
+
+
             [
                 'department_id' => 7,
                 'title' => 'Head Chef'
@@ -183,20 +196,21 @@ return new class extends Migration
                 'department_id' => 7,
                 'title' => 'Steward'
             ],
-            // ],
-            // [
+
+
             //     'title'=>'Security'
-            // ],
+
+
             [
-                'department_id' => 7,
+                'department_id' => 8,
                 'title' => 'Day Security Guard'
             ],
             [
-                'department_id' => 7,
+                'department_id' => 8,
                 'title' => 'Head of Security'
             ],
             [
-                'department_id' => 7,
+                'department_id' => 8,
                 'title' => 'Night Security Guard'
             ],
 

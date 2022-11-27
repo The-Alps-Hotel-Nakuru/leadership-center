@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('date');
             $table->unique(['employees_detail_id', 'date']);
             $table->time('sign_in');
-            $table->time('sign_out')->nullable();
+            $table->dateTime('sign_out')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
             $table->unsignedBigInteger('updated_by')->nullable();

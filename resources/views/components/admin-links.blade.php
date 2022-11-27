@@ -167,15 +167,35 @@
             </ul>
         </div>
     </li>
-    <li class="nav-item nav-category">Event Management</li>
     <li class="nav-item @if (Request::is('admin/products*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#products" role="button" aria-expanded="false"
             aria-controls="products">
             <i class="link-icon" data-feather="package"></i>
+            <span class="link-title">Products</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/products*')) show @endif" id="products">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.products.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.products.index') active @endif">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.products.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.products.create') active @endif">Create new Product</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item nav-category">Event Management</li>
+    <li class="nav-item @if (Request::is('admin/event-orders*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#event-orders" role="button" aria-expanded="false"
+            aria-controls="event-orders">
+            <i class="link-icon" data-feather="package"></i>
             <span class="link-title">Event Orders</span>
             <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
-        <div class="collapse @if (Request::is('admin/event-orders*')) show @endif" id="products">
+        <div class="collapse @if (Request::is('admin/event-orders*')) show @endif" id="event-orders">
             <ul class="nav sub-menu">
                 <li class="nav-item ">
                     <a href="{{ route('admin.event-orders.index') }}"
