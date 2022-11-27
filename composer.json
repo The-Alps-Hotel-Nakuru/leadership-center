@@ -6,7 +6,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "barryvdh/laravel-dompdf": "^2.0",
         "deployer/deployer": "^7.0",
         "guzzlehttp/guzzle": "^7.2",
         "laracasts/generators": "^2.0",
@@ -17,6 +16,7 @@
         "livewire/livewire": "^2.5"
     },
     "require-dev": {
+        "barryvdh/laravel-dompdf": "^2.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
