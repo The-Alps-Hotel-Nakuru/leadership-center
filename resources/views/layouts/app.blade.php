@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite('resources/sass/app.scss')
+    {{-- @vite( 'resources/js/app.css') --}}
     <link rel="stylesheet" href="/assets/fonts/feather-font/css/iconfont.css">
     <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="/assets/css/demo1/style.css">
@@ -186,6 +187,7 @@
 
         </div>
     </div>
+    @vite( 'resources/js/app.js')
     @stack('modals')
     @livewireScripts
     @stack('scripts')

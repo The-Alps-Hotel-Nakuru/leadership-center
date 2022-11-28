@@ -3,7 +3,8 @@ window._ = _;
 
 import jQuery from 'jquery';
 
-window.$ = window.jQuery = jQuery
+window.$ = jQuery
+window.jQuery = jQuery
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
