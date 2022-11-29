@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="/assets/css/demo1/style.css">
     <link rel="shortcut icon" href="/assets/images/favicon.png" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
 
     <!-- Styles -->
