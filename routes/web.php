@@ -102,6 +102,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/create', Admin\EventOrders\Create::class)->name('admin.event-orders.create');
             Route::get('/{id}/edit', Admin\EventOrders\Edit::class)->name('admin.event-orders.edit');
         });
+        Route::prefix('uniforms')->group(function () {
+            Route::get('/', Admin\Uniforms\Index::class)->name('admin.uniforms.index');
+            Route::get('/create', Admin\Uniforms\Create::class)->name('admin.uniforms.create');
+            Route::get('/{id}/edit', Admin\Uniforms\Edit::class)->name('admin.uniforms.edit');
+        });
+        Route::prefix('uniform-items')->group(function () {
+            Route::get('/', Admin\UniformItems\Index::class)->name('admin.uniform-items.index');
+            Route::get('/create', Admin\UniformItems\Create::class)->name('admin.uniform-items.create');
+            Route::get('/{id}/edit', Admin\UniformItems\Edit::class)->name('admin.uniform-items.edit');
+        });
 
     });
 

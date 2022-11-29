@@ -55,9 +55,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-                "barryvdh/laravel-dompdf"
-            ]
+            "dont-discover": []
         }
     },
     "config": {

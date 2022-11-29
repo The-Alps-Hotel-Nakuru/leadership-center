@@ -202,6 +202,18 @@
                     text:e.success
                 })
             }
+            if (e.warning) {
+                Toast.fire({
+                    icon:'warning',
+                    text:e.warning
+                })
+            }
+            if (e.danger) {
+                Toast.fire({
+                    icon:'danger',
+                    text:e.danger
+                })
+            }
         })
         feather.replace()
     </script>

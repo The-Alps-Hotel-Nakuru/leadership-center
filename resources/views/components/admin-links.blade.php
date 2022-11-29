@@ -187,6 +187,36 @@
             </ul>
         </div>
     </li>
+    <li class="nav-item @if (Request::is('admin/uniforms*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#uniforms" role="button" aria-expanded="false"
+            aria-controls="uniforms">
+            <i class="link-icon" data-feather="package"></i>
+            <span class="link-title">Uniforms</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/uniforms*')) show @endif" id="uniforms">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.uniforms.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.uniforms.index') active @endif">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.uniforms.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.uniforms.create') active @endif">Create new Uniform Description</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.uniform-items.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.uniforms.create') active @endif">Overview of Uniforms Issued</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.uniform-items.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.uniforms.create') active @endif">Issue New Uniform</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+
+
     <li class="nav-item nav-category">Event Management</li>
     <li class="nav-item @if (Request::is('admin/event-orders*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#event-orders" role="button" aria-expanded="false"
