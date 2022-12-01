@@ -11,15 +11,38 @@
 @import "custom";
 
 
-// Fontawesome
-@import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss';
-@import 'node_modules/@fortawesome/fontawesome-free/scss/regular.scss';
-@import 'node_modules/@fortawesome/fontawesome-free/scss/brands.scss';
-@import 'node_modules/@fortawesome/fontawesome-free/scss/solid.scss';
-@import 'node_modules/@fortawesome/fontawesome-free/scss/v4-shims.scss';
-
 // Custom stuff
 
 .link-title {
     margin-left: 10px !important;
+}
+
+// Material Icons
+
+
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL'0,
+        'GRAD'20,
+        'opsz'25;
+}
+
+
+.nav-item.active{
+    .nav-link{
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL'1 !important;
+        }
+    }
+}
+.nav-item:hover{
+    .nav-link{
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL'1 !important;
+        }
+    }
 }

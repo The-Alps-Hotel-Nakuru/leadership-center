@@ -18,9 +18,7 @@ const Toast = Swal.mixin({
     timerProgressBar: true
 })
 
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
+
 
 
 window.Toast = Toast

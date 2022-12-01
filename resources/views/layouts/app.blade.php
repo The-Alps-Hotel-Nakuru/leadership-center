@@ -8,36 +8,26 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet">
     <!-- Scripts -->
 
-    {{-- <link rel="stylesheet" href="/assets/vendors/core/core.css"> --}}
-    @vite('resources/sass/app.scss')
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     {{-- @vite( 'resources/js/app.css') --}}
-
-    <!-- core:css -->
-    <link rel="stylesheet" href="/assets/vendors/core/core.css">
-    <!-- endinject -->
-
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="/assets/vendors/flatpickr/flatpickr.min.css">
-    <!-- End plugin css for this page -->
-
-    <!-- inject:css -->
     <link rel="stylesheet" href="/assets/fonts/feather-font/css/iconfont.css">
     <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
-    <!-- endinject -->
-
-    <!-- Layout styles -->
     <link rel="stylesheet" href="/assets/css/demo1/style.css">
-    <!-- End layout styles -->
     <link rel="shortcut icon" href="/assets/images/favicon.png" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="" /> --}}
     <script src="https://unpkg.com/feather-icons"></script>
 
     <!-- Styles -->
     @livewireStyles
+
+    <style>
+
+    </style>
 </head>
 
 <body>
@@ -208,7 +198,7 @@
     @stack('modals')
     @livewireScripts
     @stack('scripts')
-    @vite('resources/js/app.js')
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="/assets/vendors/feather-icons/feather.min.js"></script>
     <script src="/assets/js/template.js"></script>
 
