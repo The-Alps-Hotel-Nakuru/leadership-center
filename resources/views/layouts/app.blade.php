@@ -8,16 +8,32 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
     <!-- Scripts -->
+
+    {{-- <link rel="stylesheet" href="/assets/vendors/core/core.css"> --}}
     @vite('resources/sass/app.scss')
     {{-- @vite( 'resources/js/app.css') --}}
+
+    <!-- core:css -->
+    <link rel="stylesheet" href="/assets/vendors/core/core.css">
+    <!-- endinject -->
+
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="/assets/vendors/flatpickr/flatpickr.min.css">
+    <!-- End plugin css for this page -->
+
+    <!-- inject:css -->
     <link rel="stylesheet" href="/assets/fonts/feather-font/css/iconfont.css">
     <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <!-- endinject -->
+
+    <!-- Layout styles -->
     <link rel="stylesheet" href="/assets/css/demo1/style.css">
+    <!-- End layout styles -->
     <link rel="shortcut icon" href="/assets/images/favicon.png" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
 
     <!-- Styles -->
@@ -145,13 +161,13 @@
                                             src="{{ auth()->user()->profile_photo_url }}" alt="">
                                     </div>
                                     <div class="text-center">
-                                        <p class="tx-16 fw-bolder">{{auth()->user()->name}}</p>
-                                        <p class="tx-12 text-muted">{{auth()->user()->email}}</p>
+                                        <p class="tx-16 fw-bolder">{{ auth()->user()->name }}</p>
+                                        <p class="tx-12 text-muted">{{ auth()->user()->email }}</p>
                                     </div>
                                 </div>
                                 <ul class="list-unstyled p-1">
                                     <li class="dropdown-item py-2">
-                                        <a href="{{route('profile.show')}}" class="text-body ms-0">
+                                        <a href="{{ route('profile.show') }}" class="text-body ms-0">
                                             <i class="me-2 icon-md" data-feather="user"></i>
                                             <span>Profile</span>
                                         </a>
@@ -189,31 +205,31 @@
 
         </div>
     </div>
-    @vite( 'resources/js/app.js')
     @stack('modals')
     @livewireScripts
     @stack('scripts')
+    @vite('resources/js/app.js')
     <script src="/assets/vendors/feather-icons/feather.min.js"></script>
     <script src="/assets/js/template.js"></script>
 
     <script>
-        Livewire.on('done', (e)=>{
+        Livewire.on('done', (e) => {
             if (e.success) {
                 Toast.fire({
-                    icon:'success',
-                    text:e.success
+                    icon: 'success',
+                    text: e.success
                 })
             }
             if (e.warning) {
                 Toast.fire({
-                    icon:'warning',
-                    text:e.warning
+                    icon: 'warning',
+                    text: e.warning
                 })
             }
             if (e.danger) {
                 Toast.fire({
-                    icon:'danger',
-                    text:e.danger
+                    icon: 'danger',
+                    text: e.danger
                 })
             }
         })

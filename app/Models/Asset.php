@@ -39,4 +39,9 @@ class Asset extends Model
     {
         return $this->hasOne(User::class, 'id', 'updated_by');
     }
+
+    public function assetItems()
+    {
+        return $this->hasMany(AssetItem::class);
+    }
 }
