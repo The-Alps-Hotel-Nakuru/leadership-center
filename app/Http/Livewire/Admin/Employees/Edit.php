@@ -13,11 +13,13 @@ class Edit extends Component
 {
     use WithFileUploads;
     public $kra_file, $nssf_file, $nhif_file;
+    public $photo;
     public $dpt_id;
     public User $employee;
     public EmployeesDetail $detail;
 
     protected $rules = [
+        'photo'=>'nullable|image|max:2048',
         'employee.first_name' => 'required',
         'employee.last_name' => 'required',
         'employee.email' => 'required|email',
@@ -54,29 +56,28 @@ class Edit extends Component
     public function save()
     {
         $this->validate();
+
+
+        if (isset($this->photo)) {
+            $this->employee->updateProfilePhoto($this->photo);
+        }
+
         if (isset($this->kra_file)) {
-            if (file_exists($this->detail->kra_pin_path)) {
-                unlink($this->detail->kra_pin_path);
-            }
             $this->kra_file->storeAs('public/'.Str::slug($this->employee->name).'-'.$this->detail->id, 'kra_pin.'.$this->kra_file->extension());
             $this->detail->kra_pin_path = '/storage/'.Str::slug($this->employee->name).'-'.$this->detail->id.'/kra_pin.'.$this->kra_file->extension();
         }
         if (isset($this->nssf_file)) {
-            if (file_exists($this->detail->nssf_path)) {
-                unlink($this->detail->nssf_path);
-            }
             $this->kra_file->storeAs('public/'.Str::slug($this->employee->name).'-'.$this->detail->id, 'nssf.'.$this->nssf_file->extension());
             $this->detail->nssf_path = '/storage/'.Str::slug($this->employee->name).'-'.$this->detail->id.'/nssf.'.$this->nssf_file->extension();
         }
         if (isset($this->nhif_file)) {
-            if (file_exists($this->detail->nhif_path)) {
-                unlink($this->detail->nhif_path);
-            }
             $this->kra_file->storeAs('public/'.Str::slug($this->employee->name).'-'.$this->detail->id, 'nhif.'.$this->nhif_file->extension());
             $this->detail->nhif_path = '/storage/'.Str::slug($this->employee->name).'-'.$this->detail->id.'/nhif.'.$this->nhif_file->extension();
         }
+
         $this->employee->save();
         $this->detail->save();
+
 
         return redirect()->route('admin.employees.index');
     }

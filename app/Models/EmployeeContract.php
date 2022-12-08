@@ -38,10 +38,9 @@ class EmployeeContract extends Model
 
     public function getHouseAllowanceAttribute()
     {
-        if ($this->employment_type_id == 1) {
-            return 0;
-        } else {
+        if ($this->employment_type_id == 2) {
             return $this->salary_kes * 0.15;
         }
+        return 0;
     }
 }

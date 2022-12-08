@@ -13,11 +13,13 @@ class Create extends Component
 {
     use WithFileUploads;
     public $kra_file, $nssf_file, $nhif_file;
+    public $photo;
     public $dpt_id;
     public User $employee;
     public EmployeesDetail $detail;
 
     protected $rules = [
+        'photo'=>'nullable|image|max:2048',
         'employee.first_name' => 'required',
         'employee.last_name' => 'required',
         'employee.email' => 'required|email',
@@ -53,6 +55,13 @@ class Create extends Component
     public function save()
     {
         $this->validate();
+        $this->employee->role_id = 3;
+        $this->employee->password = Hash::make('1234567890');
+
+
+        if (isset($this->photo)) {
+            $this->employee->updateProfilePhoto($this->photo);
+        }
 
         if (isset($this->kra_file)) {
             $this->kra_file->storeAs('public/'.Str::slug($this->employee->name).'-'.$this->detail->id, 'kra_pin.'.$this->kra_file->extension());
@@ -67,8 +76,6 @@ class Create extends Component
             $this->detail->nhif_path = '/storage/'.Str::slug($this->employee->name).'-'.$this->detail->id.'/nhif.'.$this->nhif_file->extension();
         }
 
-        $this->employee->role_id = 3;
-        $this->employee->password = Hash::make(env('DEFAULT_PASSWORD'));
         $this->employee->save();
         $this->detail->user_id = $this->employee->id;
         $this->detail->save();

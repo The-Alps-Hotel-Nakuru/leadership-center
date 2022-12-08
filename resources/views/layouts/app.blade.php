@@ -13,7 +13,7 @@
         rel="stylesheet">
     <!-- Scripts -->
 
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite('resources/sass/app.scss' )
     {{-- @vite( 'resources/js/app.css') --}}
     <link rel="stylesheet" href="/assets/fonts/feather-font/css/iconfont.css">
     <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
@@ -195,6 +195,7 @@
 
         </div>
     </div>
+    @vite('resources/js/app.js')
     @stack('modals')
     @livewireScripts
     @stack('scripts')

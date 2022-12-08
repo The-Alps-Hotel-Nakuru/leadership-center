@@ -38,14 +38,13 @@ class EmployeesDetail extends Model
             return 'Mr.';
         }
         if ($this->gender == 'female') {
-            if ($this->marital_status == 'married'||$this->marital_status == 'widowed') {
+            if ($this->marital_status == 'married' || $this->marital_status == 'widowed') {
                 return 'Mrs.';
             }
-            if ($this->marital_status == 'single'||$this->marital_status == 'divorced') {
+            if ($this->marital_status == 'single' || $this->marital_status == 'divorced') {
                 return 'Ms.';
             }
         }
-
     }
 
 
@@ -58,6 +57,20 @@ class EmployeesDetail extends Model
         }
         return false;
     }
+    public function getActiveContractAttribute()
+    {
+        foreach ($this->contracts as $contract) {
+            if ($contract->is_active) {
+                return $contract;
+            }
+        }
+        return null;
+    }
+
+    public function insurance()
+    {
+        return $this->hasMany(Insurance::class);
+    }
 
 
     public function attendances()
@@ -67,8 +80,8 @@ class EmployeesDetail extends Model
 
     public function getAttendedDatesAttribute()
     {
-        $dates=[];
-        foreach($this->attendances as $item){
+        $dates = [];
+        foreach ($this->attendances as $item) {
             array_push($dates, Carbon::parse($item->date)->format('Y-m-d'));
         }
 
@@ -81,20 +94,20 @@ class EmployeesDetail extends Model
         $count = 0;
 
         foreach ($this->attendances as $attendance) {
-            if (Carbon::parse($attendance->date)->format('Y-m')==Carbon::now()->format('Y-m')) {
-                $count+=1;
+            if (Carbon::parse($attendance->date)->format('Y-m') == Carbon::now()->format('Y-m')) {
+                $count += 1;
             }
         }
 
         return $count;
     }
-    public function getDaysWorkedAttribute($yearmonth)
+    public function daysWorked($yearmonth)
     {
         $count = 0;
 
         foreach ($this->attendances as $attendance) {
-            if (Carbon::parse($attendance->date)->format('Y-m')==Carbon::parse($yearmonth)->format('Y-m')) {
-                $count+=1;
+            if (Carbon::parse($attendance->date)->format('Y-m') == Carbon::parse($yearmonth)->format('Y-m')) {
+                $count += 1;
             }
         }
 
@@ -107,4 +120,26 @@ class EmployeesDetail extends Model
     }
 
 
+    public function getIsCasualAttribute()
+    {
+        if ($this->has_active_contract) {
+            foreach ($this->contracts as $contract) {
+                if ($contract->is_active && $contract->employment_type_id == 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public function getIsFullTimeAttribute()
+    {
+        if ($this->has_active_contract) {
+            foreach ($this->contracts as $contract) {
+                if ($contract->is_active && $contract->employment_type_id == 2) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

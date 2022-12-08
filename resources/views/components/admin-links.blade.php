@@ -36,7 +36,7 @@
     <li class="nav-item  @if (Request::is('admin/responsibilities*')) active @endif">
         <a href="{{ route('admin.responsibilities.index') }}" class="nav-link">
             <i class="material-icons material-symbols-outlined">
-                splitscreen
+                account_tree
             </i>
             <span class="link-title">Responsibilities</span>
         </a>
@@ -96,15 +96,23 @@
             </ul>
         </div>
     </li>
-    <li class="nav-item @if (Request::is('admin/admins*')) active @endif">
-        <a class="nav-link" data-bs-toggle="collapse" href="javascript:void(0)" role="button" aria-expanded="false"
-            aria-controls="admins">
+    <li class="nav-item @if (Request::is('admin/payrolls*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#payrolls" role="button" aria-expanded="false"
+            aria-controls="payrolls">
             <i class="material-icons material-symbols-outlined">
                 paid
             </i>
             <span class="link-title">Payroll</span>
             <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
+        <div class="collapse @if (Request::is('admin/payrolls*')) show @endif" id="payrolls">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.payrolls.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.payrolls.index') active @endif">Overview</a>
+                </li>
+            </ul>
+        </div>
     </li>
 
     <li class="nav-item nav-category">Supply Chain & Procurement</li>
@@ -147,7 +155,7 @@
         <a class="nav-link" data-bs-toggle="collapse" href="#assets" role="button" aria-expanded="false"
             aria-controls="assets">
             <i class="material-icons material-symbols-outlined">
-                account_tree
+                splitscreen
             </i>
             <span class="link-title">Assets</span>
             <i class="link-arrow" data-feather="chevron-down"></i>

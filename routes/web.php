@@ -102,6 +102,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/create', Admin\EventOrders\Create::class)->name('admin.event-orders.create');
             Route::get('/{id}/edit', Admin\EventOrders\Edit::class)->name('admin.event-orders.edit');
         });
+        Route::prefix('payrolls')->group(function () {
+            Route::get('/', Admin\Payrolls\Index::class)->name('admin.payrolls.index');
+            Route::get('/{id}/show', Admin\Payrolls\Show::class)->name('admin.payrolls.show');
+            Route::get('/create', Admin\Payrolls\Create::class)->name('admin.payrolls.create');
+            Route::get('/{id}/edit', Admin\Payrolls\Edit::class)->name('admin.payrolls.edit');
+        });
         Route::prefix('uniforms')->group(function () {
             Route::get('/', Admin\Uniforms\Index::class)->name('admin.uniforms.index');
             Route::get('/create', Admin\Uniforms\Create::class)->name('admin.uniforms.create');
@@ -166,3 +172,9 @@ Route::get('/event-summary-today', function () {
 
     return $pdf->stream();
 })->name('today-event-summary');
+
+
+
+// Test URLs
+
+// Route::get('/')

@@ -55,9 +55,28 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-8 col-12">
+                        <div class="mb-3">
+                            <label for="photo" class="form-label">Photo</label>
+                            <input type="file" class="form-control" name="photo" wire:model="photo" id="photo">
+                            @error('photo')
+                                <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        @if ($photo)
+                            Photo Preview:
+                            <img class="img-thumbnail" width="150px" src="{{ $photo->temporaryUrl() }}">
+                        @else
+                            Current Profile Photo
+                            <img class="img-thumbnail" width="150px" src="{{ $employee->profile_photo_url }}">
+                        @endif
+                    </div>
+
 
                 </div>
-                <div class="row">
+                <div class="row mt-5">
                     <div class="col-12 text-end">
                         <h6>OTHER DETAILS</h6>
                     </div>
@@ -205,7 +224,7 @@
                     <div class="col-12 text-end">
                         <h5>File Upload (Optional)</h5>
                     </div>
-                    <div  class="col-md-4 col-6">
+                    <div class="col-md-4 col-6">
                         <div class="mb-3">
                             <label for="kra_file" class="form-label">KRA PIN File</label>
                             <input wire:model="kra_file" type="file" class="form-control" name="kra_file"
@@ -213,10 +232,6 @@
                             @error('kra_file')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
-                            @if ($detail->kra_pin_path)
-                            <a target="_blank" href="{{ $detail->kra_pin_path }}">Current KRA PIN File</a>
-                            @endif
-
                         </div>
                     </div>
                     <div class="col-md-4 col-6">
@@ -227,7 +242,6 @@
                             @error('nssf_file')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
-
                         </div>
                     </div>
                     <div class="col-md-4 col-6">

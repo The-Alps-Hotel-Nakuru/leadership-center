@@ -19,6 +19,7 @@ class Create extends Component
 
     protected $rules = [
         'attendance.employees_detail_id' => 'required',
+        'attendance.date'=>'required',
         'attendance.sign_in' => 'required'
     ];
 
@@ -27,12 +28,12 @@ class Create extends Component
         $this->employees = EmployeesDetail::all();
         $this->attendance = new Attendance();
         $this->attendance->sign_in = Carbon::now()->toTimeString();
+        $this->attendance->date = Carbon::now()->toDateString();
     }
 
     public function save()
     {
         $this->validate();
-        $this->attendance->date = Carbon::now()->toDateString();
 
         $this->attendance->save();
 

@@ -5,9 +5,12 @@
 
     <div class="container-fluid">
         <div class="card mb-3">
-            <div class="card-header">
+            <div class="card-header d-flex flex-row">
 
-                <h5>Sign In for {{ Carbon\Carbon::now()->format('jS F, Y') }}</h5>
+                <h5 >Sign In for {{ Carbon\Carbon::parse($attendance->date)->format('jS F, Y') }}</h5>
+                <h5 class="ms-auto">
+                    <input type="date" wire:model="attendance.date" class="form-control" name="date" id="date">
+                </h5>
 
             </div>
             <div class="card-body table-responsive">

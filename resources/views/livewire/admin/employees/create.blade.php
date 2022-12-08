@@ -55,6 +55,22 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-8 col-12">
+                        <div class="mb-3">
+                            <label for="photo" class="form-label">Photo</label>
+                            <input type="file" class="form-control " name="photo" wire:model="photo" id="photo">
+                            @error('photo')
+                                <span class="form-text text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        @if ($photo)
+                            Photo Preview:
+                            <img class="img-thumbnail" width="150px" src="{{ $photo->temporaryUrl() }}">
+                        @endif
+                    </div>
+
 
                 </div>
                 <div class="row">
@@ -124,11 +140,14 @@
                     <div class="col-md-4 col-6">
                         <div class="mb-3">
                             <label for="gender" class="form-label">Gender</label>
-                            <select class="form-control" name="gender" id="gender">
+                            <select wire:model="detail.gender" class="form-control" name="gender" id="gender">
                                 <option>Select a Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
+                            @error('detail.gender')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-4 col-6">

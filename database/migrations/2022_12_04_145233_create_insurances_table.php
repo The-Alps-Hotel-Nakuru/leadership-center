@@ -13,19 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('monthly_salaries', function (Blueprint $table) {
+        Schema::create('insurances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employees_detail_id')->constrained();
-            $table->foreignId('payroll_id')->constrained();
-            $table->unique(['employees_detail_id', 'payroll_id']);
-            $table->float('basic_salary_kes');
-            $table->float('house_allowance_kes')->nullable();
-            $table->float('transport_allowance_kes')->nullable();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
+            $table->string('title');
+            $table->float('monthly_premium_kes');
+            $table->string('certificate_path')->nullable();
+            $table->unsignedBigInteger('created_by');
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnDelete();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -37,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('monthly_salaries');
+        Schema::dropIfExists('insurances');
     }
 };
