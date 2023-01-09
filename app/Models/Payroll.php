@@ -19,7 +19,7 @@ class Payroll extends Model
     {
         $amount = 0;
         foreach ($this->monthlySalaries as $salary) {
-            $amount += $salary->employee->active_contract->salary_kes;
+            $amount += $salary->employee->active_contract->salary_kes ?? 0;
         }
 
         return $amount;
@@ -30,7 +30,7 @@ class Payroll extends Model
         $amount = 0;
         foreach ($this->monthlySalaries as $salary) {
             if ($salary->employee && $salary->employee->is_casual) {
-                $amount += $salary->gross_salary;
+                $amount += $salary->net_salary;
             }
         }
 
@@ -41,7 +41,7 @@ class Payroll extends Model
         $amount = 0;
         foreach ($this->monthlySalaries as $salary) {
             if ($salary->employee && $salary->employee->is_full_time) {
-                $amount += $salary->gross_salary;
+                $amount += $salary->net_salary;
             }
         }
 

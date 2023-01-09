@@ -41,14 +41,14 @@ class Index extends Component
             $payroll->month = $month;
             $payroll->save();
             foreach (EmployeesDetail::all() as $employee) {
-                if ($employee->has_active_contract) {
+                if ($employee->active_contract) {
                     $salary = new MonthlySalary();
                     $salary->payroll_id = $payroll->id;
                     $salary->employees_detail_id = $employee->id;
-                    if ($employee->is_full_time) {
+                    if ($employee->active_contract->employment_type_id == 2) {
                         $salary->basic_salary_kes = $employee->active_contract->salary_kes - $employee->active_contract->house_allowance;
                         $salary->house_allowance_kes = $employee->active_contract->house_allowance;
-                    } elseif ($employee->is_casual) {
+                    } elseif ($employee->active_contract->employment_type_id == 1) {
                         $salary->basic_salary_kes = $employee->active_contract->salary_kes * $employee->daysWorked($year . '-' . $month);
                     }
 

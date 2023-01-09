@@ -61,10 +61,9 @@ class EmployeesDetail extends Model
     {
         foreach ($this->contracts as $contract) {
             if ($contract->is_active) {
-                return $contract;
+                return EmployeeContract::find($contract->id);
             }
         }
-        return null;
     }
 
     public function insurance()

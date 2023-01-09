@@ -20,13 +20,13 @@ class MonthlySalary extends Model
         'total_deductions',
         'total_relief',
         'daily_rate',
-        'days_missed'
+        'days_missed',
 
     ];
 
     public function employee()
     {
-        return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
+        return $this->hasOne(EmployeesDetail::class, 'id');
     }
     public function payroll()
     {
@@ -37,11 +37,12 @@ class MonthlySalary extends Model
     public function getDailyRateAttribute()
     {
         $rate = 0;
-        if ($this->employee->has_active_contract) {
+        $monthdays = Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->daysInMonth;
+        if ($this->employee && $this->employee->has_active_contract) {
             if ($this->employee->is_casual) {
-                $rate = $this->employee->contract->salary_kes;
+                $rate = $this->employee->active_contract->salary_kes;
             } elseif ($this->employee->is_full_time) {
-                $rate = $this->employee->id;
+                $rate = $this->employee->active_contract->salary_kes / $monthdays;
             }
         }
 
@@ -56,12 +57,30 @@ class MonthlySalary extends Model
 
     public function getGrossSalaryAttribute()
     {
-        return $this->basic_salary_kes + $this->house_allowance_kes + $this->transport_allowance_kes;
+        return ($this->basic_salary_kes ?? 0) + ($this->house_allowance_kes ?? 0) + ($this->transport_allowance_kes ?? 0);
     }
+
+    public function getNssfAttribute()
+    {
+        $nssf = 0;
+
+        if ($this->employee->is_full_time) {
+            $nssf = 200;
+            if ($this->employee->is_full_time && $this->gross_salary > (40000 / 12)) {
+                $nssf = 0.06 * $this->gross_salary;
+                if ($nssf > 1080) {
+                    $nssf = 1080;
+                }
+            }
+        }
+
+        return $nssf;
+    }
+
 
     public function getTaxableIncomeAttribute()
     {
-        return $this->basic_salary_kes - $this->nssf;
+        return $this->gross_salary - $this->nssf;
     }
 
     public function getPayeAttribute()
@@ -70,12 +89,12 @@ class MonthlySalary extends Model
         $level1 = (288000 / 12);
         $level2 = (388000 / 12);
 
-        if ($this->employee->is_full_time && $this->gross_salary <= $level1) {
-            $paye = 0;
-        } elseif ($this->gross_salary > $level1 && $this->gross_salary <= $level2) {
-            $paye = ($this->gross_salary - $level1) * 0.25;
-        } elseif ($this->gross_salary > $level2) {
-            $paye = (($this->gross_salary - $level2) * 0.3) + (($level2 - $level1) * 0.25);
+        if ($this->employee->is_full_time && $this->taxable_income <= $level1) {
+            $paye = $this->taxable_income * 0.1;
+        } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
+            $paye = (($this->taxable_income - $level1) * 0.25) + 2400;
+        } elseif ($this->taxable_income > $level2) {
+            $paye = (($this->taxable_income - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
         }
 
         return $paye;
@@ -129,26 +148,13 @@ class MonthlySalary extends Model
     public function getAttendancePenaltyAttribute()
     {
         $penalty = 0;
-        if ($this->days_missed > 7) {
-            $penalty = $this->daily_rate * ($this->days_missed - 7);
-        }
-
-        return $penalty;
-    }
-
-
-    public function getNssfAttribute()
-    {
-        $nssf = 200;
-
-        if ($this->employee->is_full_time && $this->gross_salary > (40000 / 12)) {
-            $nssf = 0.06 * $this->gross_salary;
-            if ($nssf > 1080) {
-                $nssf = 1080;
+        if ($this->employee->is_full_time) {
+            if ($this->days_missed > 4) {
+                $penalty = $this->daily_rate * ($this->days_missed - 4);
             }
         }
 
-        return $nssf;
+        return $penalty;
     }
 
 
@@ -157,12 +163,6 @@ class MonthlySalary extends Model
         return $this->hasMany(Bonus::class);
     }
 
-
-
-    public function getTotalInsurance()
-    {
-
-    }
 
     public function getGeneralReliefAttribute()
     {
@@ -194,11 +194,14 @@ class MonthlySalary extends Model
 
     public function getTaxReliefAttribute()
     {
+        $relief = 0;
         if ($this->paye > 2400) {
             $relief = 2400;
+        } else {
+            $relief = $this->paye;
         }
 
-        return $relief ?? 0;
+        return $relief;
     }
 
     public function getTotalReliefAttribute()

@@ -17,8 +17,8 @@ return new class extends Migration
         Schema::create('salary_scales', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->float('min_kes_monthly');
-            $table->float('max_kes_monthly');
+            $table->unsignedBigInteger('min_kes_monthly');
+            $table->unsignedBigInteger('max_kes_monthly');
             $table->softDeletes();
             $table->timestamps();
         });
