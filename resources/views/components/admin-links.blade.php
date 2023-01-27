@@ -93,6 +93,7 @@
                     <a href="{{ route('admin.attendances.create') }}"
                         class="nav-link @if (Route::currentRouteName() == 'admin.attendances.create') active @endif">Add Attendance Records</a>
                 </li>
+
             </ul>
         </div>
     </li>
@@ -240,6 +241,29 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.event-orders.create') }}"
                         class="nav-link @if (Route::currentRouteName() == 'admin.event-orders.create') active @endif">Create new Event Order</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item @if (Request::is('admin/conference-halls*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#conference-halls" role="button" aria-expanded="false"
+            aria-controls="conference-halls">
+            {{-- <i class="link-icon" data-feather="package"></i> --}}
+            <i class="material-icons material-symbols-outlined">
+                emoji_transportation
+            </i>
+            <span class="link-title">Conference Halls</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/conference-halls*')) show @endif" id="conference-halls">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.conference-halls.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.conference-halls.index') active @endif">List of Halls</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.conference-halls.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.conference-halls.create') active @endif">Create new Hall</a>
                 </li>
             </ul>
         </div>

@@ -21,7 +21,7 @@ class EmployeeContract extends Model
 
     public function employee()
     {
-        return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
+        return $this->hasOne(EmployeesDetail::class, 'id');
     }
 
     public function employment_type()

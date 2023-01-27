@@ -122,10 +122,8 @@ class EmployeesDetail extends Model
     public function getIsCasualAttribute()
     {
         if ($this->has_active_contract) {
-            foreach ($this->contracts as $contract) {
-                if ($contract->is_active && $contract->employment_type_id == 1) {
-                    return true;
-                }
+            if ($this->active_contract->employment_type_id == 1) {
+                return true;
             }
         }
         return false;
@@ -133,12 +131,15 @@ class EmployeesDetail extends Model
     public function getIsFullTimeAttribute()
     {
         if ($this->has_active_contract) {
-            foreach ($this->contracts as $contract) {
-                if ($contract->is_active && $contract->employment_type_id == 2) {
-                    return true;
-                }
+            if ($this->active_contract->employment_type_id == 2) {
+                return true;
             }
         }
         return false;
+    }
+
+    public function monthlySalaries()
+    {
+        return $this->hasMany(MonthlySalary::class);
     }
 }

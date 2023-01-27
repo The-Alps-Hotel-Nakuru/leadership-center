@@ -97,6 +97,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/{designation_id}/create', Admin\Responsibilities\Create::class)->name('admin.responsibilities.create');
             Route::get('/{id}/edit', Admin\Responsibilities\Edit::class)->name('admin.responsibilities.edit');
         });
+        Route::prefix('conference-halls')->group(function () {
+            Route::get('/', Admin\ConferenceHalls\Index::class)->name('admin.conference-halls.index');
+            Route::get('/create', Admin\ConferenceHalls\Create::class)->name('admin.conference-halls.create');
+            Route::get('/{id}/edit', Admin\ConferenceHalls\Edit::class)->name('admin.conference-halls.edit');
+        });
         Route::prefix('event-orders')->group(function () {
             Route::get('/', Admin\EventOrders\Index::class)->name('admin.event-orders.index');
             Route::get('/create', Admin\EventOrders\Create::class)->name('admin.event-orders.create');

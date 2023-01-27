@@ -45,10 +45,10 @@ class Index extends Component
                     $salary = new MonthlySalary();
                     $salary->payroll_id = $payroll->id;
                     $salary->employees_detail_id = $employee->id;
-                    if ($employee->active_contract->employment_type_id == 2) {
+                    if ($employee->is_full_time) {
                         $salary->basic_salary_kes = $employee->active_contract->salary_kes - $employee->active_contract->house_allowance;
                         $salary->house_allowance_kes = $employee->active_contract->house_allowance;
-                    } elseif ($employee->active_contract->employment_type_id == 1) {
+                    } elseif ($employee->is_casual) {
                         $salary->basic_salary_kes = $employee->active_contract->salary_kes * $employee->daysWorked($year . '-' . $month);
                     }
 

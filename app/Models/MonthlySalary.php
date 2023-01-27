@@ -64,9 +64,9 @@ class MonthlySalary extends Model
     {
         $nssf = 0;
 
-        if ($this->employee->is_full_time) {
+        if ($this->employee && $this->employee->is_full_time) {
             $nssf = 200;
-            if ($this->employee->is_full_time && $this->gross_salary > (40000 / 12)) {
+            if ($this->gross_salary > (40000 / 12)) {
                 $nssf = 0.06 * $this->gross_salary;
                 if ($nssf > 1080) {
                     $nssf = 1080;
@@ -89,7 +89,7 @@ class MonthlySalary extends Model
         $level1 = (288000 / 12);
         $level2 = (388000 / 12);
 
-        if ($this->employee->is_full_time && $this->taxable_income <= $level1) {
+        if ($this->employee && $this->employee->is_full_time && $this->taxable_income <= $level1) {
             $paye = $this->taxable_income * 0.1;
         } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
             $paye = (($this->taxable_income - $level1) * 0.25) + 2400;
@@ -104,7 +104,7 @@ class MonthlySalary extends Model
     {
         $nhif = 0;
 
-        if ($this->employee->is_full_time) {
+        if ($this->employee && $this->employee->is_full_time) {
             if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
                 $nhif = 150;
             } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
@@ -148,9 +148,13 @@ class MonthlySalary extends Model
     public function getAttendancePenaltyAttribute()
     {
         $penalty = 0;
-        if ($this->employee->is_full_time) {
-            if ($this->days_missed > 4) {
-                $penalty = $this->daily_rate * ($this->days_missed - 4);
+        if ($this->employee) {
+            if ($this->employee->is_full_time) {
+                if ($this->days_missed > 4) {
+                    $penalty = $this->daily_rate * ($this->days_missed - 4);
+                }
+            } else if ($this->employee->is_casual) {
+                $penalty = 0;
             }
         }
 
