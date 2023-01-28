@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('monthly_salaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employees_detail_id')->constrained();
-            $table->foreignId('payroll_id')->constrained();
+            $table->foreignId('payroll_id')->constrained()->cascadeOnDelete();
             $table->unique(['employees_detail_id', 'payroll_id']);
             $table->float('basic_salary_kes');
             $table->float('house_allowance_kes')->nullable();

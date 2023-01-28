@@ -66,6 +66,15 @@ class EmployeesDetail extends Model
         }
     }
 
+    public function ActiveContractDuring($yearmonth)
+    {
+        foreach ($this->contracts as $contract) {
+            if (Carbon::parse($yearmonth)->isBetween($this->start_date, $this->end_date)) {
+                return EmployeeContract::find($contract->id);
+            }
+        }
+    }
+
     public function insurance()
     {
         return $this->hasMany(Insurance::class);

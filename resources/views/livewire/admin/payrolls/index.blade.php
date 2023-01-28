@@ -31,8 +31,7 @@
                 <h5>List of Generated Payrolls</h5>
             </div>
             <div class="card-body table-responsive">
-                <table
-                    class="table
+                <table class="table
                 table-hover
                 align-middle">
                     <thead>
@@ -52,7 +51,8 @@
                         @foreach ($payrolls as $payroll)
                             <tr class="">
                                 <td scope="row">#{{ $payroll->id }}</td>
-                                <td>{{ Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->format('F Y') }}</td>
+                                <td>{{ Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->format('F Y') }}
+                                </td>
                                 <td>KES <span class="text-success">{{ number_format($payroll->total, 2) }}</span></td>
                                 <td>KES <span
                                         class="text-success">{{ number_format($payroll->full_time_total, 2) }}</span>
@@ -68,8 +68,9 @@
                                 <td>
                                     <div class="d-flex flex-row justify-content-center">
                                         <div class="flex-col m-3">
-                                            <button wire:model="update({{ $payroll->id }})" class="btn btn-warning" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="Update Current Payroll">
+                                            <button wire:click="update({{ $payroll->id }})" class="btn btn-warning"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="Update Current Payroll">
                                                 <i class="material-icons material-symbols-outlined">update</i>
                                             </button>
                                         </div>
@@ -80,10 +81,17 @@
                                             </button>
                                         </div>
                                         <div class="flex-col m-3">
-                                            <a href="{{ route('admin.payrolls.show', $payroll->id) }}" class="btn btn-primary" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="View Payroll Breakdown">
+                                            <a href="{{ route('admin.payrolls.show', $payroll->id) }}"
+                                                class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="View Payroll Breakdown">
                                                 <i class="material-icons material-symbols-outlined">list</i>
-                                        </a>
+                                            </a>
+                                        </div>
+                                        <div class="flex-col m-3">
+                                            <button wire:click="delete({{ $payroll->id }})" class="btn btn-danger" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </td>
