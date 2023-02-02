@@ -74,6 +74,14 @@ class EmployeesDetail extends Model
             }
         }
     }
+    public function ActiveContractOn($date)
+    {
+        foreach ($this->contracts as $contract) {
+            if ($contract->isActiveOn(Carbon::parse($date)->toDateString())) {
+                return EmployeeContract::find($contract->id);
+            }
+        }
+    }
 
     public function insurance()
     {
