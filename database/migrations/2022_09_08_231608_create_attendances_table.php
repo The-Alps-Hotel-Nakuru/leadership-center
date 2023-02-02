@@ -18,8 +18,7 @@ return new class extends Migration
             $table->foreignId('employees_detail_id')->constrained();
             $table->date('date');
             $table->unique(['employees_detail_id', 'date']);
-            $table->time('sign_in');
-            $table->dateTime('sign_out')->nullable();
+            $table->foreignId('shift_id')->constrained();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
             $table->unsignedBigInteger('updated_by')->nullable();
