@@ -39,11 +39,14 @@
                             <th>ID</th>
                             <th>Period</th>
                             <th>This Payroll Total</th>
-                            <th>Total Amount to Fixed Term Employees</th>
-                            <th>Total Amount to Casual Employees</th>
-                            <th>Full Time Employees PAYE</th>
-                            <th>Total Amount to NHIF</th>
-                            <th>Total Amount to NSSF</th>
+                            <th>Total Gross Salary to Fixed Term Employees</th>
+                            <th>Total Absence Penalty</th>
+                            <th class="bg-dark text-white">Net Salary</th>
+                            <th></th>
+                            <th class="bg-dark text-white" >Casual Total Salary</th>
+                            <th>Total PAYE</th>
+                            <th>Total NHIF</th>
+                            <th>Total NSSF</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -53,11 +56,16 @@
                                 <td scope="row">#{{ $payroll->id }}</td>
                                 <td>{{ Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->format('F Y') }}
                                 </td>
-                                <td>KES <span class="text-success">{{ number_format($payroll->total, 2) }}</span></td>
+                                <td>KES <span class="text-primary">{{ number_format($payroll->total, 2) }}</span></td>
                                 <td>KES <span
-                                        class="text-success">{{ number_format($payroll->full_time_total, 2) }}</span>
+                                        class="text-success">{{ number_format($payroll->full_time_gross, 2) }}</span>
                                 </td>
-                                <td>KES <span class="text-success">{{ number_format($payroll->casual_total, 2) }}</span>
+                                <td>KES <span class="text-success">{{ number_format($payroll->penalty_total, 2) }}</span>
+                                </td>
+                                <td class="text-white bg-secondary" style="font-size: 20px">KES <strong>{{ number_format($payroll->full_time_net, 2) }}</strong>
+                                </td>
+                                <td></td>
+                                <td class="text-white bg-secondary" style="font-size: 20px">KES <strong >{{ number_format($payroll->casual_total, 2) }}</strong>
                                 </td>
                                 <td>KES <span class="text-success">{{ number_format($payroll->paye_total, 2) }}</span>
                                 </td>

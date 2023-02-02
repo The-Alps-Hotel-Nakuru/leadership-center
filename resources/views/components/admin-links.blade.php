@@ -33,6 +33,54 @@
             </ul>
         </div>
     </li>
+    <li class="nav-item @if (Request::is('admin/departments*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#departments" role="button" aria-expanded="false"
+            aria-controls="departments">
+            <i class="material-icons material-symbols-outlined">
+                workspaces
+            </i>
+            <span class="link-title">Departments</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/departments*')) show @endif" id="departments">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.departments.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.departments.index') active @endif">
+                        Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.departments.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.departments.create') active @endif">
+                        Create a new Department</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item @if (Request::is('admin/designations*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#designations" role="button" aria-expanded="false"
+            aria-controls="designations">
+            <i class="material-icons material-symbols-outlined">
+                work
+            </i>
+            <span class="link-title">Designations</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/designations*')) show @endif" id="designations">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.designations.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.designations.index') active @endif">
+                        Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.designations.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.designations.create') active @endif">
+                        Create a new Designation</a>
+                </li>
+            </ul>
+        </div>
+    </li>
     <li class="nav-item  @if (Request::is('admin/responsibilities*')) active @endif">
         <a href="{{ route('admin.responsibilities.index') }}" class="nav-link">
             <i class="material-icons material-symbols-outlined">
@@ -41,7 +89,7 @@
             <span class="link-title">Responsibilities</span>
         </a>
     </li>
-    <li class="nav-item @if (Request::is('admin/employees*')) active @endif">
+    <li class="nav-item @if (Request::is('admin/employees*') || Request::is('admin/employee_contracts*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#emails" role="button" aria-expanded="false"
             aria-controls="emails">
             <i class="material-icons material-symbols-outlined">
@@ -50,7 +98,7 @@
             <span class="link-title">Employees</span>
             <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
-        <div class="collapse @if (Request::is('admin/employees*')) show @endif" id="emails">
+        <div class="collapse @if (Request::is('admin/employees*') || Request::is('admin/employee_contracts*')) show @endif" id="emails">
             <ul class="nav sub-menu">
                 <li class="nav-item ">
                     <a href="{{ route('admin.employees.index') }}"
@@ -97,6 +145,52 @@
             </ul>
         </div>
     </li>
+    <li class="nav-item @if (Request::is('admin/fines*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#fines" role="button" aria-expanded="false"
+            aria-controls="fines">
+            <i class="material-icons material-symbols-outlined">
+                money_off
+            </i>
+            <span class="link-title">Fines</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/fines*')) show @endif" id="fines">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.fines.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.fines.index') active @endif">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.fines.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.fines.create') active @endif">Add Fine Records</a>
+                </li>
+
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item @if (Request::is('admin/bonuses*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#bonuses" role="button" aria-expanded="false"
+            aria-controls="bonuses">
+            <i class="material-icons material-symbols-outlined">
+                money_off
+            </i>
+            <span class="link-title">Bonuses</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/bonuses*')) show @endif" id="bonuses">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.bonuses.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.bonuses.index') active @endif">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.bonuses.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.bonuses.create') active @endif">Add Bonus Records</a>
+                </li>
+
+            </ul>
+        </div>
+    </li>
     <li class="nav-item @if (Request::is('admin/payrolls*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#payrolls" role="button" aria-expanded="false"
             aria-controls="payrolls">
@@ -118,8 +212,8 @@
 
     <li class="nav-item nav-category">Supply Chain & Procurement</li>
     <li class="nav-item @if (Request::is('admin/product_categories*')) active @endif">
-        <a class="nav-link" data-bs-toggle="collapse" href="#product_categories" role="button" aria-expanded="false"
-            aria-controls="product_categories">
+        <a class="nav-link" data-bs-toggle="collapse" href="#product_categories" role="button"
+            aria-expanded="false" aria-controls="product_categories">
             <i class="material-icons material-symbols-outlined">
                 inventory
             </i>

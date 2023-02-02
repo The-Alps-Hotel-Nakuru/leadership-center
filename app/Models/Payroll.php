@@ -11,7 +11,7 @@ class Payroll extends Model
 
     public function monthlySalaries()
     {
-        return $this->hasMany(MonthlySalary::class);
+        return $this->hasMany(MonthlySalary::class, );
     }
 
 
@@ -30,24 +30,56 @@ class Payroll extends Model
         $amount = 0;
         foreach ($this->monthlySalaries as $salary) {
             if ($salary->employee && $salary->employee->is_casual) {
-                $amount += $salary->net_salary;
+                $amount += $salary->gross_salary;
             }
         }
 
         return $amount;
     }
-    public function getFullTimeTotalAttribute()
+    public function getFullTimeGrossAttribute()
     {
         $amount = 0;
         foreach ($this->monthlySalaries as $salary) {
             if ($salary->employee && $salary->employee->is_full_time) {
-                $amount += $salary->net_salary;
+                $amount += $salary->gross_salary;
+            }
+        }
+
+        return $amount;
+    }
+    public function getPenaltyTotalAttribute()
+    {
+        $amount = 0;
+        foreach ($this->monthlySalaries as $salary) {
+            if ($salary->employee && $salary->employee->is_full_time) {
+                $amount += $salary->attendance_penalty;
+            }
+        }
+
+        return $amount;
+    }
+    public function getFullTimeNetAttribute()
+    {
+        $amount = 0;
+        foreach ($this->monthlySalaries as $salary) {
+            if ($salary->employee && $salary->employee->is_full_time) {
+                $amount += $salary->net_pay;
             }
         }
 
         return $amount;
     }
 
+    public function getPayeTotalAttribute()
+    {
+        $amount = 0;
+
+        foreach ($this->monthlySalaries as $salary) {
+            $amount += $salary->paye;
+        }
+
+        return $amount;
+    }
     public function getNhifTotalAttribute()
     {
         $amount = 0;

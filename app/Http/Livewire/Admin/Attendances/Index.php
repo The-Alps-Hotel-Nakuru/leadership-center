@@ -3,23 +3,25 @@
 namespace App\Http\Livewire\Admin\Attendances;
 
 use App\Models\Attendance;
+use App\Models\AttendanceClock;
 use App\Models\EmployeesDetail;
+use App\Models\Shift;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Index extends Component
 {
-    public $currentMonth, $currentMonthName, $currentYear, $today, $days, $instance, $employees;
+    public $currentMonth, $currentMonthName, $currentYear, $today, $days, $instance, $employees, $shifts;
 
-    public $sign_out;
+    public $shift_id;
 
     protected $listeners = [
         'done' => 'mount'
     ];
 
     protected $rules = [
-        'sign_out' => 'required'
+        'shift_id' => 'required'
     ];
 
     public function mount()
@@ -31,7 +33,7 @@ class Index extends Component
         $this->days = $this->instance->daysInMonth;
         $this->currentYear = $this->instance->format('Y');
         $this->employees = EmployeesDetail::all();
-        $this->sign_out = Carbon::now()->toTimeString();
+        $this->shifts = Shift::all();
     }
 
     public function getPreviousMonth()
@@ -51,17 +53,26 @@ class Index extends Component
         ]);
     }
 
-    public function signOut($id)
+
+
+    public function clockIn( $employee_id, $date)
     {
         $this->validate();
 
-        $attendance = Attendance::find($id);
-        $attendance->sign_out = Carbon::parse($this->sign_out)->toDateTimeString();
-
+        $attendance = new Attendance();
+        $attendance->date = Carbon::parse($date)->toDateString();
+        $attendance->employees_detail_id = $employee_id;
+        $attendance->shift_id = $this->shift_id;
+        $attendance->created_by = auth()->user()->id;
         $attendance->save();
+        $clock = new AttendanceClock();
+        $clock->attendance_id = $attendance->id;
+        $clock->clock_in = Carbon::parse($attendance->shift->start_time)->toDateString();
+        // $clock->clock_out = Carbon::parse($attendance->shift->end_time)->toDateString();
+        $clock->save();
 
         $this->emit('done', [
-            'success' => 'Successfully Signed out ' . $attendance->employee->user->name . ' at ' . $attendance->sign_out,
+            'success' => 'Successfully Logged ' . $attendance->employee->user->name . ' in'
         ]);
     }
 

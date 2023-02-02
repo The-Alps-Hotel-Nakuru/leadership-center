@@ -36,25 +36,34 @@ class Index extends Component
             ]);
         } else {
             $count = 0;
+            $testarray = [];
             $payroll = new Payroll();
             $payroll->year = $year;
             $payroll->month = $month;
             $payroll->save();
             foreach (EmployeesDetail::all() as $employee) {
                 if ($employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)) {
+                    // array_push($testarray, $employee);
                     $salary = new MonthlySalary();
                     $salary->payroll_id = $payroll->id;
                     $salary->employees_detail_id = $employee->id;
-                    if ($employee->is_full_time) {
-                        $salary->basic_salary_kes = $employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)->salary_kes - $employee->active_contract->house_allowance;
-                        $salary->house_allowance_kes = $employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)->house_allowance;
-                    } elseif ($employee->is_casual) {
-                        $salary->basic_salary_kes = $employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)->salary_kes * $employee->daysWorked($year . '-' . $month);
+                    $contract = $employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
+                    if ($contract) {
+                        if ($contract->is_full_time()) {
+                            $salary->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
+                            $salary->house_allowance_kes = $contract->house_allowance;
+                        } else if ($contract->is_casual()) {
+                            $salary->basic_salary_kes = $contract->salary_kes * $employee->daysWorked($year . '-' . $month);
+                        }
+                    } else {
+                        $salary->basic_salary_kes = 0;
                     }
 
                     $salary->save();
                     $count++;
                 }
+
+                // dd($testarray);
             }
 
             $this->emit('done', [
@@ -68,11 +77,16 @@ class Index extends Component
         $payroll = Payroll::find($id);
         foreach ($payroll->monthlySalaries as $salary) {
             $view = MonthlySalary::find($salary->id);
-            if ($salary->employee->ActiveContractDuring($payroll->year . '-' . $payroll->month) && $salary->employee->is_full_time) {
-                $view->basic_salary_kes = $salary->employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)->salary_kes - $salary->employee->active_contract->house_allowance;
-                $view->house_allowance_kes = $salary->employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)->house_allowance;
-            } elseif ($salary->employee->ActiveContractDuring($payroll->year . '-' . $payroll->month) &&  $salary->employee->is_casual) {
-                $view->basic_salary_kes = $salary->employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)->salary_kes * $salary->employee->daysWorked($payroll->year . '-' . $payroll->month);
+            $contract = $salary->employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
+            if ($contract) {
+                if ($contract->is_full_time()) {
+                    $view->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
+                    $view->house_allowance_kes = $contract->house_allowance;
+                } else if ($contract->is_casual()) {
+                    $view->basic_salary_kes = $contract->salary_kes * $salary->employee->daysWorked($payroll->year . '-' . $payroll->month);
+                }
+            } else {
+                $view->basic_salary_kes = 0;
             }
 
             $view->save();
@@ -80,7 +94,7 @@ class Index extends Component
 
         $payroll->save();
         $this->emit('done', [
-            'success' => 'Successfully Updated Payroll' . $id
+            'success' => 'Successfully Updated Payroll No. ' . $id
         ]);
     }
 

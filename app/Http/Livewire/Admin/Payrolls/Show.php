@@ -16,15 +16,6 @@ class Show extends Component
         $this->payroll = Payroll::find($id);
     }
 
-    public function payslip($id)
-    {
-        $payslip = MonthlySalary::find($id);
-        $pdf = Pdf::loadView('doc.payslip', [
-            'salary' => $payslip
-        ])->setOptions(['defaultFont' => 'sans-serif']);
-        $pdf->download();
-    }
-
     public function render()
     {
         return view('livewire.admin.payrolls.show');

@@ -17,4 +17,17 @@ class Department extends Model
     {
         return $this->hasMany(Designation::class);
     }
+
+    public function getEmployeesAttribute()
+    {
+        $employees = [];
+
+        foreach ($this->designations as $designation) {
+            foreach ($designation->employees as $employee) {
+                array_push($employees, $employee);
+            }
+        }
+
+        return $employees;
+    }
 }

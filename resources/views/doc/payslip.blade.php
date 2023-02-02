@@ -1,151 +1,169 @@
-<div class="container mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="text-center lh-1 mb-2">
-                <h6 class="fw-bold">Payslip</h6> <span class="fw-normal">Payment slip for the month of June 2021</span>
-            </div>
-            <div class="d-flex justify-content-end"> <span>Working Branch:ROHINI</span> </div>
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">EMP Code</span> <small class="ms-3">39124</small> </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">EMP Name</span> <small class="ms-3">Ashok</small> </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">PF No.</span> <small class="ms-3">101523065714</small>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">NOD</span> <small class="ms-3">28</small> </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">ESI No.</span> <small class="ms-3"></small> </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">Mode of Pay</span> <small class="ms-3">SBI</small> </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">Designation</span> <small class="ms-3">Marketing Staff
-                                    (MK)</small> </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div> <span class="fw-bolder">Ac No.</span> <small class="ms-3">*******0701</small> </div>
-                        </div>
-                    </div>
-                </div>
-                <table class="mt-4 table table-bordered">
-                    <thead class="bg-dark text-white">
-                        <tr>
-                            <th scope="col">Earnings</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Deductions</th>
-                            <th scope="col">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Basic</th>
-                            <td>16250.00</td>
-                            <td>PF</td>
-                            <td>1800.00</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">DA</th>
-                            <td>550.00</td>
-                            <td>ESI</td>
-                            <td>142.00</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">HRA</th>
-                            <td>1650.00 </td>
-                            <td>TDS</td>
-                            <td>0.00</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">WA</th>
-                            <td>120.00 </td>
-                            <td>LOP</td>
-                            <td>0.00</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">CA</th>
-                            <td>0.00 </td>
-                            <td>PT</td>
-                            <td>0.00</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">CCA</th>
-                            <td>0.00 </td>
-                            <td>SPL. Deduction</td>
-                            <td>500.00</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">MA</th>
-                            <td>3000.00</td>
-                            <td>EWF</td>
-                            <td>0.00</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Sales Incentive</th>
-                            <td>0.00</td>
-                            <td>CD</td>
-                            <td>0.00</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Leave Encashment</th>
-                            <td>0.00</td>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Holiday Wages</th>
-                            <td>500.00</td>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Special Allowance</th>
-                            <td>100.00</td>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Bonus</th>
-                            <td>1400.00</td>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Individual Incentive</th>
-                            <td>2400.00</td>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr class="border-top">
-                            <th scope="row">Total Earning</th>
-                            <td>25970.00</td>
-                            <td>Total Deductions</td>
-                            <td>2442.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row">
-                <div class="col-md-4"> <br> <span class="fw-bold">Net Pay : 24528.00</span> </div>
-                <div class="border col-md-8">
-                    <div class="d-flex flex-column"> <span>In Words</span> <span>Twenty Five thousand nine hundred
-                            seventy only</span> </div>
-                </div>
-            </div>
-            <div class="d-flex justify-content-end">
-                <div class="d-flex flex-column mt-2"> <span class="fw-bolder">For Kalyan Jewellers</span> <span
-      
-                  class="mt-4">Authorised Signatory</span> </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* body{
+        } */
+        table {
+            border: 1px solid black;
+            width: 100%;
+            line-height: 0.5;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <table style="background-color:#1575bb; color:#fff">
+        <thead>
+            <strong style="text-align: right">The Alps Hotel Nakuru</strong>
+            <h2 style="color: #8cf040">Payslip - {{ Carbon\Carbon::parse($salary->payroll->month)->format('F') }}
+                {{ Carbon\Carbon::parse($salary->payroll->year)->format('Y') }}</h2>
+        </thead>
+    </table>
+    <table>
+        <thead>
+            <small>Name: </small><strong>{{ $salary->employee->user->name }}</strong><br><br>
+            <small>Designation: </small><strong>{{ $salary->employee->designation->title }}</strong><br><br>
+            <small>Employee No.: </small><strong>{{ $salary->employee->id }}</strong><br><br>
+            @if ($salary->employee->is_full_time)
+                <small>KRA PIN: </small><strong
+                    style="text-transform: uppercase">{{ $salary->employee->kra_pin }}</strong><br><br>
+                <small>NSSF No.: </small><strong>{{ $salary->employee->nssf }}</strong><br><br>
+                <small>NHIF No.: </small><strong>{{ $salary->employee->nhif }}</strong><br><br>
+            @endif
+
+        </thead>
+    </table>
+    <table style="margin-bottom: 20px; margin-top:20px; background-color:#1575bb">
+        <thead style="width: 100%; color:#fff; ">
+            <th colspan="2" style="text-align: left; text-decoration: underline;">Description</th>
+            <th colspan="1" style="text-align: right; text-decoration: underline;">Amount</th>
+        </thead>
+
+    </table>
+    <table>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Basic Salary</td>
+            <td colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->basic_salary_kes, 2) }}</td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">House Allowance</td>
+            <td colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->house_allowance_kes, 2) }}</td>
+        </thead>
+    </table>
+    <table>
+        <thead style="width: 100%;">
+            <th colspan="2" style="text-align: left">Gross Salary</th>
+            <th colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->gross_salary, 2) }}</th>
+        </thead>
+    </table>
+    <table>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">NSSF Contribution</td>
+            <td colspan="1" style="text-align: right; text-underline:1px solid black">
+                (<small>KES </small>{{ number_format($salary->nssf, 2) }})</td>
+        </thead>
+    </table>
+    <table>
+        <thead style="width: 100%;">
+            <th colspan="2" style="text-align: left">Taxable Income</th>
+            <th colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->taxable_income, 2) }}</th>
+        </thead>
+    </table>
+    <table>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">PAYE</td>
+            <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format($salary->paye, 2) }})
+            </td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">NHIF Premium</td>
+            <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format($salary->nhif, 2) }})
+            </td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Amounts Already Paid (loans, OT, etc.)</td>
+            <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format(0, 2) }})</td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Attendance Penalty</td>
+            <td colspan="1" style="text-align: right">(<small>KES
+                </small>{{ number_format($salary->attendance_penalty, 2) }})</td>
+        </thead>
+        <br>
+
+    </table>
+    <table>
+        <thead style="width: 100%;">
+            <th colspan="2" style="text-align: left">Total Deductions</th>
+            <th colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->total_deductions, 2) }}</th>
+        </thead>
+    </table>
+    <table>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Tax Relief</td>
+            <td colspan="1" style="text-align: right"><small>KES </small>{{ number_format($salary->tax_relief, 2) }}
+            </td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">General Relief (Insurance, etc.)</td>
+            <td colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->general_relief, 2) }}</td>
+        </thead>
+        <br>
+    </table>
+    <table>
+        <thead style="width: 100%;">
+            <th colspan="2" style="text-align: left">Total Additions</th>
+            <th colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->total_additions, 2) }}</th>
+        </thead>
+    </table>
+    <h3 style="text-align: center">Summary</h3>
+    <table>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Gross Pay</td>
+            <td colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->gross_salary, 2) }}</td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Total Additions</td>
+            <td colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->total_additions, 2) }}</td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Total Deductions</td>
+            <td colspan="1" style="text-align: right">(<small>KES
+                </small>{{ number_format($salary->total_deductions, 2) }})</td>
+        </thead>
+        <br>
+    </table>
+    <table>
+        <thead style="width: 100%;">
+            <th colspan="2" style="text-align: left; color:#1575bb">Net Pay</th>
+            <th colspan="1" style="text-align: right; color:black; font-size:24px"><small>KES
+                </small>{{ number_format($salary->net_pay, 2) }}</th>
+        </thead>
+    </table>
+
+</body>
+
+</html>

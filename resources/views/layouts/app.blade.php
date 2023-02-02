@@ -49,8 +49,10 @@
                 @elseif (auth()->user()->is_employee)
                     <x-employee-links></x-employee-links>
                 @endif
+                <x-jet-authentication-card-logo />
             </div>
         </nav>
+
 
         <div class="page-wrapper">
             <nav class="navbar">

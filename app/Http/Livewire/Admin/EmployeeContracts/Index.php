@@ -27,11 +27,22 @@ class Index extends Component
         ]);
     }
 
+    public function delete($id)
+    {
+        $contract = EmployeeContract::find($id);
+
+        $contract->delete();
+
+        $this->emit('done',[
+            'success'=>'Successfully Deleted this Contract from the System'
+        ]);
+    }
+
 
     public function render()
     {
         return view('livewire.admin.employee-contracts.index', [
-            'contracts'=>EmployeeContract::orderBy('id', 'DESC')->paginate(10),
+            'contracts'=>EmployeeContract::orderBy('id', 'DESC')->get(),
         ]);
     }
 }

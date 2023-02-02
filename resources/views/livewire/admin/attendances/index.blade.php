@@ -42,8 +42,9 @@
                                                 ->where('date', $date)
                                                 ->first();
                                         @endphp
-                                        <div  @if ($curr) data-bs-toggle="modal" data-bs-target="#modal-{{ $date }}-{{ $employee->id }}" @endif
-                                            class="p-2 ms-1 {{ in_array($date, $employee->attended_dates) ? ($curr->sign_out ? 'bg-success' : 'bg-warning') : ($today > $i + 1 ? 'bg-danger' : 'bg-secondary') }}"
+                                        <div data-bs-toggle="modal"
+                                            data-bs-target="#modal-{{ $date }}-{{ $employee->id }}"
+                                            class="p-2 ms-1 {{ in_array($date, $employee->attended_dates) ? 'bg-success' : ($today > $i + 1 ? 'bg-danger' : 'bg-secondary') }}"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             title="{{ $currentMonthName . ' ' . sprintf('%02d', $i + 1) . ', ' . '2022' }}">
                                             {{ sprintf('%02d', $i + 1) }}
@@ -55,14 +56,14 @@
                                         </div>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="modal-{{ $date }}-{{ $employee->id }}" tabindex="-1"
-                                            role="dialog" aria-labelledby="modalTitleId{{ $i + 1 }}"
-                                            aria-hidden="true" wire:ignore>
+                                        <div class="modal fade" id="modal-{{ $date }}-{{ $employee->id }}"
+                                            tabindex="-1" role="dialog"
+                                            aria-labelledby="modalTitleId{{ $i + 1 }}" aria-hidden="true"
+                                            wire:ignore>
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <span class="modal-title"
-                                                            id="modalTitleId">For
+                                                        <span class="modal-title" id="modalTitleId">For
                                                             <strong>{{ $employee->user->name }}</strong> on
                                                             <strong>{{ $date }}</strong>
                                                         </span>
@@ -71,19 +72,28 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="container-fluid">
-                                                            <div class="mb-3">
-                                                                <label for="sign_out" class="form-label">Sign Out
-                                                                    Time</label>
-                                                                <input type="datetime-local" wire:model="sign_out"
-                                                                    class="form-control" name="sign_out" id="sign_out"
-                                                                    aria-describedby="helpId">
-                                                                @error('sign_out')
-                                                                    <small id="helpId"
-                                                                        class="form-text text-danger">{{ $message }}</small>
-                                                                @enderror
+                                                            <div class="col-12">
+                                                                <div class="mb-3">
+                                                                    <label for="shift_id"
+                                                                        class="form-label">Shift</label>
+                                                                    <select wire:model="shift_id" class="form-select"
+                                                                        name="shift_id" id="shift_id">
+                                                                        <option selected>Select one</option>
+                                                                        @foreach ($shifts as $shift)
+                                                                            <option value="{{ $shift->id }}">
+                                                                                {{ $shift->title }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    @error('shift_id')
+                                                                        <small
+                                                                            class="text-danger">{{ $message }}</small>
+                                                                    @enderror
+                                                                </div>
                                                             </div>
-                                                            <button wire:click="signOut({{ $curr->id??null }})" class="btn btn-dark text-uppercase">
-                                                                Sign Out
+                                                            <button
+                                                                wire:click="clockIn({{ $employee->id }},'{{ $date }}')"
+                                                                class="btn btn-dark text-uppercase">
+                                                                Clock In
                                                             </button>
                                                         </div>
                                                     </div>

@@ -3,6 +3,7 @@
 use App\Http\Livewire\Admin;
 use App\Http\Livewire\Employee;
 use App\Models\EmployeeContract;
+use App\Models\MonthlySalary;
 use Illuminate\Support\Facades\Route;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -46,6 +47,31 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/', Admin\Admins\Index::class)->name('admin.admins.index');
             Route::get('/create', Admin\Admins\Create::class)->name('admin.admins.create');
             Route::get('/{id}/edit', Admin\Admins\Edit::class)->name('admin.admins.edit');
+        });
+        Route::prefix('departments')->group(function () {
+            Route::get('/', Admin\Departments\Index::class)->name('admin.departments.index');
+            Route::get('/create', Admin\Departments\Create::class)->name('admin.departments.create');
+            Route::get('/{id}/edit', Admin\Departments\Edit::class)->name('admin.departments.edit');
+        });
+        Route::prefix('designations')->group(function () {
+            Route::get('/', Admin\Designations\Index::class)->name('admin.designations.index');
+            Route::get('/create', Admin\Designations\Create::class)->name('admin.designations.create');
+            Route::get('/{id}/edit', Admin\Designations\Edit::class)->name('admin.designations.edit');
+        });
+        Route::prefix('advances')->group(function () {
+            Route::get('/', Admin\Advances\Index::class)->name('admin.advances.index');
+            Route::get('/create', Admin\Advances\Create::class)->name('admin.advances.create');
+            Route::get('/{id}/edit', Admin\Advances\Edit::class)->name('admin.advances.edit');
+        });
+        Route::prefix('fines')->group(function () {
+            Route::get('/', Admin\Fines\Index::class)->name('admin.fines.index');
+            Route::get('/create', Admin\Fines\Create::class)->name('admin.fines.create');
+            Route::get('/{id}/edit', Admin\Fines\Edit::class)->name('admin.fines.edit');
+        });
+        Route::prefix('bonuses')->group(function () {
+            Route::get('/', Admin\Bonuses\Index::class)->name('admin.bonuses.index');
+            Route::get('/create', Admin\Bonuses\Create::class)->name('admin.bonuses.create');
+            Route::get('/{id}/edit', Admin\Bonuses\Edit::class)->name('admin.bonuses.edit');
         });
         Route::prefix('employees')->group(function () {
             Route::get('/', Admin\Employees\Index::class)->name('admin.employees.index');
@@ -123,7 +149,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/create', Admin\UniformItems\Create::class)->name('admin.uniform-items.create');
             Route::get('/{id}/edit', Admin\UniformItems\Edit::class)->name('admin.uniform-items.edit');
         });
-
     });
 
 
@@ -169,6 +194,16 @@ Route::get('/{id}/draft_contract', function ($id) {
 
     return $pdf->stream();
 })->name('doc.contract');
+Route::get('/{id}/payslip', function ($id) {
+    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper('a4', 'portrait');
+
+    $pdf->loadView('doc.payslip', [
+        'salary' => MonthlySalary::find($id)
+    ]);
+    return $pdf->stream();
+})->name('doc.payslip');
+
+
 Route::get('/event-summary-today', function () {
 
     $pdf = Pdf::loadView('doc.summary', [

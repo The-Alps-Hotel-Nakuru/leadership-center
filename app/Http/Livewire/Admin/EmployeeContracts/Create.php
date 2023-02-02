@@ -14,11 +14,11 @@ class Create extends Component
     public $months;
 
     protected $rules = [
-        'contract.employees_detail_id'=>'required',
-        'contract.start_date'=>'required',
-        'months'=>'required',
-        'contract.employment_type_id'=>'required',
-        'contract.salary_kes'=>'required',
+        'contract.employees_detail_id' => 'required',
+        'contract.start_date' => 'required',
+        'months' => 'required',
+        'contract.employment_type_id' => 'required',
+        'contract.salary_kes' => 'required',
     ];
 
     public function mount()
@@ -33,9 +33,9 @@ class Create extends Component
 
         $this->contract->end_date = Carbon::parse($this->contract->start_date)->addMonths($this->months)->toDateString();
         $employee = EmployeesDetail::find($this->contract->employees_detail_id);
-        if ($employee->has_active_contract) {
-            foreach ($employee->contracts as $cont) {
-                $cont->terminate();
+        foreach ($employee->contracts as $cont) {
+            if ($cont->isActiveDuring($this->contract->start_date, $this->contract->end_date)) {
+                $cont->terminateOn($this->contract->start_date);
             }
         }
         $this->contract->save();

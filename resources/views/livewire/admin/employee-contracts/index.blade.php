@@ -55,9 +55,9 @@
                                                     <i class="fas fa-file-contract"></i>
                                                 </a>
                                             @else
-                                                <a target="_blank" href="{{ route('doc.contract', $contract->id) }}" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="View Signed Contract"
-                                                    class="btn btn-light shadow-sm m-1">
+                                                <a target="_blank" href="{{ route('doc.contract', $contract->id) }}"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="View Signed Contract" class="btn btn-light shadow-sm m-1">
                                                     <i class="fas fa-file-pdf"></i>
                                                 </a>
                                             @endif
@@ -81,8 +81,8 @@
                 </table>
             </div>
         </div>
-        <div class="my-2">
+        {{-- <div class="my-2">
             {{ $contracts->links() }}
-        </div>
+        </div> --}}
     </div>
 </div>

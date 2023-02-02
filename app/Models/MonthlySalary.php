@@ -26,7 +26,7 @@ class MonthlySalary extends Model
 
     public function employee()
     {
-        return $this->hasOne(EmployeesDetail::class, 'id');
+        return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
     }
     public function payroll()
     {
@@ -38,11 +38,11 @@ class MonthlySalary extends Model
     {
         $rate = 0;
         $monthdays = Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->daysInMonth;
-        if ($this->employee && $this->employee->has_active_contract) {
+        if ($this->employee && $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)) {
             if ($this->employee->is_casual) {
-                $rate = $this->employee->active_contract->salary_kes;
-            } elseif ($this->employee->is_full_time) {
-                $rate = $this->employee->active_contract->salary_kes / $monthdays;
+                $rate = $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)->salary_kes;
+            } else {
+                $rate = $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)->salary_kes / $monthdays;
             }
         }
 
@@ -89,12 +89,14 @@ class MonthlySalary extends Model
         $level1 = (288000 / 12);
         $level2 = (388000 / 12);
 
-        if ($this->employee && $this->employee->is_full_time && $this->taxable_income <= $level1) {
-            $paye = $this->taxable_income * 0.1;
-        } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
-            $paye = (($this->taxable_income - $level1) * 0.25) + 2400;
-        } elseif ($this->taxable_income > $level2) {
-            $paye = (($this->taxable_income - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+        if ($this->employee && $this->employee->is_full_time) {
+            if ($this->taxable_income <= $level1) {
+                $paye = $this->taxable_income * 0.1;
+            } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
+                $paye = (($this->taxable_income - $level1) * 0.25) + 2400;
+            } elseif ($this->taxable_income > $level2) {
+                $paye = (($this->taxable_income - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+            }
         }
 
         return $paye;
@@ -148,12 +150,12 @@ class MonthlySalary extends Model
     public function getAttendancePenaltyAttribute()
     {
         $penalty = 0;
-        if ($this->employee) {
+        if ($this->employee && $this->employee->has_active_contract) {
             if ($this->employee->is_full_time) {
                 if ($this->days_missed > 4) {
                     $penalty = $this->daily_rate * ($this->days_missed - 4);
                 }
-            } else if ($this->employee->is_casual) {
+            } else {
                 $penalty = 0;
             }
         }
@@ -216,16 +218,16 @@ class MonthlySalary extends Model
 
     public function getTotalDeductionsAttribute()
     {
-        return $this->nhif + $this->attendance_penalty;
+        return $this->nhif + $this->attendance_penalty + $this->paye;
     }
 
     public function getTotalAdditionsAttribute()
     {
-        return $this->tax_relief + $this->general_relief + $this->bonus;
+        return $this->total_relief + $this->general_relief + $this->bonus;
     }
 
     public function getNetPayAttribute()
     {
-        return $this->gross_salary + $this->total_additions - $this->total_deductions;
+        return ($this->gross_salary + $this->total_additions) - $this->total_deductions;
     }
 }

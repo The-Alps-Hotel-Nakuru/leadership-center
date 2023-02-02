@@ -15,4 +15,14 @@ class Attendance extends Model
     {
         return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
     }
+
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
+    }
+
+    public function clock()
+    {
+        return $this->hasOne(AttendanceClock::class);
+    }
 }

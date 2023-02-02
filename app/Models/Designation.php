@@ -19,4 +19,9 @@ class Designation extends Model
     {
         return $this->hasMany(Responsibility::class);
     }
+
+    public function employees()
+    {
+        return $this->hasMany(EmployeesDetail::class);
+    }
 }

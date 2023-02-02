@@ -30,14 +30,7 @@ class Edit extends Component
     public function save()
     {
         $this->validate();
-
         $this->contract->end_date = Carbon::parse($this->contract->start_date)->addMonths($this->months)->toDateString();
-        $employee = EmployeesDetail::find($this->contract->employees_detail_id);
-        if ($employee->has_active_contract) {
-            foreach ($employee->contracts as $cont) {
-                $cont->terminate();
-            }
-        }
         $this->contract->save();
 
         return redirect()->route('admin.employee_contracts.index');
