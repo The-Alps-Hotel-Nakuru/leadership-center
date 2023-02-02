@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('advances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employees_Detail_id')->constrained();
+            $table->foreignId('employees_detail_id')->constrained();
             $table->dateTime('date_issued');
             $table->unsignedTinyInteger('start_after_months');
             $table->unsignedTinyInteger('pay_period_months');
