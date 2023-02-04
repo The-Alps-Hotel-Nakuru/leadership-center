@@ -172,7 +172,7 @@
         <a class="nav-link" data-bs-toggle="collapse" href="#bonuses" role="button" aria-expanded="false"
             aria-controls="bonuses">
             <i class="material-icons material-symbols-outlined">
-                money_off
+                attach_money
             </i>
             <span class="link-title">Bonuses</span>
             <i class="link-arrow" data-feather="chevron-down"></i>
