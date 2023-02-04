@@ -159,4 +159,9 @@ class EmployeesDetail extends Model
     {
         return $this->hasMany(MonthlySalary::class);
     }
+
+    public function bonuses()
+    {
+        return $this->hasMany(Bonus::class);
+    }
 }

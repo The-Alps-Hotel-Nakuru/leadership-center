@@ -164,12 +164,6 @@ class MonthlySalary extends Model
     }
 
 
-    public function bonuses()
-    {
-        return $this->hasMany(Bonus::class);
-    }
-
-
     public function getGeneralReliefAttribute()
     {
         $relief = 0;
@@ -189,9 +183,12 @@ class MonthlySalary extends Model
     public function getBonusAttribute()
     {
         $b = 0;
-        foreach ($this->bonuses as $bonus) {
-            $b += $bonus->amount_kes; //check the month
+        foreach ($this->employee->bonuses as $bonus) {
+            if ($bonus->year == $this->payroll->year && $bonus->month == $this->payroll->month) {
+                $b += $bonus->amount_kes; //check the month
+            }
         }
+
 
         return $b;
     }
