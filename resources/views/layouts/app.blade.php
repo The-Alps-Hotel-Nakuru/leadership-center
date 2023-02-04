@@ -13,7 +13,7 @@
         rel="stylesheet">
     <!-- Scripts -->
 
-    @vite('resources/sass/app.scss' )
+    @vite('resources/sass/app.scss')
     {{-- @vite( 'resources/js/app.css') --}}
     <link rel="stylesheet" href="/assets/fonts/feather-font/css/iconfont.css">
     <link rel="stylesheet" href="/assets/vendors/flag-icon-css/css/flag-icon.min.css">
@@ -200,13 +200,13 @@
     @vite('resources/js/app.js')
     @stack('modals')
     @livewireScripts
-    @stack('scripts')
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="/assets/vendors/feather-icons/feather.min.js"></script>
     <script src="/assets/js/template.js"></script>
 
     <script>
         Livewire.on('done', (e) => {
+
             if (e.success) {
                 Toast.fire({
                     icon: 'success',
@@ -228,6 +228,7 @@
         })
         feather.replace()
     </script>
+    @stack('scripts')
 
 </body>
 

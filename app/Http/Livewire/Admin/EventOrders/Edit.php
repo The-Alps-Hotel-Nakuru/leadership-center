@@ -41,8 +41,8 @@ class Edit extends Component
     {
         $this->event_order = EventOrder::find($id);
         $this->packages = ConferencePackage::all();
-        foreach ($this->event_order->conferenceHall as $value) {
-            array_push($this->conference_halls, $value->id."");
+        foreach ($this->event_order->conferenceHalls as $value) {
+            array_push($this->conference_halls, $value->id . "");
         }
     }
 
@@ -54,9 +54,12 @@ class Edit extends Component
     public function save()
     {
         $this->validate();
+        foreach ($this->event_order->conferenceHalls as $hall) {
+            $this->event_order->conferenceHalls()->detach($hall->id);
+        }
         $this->event_order->save();
         foreach ($this->conference_halls as $key => $value) {
-            $this->event_order->conferenceHall()->attach($value);
+            $this->event_order->conferenceHalls()->attach($value);
         }
 
         return redirect()->route('admin.event-orders.index');

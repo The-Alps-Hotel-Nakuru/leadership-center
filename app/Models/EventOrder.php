@@ -43,7 +43,7 @@ class EventOrder extends Model
         return false;
     }
 
-    public function conferenceHall()
+    public function conferenceHalls()
     {
         return $this->belongsToMany(ConferenceHall::class, 'conference_hall_event_order');
     }

@@ -110,7 +110,7 @@
                             </td>
                             <td>
                                 <ul>
-                                    @foreach ($order->conferenceHall as $item)
+                                    @foreach ($order->conferenceHalls as $item)
                                         <li>{{ $item->name }}</li>
                                     @endforeach
                                 </ul>

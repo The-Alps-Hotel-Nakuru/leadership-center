@@ -59,7 +59,7 @@ class Create extends Component
         $this->validate();
         $this->event_order->save();
         foreach ($this->conference_halls as $key => $value) {
-            $this->event_order->conferenceHall()->attach($value);
+            $this->event_order->conferenceHalls()->attach($value);
         }
 
         return redirect()->route('admin.event-orders.index');

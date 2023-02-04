@@ -15,9 +15,13 @@ return new class extends Migration
     {
         Schema::create('bonuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('monthly_salary_id')->constrained();
+            $table->foreignId('employees_detail_id')->constrained();
+            $table->year('year');
+            $table->unsignedTinyInteger('month');
+            $table->unique(['year', 'month'], 'period');
             $table->float('amount_kes');
-            $table->unsignedBigInteger('created_by');
+            $table->longText('reason')->nullable();
+            $table->unsignedBigInteger('created_by')->default(1);
             $table->foreign('created_by')->references('id')->on('users')->cascadeOnDelete();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();

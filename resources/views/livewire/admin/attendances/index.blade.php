@@ -103,6 +103,15 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @push('scripts')
+                                                <script>
+                                                    Livewire.on('done', (e) => {
+                                                        let instance = $("#modal-{{ $date }}-{{ $employee->id }}")
+                                                        let modal = bootstrap.Modal.getInstance(instance);
+                                                        modal.hide()
+                                                    })
+                                                </script>
+                                            @endpush
                                         @endfor
                                     </td>
                                     <td>{{ $count }}</td>
