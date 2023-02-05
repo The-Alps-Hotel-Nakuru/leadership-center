@@ -103,7 +103,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @push('scripts')
+                                            {{-- @push('scripts')
                                                 <script>
                                                     Livewire.on('done', (e) => {
                                                         let instance = $("#modal-{{ $date }}-{{ $employee->id }}")
@@ -111,7 +111,7 @@
                                                         modal.hide()
                                                     })
                                                 </script>
-                                            @endpush
+                                            @endpush --}}
                                         @endfor
                                     </td>
                                     <td>{{ $count }}</td>
