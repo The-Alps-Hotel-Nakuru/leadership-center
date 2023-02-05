@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\ConferenceHall;
 use App\Models\ConferencePackage;
 use App\Models\EventOrder;
+use App\Models\Log;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -42,7 +43,13 @@ class EventOrdersSeeder extends Seeder
             $order->equipment = $faker->realText(100);
             $order->additions = $faker->realText(100);
             $order->save();
-            $order->conferenceHall()->attach(rand(1, count(ConferenceHall::all())));
+            $order->conferenceHalls()->attach(rand(1, count(ConferenceHall::all())));
+
+            $log = new Log();
+            $log->user_id = 1;
+            $log->model = 'App\Models\EventOrder';
+            $log->payload = "Has created a new Event order for <strong>".$order->organization_name."</strong> at <strong>".Carbon::parse($order->created_at)."</strong>";
+            $log->save();
         }
     }
 }

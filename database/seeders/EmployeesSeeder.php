@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Models\Designation;
 use App\Models\EmployeesDetail;
 use App\Models\EmploymentType;
+use App\Models\Log;
 use App\Models\User;
+use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -41,6 +43,13 @@ class EmployeesSeeder extends Seeder
             $details->kra_pin = 'A'.random_int(100000000, 999999999).$faker->randomLetter;
             $details->birth_date = $faker->date('Y-m-d', '2000-02-28');
             $details->save();
+
+
+            $log = new Log();
+            $log->user_id = 1;
+            $log->model = 'App\Models\EmployeesDetail';
+            $log->payload = " Has Added a new Employee into the system by the name <strong>".$details->user->name."</strong> at <strong>".Carbon::parse($details->created_at)."</strong>";
+            $log->save();
         }
     }
 }

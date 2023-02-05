@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Admins;
 
+use App\Models\Log;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
@@ -28,6 +29,12 @@ class Create extends Component
         $this->validate();
         $this->admin->password = Hash::make(env('DEFAULT_PASSWORD'));
         $this->admin->save();
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\User';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has created a new admin named <strong>" . $this->admin->name . "</strong> from the system";
+        $log->save();
 
 
         return redirect()->route('admin.admins.index');

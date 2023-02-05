@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Admin\Admins;
 
+use App\Models\Log;
 use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Index extends Component
@@ -10,12 +12,12 @@ class Index extends Component
     public $admins;
 
     protected $listeners = [
-        'done'=>'render'
+        'done' => 'render'
     ];
 
     public function mount()
     {
-        $this->admins = User::whereIn('role_id', [1,2])->get();
+        $this->admins = User::whereIn('role_id', [1, 2])->get();
     }
 
     public function delete($id)
@@ -27,8 +29,13 @@ class Index extends Component
         $admin->delete();
 
         $this->emit('done', [
-            'success'=>'Successfully Deleted This Administrator'
+            'success' => 'Successfully Deleted This Administrator'
         ]);
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\User';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has deleted <strong>" . $admin->name . "</strong> from the system";
+        $log->save();
     }
     public function render()
     {

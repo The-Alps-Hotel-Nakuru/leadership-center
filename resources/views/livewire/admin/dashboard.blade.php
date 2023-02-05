@@ -99,4 +99,33 @@
             </div>
         </div>
     </div> <!-- row -->
+
+    <div class="row mt-3">
+        <div class="col-md-10 col-12">
+            <div class="card table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach ($logs as $log)
+                            <tr class="">
+                                <td scope="row">{{ $log->id }}</td>
+                                <td colspan="1">{!! $log->payload !!}</td>
+                                <td>
+                                    {{ Carbon\Carbon::parse($log->created_at)->toDateTimeString() }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
 </div>
