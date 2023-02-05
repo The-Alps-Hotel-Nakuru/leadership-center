@@ -18,8 +18,13 @@ return new class extends Migration
             $table->foreignId('employees_detail_id')->constrained();
             $table->year('year');
             $table->unsignedTinyInteger('month');
+            $table->index(['year', 'month'], 'period');
             $table->longText('reason');
             $table->string('amount_kes');
+            $table->unsignedBigInteger('created_by')->default(1);
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnDelete();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();
             $table->timestamps();
         });
     }

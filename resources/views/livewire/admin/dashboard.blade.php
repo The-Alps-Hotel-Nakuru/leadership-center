@@ -8,16 +8,17 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">New Customers</h6>
+                                <h6 class="card-title mb-0">No. of Employees</h6>
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">3,897</h3>
+                                    <h3 class="mb-2">{{ number_format(count(App\Models\EmployeesDetail::all())) }}
+                                    </h3>
                                     <div class="d-flex align-items-baseline">
-                                        <p class="text-success">
+                                        {{-- <p class="text-success">
                                             <span>+3.3%</span>
                                             <i data-feather="arrow-up" class="icon-sm mb-1"></i>
-                                        </p>
+                                        </p> --}}
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7">
@@ -31,16 +32,16 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">New Orders</h6>
+                                <h6 class="card-title mb-0">No. of Event Orders</h6>
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">35,084</h3>
+                                    <h3 class="mb-2">{{ number_format(count(App\Models\EventOrder::all())) }}</h3>
                                     <div class="d-flex align-items-baseline">
-                                        <p class="text-danger">
+                                        {{-- <p class="text-danger">
                                             <span>-2.8%</span>
                                             <i data-feather="arrow-down" class="icon-sm mb-1"></i>
-                                        </p>
+                                        </p> --}}
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7">
@@ -54,16 +55,25 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">Growth</h6>
+                                <h6 class="card-title mb-0">Activities Today</h6>
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">89.87%</h3>
+                                    @php
+                                        $count = 0;
+                                        foreach (App\Models\Log::all() as $log) {
+                                            if (Carbon\Carbon::parse($log->created_at)->toDateString() == Carbon\Carbon::now()->toDateString()) {
+                                                $count++;
+                                            }
+                                        }
+
+                                    @endphp
+                                    <h3 class="mb-2">{{ number_format($count) }}</h3>
                                     <div class="d-flex align-items-baseline">
-                                        <p class="text-success">
+                                        {{-- <p class="text-success">
                                             <span>+2.8%</span>
                                             <i data-feather="arrow-up" class="icon-sm mb-1"></i>
-                                        </p>
+                                        </p> --}}
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7">
@@ -77,16 +87,26 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">Growth</h6>
+                                <h6 class="card-title mb-0">Event Orders for Today</h6>
                             </div>
                             <div class="row">
+
+                                @php
+                                    $event_counter = 0;
+
+                                    foreach (App\Models\EventOrder::all() as $event) {
+                                        if (Carbon\Carbon::now()->isBetween($event->start_date, $event->end_date)) {
+                                            $event_counter++;
+                                        }
+                                    }
+                                @endphp
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">89.87%</h3>
+                                    <h3 class="mb-2">{{ number_format($event_counter) }}</h3>
                                     <div class="d-flex align-items-baseline">
-                                        <p class="text-success">
+                                        {{-- <p class="text-success">
                                             <span>+2.8%</span>
                                             <i data-feather="arrow-up" class="icon-sm mb-1"></i>
-                                        </p>
+                                        </p> --}}
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7">
@@ -124,6 +144,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="card-footer">
+                    {{ $logs->links() }}
+                </div>
             </div>
 
         </div>

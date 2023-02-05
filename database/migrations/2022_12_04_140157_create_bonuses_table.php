@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('employees_detail_id')->constrained();
             $table->year('year');
             $table->unsignedTinyInteger('month');
-            $table->unique(['year', 'month'], 'period');
+            $table->index(['year', 'month'], 'period');
             $table->float('amount_kes');
             $table->longText('reason')->nullable();
             $table->unsignedBigInteger('created_by')->default(1);

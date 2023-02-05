@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Responsibilities;
 
 use App\Models\Designation;
+use App\Models\Log;
 use App\Models\Responsibility;
 use Livewire\Component;
 
@@ -32,6 +33,12 @@ class Create extends Component
         $this->responsibility->designation_id = $this->designation->id;
         $this->responsibility->save();
 
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\Responsibility';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has added a new Responsibility to the designation of <strong>" . $this->responsibility->designation->title . "</strong>  in the system";
+        $log->save();
+
 
         $this->emit('done', [
             'success' => 'Successfully Created a new Responsibility for the ' . $this->designation->title . ' staff'
@@ -46,7 +53,6 @@ class Create extends Component
         $this->emit('done', [
             'success' => 'Successfully Deleted a Responsibility!'
         ]);
-
     }
 
     public function render()

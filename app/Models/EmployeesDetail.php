@@ -164,4 +164,8 @@ class EmployeesDetail extends Model
     {
         return $this->hasMany(Bonus::class);
     }
+    public function fines()
+    {
+        return $this->hasMany(Fine::class);
+    }
 }

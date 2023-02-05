@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Attendances;
 use App\Models\Attendance;
 use App\Models\AttendanceClock;
 use App\Models\EmployeesDetail;
+use App\Models\Log;
 use App\Models\Shift;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -55,7 +56,7 @@ class Index extends Component
 
 
 
-    public function clockIn( $employee_id, $date)
+    public function clockIn($employee_id, $date)
     {
         $this->validate();
 
@@ -70,6 +71,13 @@ class Index extends Component
         $clock->clock_in = Carbon::parse($attendance->shift->start_time)->toDateString();
         // $clock->clock_out = Carbon::parse($attendance->shift->end_time)->toDateString();
         $clock->save();
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\Attendance';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has signed in <strong>" . $attendance->employee->user->name . ' at ' . Carbon::parse($attendance->created_at)->format('h:i A') . "</strong> for Date:" . Carbon::parse($attendance->date)->toDateString() . "from the system";
+        $log->save();
+
 
         $this->emit('done', [
             'success' => 'Successfully Logged ' . $attendance->employee->user->name . ' in'

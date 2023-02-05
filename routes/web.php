@@ -136,8 +136,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::prefix('payrolls')->group(function () {
             Route::get('/', Admin\Payrolls\Index::class)->name('admin.payrolls.index');
             Route::get('/{id}/show', Admin\Payrolls\Show::class)->name('admin.payrolls.show');
-            Route::get('/create', Admin\Payrolls\Create::class)->name('admin.payrolls.create');
-            Route::get('/{id}/edit', Admin\Payrolls\Edit::class)->name('admin.payrolls.edit');
         });
         Route::prefix('uniforms')->group(function () {
             Route::get('/', Admin\Uniforms\Index::class)->name('admin.uniforms.index');

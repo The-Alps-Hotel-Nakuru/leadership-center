@@ -9,7 +9,7 @@
                 <h5>List of Issued Bonuses</h5>
             </div>
             <div class="card-body table-responsive">
-                <table class="table table-primary">
+                <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>

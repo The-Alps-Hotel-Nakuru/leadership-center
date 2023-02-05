@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Attendances;
 
 use App\Models\Attendance;
 use App\Models\EmployeesDetail;
+use App\Models\Log;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -19,7 +20,7 @@ class Create extends Component
 
     protected $rules = [
         'attendance.employees_detail_id' => 'required',
-        'attendance.date'=>'required',
+        'attendance.date' => 'required',
         'attendance.sign_in' => 'required'
     ];
 
@@ -37,8 +38,14 @@ class Create extends Component
 
         $this->attendance->save();
 
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\Attendance';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has signed in <strong>" . $this->attendance->employee->user->name . ' at ' . Carbon::parse($this->attendance->created_at)->format('h:i A') . "</strong> from the system";
+        $log->save();
+
         $this->emit('done', [
-            'success' => 'Successfully Signed in ' . $this->attendance->employee->user->name . ' at ' . Carbon::parse($this->attendance->sign_in)->format('h:i A'),
+            'success' => 'Successfully Signed in ' . $this->attendance->employee->user->name . ' at ' . Carbon::parse($this->attendance->created_at)->format('h:i A'),
         ]);
     }
     public function render()

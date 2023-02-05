@@ -10,18 +10,14 @@ class Dashboard extends Component
 
 {
     use WithPagination;
-    public $logs;
 
     protected $paginationTheme = 'bootstrap';
-
-    public function mount()
-    {
-        $this->logs = Log::orderBy('id', 'DESC')->paginate(5);
-    }
 
 
     public function render()
     {
-        return view('livewire.admin.dashboard');
+        return view('livewire.admin.dashboard', [
+            'logs' => Log::orderBy('id', 'DESC')->paginate(10)
+        ]);
     }
 }

@@ -11,6 +11,6 @@ class Bonus extends Model
 
     public function employee()
     {
-        return $this->belongsTo(EmployeesDetail::class);
+        return $this->belongsTo(EmployeesDetail::class, 'employees_detail_id');
     }
 }
