@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\EmployeeContracts;
 
 use App\Models\EmployeeContract;
 use App\Models\EmployeesDetail;
+use App\Models\Log;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -39,6 +40,12 @@ class Create extends Component
             }
         }
         $this->contract->save();
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeeContract';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has created a new Employee's Contract for <strong> " . $employee->user->name . "</strong> in the system";
+        $log->save();
 
         return redirect()->route('admin.employee_contracts.index');
     }

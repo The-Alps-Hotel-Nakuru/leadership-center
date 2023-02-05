@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Employees;
 
 use App\Models\EmployeesDetail;
+use App\Models\Log;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
@@ -79,6 +80,12 @@ class Create extends Component
         $this->employee->save();
         $this->detail->user_id = $this->employee->id;
         $this->detail->save();
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeesDetail';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has created a new Employee named <strong> " . $this->detail->user->name . "</strong> in the system";
+        $log->save();
 
         return redirect()->route('admin.employees.index');
     }

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Designations;
 
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\Log;
 use Livewire\Component;
 
 class Create extends Component
@@ -27,6 +28,11 @@ class Create extends Component
     {
         $this->validate();
         $this->designation->save();
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\Designation';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has created a Designation <strong>No. " . $this->designation->id . "</strong> in the system";
+        $log->save();
 
         return redirect()->route('admin.designations.index');
 

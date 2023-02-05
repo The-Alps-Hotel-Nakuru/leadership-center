@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Departments;
 
 use App\Models\Department;
+use App\Models\Log;
 use Livewire\Component;
 
 class Create extends Component
@@ -23,6 +24,11 @@ class Create extends Component
     {
         $this->validate();
         $this->department->save();
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\Department';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has created a Department <strong>No. " . $this->department->id . "</strong> in the system";
+        $log->save();
 
         return redirect()->route('admin.departments.index');
 

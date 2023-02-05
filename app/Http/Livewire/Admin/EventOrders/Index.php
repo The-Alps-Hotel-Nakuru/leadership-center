@@ -40,11 +40,16 @@ class Index extends Component
 
     public function generateToday()
     {
-        $pdf =  Pdf::loadView('doc.summary', [
-            'date' => Carbon::now()->toDateString(),
-        ])->setOptions(['defaultFont' => 'sans-serif']);
+        $pdf =  Pdf::setOptions(['defaultFont' => 'sans-serif']);
 
-        return $pdf->stream();
+
+
+        return response()->streamDownload(
+            fn () => print($pdf->loadView('doc.summary', [
+                'date' => Carbon::now()->toDateString(),
+            ])),
+            "file1.pdf"
+        );
     }
 
     public function render()

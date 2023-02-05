@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Payrolls;
 
 use App\Models\EmployeesDetail;
+use App\Models\Log;
 use App\Models\MonthlySalary;
 use App\Models\Payroll;
 use Carbon\Carbon;
@@ -66,6 +67,12 @@ class Index extends Component
                 // dd($testarray);
             }
 
+            $log = new Log();
+            $log->user_id = auth()->user()->id;
+            $log->model = 'App\Models\Payroll';
+            $log->payload = "<strong>" . auth()->user()->name . "</strong> has generated the payroll for  <strong> " . Carbon::parse($payroll->year . '-' . $payroll->month)->format('F, Y') . "</strong> in the system";
+            $log->save();
+
             $this->emit('done', [
                 'success' => 'Successfully Generated Payroll for ' . $count . ' employees'
             ]);
@@ -93,6 +100,13 @@ class Index extends Component
         }
 
         $payroll->save();
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\Payroll';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has updated the payroll for  <strong> " . Carbon::parse($payroll->year . '-' . $payroll->month)->format('F, Y') . "</strong> in the system";
+        $log->save();
+
         $this->emit('done', [
             'success' => 'Successfully Updated Payroll No. ' . $id
         ]);
@@ -102,6 +116,13 @@ class Index extends Component
     {
         $payroll = Payroll::find($id);
         $payroll->delete();
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\Payroll';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has deleted the payroll for  <strong> " . Carbon::parse($payroll->year . '-' . $payroll->month)->format('F, Y') . "</strong> from the system";
+        $log->save();
+
 
         $this->emit('done', [
             'success' => 'Successfully Deleted Payroll of' . Carbon::parse($payroll->year . '-' . $payroll->month)->format('M, Y')

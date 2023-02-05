@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\EventOrders;
 
 use App\Models\ConferencePackage;
 use App\Models\EventOrder;
+use App\Models\Log;
 use Livewire\Component;
 
 class Edit extends Component
@@ -62,6 +63,11 @@ class Edit extends Component
             $this->event_order->conferenceHalls()->attach($value);
         }
 
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EventOrder';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has edited the Event Order for <strong> " . $this->event_order->organization_name . "</strong> in the system";
+        $log->save();
         return redirect()->route('admin.event-orders.index');
     }
     public function render()
