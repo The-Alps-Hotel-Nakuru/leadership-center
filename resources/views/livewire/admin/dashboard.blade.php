@@ -36,7 +36,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-8 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">KES {{ number_format($monthearnings, 2)}}</h3>
+                                    <small>KES</small><h3 class="mb-2"> {{ number_format($monthearnings, 2)}}</h3>
                                     <div class="d-flex align-items-baseline">
                                         <p class="text-{{ $increase>0?'success':'danger' }}">
                                             <span>{{$increase}}% </span>
