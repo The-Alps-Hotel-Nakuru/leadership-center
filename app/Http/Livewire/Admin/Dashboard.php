@@ -14,6 +14,7 @@ class Dashboard extends Component
     use WithPagination;
 
     public $monthearnings = 0;
+    public $increase = 0;
     protected $paginationTheme = 'bootstrap';
 
     public function mount()
@@ -25,6 +26,15 @@ class Dashboard extends Component
                 $this->monthearnings += $order->earnings;
             }
         }
+
+        $lastearning = 0;
+        foreach ($orders as $order) {
+            if ($order->isDuringMonthOf(Carbon::now()->subMonth())) {
+                $lastearning += $order->earnings;
+            }
+        }
+
+        $this->increase = (($this->monthearnings - $lastearning) / $lastearning) * 100;
     }
 
 

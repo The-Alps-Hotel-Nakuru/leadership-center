@@ -35,13 +35,13 @@
                                 <h6 class="card-title mb-0" style="fontweight:100">Event Earnings of {{ Carbon\Carbon::now()->format('F, Y') }}</h6>
                             </div>
                             <div class="row">
-                                <div class="col-6 col-md-12 col-xl-5">
+                                <div class="col-8 col-md-12 col-xl-5">
                                     <h3 class="mb-2">KES {{ number_format($monthearnings, 2)}}</h3>
                                     <div class="d-flex align-items-baseline">
-                                        {{-- <p class="text-danger">
-                                            <span>-2.8%</span>
-                                            <i data-feather="arrow-down" class="icon-sm mb-1"></i>
-                                        </p> --}}
+                                        <p class="text-{{ $increase>0?'success':'danger' }}">
+                                            <span>{{$increase}}</span>
+                                            <i data-feather="arrow-{{ $increase>0?'up':'down' }}" class="icon-sm mb-1"></i>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-12 col-xl-7">
