@@ -39,7 +39,7 @@
                                     <h3 class="mb-2">KES {{ number_format($monthearnings, 2)}}</h3>
                                     <div class="d-flex align-items-baseline">
                                         <p class="text-{{ $increase>0?'success':'danger' }}">
-                                            <span>{{$increase}}</span>
+                                            <span>{{$increase}}% from last month</span>
                                             <i data-feather="arrow-{{ $increase>0?'up':'down' }}" class="icon-sm mb-1"></i>
                                         </p>
                                     </div>
