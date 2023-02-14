@@ -32,15 +32,19 @@
                     <div class="card bg-alps-primary">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0" style="fontweight:100">Event Earnings of {{ Carbon\Carbon::now()->format('F, Y') }}</h6>
+                                <h6 class="card-title mb-0" style="fontweight:100">Event Earnings of
+                                    {{ Carbon\Carbon::now()->format('F, Y') }}</h6>
                             </div>
                             <div class="row">
                                 <div class="col-8 col-md-12 col-xl-5">
-                                    <small>KES</small><h3 class="mb-2"> {{ number_format($monthearnings, 2)}}</h3>
+                                    <small>KES</small>
+                                    <h3 class="mb-2"> {{ number_format($monthearnings, 2) }}</h3>
                                     <div class="d-flex align-items-baseline">
-                                        <p class="text-{{ $increase>0?'success':'danger' }}">
-                                            <span>{{number_format($increase, 2)}}% </span>
-                                            <i data-feather="arrow-{{ $increase>0?'up':'down' }}" class="icon-sm mb-1"></i>
+                                        <p class="text-{{ $increase > 0 ? 'success' : 'danger' }}">
+                                            <span>{{ is_numeric($increase) ? number_format($increase, 2) : $increase }}%
+                                            </span>
+                                            <i data-feather="arrow-{{ $increase > 0 ? 'up' : 'down' }}"
+                                                class="icon-sm mb-1"></i>
                                         </p>
                                         from last month
                                     </div>
