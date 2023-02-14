@@ -93,6 +93,8 @@
                         <th>Group Name</th>
                         <th>No. Of Pax</th>
                         <th>Period</th>
+                        <th>Number of Days</th>
+                        <th>Total Earned</th>
                         <th>Conference Hall(s)</th>
 
                         <th class="text-center">Actions</th>
@@ -107,6 +109,12 @@
                             <td scope="row">from
                                 <strong>{{ Carbon\Carbon::parse($order->start_date)->format("l jS M, 'y") }} </strong>
                                 to <strong>{{ Carbon\Carbon::parse($order->end_date)->format("l jS M, 'y") }}</strong>
+                            </td>
+                            <td>
+                                {{ $order->days }} Days
+                            </td>
+                            <td>
+                               KES {{ number_format($order->earnings, 2) }}
                             </td>
                             <td>
                                 <ul>

@@ -5,10 +5,10 @@
         <div class="col-12 col-xl-12 stretch-card">
             <div class="row flex-grow-1">
                 <div class="col-md-3 grid-margin stretch-card">
-                    <div class="card">
+                    <div class="card bg-alps-primary">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">No. of Employees</h6>
+                                <h6 class="card-title mb-0" style="fontweight:100">No. of Employees</h6>
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
@@ -29,14 +29,14 @@
                     </div>
                 </div>
                 <div class="col-md-3 grid-margin stretch-card">
-                    <div class="card">
+                    <div class="card bg-alps-primary">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">No. of Event Orders</h6>
+                                <h6 class="card-title mb-0" style="fontweight:100">Event Earnings of {{ Carbon\Carbon::now()->format('F, Y') }}</h6>
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">{{ number_format(count(App\Models\EventOrder::all())) }}</h3>
+                                    <h3 class="mb-2">KES {{ number_format($monthearnings, 2)}}</h3>
                                     <div class="d-flex align-items-baseline">
                                         {{-- <p class="text-danger">
                                             <span>-2.8%</span>
@@ -52,10 +52,10 @@
                     </div>
                 </div>
                 <div class="col-md-3 grid-margin stretch-card">
-                    <div class="card">
+                    <div class="card bg-alps-primary">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">Activities Today</h6>
+                                <h6 class="card-title mb-0" style="fontweight:100">Activities Today</h6>
                             </div>
                             <div class="row">
                                 <div class="col-6 col-md-12 col-xl-5">
@@ -84,10 +84,10 @@
                     </div>
                 </div>
                 <div class="col-md-3 grid-margin stretch-card">
-                    <div class="card">
+                    <div class="card bg-alps-primary">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">Event Orders for Today</h6>
+                                <h6 class="card-title mb-0" style="fontweight:100">Event Orders for Today</h6>
                             </div>
                             <div class="row">
 

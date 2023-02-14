@@ -47,4 +47,38 @@ class EventOrder extends Model
     {
         return $this->belongsToMany(ConferenceHall::class, 'conference_hall_event_order');
     }
+
+
+    public function getDaysAttribute()
+    {
+        return Carbon::parse($this->start_date)->diffInDays($this->end_date) + 1;
+    }
+
+
+    public function getEarningsAttribute()
+    {
+        return $this->rate_kes * $this->pax * $this->days;
+    }
+
+    public function isDuringMonthOf($date)
+    {
+        $date = Carbon::parse($date);
+
+        if (Carbon::parse($this->start_date)->greaterThanOrEqualTo($date->firstOfMonth()->toDateString())) {
+            if (Carbon::parse($this->end_date)->greaterThanOrEqualTo($date->lastOfMonth()->toDateString())) {
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            if(Carbon::parse($this->end_date)->lessThan($date->firstOfMonth()->toDateString())){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+
+    }
+
 }
