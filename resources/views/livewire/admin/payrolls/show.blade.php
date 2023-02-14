@@ -21,6 +21,8 @@
                             <th scope="col">PAYE <span class="text-danger">(-)</span></th>
                             <th scope="col">NHIF Premium <span class="text-danger">(-)</span></th>
                             <th scope="col">Absence Penalty <span class="text-danger">(-)</span></th>
+                            <th scope="col"> Bonuses <span class="text-success">(+)</span></th>
+                            <th scope="col">Fines <span class="text-danger">(-)</span></th>
                             <th scope="col">Additions <span class="text-success">(+)</span></th>
                             <th scope="col">Deductions <span class="text-success">(+)</span></th>
                             <th scope="col">Net Pay</th>
@@ -37,6 +39,8 @@
                             $total_additions = 0;
                             $total_deductions = 0;
                             $total_net = 0;
+                            $total_bonuses = 0;
+                            $total_fines = 0;
                         @endphp
                         @foreach ($payroll->monthlySalaries as $salary)
                             @if ($salary->employee->has_active_contract && $salary->employee->is_full_time)
@@ -44,17 +48,21 @@
                                     <td scope="row">{{ $salary->id }}</td>
                                     <td>{{ $salary->employee->user->name }}</td>
                                     <td>{{ $salary->employee->designation->title }}</td>
-                                    <td>{{ $salary->employee->daysWorked($salary->payroll->year . '-' . $salary->payroll->month) }} Days</td>
+                                    <td>{{ $salary->employee->daysWorked($salary->payroll->year . '-' . $salary->payroll->month) }}
+                                        Days</td>
                                     <td>KES {{ number_format($salary->gross_salary, 2) }} <small>(Daily Rate:
                                             KES{{ number_format($salary->daily_rate, 2) }})</small></td>
                                     <td>KES {{ number_format($salary->nssf, 2) }}</td>
-                                    <td>KES {{ number_format($salary->paye) }}</td>
-                                    <td>KES {{ number_format($salary->nhif) }}</td>
+                                    <td>KES {{ number_format($salary->paye, 2) }}</td>
+                                    <td>KES {{ number_format($salary->nhif, 2) }}</td>
                                     <td>KES {{ number_format($salary->attendance_penalty, 2) }}
                                         @if ($salary->employee->is_full_time)
-                                            for {{ $salary->days_missed }} Days Missed'
+                                            <br><small class="text-muted"> for {{ $salary->days_missed }} Days
+                                                Missed</small>
                                         @endif
                                     </td>
+                                    <td>KES {{ number_format($salary->bonuses, 2) }}</td>
+                                    <td>KES {{ number_format($salary->fines, 2) }}</td>
                                     <td>KES {{ number_format($salary->total_additions, 2) }}</td>
                                     <td>KES {{ number_format($salary->total_deductions, 2) }}</td>
                                     <td>
@@ -78,6 +86,8 @@
                                         $total_paye += $salary->paye;
                                         $total_nssf += $salary->nssf;
                                         $total_pen += $salary->attendance_penalty;
+                                        $total_bonuses += $salary->bonuses;
+                                        $total_fines += $salary->fines;
                                         $total_additions += $salary->total_additions;
                                         $total_deductions += $salary->total_deductions;
                                         $total_net += $salary->net_pay;
@@ -97,6 +107,8 @@
                             <td class="text-danger"><strong>KES {{ number_format($total_paye, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_nhif, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_pen, 2) }}</strong></td>
+                            <td class="text-success"><strong>KES {{ number_format($total_bonuses, 2) }}</strong></td>
+                            <td class="text-danger"><strong>KES {{ number_format($total_fines, 2) }}</strong></td>
                             <td class="text-success"><strong>KES {{ number_format($total_additions, 2) }}</strong></td>
                             <td class="text-success"><strong>KES {{ number_format($total_deductions, 2) }}</strong>
                             </td>
@@ -149,7 +161,8 @@
                                     <td scope="row">{{ $salary->employee->id }}</td>
                                     <td>{{ $salary->employee->user->name }}</td>
                                     <td>{{ $salary->employee->designation->title }}</td>
-                                    <td>{{ $salary->employee->daysWorked($salary->payroll->year . '-' . $salary->payroll->month) }} Days</td>
+                                    <td>{{ $salary->employee->daysWorked($salary->payroll->year . '-' . $salary->payroll->month) }}
+                                        Days</td>
                                     <td>KES {{ number_format($salary->gross_salary, 2) }} <small>(Daily Rate:
                                             KES{{ number_format($salary->daily_rate, 2) }})</small></td>
                                     <td>KES {{ number_format($salary->nssf, 2) }}</td>
@@ -197,15 +210,22 @@
                             <td><strong>TOTALS</strong></td>
                             <td></td>
                             <td></td>
-                            <td class="text-primary"><strong>KES {{ number_format($casual_total_gross, 2) }}</strong></td>
-                            <td class="text-danger"><strong>KES {{ number_format($casual_total_nssf, 2) }}</strong></td>
-                            <td class="text-danger"><strong>KES {{ number_format($casual_total_paye, 2) }}</strong></td>
-                            <td class="text-danger"><strong>KES {{ number_format($casual_total_nhif, 2) }}</strong></td>
-                            <td class="text-danger"><strong>KES {{ number_format($casual_total_pen, 2) }}</strong></td>
-                            <td class="text-success"><strong>KES {{ number_format($casual_total_additions, 2) }}</strong></td>
-                            <td class="text-success"><strong>KES {{ number_format($casual_total_deductions, 2) }}</strong>
+                            <td class="text-primary"><strong>KES {{ number_format($casual_total_gross, 2) }}</strong>
                             </td>
-                            <td class="bg-dark text-white"><strong>KES {{ number_format($casual_total_net, 2) }}</strong></td>
+                            <td class="text-danger"><strong>KES {{ number_format($casual_total_nssf, 2) }}</strong>
+                            </td>
+                            <td class="text-danger"><strong>KES {{ number_format($casual_total_paye, 2) }}</strong>
+                            </td>
+                            <td class="text-danger"><strong>KES {{ number_format($casual_total_nhif, 2) }}</strong>
+                            </td>
+                            <td class="text-danger"><strong>KES {{ number_format($casual_total_pen, 2) }}</strong></td>
+                            <td class="text-success"><strong>KES
+                                    {{ number_format($casual_total_additions, 2) }}</strong></td>
+                            <td class="text-success"><strong>KES
+                                    {{ number_format($casual_total_deductions, 2) }}</strong>
+                            </td>
+                            <td class="bg-dark text-white"><strong>KES
+                                    {{ number_format($casual_total_net, 2) }}</strong></td>
                         </tr>
                     </tfoot>
                 </table>

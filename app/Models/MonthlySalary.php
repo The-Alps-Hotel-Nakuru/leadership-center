@@ -164,6 +164,43 @@ class MonthlySalary extends Model
     }
 
 
+    public function getRebateAttribute()
+    {
+        $actual_gross = $this->gross_salary - $this->attendance_penalty;
+
+        $actual_taxable = $actual_gross - $this->nssf;
+
+
+        $paye = 0;
+        $level1 = (288000 / 12);
+        $level2 = (388000 / 12);
+
+        if ($this->employee && $this->employee->is_full_time) {
+            if ($actual_taxable <= $level1) {
+                $paye = $actual_taxable * 0.1;
+            } elseif ($actual_taxable > $level1 && $actual_taxable <= $level2) {
+                $paye = (($actual_taxable - $level1) * 0.25) + 2400;
+            } else {
+                $paye = (($actual_taxable - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+            }
+        }
+
+        $relief = 0;
+        if ($paye > 2400) {
+            $relief = 2400;
+        } else {
+            $relief = $paye;
+        }
+
+
+
+
+
+        return ($this->paye - $this->tax_relief) - ($paye - $relief);
+    }
+
+
+
     public function getGeneralReliefAttribute()
     {
         $relief = 0;
@@ -180,7 +217,7 @@ class MonthlySalary extends Model
         return $relief;
     }
 
-    public function getBonusAttribute()
+    public function getBonusesAttribute()
     {
         $b = 0;
         foreach ($this->employee->bonuses as $bonus) {
@@ -191,6 +228,18 @@ class MonthlySalary extends Model
 
 
         return $b;
+    }
+    public function getFinesAttribute()
+    {
+        $f = 0;
+        foreach ($this->employee->fines as $fine) {
+            if ($fine->year == $this->payroll->year && $fine->month == $this->payroll->month) {
+                $f += $fine->amount_kes; //check the month
+            }
+        }
+
+
+        return $f;
     }
 
 
@@ -209,22 +258,27 @@ class MonthlySalary extends Model
 
     public function getTotalReliefAttribute()
     {
-        return $this->tax_relief + $this->insurance_relief;
+        return $this->tax_relief + $this->general_relief;
     }
 
 
     public function getTotalDeductionsAttribute()
     {
-        return $this->nhif + $this->attendance_penalty + $this->paye;
+        return $this->nhif + $this->attendance_penalty + $this->paye + $this->fines;
     }
 
     public function getTotalAdditionsAttribute()
     {
-        return $this->total_relief + $this->general_relief + $this->bonus;
+        return $this->total_relief + $this->general_relief + $this->bonuses + $this->rebate;
     }
 
     public function getNetPayAttribute()
     {
         return ($this->gross_salary + $this->total_additions) - $this->total_deductions;
+    }
+
+    public function getMonthStringAttribute()
+    {
+        return Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->format('F \of Y');
     }
 }

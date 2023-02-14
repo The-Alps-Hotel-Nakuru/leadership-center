@@ -21,6 +21,7 @@ class Edit extends Component
     public function mount($id)
     {
         $this->fine = Fine::find($id);
+        $this->yearmonth = $this->fine->year . '-' . sprintf("%02d", $this->fine->month);
     }
     public function save()
     {

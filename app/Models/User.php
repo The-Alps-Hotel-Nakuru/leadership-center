@@ -60,7 +60,7 @@ class User extends Authenticatable
         'profile_photo_url',
         'name',
         'is_admin',
-        'is_employee'
+        'is_employee',
     ];
 
 
@@ -81,6 +81,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(EmployeesDetail::class, 'id', 'user_id');
     }
 
     public function getIsEmployeeAttribute()

@@ -39,7 +39,7 @@
                                     <small>KES</small><h3 class="mb-2"> {{ number_format($monthearnings, 2)}}</h3>
                                     <div class="d-flex align-items-baseline">
                                         <p class="text-{{ $increase>0?'success':'danger' }}">
-                                            <span>{{$increase}}% </span>
+                                            <span>{{number_format($increase, 2)}}% </span>
                                             <i data-feather="arrow-{{ $increase>0?'up':'down' }}" class="icon-sm mb-1"></i>
                                         </p>
                                         from last month
@@ -124,6 +124,9 @@
     <div class="row mt-3">
         <div class="col-md-10 col-12">
             <div class="card table-responsive">
+                <div class="card-header">
+                    <h5>Event Log</h5>
+                </div>
                 <table class="table table-hover table-bordered">
                     <thead>
                         <tr>

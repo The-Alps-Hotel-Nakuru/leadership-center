@@ -34,7 +34,7 @@
                                         </a>
                                     </div>
                                     <div class="flex-col m-1">
-                                        <button class="btn btn-danger">
+                                        <button class="btn btn-danger" wire:click="delete({{ $fine->id }})">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>

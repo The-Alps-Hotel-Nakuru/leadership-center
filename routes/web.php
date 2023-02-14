@@ -34,8 +34,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('dashboard', function () {
         if (auth()->user()->is_admin) {
             return redirect()->route('admin.dashboard');
-        } elseif (auth()->user()->is_admin) {
+        } elseif (auth()->user()->is_employee) {
             return redirect()->route('employee.dashboard');
+        } else {
+            abort(403, 'You don\'t have a role here');
         }
     });
 
@@ -157,6 +159,25 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
      */
     Route::middleware('employee')->prefix('employee')->group(function () {
         Route::get('dashboard', Employee\Dashboard::class)->name('employee.dashboard');
+
+        Route::get('payslips', Employee\Payslips::class)->name('employee.payslips');
+        Route::get('/{id}/payslips', function ($id) {
+
+            $salary = MonthlySalary::find($id);
+
+
+
+            if (auth()->user()->employee->id == $salary->employees_detail_id) {
+                $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper('a4', 'portrait');
+
+                $pdf->loadView('doc.payslip', [
+                    'salary' => $salary
+                ]);
+                return $pdf->stream();
+            } else {
+                abort(403, "You Are Not Authorized to view this Payslip because it doesn't belong to you");
+            }
+        })->name('employee.payslips.view');
     });
 });
 

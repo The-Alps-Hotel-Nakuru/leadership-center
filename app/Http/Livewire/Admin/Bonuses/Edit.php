@@ -21,6 +21,7 @@ class Edit extends Component
     public function mount($id)
     {
         $this->bonus = Bonus::find($id);
+        $this->yearmonth = $this->bonus->year . '-' . sprintf("%02d", $this->bonus->month);
     }
     public function save()
     {

@@ -22,8 +22,8 @@
     <table style="background-color:#1575bb; color:#fff">
         <thead>
             <strong style="text-align: right">The Alps Hotel Nakuru</strong>
-            <h2 style="color: #8cf040">Payslip - {{ Carbon\Carbon::parse($salary->payroll->month)->format('F') }}
-                {{ Carbon\Carbon::parse($salary->payroll->year)->format('Y') }}</h2>
+            <h2 style="color: #efefef">Payslip -
+                {{ Carbon\Carbon::parse($salary->payroll->year . '-' . $salary->payroll->month)->format('F, Y') }}</h2>
         </thead>
     </table>
     <table>
@@ -105,6 +105,12 @@
                 </small>{{ number_format($salary->attendance_penalty, 2) }})</td>
         </thead>
         <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Total Fines</td>
+            <td colspan="1" style="text-align: right">(<small>KES
+                </small>{{ number_format($salary->fines, 2) }})</td>
+        </thead>
+        <br>
 
     </table>
     <table>
@@ -125,6 +131,18 @@
             <td colspan="2" style="text-align: left">General Relief (Insurance, etc.)</td>
             <td colspan="1" style="text-align: right"><small>KES
                 </small>{{ number_format($salary->general_relief, 2) }}</td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Total Bonuses</td>
+            <td colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->bonuses, 2) }}</td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Tax Rebates</td>
+            <td colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->rebate, 2) }}</td>
         </thead>
         <br>
     </table>
