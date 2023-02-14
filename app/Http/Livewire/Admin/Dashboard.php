@@ -34,7 +34,7 @@ class Dashboard extends Component
             }
         }
 
-        $this->increase = (($this->monthearnings - $lastearning) / $lastearning) * 100;
+        $this->increase = $lastearning > 0 ? (($this->monthearnings - $lastearning) / $lastearning) * 100 : 100;
     }
 
 
