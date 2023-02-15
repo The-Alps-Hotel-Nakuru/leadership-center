@@ -23,6 +23,7 @@
                             <th scope="col">Absence Penalty <span class="text-danger">(-)</span></th>
                             <th scope="col"> Bonuses <span class="text-success">(+)</span></th>
                             <th scope="col">Fines <span class="text-danger">(-)</span></th>
+                            <th scope="col">Tax Rebate <span class="text-success">(+)</span></th>
                             <th scope="col">Additions <span class="text-success">(+)</span></th>
                             <th scope="col">Deductions <span class="text-success">(+)</span></th>
                             <th scope="col">Net Pay</th>
@@ -39,6 +40,7 @@
                             $total_additions = 0;
                             $total_deductions = 0;
                             $total_net = 0;
+                            $total_rebate = 0;
                             $total_bonuses = 0;
                             $total_fines = 0;
                         @endphp
@@ -63,6 +65,7 @@
                                     </td>
                                     <td>KES {{ number_format($salary->bonuses, 2) }}</td>
                                     <td>KES {{ number_format($salary->fines, 2) }}</td>
+                                    <td>KES {{ number_format($salary->rebate, 2) }}</td>
                                     <td>KES {{ number_format($salary->total_additions, 2) }}</td>
                                     <td>KES {{ number_format($salary->total_deductions, 2) }}</td>
                                     <td>
@@ -88,6 +91,7 @@
                                         $total_pen += $salary->attendance_penalty;
                                         $total_bonuses += $salary->bonuses;
                                         $total_fines += $salary->fines;
+                                        $total_rebate += $salary->rebate;
                                         $total_additions += $salary->total_additions;
                                         $total_deductions += $salary->total_deductions;
                                         $total_net += $salary->net_pay;
@@ -109,6 +113,7 @@
                             <td class="text-danger"><strong>KES {{ number_format($total_pen, 2) }}</strong></td>
                             <td class="text-success"><strong>KES {{ number_format($total_bonuses, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_fines, 2) }}</strong></td>
+                            <td class="text-success"><strong>KES {{ number_format($total_rebate, 2) }}</strong></td>
                             <td class="text-success"><strong>KES {{ number_format($total_additions, 2) }}</strong></td>
                             <td class="text-success"><strong>KES {{ number_format($total_deductions, 2) }}</strong>
                             </td>

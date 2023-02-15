@@ -36,6 +36,11 @@ class Index extends Component
                 'yearmonth' => 'The Payroll You are trying to generate already Exists'
             ]);
         } else {
+            if (!Carbon::now()->isAfter(Carbon::parse($year . '-' . $month)->lastOfMonth())) {
+                throw ValidationException::withMessages([
+                    'yearmonth' => 'The Payroll You are trying to generate cannot be generated now. Wait until after ' . Carbon::parse($year . '-' . $month)->lastOfMonth()->format("jS F, Y")
+                ]);
+            }
             $count = 0;
             $testarray = [];
             $payroll = new Payroll();
