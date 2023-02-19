@@ -15,7 +15,6 @@
                             <th scope="col">Full Name</th>
                             <th scope="col">Designation</th>
                             <th scope="col">Days Worked</th>
-                            {{-- <th scope="col">Contract Type</th> --}}
                             <th scope="col">Total Gross Pay</th>
                             <th scope="col">NSSF Contribution <span class="text-danger">(-)</span></th>
                             <th scope="col">PAYE <span class="text-danger">(-)</span></th>

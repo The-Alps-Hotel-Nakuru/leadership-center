@@ -234,6 +234,13 @@ Route::get('/event-summary-today', function () {
 
 
 
+Route::get('/casuals-contract', function () {
+
+    $pdf = Pdf::loadView('doc.casual')->setOptions(['DOMPDF_ENABLE_REMOTE'=>true]);
+    return $pdf->stream();
+});
+
+
 // Test URLs
 
 // Route::get('/')
