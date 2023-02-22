@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\EventOrders;
 
 use App\Models\EventOrder;
+use App\Models\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -56,6 +57,12 @@ class Index extends Component
     public function delete($id)
     {
         EventOrder::find($id)->delete();
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EventOrder';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Deleted Event Order <strong> #" . sprintf('%04u', $id) . " </strong> from the system";
+        $log->save();
 
         $this->emit('done', [
             'success' => 'Successfully Deleted Event Order no. ' . sprintf('%04u', $id)
