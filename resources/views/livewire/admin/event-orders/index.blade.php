@@ -132,7 +132,7 @@
                                         </a>
                                     </div>
                                     <div class="flex-col m-1">
-                                        <button wire:click="delete({{ $order->id }})" class="btn btn-danger">
+                                        <button onclick="confirm('Are You Sure you want to Delete the Event Order #{{ sprintf('%04u', $order->id) }}')|| event.stopImmediatePropagation()" wire:click="delete({{ $order->id }})" class="btn btn-danger">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </div>

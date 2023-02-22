@@ -52,6 +52,16 @@ class Index extends Component
         );
     }
 
+
+    public function delete($id)
+    {
+        EventOrder::find($id)->delete();
+
+        $this->emit('done', [
+            'success' => 'Successfully Deleted Event Order no. ' . sprintf('%04u', $id)
+        ]);
+    }
+
     public function render()
     {
         return view('livewire.admin.event-orders.index', [
