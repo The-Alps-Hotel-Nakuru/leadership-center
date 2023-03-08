@@ -125,7 +125,7 @@
                                 </ul>
                             </td>
                             <td>
-                                {{ Carbon\Carbon::parse($order->created_at)->format("d\M\Y h:i:sA") }}
+                                {{ Carbon\Carbon::parse($order->created_at)->format("d-M-Y h:i:sA") }}
                             </td>
                             <td>
                                 <div class="d-flex flex-row justify-content-center">
