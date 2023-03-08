@@ -20,20 +20,24 @@ class UsersController extends Controller
         // return $validator;
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()]);
+            return response(['errors' => $validator->errors()], 422);
         }
 
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['errors' => ['email' => 'The Provided Credentials are incorrect'],]);
+            return response(['errors' => ['email' => 'The Provided Credentials are incorrect'],], 422);
         }
 
 
-        return response()->json([
-            'token'=>'Bearer '.$user->createToken($request->email)->plainTextToken
-        ]);
+        return response(['user'=>$user,'token' => 'Bearer ' . $user->createToken($request->email)->plainTextToken], 200);
 
         // return $request->all();
+    }
+
+
+    public function getUser()
+    {
+        return response()->json(auth()->user())->setStatusCode(200);
     }
 }

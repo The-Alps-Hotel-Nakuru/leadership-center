@@ -96,6 +96,7 @@
                         <th>Number of Days</th>
                         <th>Total Earned</th>
                         <th>Conference Hall(s)</th>
+                        <th>Date Created</th>
 
                         <th class="text-center">Actions</th>
                     </tr>
@@ -122,6 +123,9 @@
                                         <li>{{ $item->name }}</li>
                                     @endforeach
                                 </ul>
+                            </td>
+                            <td>
+                                {{ Carbon\Carbon::parse($order->created_at)->format("d\\M\\Y h:i:sA") }}
                             </td>
                             <td>
                                 <div class="d-flex flex-row justify-content-center">
