@@ -28,11 +28,12 @@ class Index extends Component
                 $this->newOrders++;
             }
 
-            if (Carbon::now()->greaterThanOrEqualTo($order->start_date) && Carbon::now()->lessThanOrEqualTo($order->end_date) && $order->lunch) {
+
+            if (Carbon::now()->startOfDay()->greaterThanOrEqualTo($order->start_date) && Carbon::now()->startOfDay()->lessThanOrEqualTo($order->end_date) && $order->lunch) {
                 $this->lunch_today += $order->pax;
                 array_push($this->groups_lunch, $order->organization_name);
             }
-            if (Carbon::now()->greaterThanOrEqualTo($order->start_date) && Carbon::now()->lessThanOrEqualTo($order->end_date) && $order->dinner) {
+            if (Carbon::now()->startOfDay()->greaterThanOrEqualTo($order->start_date) && Carbon::now()->startOfDay()->lessThanOrEqualTo($order->end_date) && $order->dinner) {
                 $this->dinner_today += $order->pax;
                 array_push($this->groups_dinner, $order->organization_name);
             }
