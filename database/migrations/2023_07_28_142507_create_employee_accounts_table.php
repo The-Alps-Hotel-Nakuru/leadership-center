@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('attendance_clocks', function (Blueprint $table) {
+        Schema::create('employee_accounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('attendance_id')->constrained();
-            $table->dateTime('clock_in');
-            $table->dateTime('clock_out')->nullable();
+            $table->foreignId('employees_detail_id')->constrained('employees_details');
+            $table->foreignId('bank_id')->constrained('banks');
+            $table->string('account_number');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attendance_clocks');
+        Schema::dropIfExists('employee_accounts');
     }
 };

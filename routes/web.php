@@ -86,13 +86,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/{id}/contract', Admin\EmployeeContracts\Show::class)->name('admin.employee_contracts.show');
             Route::get('/create', Admin\EmployeeContracts\Create::class)->name('admin.employee_contracts.create');
             Route::get('/{id}/edit', Admin\EmployeeContracts\Edit::class)->name('admin.employee_contracts.edit');
-            Route::get('/mass-addition', Admin\EmployeeContracts\Edit::class)->name('admin.employee_contracts.mass_addition');
         });
 
         Route::prefix('attendances')->group(function () {
             Route::get('/', Admin\Attendances\Index::class)->name('admin.attendances.index');
             Route::get('/create', Admin\Attendances\Create::class)->name('admin.attendances.create');
             Route::get('/{id}/edit', Admin\Attendances\Edit::class)->name('admin.attendances.edit');
+            Route::get('/mass_addition', Admin\Attendances\MassAddition::class)->name('admin.attendances.mass_addition');
         });
         Route::prefix('product_categories')->group(function () {
             Route::get('/', Admin\ProductCategories\Index::class)->name('admin.product_categories.index');
