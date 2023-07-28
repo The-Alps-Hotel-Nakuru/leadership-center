@@ -99,57 +99,58 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/create', Admin\ProductCategories\Create::class)->name('admin.product_categories.create');
             Route::get('/{id}/edit', Admin\ProductCategories\Edit::class)->name('admin.product_categories.edit');
         });
-        Route::prefix('products')->group(function () {
-            Route::get('/', Admin\Products\Index::class)->name('admin.products.index');
-            Route::get('/create', Admin\Products\Create::class)->name('admin.products.create');
-            Route::get('/{id}/edit', Admin\Products\Edit::class)->name('admin.products.edit');
-        });
-        Route::prefix('asset_categories')->group(function () {
-            Route::get('/', Admin\AssetCategories\Index::class)->name('admin.asset_categories.index');
-            Route::get('/create', Admin\AssetCategories\Create::class)->name('admin.asset_categories.create');
-            Route::get('/{id}/edit', Admin\AssetCategories\Edit::class)->name('admin.asset_categories.edit');
-        });
-        Route::prefix('asset_subcategories')->group(function () {
-            Route::get('/', function () {
-                return redirect()->route('admin.asset_categories.index');
-            })->name('admin.asset_subcategories.index');
-            Route::get('/create', Admin\AssetSubcategories\Create::class)->name('admin.asset_subcategories.create');
-            Route::get('/{id}/edit', Admin\AssetSubcategories\Edit::class)->name('admin.asset_subcategories.edit');
-        });
-        Route::prefix('assets')->group(function () {
-            Route::get('/', Admin\Assets\Index::class)->name('admin.assets.index');
-            Route::get('/create', Admin\Assets\Create::class)->name('admin.assets.create');
-            Route::get('/{id}/edit', Admin\Assets\Edit::class)->name('admin.assets.edit');
-        });
         Route::prefix('responsibilities')->group(function () {
             Route::get('/', Admin\Responsibilities\Index::class)->name('admin.responsibilities.index');
             Route::get('/{designation_id}/create', Admin\Responsibilities\Create::class)->name('admin.responsibilities.create');
             Route::get('/{id}/edit', Admin\Responsibilities\Edit::class)->name('admin.responsibilities.edit');
         });
-        Route::prefix('conference-halls')->group(function () {
-            Route::get('/', Admin\ConferenceHalls\Index::class)->name('admin.conference-halls.index');
-            Route::get('/create', Admin\ConferenceHalls\Create::class)->name('admin.conference-halls.create');
-            Route::get('/{id}/edit', Admin\ConferenceHalls\Edit::class)->name('admin.conference-halls.edit');
-        });
-        Route::prefix('event-orders')->group(function () {
-            Route::get('/', Admin\EventOrders\Index::class)->name('admin.event-orders.index');
-            Route::get('/create', Admin\EventOrders\Create::class)->name('admin.event-orders.create');
-            Route::get('/{id}/edit', Admin\EventOrders\Edit::class)->name('admin.event-orders.edit');
-        });
         Route::prefix('payrolls')->group(function () {
             Route::get('/', Admin\Payrolls\Index::class)->name('admin.payrolls.index');
             Route::get('/{id}/show', Admin\Payrolls\Show::class)->name('admin.payrolls.show');
         });
-        Route::prefix('uniforms')->group(function () {
-            Route::get('/', Admin\Uniforms\Index::class)->name('admin.uniforms.index');
-            Route::get('/create', Admin\Uniforms\Create::class)->name('admin.uniforms.create');
-            Route::get('/{id}/edit', Admin\Uniforms\Edit::class)->name('admin.uniforms.edit');
-        });
-        Route::prefix('uniform-items')->group(function () {
-            Route::get('/', Admin\UniformItems\Index::class)->name('admin.uniform-items.index');
-            Route::get('/create', Admin\UniformItems\Create::class)->name('admin.uniform-items.create');
-            Route::get('/{id}/edit', Admin\UniformItems\Edit::class)->name('admin.uniform-items.edit');
-        });
+        // Route::prefix('products')->group(function () {
+        //     Route::get('/', Admin\Products\Index::class)->name('admin.products.index');
+        //     Route::get('/create', Admin\Products\Create::class)->name('admin.products.create');
+        //     Route::get('/{id}/edit', Admin\Products\Edit::class)->name('admin.products.edit');
+        // });
+        // Route::prefix('asset_categories')->group(function () {
+        //     Route::get('/', Admin\AssetCategories\Index::class)->name('admin.asset_categories.index');
+        //     Route::get('/create', Admin\AssetCategories\Create::class)->name('admin.asset_categories.create');
+        //     Route::get('/{id}/edit', Admin\AssetCategories\Edit::class)->name('admin.asset_categories.edit');
+        // });
+        // Route::prefix('asset_subcategories')->group(function () {
+        //     Route::get('/', function () {
+        //         return redirect()->route('admin.asset_categories.index');
+        //     })->name('admin.asset_subcategories.index');
+        //     Route::get('/create', Admin\AssetSubcategories\Create::class)->name('admin.asset_subcategories.create');
+        //     Route::get('/{id}/edit', Admin\AssetSubcategories\Edit::class)->name('admin.asset_subcategories.edit');
+        // });
+        // Route::prefix('assets')->group(function () {
+        //     Route::get('/', Admin\Assets\Index::class)->name('admin.assets.index');
+        //     Route::get('/create', Admin\Assets\Create::class)->name('admin.assets.create');
+        //     Route::get('/{id}/edit', Admin\Assets\Edit::class)->name('admin.assets.edit');
+        // });
+        // Route::prefix('conference-halls')->group(function () {
+        //     Route::get('/', Admin\ConferenceHalls\Index::class)->name('admin.conference-halls.index');
+        //     Route::get('/create', Admin\ConferenceHalls\Create::class)->name('admin.conference-halls.create');
+        //     Route::get('/{id}/edit', Admin\ConferenceHalls\Edit::class)->name('admin.conference-halls.edit');
+        // });
+        // Route::prefix('event-orders')->group(function () {
+        //     Route::get('/', Admin\EventOrders\Index::class)->name('admin.event-orders.index');
+        //     Route::get('/create', Admin\EventOrders\Create::class)->name('admin.event-orders.create');
+        //     Route::get('/{id}/edit', Admin\EventOrders\Edit::class)->name('admin.event-orders.edit');
+        // });
+
+        // Route::prefix('uniforms')->group(function () {
+        //     Route::get('/', Admin\Uniforms\Index::class)->name('admin.uniforms.index');
+        //     Route::get('/create', Admin\Uniforms\Create::class)->name('admin.uniforms.create');
+        //     Route::get('/{id}/edit', Admin\Uniforms\Edit::class)->name('admin.uniforms.edit');
+        // });
+        // Route::prefix('uniform-items')->group(function () {
+        //     Route::get('/', Admin\UniformItems\Index::class)->name('admin.uniform-items.index');
+        //     Route::get('/create', Admin\UniformItems\Create::class)->name('admin.uniform-items.create');
+        //     Route::get('/{id}/edit', Admin\UniformItems\Edit::class)->name('admin.uniform-items.edit');
+        // });
     });
 
 
@@ -237,7 +238,7 @@ Route::get('/event-summary-today', function () {
 
 Route::get('/casuals-contract', function () {
 
-    $pdf = Pdf::loadView('doc.casual')->setOptions(['DOMPDF_ENABLE_REMOTE'=>true]);
+    $pdf = Pdf::loadView('doc.casual')->setOptions(['DOMPDF_ENABLE_REMOTE' => true]);
     return $pdf->stream();
 });
 

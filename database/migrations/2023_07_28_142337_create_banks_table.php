@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('banks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('short');
+            $table->string('short_name');
             $table->string('bank_code');
             $table->float('min_transfer')->default(10.00);
             $table->float('max_transfer')->nullable();
