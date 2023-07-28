@@ -141,6 +141,10 @@
                     <a href="{{ route('admin.attendances.create') }}"
                         class="nav-link @if (Route::currentRouteName() == 'admin.attendances.create') active @endif">Add Attendance Records</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.attendances.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.attendances.mass_addition') active @endif">Attendance Mass Addition</a>
+                </li>
 
             </ul>
         </div>

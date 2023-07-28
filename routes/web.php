@@ -4,10 +4,10 @@ use App\Http\Livewire\Admin;
 use App\Http\Livewire\Employee;
 use App\Models\EmployeeContract;
 use App\Models\MonthlySalary;
-use Illuminate\Support\Facades\Route;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Faker\Factory;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +86,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/{id}/contract', Admin\EmployeeContracts\Show::class)->name('admin.employee_contracts.show');
             Route::get('/create', Admin\EmployeeContracts\Create::class)->name('admin.employee_contracts.create');
             Route::get('/{id}/edit', Admin\EmployeeContracts\Edit::class)->name('admin.employee_contracts.edit');
+            Route::get('/mass-addition', Admin\EmployeeContracts\Edit::class)->name('admin.employee_contracts.mass_addition');
         });
 
         Route::prefix('attendances')->group(function () {
