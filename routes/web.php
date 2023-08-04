@@ -20,7 +20,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/dashboard');
+//first commit
+
+Route::redirect('/', '/dashboard'); 
 
 // if (auth()->user()->is_admin) {
 //     Route::redirect('/dashboard','/admin/dashboard');
