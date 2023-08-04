@@ -38,6 +38,15 @@ return new class extends Migration
                 'password' => Hash::make(env('DEFAULT_PASSWORD')),
             ]
         ]);
+        DB::table('users')->insert([
+            [
+                'first_name' => 'Errol',
+                'last_name' => 'Kitsiiri',
+                'email' =>'test@example.com',
+                'role_id' => 1,
+                'password' => Hash::make(env('DEFAULT_PASSWORD')),
+            ]
+        ]);
     }
 
     /**
