@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('designation_id')->constrained();
             $table->string('phone_number');
-            $table->longText('physical_address');
+            $table->longText('physical_address')->nullable();
             $table->enum('marital_status',['married', 'single', 'divorced', 'widowed'])->default('single');
             $table->enum('gender',['male', 'female']);
             $table->integer('children')->default(0);

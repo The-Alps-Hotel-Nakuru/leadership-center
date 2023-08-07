@@ -29,7 +29,7 @@ return new class extends Migration
 
             [
                 'department_id' => 1,
-                'title' => 'Housekeeping Attendant'
+                'title' => 'Laundry Attendant'
             ],
             [
                 'department_id' => 1,
@@ -212,6 +212,21 @@ return new class extends Migration
             [
                 'department_id' => 8,
                 'title' => 'Night Security Guard'
+            ],
+
+            //     'title'=>'Management'
+
+            [
+                'department_id' => 9,
+                'title' => 'General Manager'
+            ],
+            [
+                'department_id' => 9,
+                'title' => 'Operations Manager'
+            ],
+            [
+                'department_id' => 9,
+                'title' => 'Human Resource Manager'
             ],
 
         ]);

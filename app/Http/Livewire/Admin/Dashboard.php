@@ -19,22 +19,7 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $orders = EventOrder::all();
 
-        foreach ($orders as $order) {
-            if ($order->isDuringMonthOf(Carbon::now())) {
-                $this->monthearnings += $order->earnings;
-            }
-        }
-
-        $lastearning = 0;
-        foreach ($orders as $order) {
-            if ($order->isDuringMonthOf(Carbon::now()->subMonth())) {
-                $lastearning += $order->earnings;
-            }
-        }
-
-        $this->increase = $lastearning > 0 ? (($this->monthearnings - $lastearning) / $lastearning) * 100 : '∞';
     }
 
 

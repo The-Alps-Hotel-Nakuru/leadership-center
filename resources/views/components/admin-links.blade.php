@@ -119,6 +119,14 @@
                         class="nav-link @if (Route::currentRouteName() == 'admin.employee_contracts.create') active @endif">Create an Employee
                         Contract</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.employees.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employees.mass_addition') active @endif">Mass Employee Creation</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.employee_contracts.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_contracts.mass_addition') active @endif">Mass Contracts Addition</a>
+                </li>
             </ul>
         </div>
     </li>
