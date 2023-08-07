@@ -47,6 +47,9 @@ return new class extends Migration
             [
                 'title'=>'Security'
             ],
+            [
+                'title'=>'Management'
+            ],
         ]);
     }
 
