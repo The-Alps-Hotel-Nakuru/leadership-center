@@ -2,10 +2,45 @@
     <x-slot name="header">Employees' Details</x-slot>
 
     <div class="container-fluid">
+
+
+
         <div class="card-header d-flex">
-            <a href="" class="btn btn-dark ms-auto me-2" wire:click.prevent="exportNssfData">Export NSSF Data</a>
-            <a href="" class="btn btn-success me-2" wire:click.prevent="exportNhifData">Export NHIF Data</a>
-            <a href="" class="btn btn-primary" wire:click.prevent="exportKraData">Export KRA Data</a>
+
+
+            <button class="btn btn-dark ms-auto me-2" wire:loading.attr="disabled" wire:target="exportNssfData"
+                wire:click="exportNssfData">
+                <span wire:loading.remove wire:target="exportNssfData">
+                    Export NSSF Data
+                </span>
+                <span wire:loading wire:target="exportNssfData">
+                    Exporting...
+                </span>
+            </button>
+
+            <button class="btn btn-success me-2" wire:loading.attr="disabled" wire:target="exportNhifData"
+                wire:click="exportNhifData">
+                <span wire:loading.remove wire:target="exportNhifData">
+                    Export NHIF Data
+                </span>
+                <span wire:loading wire:target="exportNhifData">
+                    Exporting...
+                </span>
+            </button>
+
+            <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="exportKraData"
+                wire:click="exportKraData">
+                <span wire:loading.remove wire:target="exportKraData">
+                    Export KRA Data
+                </span>
+                <span wire:loading wire:target="exportKraData">
+                    Exporting...
+                </span>
+            </button>
+
+            {{-- <a href="" class="btn btn-dark ms-auto me-2" wire:click.prevent="exportNssfData">Export NSSF Data</a> --}}
+            {{-- <a href="" class="btn btn-success me-2" wire:click.prevent="exportNhifData">Export NHIF Data</a> --}}
+            {{-- <a href="" class="btn btn-primary" wire:click.prevent="exportKraData">Export KRA Data</a> --}}
         </div>
         <div class="table-responsive card">
             <table class="table table-hover">
@@ -32,7 +67,8 @@
                                         <h5>{{ $employee->user->name }}</h5>
                                         <small>{{ $employee->user->email }}</small><br>
                                         <small>{{ $employee->phone_number }}</small><br>
-                                        <small>Gender: <span class="text-capitalize">{{ $employee->gender }}</span></small><br>
+                                        <small>Gender: <span
+                                                class="text-capitalize">{{ $employee->gender }}</span></small><br>
                                     </div>
                                 </div>
                             </td>
@@ -47,8 +83,7 @@
                             </td>
                             <td class="text-center">
                                 @if ($employee->has_active_contract)
-                                    <a
-                                        class="badge rounded-pill text-bg-success  text-white text-uppercase">Active</a >
+                                    <a class="badge rounded-pill text-bg-success  text-white text-uppercase">Active</a>
                                 @else
                                     <span
                                         class="badge rounded-pill  text-bg-danger text-white text-uppercase">Inactive</span>
@@ -59,16 +94,21 @@
                                     <div class="flex-col mx-1">
                                         @foreach ($employee->contracts as $contract)
                                             @if ($contract->is_active)
-                                            <a href="{{ route('admin.employee_contracts.edit', $contract->id) }}" class="btn btn-light shadow-sm"><i
-                                                class="fas fa-file-signature"></i></a>
+                                                <a href="{{ route('admin.employee_contracts.edit', $contract->id) }}"
+                                                    class="btn btn-light shadow-sm"><i
+                                                        class="fas fa-file-signature"></i></a>
                                             @endif
                                         @endforeach
                                     </div>
-                                    <div class="flex-col mx-1"><a href="{{ route('admin.employees.show', $employee->id) }}" class="btn btn-dark"><i
-                                                class="fas fa-address-card"></i></a></div>
-                                    <div class="flex-col mx-1"><a href="{{ route('admin.employees.edit', $employee->id) }}" class="btn btn-secondary"><i
-                                                class="fas fa-edit"></i></a></div>
-                                    <div class="flex-col mx-1"><button onclick="confirm('Are you sure you want to delete this Employee?')||event.stopImmediatePropagation()" wire:click="delete({{ $employee->id }})" class="btn btn-danger"><i
+                                    <div class="flex-col mx-1"><a
+                                            href="{{ route('admin.employees.show', $employee->id) }}"
+                                            class="btn btn-dark"><i class="fas fa-address-card"></i></a></div>
+                                    <div class="flex-col mx-1"><a
+                                            href="{{ route('admin.employees.edit', $employee->id) }}"
+                                            class="btn btn-secondary"><i class="fas fa-edit"></i></a></div>
+                                    <div class="flex-col mx-1"><button
+                                            onclick="confirm('Are you sure you want to delete this Employee?')||event.stopImmediatePropagation()"
+                                            wire:click="delete({{ $employee->id }})" class="btn btn-danger"><i
                                                 class="fas fa-trash"></i></button></div>
                                 </div>
                             </td>
@@ -77,6 +117,6 @@
                 </tbody>
             </table>
         </div>
-       <div class="my-3"> {{ $employees->links() }}</div>
+        <div class="my-3"> {{ $employees->links() }}</div>
     </div>
 </div>
