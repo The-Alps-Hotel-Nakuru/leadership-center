@@ -2,6 +2,11 @@
     <x-slot name="header">Employees' Details</x-slot>
 
     <div class="container-fluid">
+        <div class="card-header d-flex">
+            <a href="" class="btn btn-dark ms-auto me-2" wire:click.prevent="exportNssfData">Export NSSF Data</a>
+            <a href="" class="btn btn-success me-2" wire:click.prevent="exportNhifData">Export NHIF Data</a>
+            <a href="" class="btn btn-primary" wire:click.prevent="exportKraData">Export KRA Data</a>
+        </div>
         <div class="table-responsive card">
             <table class="table table-hover">
                 <thead>
@@ -14,9 +19,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($employees as $employee)
+                    @foreach ($employees as $key => $employee)
                         <tr class="">
-                            <td scope="row">{{ $employee->id }}</td>
+                            <td>{{ $employees->firstItem() + $key }}</td>
                             <td>
                                 <div class="d-flex flex-row">
                                     <div class="flex-col">
@@ -73,6 +78,5 @@
             </table>
         </div>
        <div class="my-3"> {{ $employees->links() }}</div>
-
     </div>
 </div>

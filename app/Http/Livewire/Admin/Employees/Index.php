@@ -2,21 +2,25 @@
 
 namespace App\Http\Livewire\Admin\Employees;
 
+use App\Exports\EmployeeKRAExport;
+use App\Exports\EmployeeNHIFExport;
+use App\Exports\EmployeeNSSFExport;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
     use WithPagination;
 
-    protected $listeners=[
-        'done'=>'render'
+    protected $listeners = [
+        'done' => 'render'
     ];
 
-    protected $paginationTheme='bootstrap';
+    protected $paginationTheme = 'bootstrap';
 
     public function delete($id)
     {
@@ -26,7 +30,7 @@ class Index extends Component
 
 
         $this->emit('done', [
-            'success'=>'You are trying to delete Employee No.'.$id
+            'success' => 'You are trying to delete Employee No.' . $id
         ]);
         $log = new Log();
         $log->user_id = auth()->user()->id;
@@ -35,11 +39,37 @@ class Index extends Component
         $log->save();
     }
 
+    public function exportKraData()
+    {
+        return Excel::download(new EmployeeKRAExport, 'employeeskra.xlsx');
+
+        $this->emit('done', [
+            'success' => 'KRA data exported successfully'
+        ]);
+    }
+
+    public function exportNhifData()
+    {
+        return Excel::download(new EmployeeNHIFExport, 'employeesnhif.xlsx');
+
+        $this->emit('done', [
+            'success'=> 'NHIF data exported successfully'
+        ]);
+    }
+
+    public function exportNssfData()
+    {
+        return Excel::download(new EmployeeNSSFExport, 'employeesnssf.xlsx');
+
+        $this->emit('done', [
+            'success'=> 'NSSF data exported successfully'
+        ]);
+    }
+
     public function render()
     {
         return view('livewire.admin.employees.index', [
-            'employees'=>EmployeesDetail::orderBy('id', 'DESC')->paginate(5),
+            'employees' => EmployeesDetail::orderBy('id', 'DESC')->paginate(5),
         ]);
-
     }
 }

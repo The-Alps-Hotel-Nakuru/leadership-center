@@ -200,6 +200,11 @@
                         class="nav-link @if (Route::currentRouteName() == 'admin.bonuses.create') active @endif">Add Bonus Records</a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('admin.employee_bonuses.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_bonuses.mass_addition') active @endif">Mass Bonuses Addition</a>
+                </li>
+
             </ul>
         </div>
     </li>

@@ -77,6 +77,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/', Admin\Bonuses\Index::class)->name('admin.bonuses.index');
             Route::get('/create', Admin\Bonuses\Create::class)->name('admin.bonuses.create');
             Route::get('/{id}/edit', Admin\Bonuses\Edit::class)->name('admin.bonuses.edit');
+            Route::get('/mass_addition', Admin\Bonuses\MassAddition::class)->name('admin.employee_bonuses.mass_addition');
         });
         Route::prefix('employees')->group(function () {
             Route::get('/', Admin\Employees\Index::class)->name('admin.employees.index');
