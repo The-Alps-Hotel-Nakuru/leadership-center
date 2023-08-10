@@ -177,6 +177,11 @@
                         class="nav-link @if (Route::currentRouteName() == 'admin.fines.create') active @endif">Add Fine Records</a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('admin.employee_fines.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_fines.mass_addition') active @endif">Mass Fines Addition</a>
+                </li>
+
             </ul>
         </div>
     </li>

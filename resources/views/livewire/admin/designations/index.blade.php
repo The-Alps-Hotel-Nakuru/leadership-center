@@ -16,9 +16,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($designations as $designation)
+                        @foreach ($designations as $key => $designation)
                             <tr class="">
-                                <td scope="row">{{ $designation->id }}</td>
+                                <td>{{ $designations->firstItem() + $key }}</td>
                                 <td>{{ $designation->title }}</td>
                                 <td class="text-secondary text-uppercase">{{ $designation->department->title }}</td>
                                 <td><strong>{{ count($designation->employees) }}</strong> employees</td>
@@ -37,7 +37,7 @@
                     </tbody>
                 </table>
             </div>
-
+            <div class="my-3"> {{ $designations->links() }}</div>
         </div>
     </div>
 </div>

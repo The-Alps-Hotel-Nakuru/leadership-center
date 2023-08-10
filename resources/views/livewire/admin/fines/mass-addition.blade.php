@@ -1,18 +1,18 @@
 <div>
     <x-slot:header>
-        Mass Addition of Bonuses
+        Mass Addition of Fines
         </x-slot>
 
         <div class="card">
             <div class="card-header">
-                <h5>Upload Employee Bonuses</h5>
+                <h5>Upload Employee Fines</h5>
             </div>
             <div class="card-body">
                 <div class="mb-3">
                     <label for="" class="form-label">File Upload</label>
-                    <input type="file" name="employee_bonuses_file" class="form-control"
-                        wire:model='employee_bonuses_file'>
-                    @error('employee_bonuses_file')
+                    <input type="file" name="employee_finess_file" class="form-control"
+                        wire:model='employee_fines_file'>
+                    @error('employee_fines_file')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -29,12 +29,12 @@
             </div>
         </div>
 
-        @if ($bonuses)
+        @if ($fines)
             <div class="row mt-3">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Bonuses Data</h5>
+                            <h5>Fines Data</h5>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped table-hover table-borderless align-middle">
@@ -53,27 +53,27 @@
 
                                 <tbody>
 
-                                    @foreach ($bonuses as $bonus)
+                                    @foreach ($fines as $fine)
                                         <tr>
-                                            <td>{{ $bonus['ID'] }}</td>
-                                            <td>{{ $bonus['FIRST_NAME'] }}</td>
-                                            <td>{{ $bonus['LAST_NAME'] }}</td>
-                                            <td>{{ $bonus['YEAR'] }}</td>
-                                            <td>{{ $bonus['MONTH'] }}</td>
-                                            <td>{{ $bonus['AMOUNT'] }}</td>
-                                            <td>{{ $bonus['EMAIL'] }}</td>
-                                            <td>{{ $bonus['REASON'] }}</td>
+                                            <td>{{ $fine['ID'] }}</td>
+                                            <td>{{ $fine['FIRST_NAME'] }}</td>
+                                            <td>{{ $fine['LAST_NAME'] }}</td>
+                                            <td>{{ $fine['YEAR'] }}</td>
+                                            <td>{{ $fine['MONTH'] }}</td>
+                                            <td>{{ $fine['AMOUNT'] }}</td>
+                                            <td>{{ $fine['EMAIL'] }}</td>
+                                            <td>{{ $fine['REASON'] }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                             <div class="mt-2">
-                                <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="uploadBonuses"
-                                    wire:click="uploadBonuses">
-                                    <span wire:loading.remove wire:target="uploadBonuses">
+                                <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="uploadFines"
+                                    wire:click="uploadFines">
+                                    <span wire:loading.remove wire:target="uploadFines">
                                         Upload Bonuses
                                     </span>
-                                    <span wire:loading wire:target="uploadBonuses">
+                                    <span wire:loading wire:target="uploadFines">
                                         Uploading...
                                     </span>
                                 </button>
@@ -88,7 +88,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Bonuses Data</h5>
+                            <h5>Fines Data</h5>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped table-hover table-borderless align-middle">
@@ -107,7 +107,7 @@
 
                                 <tbody>
                                     <tr>
-                                        <td colspan="8">No Bonuses To Upload</td>
+                                        <td colspan="8">No Fines To Upload</td>
                                     </tr>
                                 </tbody>
                             </table>

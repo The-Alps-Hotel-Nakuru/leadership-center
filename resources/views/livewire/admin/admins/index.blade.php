@@ -23,9 +23,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($admins as $admin)
+                        @foreach ($admins as $key => $admin)
                             <tr class="">
-                                <td scope="row">{{ $admin->id }}</td>
+                                {{-- <td>{{ $admins->firstItem() + $key }}</td> --}}
+                                <td>
+                                    @if ($admins instanceof \Illuminate\Pagination\Paginator)
+                                        {{ $admins->firstItem() + $key }}
+                                    @else
+                                        {{ $key + 1 }}
+                                    @endif
+                                </td>
                                 <td>{{ $admin->name }}</td>
                                 <td>{{ $admin->email }}</td>
                                 <td>{{ $admin->role->title }}</td>
@@ -53,6 +60,7 @@
                     </tbody>
                 </table>
             </div>
+            {{-- <div class="my-3"> {{ $admins->links() }}</div> --}}
         </div>
     </div>
 </div>

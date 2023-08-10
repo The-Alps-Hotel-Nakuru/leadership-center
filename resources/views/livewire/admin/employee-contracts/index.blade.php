@@ -30,7 +30,6 @@
                             @if ($contract->is_active)
                                 <tr class="">
                                     <td >{{ $contracts->firstItem() + $key }}</td>
-                                    {{-- <td>{{ $subscribers->firstItem() + $key }}</td> --}}
                                     <td>
                                         <div class="d-flex flex-row">
                                             <div class="flex-col">

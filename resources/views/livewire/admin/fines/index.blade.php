@@ -16,16 +16,18 @@
                             <th scope="col">Employee</th>
                             <th scope="col">Month Issued</th>
                             <th scope="col">Amount <small>(KES)</small></th>
+                            <th scope="col">Reason</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($fines as $fine)
+                        @foreach ($fines as $key => $fine)
                             <tr class="">
-                                <td scope="row">{{ $fine->id }}</td>
+                                <td >{{ $fines->firstItem() + $key }}</td>
                                 <td scope="row">{{ $fine->employee->user->name }}</td>
                                 <td>{{ Carbon\Carbon::parse($fine->year . '-' . $fine->month)->format('F, Y') }}</td>
                                 <td>KES {{ number_format($fine->amount_kes) }}</td>
+                                <td>{{ ($fine->reason) }}</td>
                                 <td class="d-flex flex-row justify-content-center">
                                     <div class="flex-col m-1">
                                         <a href="{{ route('admin.fines.edit', $fine->id) }}"
@@ -44,6 +46,7 @@
                     </tbody>
                 </table>
             </div>
+            <div class="my-3"> {{ $fines->links() }}</div>
         </div>
     </div>
 </div>

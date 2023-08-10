@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\EmployeesDetail;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToCollection;
 
 class BonusesImport implements ToCollection
@@ -21,10 +22,21 @@ class BonusesImport implements ToCollection
                 continue;
             }
 
-            $firstName = $rowData[1];
-            $lastName = $rowData[2];
+            // $firstName = $rowData[1];
+            // $lastName = $rowData[2];
+            // $user = User::where('first_name', $firstName)->where('last_name', $lastName)->first();
 
-            $user = User::where('first_name', $firstName)->where('last_name', $lastName)->first();
+
+            // $phoneNumber = $rowData[7];
+            // $user = EmployeesDetail::where('phone_number', $phoneNumber)->first();
+
+            $email = $rowData[7];
+            // dd($email);
+            $user = User::where('email', $email)->first();
+
+            // dd(DB::getQueryLog());
+
+            // dd($user);
 
             if ($user) {
                 $employee = $user->employee;
@@ -38,9 +50,13 @@ class BonusesImport implements ToCollection
                         'MONTH' => $rowData[4],
                         'AMOUNT' => $rowData[5],
                         'REASON' => $rowData[6],
+                        // 'EMAIL' => $rowData[7],
+                        'EMAIL' => $user->email,
                     ];
 
                     $this->values[] = $bonusData;
+
+                    // dd($bonusData);
                 }
             }
         }
@@ -54,6 +70,7 @@ class BonusesImport implements ToCollection
 
     public function getValues()
     {
+        // dd($this->values);
         return $this->values;
     }
 }

@@ -32,16 +32,26 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6 col-12">
+                    {{-- <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="sign_in" class="form-label">Sign In Time</label>
-                            <input wire:model="attendance.sign_in" type="sign_in" class="form-control" name="time"
+                            <input wire:model="attendance.check_in" type="check_in" class="form-control" name="time"
                                 id="time" aria-describedby="time" placeholder="Enter the time signed in">
-                            @error('attendance.sign_in')
+                            @error('attendance.check_in')
                                 <small id="time" class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
+                            <label for="sign_in" class="form-label">Sign In Time</label>
+                            <input wire:model="attendance.check_in" type="time" class="form-control" name="time"
+                                id="time" aria-describedby="time" placeholder="Enter the time signed in">
+                            @error('attendance.check_in')
+                                <small id="time" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div> 
                 </div>
                 <button wire:click="save" class="btn btn-dark text-uppercase">Save</button>
             </div>
