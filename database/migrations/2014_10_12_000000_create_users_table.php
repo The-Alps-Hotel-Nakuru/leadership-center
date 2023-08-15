@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('role_id')->constrained();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('first_login')->default(true);
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();

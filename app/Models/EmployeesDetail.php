@@ -82,6 +82,14 @@ class EmployeesDetail extends Model
             }
         }
     }
+    public function ActiveContractBetween($date1,$date2)
+    {
+        foreach ($this->contracts as $contract) {
+            if ($contract->isActiveDuring(Carbon::parse($date1)->toDateString(), Carbon::parse($date2)->toDateString())) {
+                return EmployeeContract::find($contract->id);
+            }
+        }
+    }
 
     public function insurance()
     {
@@ -133,6 +141,10 @@ class EmployeesDetail extends Model
     public function hasSignedInToday()
     {
         return in_array(Carbon::now()->format('Y-m-d'), $this->attended_dates);
+    }
+
+    public function hasSignedOn($date) {
+        return in_array(Carbon::parse($date)->format('Y-m-d'), $this->attended_dates);
     }
 
 

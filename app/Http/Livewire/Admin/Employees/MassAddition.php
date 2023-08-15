@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Employees;
 
 use App\Imports\EmployeesImport;
+use App\Jobs\SendWelcomeEmailJob;
 use App\Mail\AccountCreated;
 use App\Models\Designation;
 use App\Models\EmployeesDetail;
@@ -76,7 +77,7 @@ class MassAddition extends Component
         // dd($test);
 
         for ($i = 1; $i < count($values); $i++) {
-            if (!$values[$i][2] || !$values[$i][3] || !$values[$i][4] || !$values[$i][5] || !$values[$i][6] || !$values[$i][7] || !$values[$i][8] || !$values[$i][10] || !$values[$i][11] || !preg_match('/^\d{10}$/', $values[$i][7]) || !Designation::where('title', 'LIKE', '%' . $values[$i][6] . '%')->exists()) {
+            if (!$values[$i][2] || !$values[$i][3] || !$values[$i][4] || !$values[$i][5] || !$values[$i][6] || !$values[$i][7] || !$values[$i][8] || !$values[$i][10]  || !preg_match('/^\d{10}$/', $values[$i][7]) || !Designation::where('title', 'LIKE', '%' . $values[$i][6] . '%')->exists()) {
                 array_push($this->invalidUsers, $values[$i]);
             } elseif (User::where('email', $values[$i][4])->exists()) {
                 array_push($this->existingUsers, $values[$i]);
@@ -101,14 +102,15 @@ class MassAddition extends Component
             $employee = new EmployeesDetail();
             $password = Str::random(12);
             $name = explode(" ", $readyUser[3]);
-            $user->first_name = $name[0];
-            $user->last_name = $name[count($name) - 1];
+            $user->last_name = array_pop($name);
+            $user->first_name = implode(' ', $name);
             $user->email = $readyUser[4];
             $user->password = Hash::make($password);
             $user->role_id = 3;
             $user->save();
             $employee->user_id = $user->id;
             $employee->designation_id = Designation::where('title', 'like', '%' . $readyUser[6] . '%')->first()->id;
+            $employee->national_id = intval($readyUser[2]);
             $employee->phone_number = $readyUser[7];
             $employee->gender = $readyUser[5] == "M" ? "male" : "female";
             $employee->birth_date = Carbon::parse($readyUser[8])->toDateString();
@@ -120,7 +122,8 @@ class MassAddition extends Component
                 $employee->nhif = $readyUser[13];
             }
             $employee->save();
-            Mail::to($user->email)->send(new AccountCreated($user, $employee, $password));
+            // Mail::to($user->email)->send(new AccountCreated($user, $employee, $password));
+            SendWelcomeEmailJob::dispatch($user, $employee, $password);
         }
 
         $this->emit('done', [

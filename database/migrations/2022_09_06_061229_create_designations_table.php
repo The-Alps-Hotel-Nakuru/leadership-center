@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('department_id')->constrained();
             $table->string('title');
+            $table->boolean('is_penalizable')->default(true);
             $table->timestamps();
         });
 
@@ -29,19 +30,25 @@ return new class extends Migration
 
             [
                 'department_id' => 1,
-                'title' => 'Laundry Attendant'
+                'title' =>
+                'Laundry Attendant',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 1,
-                'title' => 'Room Attendant'
+                'title' => 'Room Attendant',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 1,
-                'title' => 'Public Area Attendant'
+                'title' =>
+                'Public Area Attendant',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 1,
-                'title' => 'Housekeeping Supervisor'
+                'title' => 'Housekeeping Supervisor',
+                'is_penalizable' => false
             ],
 
 
@@ -50,11 +57,15 @@ return new class extends Migration
 
             [
                 'department_id' => 2,
-                'title' => 'Senior Accountant'
+                'title' =>
+                'Senior Accountant',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 2,
-                'title' => 'Junior Accountant'
+                'title' =>
+                'Junior Accountant',
+                'is_penalizable' => false
             ],
 
 
@@ -63,19 +74,27 @@ return new class extends Migration
 
             [
                 'department_id' => 3,
-                'title' => 'Chief Technology Officer'
+                'title' =>
+                'Chief Technology Officer',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 3,
-                'title' => 'Networking and Communications Attendant'
+                'title' =>
+                'Networking and Communications Attendant',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 3,
-                'title' => 'Hardware Engineer'
+                'title' =>
+                'Hardware Engineer',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 3,
-                'title' => 'Systems Analyst'
+                'title' =>
+                'Systems Analyst',
+                'is_penalizable' => false
             ],
 
 
@@ -84,19 +103,27 @@ return new class extends Migration
 
             [
                 'department_id' => 4,
-                'title' => 'Procurement Officer'
+                'title' =>
+                'Procurement Officer',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 4,
-                'title' => 'Dry Goods Storekeeper'
+                'title' =>
+                'Dry Goods Storekeeper',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 4,
-                'title' => 'Equipments Storekeeper'
+                'title' =>
+                'Equipments Storekeeper',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 4,
-                'title' => 'Storage Clerk'
+                'title' =>
+                'Storage Clerk',
+                'is_penalizable' => false
             ],
 
 
@@ -105,19 +132,27 @@ return new class extends Migration
 
             [
                 'department_id' => 5,
-                'title' => 'Receptionist'
+                'title' =>
+                'Receptionist',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 5,
-                'title' => 'Front Office Supervisor'
+                'title' =>
+                'Front Office Supervisor',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 5,
-                'title' => 'Driver'
+                'title' =>
+                'Driver',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 5,
-                'title' => 'Concierge'
+                'title' =>
+                'Concierge',
+                'is_penalizable' => false
             ],
 
 
@@ -125,23 +160,33 @@ return new class extends Migration
 
             [
                 'department_id' => 6,
-                'title' => 'Cart Waiter/Waitress'
+                'title' =>
+                'Cart Waiter/Waitress',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 6,
-                'title' => 'Host/Hostess'
+                'title' =>
+                'Host/Hostess',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 6,
-                'title' => 'Banquet Waiter/Waitress'
+                'title' =>
+                'Banquet Waiter/Waitress',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 6,
-                'title' => 'Barista'
+                'title' =>
+                'Barista',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 6,
-                'title' => 'Food, Beverage and Service Supervisor'
+                'title' =>
+                'Food, Beverage and Service Supervisor',
+                'is_penalizable' => false
             ],
 
 
@@ -150,51 +195,75 @@ return new class extends Migration
 
             [
                 'department_id' => 7,
-                'title' => 'Head Chef'
+                'title' =>
+                'Head Chef',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 7,
-                'title' => 'Sous Chef'
+                'title' =>
+                'Sous Chef',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 7,
-                'title' => 'Station Chef'
+                'title' =>
+                'Station Chef',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 7,
-                'title' => 'Sauce Chef'
+                'title' =>
+                'Sauce Chef',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 7,
-                'title' => 'Pastry Chef'
+                'title' =>
+                'Pastry Chef',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 7,
-                'title' => 'Butcher Chef'
+                'title' =>
+                'Butcher Chef',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 7,
-                'title' => 'Fish Chef'
+                'title' =>
+                'Fish Chef',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 7,
-                'title' => 'Vegetable Chef'
+                'title' =>
+                'Vegetable Chef',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 7,
-                'title' => 'Pantry Chef (Garde Manger)'
+                'title' =>
+                'Pantry Chef (Garde Manger)',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 7,
-                'title' => 'Grill Chef (Grillardin)'
+                'title' =>
+                'Grill Chef (Grillardin)',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 7,
-                'title' => 'Chief Steward'
+                'title' =>
+                'Chief Steward',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 7,
-                'title' => 'Steward'
+                'title' =>
+                'Steward',
+                'is_penalizable' => true
             ],
 
 
@@ -203,30 +272,42 @@ return new class extends Migration
 
             [
                 'department_id' => 8,
-                'title' => 'Day Security Guard'
+                'title' =>
+                'Day Security Guard',
+                'is_penalizable' => true
             ],
             [
                 'department_id' => 8,
-                'title' => 'Head of Security'
+                'title' =>
+                'Head of Security',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 8,
-                'title' => 'Night Security Guard'
+                'title' =>
+                'Night Security Guard',
+                'is_penalizable' => true
             ],
 
             //     'title'=>'Management'
 
             [
                 'department_id' => 9,
-                'title' => 'General Manager'
+                'title' =>
+                'General Manager',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 9,
-                'title' => 'Operations Manager'
+                'title' =>
+                'Operations Manager',
+                'is_penalizable' => false
             ],
             [
                 'department_id' => 9,
-                'title' => 'Human Resource Manager'
+                'title' =>
+                'Human Resource Manager',
+                'is_penalizable' => false
             ],
 
         ]);

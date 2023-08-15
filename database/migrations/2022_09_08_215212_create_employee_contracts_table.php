@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('employee_contracts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employees_detail_id')->constrained();
+            $table->foreignId('designation_id')->constrained();
             $table->date('start_date');
             $table->date('end_date');
             $table->foreignId('employment_type_id');

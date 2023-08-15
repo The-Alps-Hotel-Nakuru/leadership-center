@@ -17,12 +17,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('designation_id')->constrained();
+            $table->unsignedBigInteger('national_id');
             $table->string('phone_number');
             $table->longText('physical_address')->nullable();
             $table->enum('marital_status',['married', 'single', 'divorced', 'widowed'])->default('single');
             $table->enum('gender',['male', 'female']);
             $table->integer('children')->default(0);
-            $table->string('kra_pin');
+            $table->string('kra_pin')->nullable();
             $table->string('kra_pin_path')->nullable();
             $table->string('nssf')->nullable();
             $table->string('nssf_path')->nullable();

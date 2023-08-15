@@ -33,9 +33,9 @@
             @if ($readyUsers)
 
                 <div class="col-md-6 col-12">
-                    <div class="card">
+                    <div class="card" style="max-height: 500px">
                         <div class="card-header">
-                            <h5>Ready to Create</h5>
+                            <h5>Ready to Create ({{ count($readyUsers) }} users)</h5>
                         </div>
                         <div class="table-responsive">
                             <table
@@ -47,20 +47,26 @@
                                 <thead class="">
                                     <caption></caption>
                                     <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
+                                        <th><strong>#</strong></th>
+                                        <th>Surname</th>
+                                        <th>First Name(s)</th>
                                         <th>Email</th>
                                         <th>National ID</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
+                                    @php
+                                        $count = 0;
+                                    @endphp
                                     @foreach ($readyUsers as $readyUser)
                                         @php
                                             $nameArray = explode(' ', $readyUser[3]);
+                                            $count++;
                                         @endphp
                                         <tr class="">
-                                            <td scope="row">{{ $nameArray[0] }}</td>
-                                            <td scope="row">{{ $nameArray[1] }}</td>
+                                            <td scope="row">{{ $count }}</td>
+                                            <td scope="row">{{ array_pop($nameArray) }}</td>
+                                            <td scope="row">{{ implode(' ', $nameArray) }}</td>
                                             <td>{{ $readyUser[4] }}</td>
                                             <td>{{ $readyUser[2] }}</td>
                                         </tr>
@@ -88,9 +94,9 @@
             @endif
             @if ($existingUsers)
                 <div class="col-md-6 col-12">
-                    <div class="card">
+                    <div class="card" style="max-height: 500px">
                         <div class="card-header">
-                            <h5>Already Created</h5>
+                            <h5>Already Created ({{ count($existingUsers) }} users)</h5>
                         </div>
                         <div class="table-responsive">
                             <table
@@ -102,20 +108,26 @@
                                 <thead class="">
                                     <caption></caption>
                                     <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
+                                        <th><strong>#</strong></th>
+                                        <th>Surname</th>
+                                        <th>First Name(s)</th>
                                         <th>Email</th>
                                         <th>National ID</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
+                                    @php
+                                        $count = 0;
+                                    @endphp
                                     @foreach ($existingUsers as $existingUser)
                                         @php
                                             $nameArray = explode(' ', $existingUser[3]);
+                                            $count++;
                                         @endphp
                                         <tr class="">
-                                            <td scope="row">{{ $nameArray[0] }}</td>
-                                            <td scope="row">{{ $nameArray[count($nameArray) - 1] }}</td>
+                                            <td scope="row">{{ $count }}</td>
+                                            <td scope="row">{{ array_pop($nameArray) }}</td>
+                                            <td scope="row">{{ implode(' ', $nameArray) }}</td>
                                             <td>{{ $existingUser[4] }}</td>
                                             <td>{{ $existingUser[2] }}</td>
                                         </tr>
@@ -131,9 +143,9 @@
             @endif
             @if ($invalidUsers)
                 <div class="col-md-6 col-12">
-                    <div class="card">
+                    <div class="card" style="max-height: 500px">
                         <div class="card-header">
-                            <h5>Invalid Data</h5>
+                            <h5>Invalid Data ({{ count($invalidUsers) }} users)</h5>
                         </div>
                         <div class="table-responsive">
                             <table
@@ -145,21 +157,27 @@
                                 <thead class="">
                                     <caption></caption>
                                     <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
+                                        <th><strong>#</strong></th>
+                                        <th>Surname</th>
+                                        <th>First Name(s)</th>
                                         <th>Email</th>
                                         <th>National ID</th>
                                         <th>Reasons For Invalidity</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
+                                    @php
+                                        $count = 0;
+                                    @endphp
                                     @foreach ($invalidUsers as $invalidUser)
                                         @php
                                             $nameArray = explode(' ', $invalidUser[3]);
+                                            $count++;
                                         @endphp
                                         <tr class="">
-                                            <td scope="row">{{ $nameArray[0] }}</td>
-                                            <td scope="row">{{ $nameArray[count($nameArray) - 1] }}</td>
+                                            <td scope="row">{{ $count }}</td>
+                                            <td scope="row">{{ array_pop($nameArray) }}</td>
+                                            <td scope="row">{{ implode(' ', $nameArray) }}</td>
                                             <td>{{ $invalidUser[4] }}</td>
                                             <td>{{ $invalidUser[2] }}</td>
                                             @php

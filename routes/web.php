@@ -35,7 +35,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         if (auth()->user()->is_admin) {
             return redirect()->route('admin.dashboard');
         } elseif (auth()->user()->is_employee) {
-            return redirect()->route('employee.dashboard');
+            if (auth()->user()->first_login) {
+                return redirect()->route('employee.profile');
+            }else{
+                return redirect()->route('employee.dashboard');
+            }
         } else {
             abort(403, 'You don\'t have a role here');
         }
@@ -163,6 +167,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
      */
     Route::middleware('employee')->prefix('employee')->group(function () {
         Route::get('dashboard', Employee\Dashboard::class)->name('employee.dashboard');
+        Route::get('profile', Employee\Profile::class)->name('employee.profile');
 
         Route::get('payslips', Employee\Payslips::class)->name('employee.payslips');
         Route::get('/{id}/payslips', function ($id) {

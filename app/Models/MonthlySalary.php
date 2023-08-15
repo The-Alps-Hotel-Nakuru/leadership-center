@@ -150,8 +150,8 @@ class MonthlySalary extends Model
     public function getAttendancePenaltyAttribute()
     {
         $penalty = 0;
-        if ($this->employee && $this->employee->has_active_contract) {
-            if ($this->employee->is_full_time) {
+        if ($this->employee && $this->employee->has_active_contract ) {
+            if ($this->employee->is_full_time && $this->employee->designation->is_penalizable) {
                 if ($this->days_missed > 4) {
                     $penalty = $this->daily_rate * ($this->days_missed - 4);
                 }
