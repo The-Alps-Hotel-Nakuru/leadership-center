@@ -6,9 +6,13 @@ use App\Models\Bonus;
 use App\Models\Log;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     protected $listeners = [
         'done' => 'render'
     ];
@@ -30,7 +34,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.bonuses.index', [
-            'bonuses' => Bonus::all()
+            'bonuses' => Bonus::paginate(10)
         ]);
     }
 }

@@ -26,10 +26,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($contracts as $contract)
+                        @foreach ($contracts as $key => $contract)
                             @if ($contract->is_active)
                                 <tr class="">
-                                    <td scope="row">{{ $contract->id }}</td>
+                                    <td >{{ $contracts->firstItem() + $key }}</td>
                                     <td>
                                         <div class="d-flex flex-row">
                                             <div class="flex-col">
@@ -81,8 +81,8 @@
                 </table>
             </div>
         </div>
-        {{-- <div class="my-2">
+        <div class="my-2">
             {{ $contracts->links() }}
-        </div> --}}
+        </div>
     </div>
 </div>

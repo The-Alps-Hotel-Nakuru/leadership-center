@@ -6,14 +6,18 @@ use App\Models\Log;
 use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    // use WithPagination;
     public $admins;
 
     protected $listeners = [
         'done' => 'render'
     ];
+    
+    // protected $paginationTheme = 'bootstrap';
 
     public function mount()
     {

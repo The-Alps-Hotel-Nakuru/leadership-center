@@ -177,6 +177,11 @@
                         class="nav-link @if (Route::currentRouteName() == 'admin.fines.create') active @endif">Add Fine Records</a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('admin.employee_fines.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_fines.mass_addition') active @endif">Mass Fines Addition</a>
+                </li>
+
             </ul>
         </div>
     </li>
@@ -198,6 +203,11 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.bonuses.create') }}"
                         class="nav-link @if (Route::currentRouteName() == 'admin.bonuses.create') active @endif">Add Bonus Records</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.employee_bonuses.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_bonuses.mass_addition') active @endif">Mass Bonuses Addition</a>
                 </li>
 
             </ul>

@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//first commit
+//second commit
+
 Route::redirect('/', '/dashboard');
 
 // if (auth()->user()->is_admin) {
@@ -73,11 +76,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/', Admin\Fines\Index::class)->name('admin.fines.index');
             Route::get('/create', Admin\Fines\Create::class)->name('admin.fines.create');
             Route::get('/{id}/edit', Admin\Fines\Edit::class)->name('admin.fines.edit');
+            Route::get('/mass_addition', Admin\Fines\MassAddition::class)->name('admin.employee_fines.mass_addition');
         });
         Route::prefix('bonuses')->group(function () {
             Route::get('/', Admin\Bonuses\Index::class)->name('admin.bonuses.index');
             Route::get('/create', Admin\Bonuses\Create::class)->name('admin.bonuses.create');
             Route::get('/{id}/edit', Admin\Bonuses\Edit::class)->name('admin.bonuses.edit');
+            Route::get('/mass_addition', Admin\Bonuses\MassAddition::class)->name('admin.employee_bonuses.mass_addition');
         });
         Route::prefix('employees')->group(function () {
             Route::get('/', Admin\Employees\Index::class)->name('admin.employees.index');
