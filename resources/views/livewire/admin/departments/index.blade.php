@@ -35,6 +35,7 @@
                     </tbody>
                 </table>
             </div>
+            {{ $departments->links() }}
 
         </div>
     </div>
