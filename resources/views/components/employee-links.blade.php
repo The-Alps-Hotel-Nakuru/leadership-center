@@ -17,4 +17,12 @@
             <span class="link-title">Payslips</span>
         </a>
     </li>
+    <li class="nav-item  @if (Request::is('*/profile')) active @endif">
+        <a href="{{ route('employee.profile') }}" class="nav-link">
+            <i class="material-icons material-symbols-outlined">
+                manage_accounts
+            </i>
+            <span class="link-title">My Profile</span>
+        </a>
+    </li>
 </ul>

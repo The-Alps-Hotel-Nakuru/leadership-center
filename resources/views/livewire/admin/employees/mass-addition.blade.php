@@ -184,10 +184,23 @@
                                                 $reason = 'Missing Mandatory Field: ';
                                                 foreach ($invalidUser as $key => $value) {
                                                     if (!$value) {
-                                                        $reason .= $key == 2 ? 'National ID, ' : ($key == 3 ? 'Name, ' : ($key == 4 ? 'Email Address, ' : ($key == 5 ? 'Gender, ' : ($key == 6 ? 'Designation, ' : ($key == 7 ? 'Phone Number (Invalid Format or Null), ' : ($key == 8 ? 'Birthday, ' : ($key == 10 ? 'Nationality, ' : '')))))));
+                                                        $reason .= $key == 2 ? 'National ID, ' : 
+                                                        ($key == 3 ? 'Name, ' : 
+                                                            ($key == 4 ? 'Email Address, ' : 
+                                                                ($key == 5 ? 'Gender, ' : 
+                                                                    ($key == 6 ? 'Designation, ' : 
+                                                                        ($key == 7 ? 'Phone Number (Invalid Format or Null), ' : 
+                                                                            ($key == 8 ? 'Birthday, ' : 
+                                                                                ($key == 10 ? 'Nationality, ' : '')
+                                                                            )
+                                                                        )
+                                                                    )
+                                                                )
+                                                            )
+                                                        );
                                                     }
                                                 }
-
+                                                
                                                 if (!preg_match('/^\d{10}$/', $invalidUser[7])) {
                                                     $reason .= ' + Invalid phone number format';
                                                 }

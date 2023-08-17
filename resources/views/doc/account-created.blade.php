@@ -53,7 +53,7 @@
 
         <p>To log in, please follow these steps:</p>
         <ol>
-            <li>Go to <a href="https://kcblc.thealpshotelnakuru.com" target="_blank">kcblc.thealpshotelnakuru.com</a></li>
+            <li>Go to <a href="{{ env('APP_URL') }}" target="_blank">This Portal</a></li>
             <li>Enter your credentials as provided above.</li>
         </ol>
 
@@ -65,7 +65,7 @@
 
         <p>Best regards,<br>
             Steve O. Nyanumba <i>SwE.</i><br>
-            ICT Director<br>
+            IT Manager & ICT Director<br>
             The Alps Hotel Nakuru
         </p>
     </div>
