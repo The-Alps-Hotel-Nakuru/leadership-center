@@ -39,32 +39,82 @@ class Index extends Component
         $log->save();
     }
 
-    public function exportKraData()
+    public function exportData($exportType)
     {
-        return Excel::download(new EmployeeKRAExport, 'employeeskra.xlsx');
+        $this->logs($exportType);
 
-        $this->emit('done', [
-            'success' => 'KRA data exported successfully'
-        ]);
+        $fileName = '';
+        $exportClass = null;
+
+        if ($exportType === 'kra') {
+            $fileName = 'employeeskra.xlsx';
+            $exportClass = new EmployeeKRAExport;
+        } elseif ($exportType === 'nhif') {
+            $fileName = 'employeesnhif.xlsx';
+            $exportClass = new EmployeeNHIFExport;
+        } elseif ($exportType === 'nssf') {
+            $fileName = 'employeesnssf.xlsx';
+            $exportClass = new EmployeeNSSFExport;
+        }
+
+        if ($exportClass) {
+            Excel::download($exportClass, $fileName);
+            $this->emit('done', [
+                'success' => ucfirst($exportType) . ' data exported successfully'
+            ]);
+        }
     }
 
-    public function exportNhifData()
+    public function logs($exportType)
     {
-        return Excel::download(new EmployeeNHIFExport, 'employeesnhif.xlsx');
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeesDetail';
 
-        $this->emit('done', [
-            'success'=> 'NHIF data exported successfully'
-        ]);
+        if ($exportType === 'kra') {
+            $log->payload = "<strong>" . auth()->user()->name . "</strong> has done mass extraction of KRA information for <strong> " . 'every employee' . "</strong> in the system";
+        } elseif ($exportType === 'nhif') {
+            $log->payload = "<strong>" . auth()->user()->name . "</strong> has done mass extraction of NHIF information for <strong> " . 'every employee' . "</strong> in the system";
+        } elseif ($exportType === 'nssf') {
+            $log->payload = "<strong>" . auth()->user()->name . "</strong> has done mass extraction of NSSF information for <strong> " . 'every employee' . "</strong> in the system";
+        }
+
+        $log->save();
     }
 
-    public function exportNssfData()
-    {
-        return Excel::download(new EmployeeNSSFExport, 'employeesnssf.xlsx');
+    // public function exportKraData()
+    // {
 
-        $this->emit('done', [
-            'success'=> 'NSSF data exported successfully'
-        ]);
-    }
+    //     Excel::download(new EmployeeKRAExport, 'employeeskra.xlsx');
+    //     $this->logs();
+
+    //     $this->emit('done', [
+    //         'success' => 'KRA data exported successfully'
+    //     ]);
+    //     return true; 
+    // }
+
+    // public function exportNhifData()
+    // {
+    //     Excel::download(new EmployeeNHIFExport, 'employeesnhif.xlsx');
+    //     $this->logs();
+
+    //     $this->emit('done', [
+    //         'success'=> 'NHIF data exported successfully'
+    //     ]);
+    //     return true; 
+    // }
+
+    // public function exportNssfData()
+    // {
+    //     Excel::download(new EmployeeNSSFExport, 'employeesnssf.xlsx');
+    //     $this->logs();
+
+    //     $this->emit('done', [
+    //         'success'=> 'NSSF data exported successfully'
+    //     ]);
+    //     return true; 
+    // }
 
     public function render()
     {

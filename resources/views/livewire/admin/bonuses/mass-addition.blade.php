@@ -46,7 +46,7 @@
                                         <th>Year</th>
                                         <th>Month</th>
                                         <th>Amount</th>
-                                        <th>Email</th>
+                                        <th>National ID</th>
                                         <th>Reason</th>
                                     </tr>
                                 </thead>
@@ -61,7 +61,7 @@
                                             <td>{{ $bonus['YEAR'] }}</td>
                                             <td>{{ $bonus['MONTH'] }}</td>
                                             <td>{{ $bonus['AMOUNT'] }}</td>
-                                            <td>{{ $bonus['EMAIL'] }}</td>
+                                            <td>{{ $bonus['NATIONAL_ID'] }}</td>
                                             <td>{{ $bonus['REASON'] }}</td>
                                         </tr>
                                     @endforeach
@@ -100,7 +100,7 @@
                                         <th>Year</th>
                                         <th>Month</th>
                                         <th>Amount</th>
-                                        <th>Email</th>
+                                        <th>National ID</th>
                                         <th>Reason</th>
                                     </tr>
                                 </thead>

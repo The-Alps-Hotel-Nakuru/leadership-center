@@ -124,23 +124,21 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         //     Route::get('/create', Admin\Products\Create::class)->name('admin.products.create');
         //     Route::get('/{id}/edit', Admin\Products\Edit::class)->name('admin.products.edit');
         // });
-        // Route::prefix('asset_categories')->group(function () {
-        //     Route::get('/', Admin\AssetCategories\Index::class)->name('admin.asset_categories.index');
-        //     Route::get('/create', Admin\AssetCategories\Create::class)->name('admin.asset_categories.create');
-        //     Route::get('/{id}/edit', Admin\AssetCategories\Edit::class)->name('admin.asset_categories.edit');
-        // });
-        // Route::prefix('asset_subcategories')->group(function () {
-        //     Route::get('/', function () {
-        //         return redirect()->route('admin.asset_categories.index');
-        //     })->name('admin.asset_subcategories.index');
-        //     Route::get('/create', Admin\AssetSubcategories\Create::class)->name('admin.asset_subcategories.create');
-        //     Route::get('/{id}/edit', Admin\AssetSubcategories\Edit::class)->name('admin.asset_subcategories.edit');
-        // });
-        // Route::prefix('assets')->group(function () {
-        //     Route::get('/', Admin\Assets\Index::class)->name('admin.assets.index');
-        //     Route::get('/create', Admin\Assets\Create::class)->name('admin.assets.create');
-        //     Route::get('/{id}/edit', Admin\Assets\Edit::class)->name('admin.assets.edit');
-        // });
+        Route::prefix('asset_categories')->group(function () {
+            Route::get('/', Admin\AssetCategories\Index::class)->name('admin.asset_categories.index');
+            Route::get('/create', Admin\AssetCategories\Create::class)->name('admin.asset_categories.create');
+            Route::get('/{id}/edit', Admin\AssetCategories\Edit::class)->name('admin.asset_categories.edit');
+        });
+        Route::prefix('asset_subcategories')->group(function () {
+            Route::get('/', Admin\AssetSubcategories\Index::class)->name('admin.asset_subcategories.index');
+            Route::get('/create', Admin\AssetSubcategories\Create::class)->name('admin.asset_subcategories.create');
+            Route::get('/{id}/edit', Admin\AssetSubcategories\Edit::class)->name('admin.asset_subcategories.edit');
+        });
+        Route::prefix('assets')->group(function () {
+            Route::get('/', Admin\Assets\Index::class)->name('admin.assets.index');
+            Route::get('/create', Admin\Assets\Create::class)->name('admin.assets.create');
+            Route::get('/{id}/edit', Admin\Assets\Edit::class)->name('admin.assets.edit');
+        });
         // Route::prefix('conference-halls')->group(function () {
         //     Route::get('/', Admin\ConferenceHalls\Index::class)->name('admin.conference-halls.index');
         //     Route::get('/create', Admin\ConferenceHalls\Create::class)->name('admin.conference-halls.create');

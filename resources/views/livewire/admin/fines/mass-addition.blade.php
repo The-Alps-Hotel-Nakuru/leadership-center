@@ -10,8 +10,7 @@
             <div class="card-body">
                 <div class="mb-3">
                     <label for="" class="form-label">File Upload</label>
-                    <input type="file" name="employee_finess_file" class="form-control"
-                        wire:model='employee_fines_file'>
+                    <input type="file" name="employee_finess_file" class="form-control" wire:model='employee_fines_file'>
                     @error('employee_fines_file')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -46,7 +45,7 @@
                                         <th>Year</th>
                                         <th>Month</th>
                                         <th>Amount</th>
-                                        <th>Email</th>
+                                        <th>National ID</th>
                                         <th>Reason</th>
                                     </tr>
                                 </thead>
@@ -61,7 +60,7 @@
                                             <td>{{ $fine['YEAR'] }}</td>
                                             <td>{{ $fine['MONTH'] }}</td>
                                             <td>{{ $fine['AMOUNT'] }}</td>
-                                            <td>{{ $fine['EMAIL'] }}</td>
+                                            <td>{{ $fine['NATIONAL_ID'] }}</td>
                                             <td>{{ $fine['REASON'] }}</td>
                                         </tr>
                                     @endforeach
@@ -71,7 +70,7 @@
                                 <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="uploadFines"
                                     wire:click="uploadFines">
                                     <span wire:loading.remove wire:target="uploadFines">
-                                        Upload Bonuses
+                                        Upload Fines
                                     </span>
                                     <span wire:loading wire:target="uploadFines">
                                         Uploading...
@@ -79,7 +78,6 @@
                                 </button>
                             </div>
                         </div>
-              
                     </div>
                 </div>
             </div>
@@ -100,7 +98,7 @@
                                         <th>Year</th>
                                         <th>Month</th>
                                         <th>Amount</th>
-                                        <th>Email</th>
+                                        <th>National ID</th>
                                         <th>Reason</th>
                                     </tr>
                                 </thead>

@@ -30,16 +30,17 @@ class BonusesImport implements ToCollection
             // $phoneNumber = $rowData[7];
             // $user = EmployeesDetail::where('phone_number', $phoneNumber)->first();
 
-            $email = $rowData[7];
+            $national_id = $rowData[7];
             // dd($email);
-            $user = User::where('email', $email)->first();
+            // $user = User::where('national_id', $national_id)->first();
+            $employee = EmployeesDetail::where('national_id', $national_id)->first();
 
             // dd(DB::getQueryLog());
 
             // dd($user);
 
-            if ($user) {
-                $employee = $user->employee;
+            // if ($user) {
+                // $employee = $user->employee;
 
                 if ($employee) {
                     $bonusData = [
@@ -51,14 +52,14 @@ class BonusesImport implements ToCollection
                         'AMOUNT' => $rowData[5],
                         'REASON' => $rowData[6],
                         // 'EMAIL' => $rowData[7],
-                        'EMAIL' => $user->email,
+                        'NATIONAL_ID' => $employee->national_id,
                     ];
 
                     $this->values[] = $bonusData;
 
                     // dd($bonusData);
                 }
-            }
+            // }
         }
     }
 

@@ -22,6 +22,7 @@ class ContractsSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             $contract = new EmployeeContract();
             $contract->employees_detail_id = rand(1, count(EmployeesDetail::all()));
+            // $contract->designation_id = rand(1, count(EmployeeContract::all()));
             $contract->start_date = Carbon::now()->subMonths(rand(2, 16))->toDateString();
             $contract->end_date = Carbon::now()->addMonths(rand(0, 12))->toDateString();
             $contract->employment_type_id = rand(1, count(EmploymentType::all()));

@@ -19,7 +19,7 @@ class EmployeeKRAExport implements WithHeadings, WithMapping, WithStyles, FromCo
      */
     public function collection()
     {
-        $employeesKRAData = EmployeesDetail::with('user')->select('id', 'user_id', 'kra_pin', 'created_at')->orderBy('id', 'asc')->get();
+        $employeesKRAData = EmployeesDetail::with('user')->select('id', 'user_id', 'kra_pin', 'national_id','created_at')->where('kra_pin', '!=', null)->orderBy('id', 'asc')->get();
         return $employeesKRAData;
     }
 

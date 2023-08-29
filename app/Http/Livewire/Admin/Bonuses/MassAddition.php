@@ -31,7 +31,7 @@ class MassAddition extends Component
         $actualFields = $import->getFields();
 
 
-        $expectedFields = ["ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON", "EMAIL"];
+        $expectedFields = ["ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON", "NATIONAL_ID"];
         // dd($expectedFields);
 
         if ($actualFields !== $expectedFields) {
@@ -47,10 +47,11 @@ class MassAddition extends Component
     public function uploadBonuses()
     {
         foreach ($this->bonuses as $bonusData) {
-            $user = User::where('email', $bonusData['EMAIL'])->first();
+            // $user = User::where('email', $bonusData['EMAIL'])->first();
+            $employee = EmployeesDetail::where('national_id', $bonusData['NATIONAL_ID'])->first();
 
-            if ($user) {
-                $employee = $user->employee;
+            // if ($user) {
+                // $employee = $user->employee;
                 if($employee){
                     $employee->bonuses()->create([
                         'year' => $bonusData['YEAR'],
@@ -58,7 +59,7 @@ class MassAddition extends Component
                         'reason' => $bonusData['REASON'],
                         'amount_kes' => $bonusData['AMOUNT'],
                     ]);
-                }
+                // }
             }
         }
 

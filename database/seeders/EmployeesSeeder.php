@@ -40,6 +40,7 @@ class EmployeesSeeder extends Seeder
             $details->phone_number = $faker->phoneNumber;
             $details->gender = $i%3==0?'male':'female';
             $details->physical_address = $faker->address;
+            $details->national_id = $faker->numberBetween(100000000, 999999999);
             $details->kra_pin = 'A'.random_int(100000000, 999999999).$faker->randomLetter;
             $details->birth_date = $faker->date('Y-m-d', '2000-02-28');
             $details->save();

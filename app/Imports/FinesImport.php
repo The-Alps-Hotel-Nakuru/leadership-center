@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\EmployeesDetail;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -24,11 +25,13 @@ class FinesImport implements ToCollection
                 continue;
             }
 
-            $email = $rowData[7];
-            $user = User::where('email', $email)->first();
+            // $email = $rowData[7];
+            // $user = User::where('email', $email)->first();
+            $national_id = $rowData[7];
+            // dd($nationalId);
+            $employee = EmployeesDetail::where('national_id', $national_id)->first();
+            // dd($user);
 
-            if($user){
-                $employee = $user->employee;
                 if($employee){
                     $finesData= [
                         'ID' => $rowData[0],
@@ -38,12 +41,13 @@ class FinesImport implements ToCollection
                         'MONTH' => $rowData[4],
                         'AMOUNT' => $rowData[5],
                         'REASON' => $rowData[6],
-                        'EMAIL' => $user->email,
+                        // 'NATIONAL_ID' => $user->email,
+                        'NATIONAL_ID' => $employee->national_id,
                     ];
 
                     $this->values[] = $finesData;
+                    // dd($finesData);
                 }
-            }
         }
     }
     

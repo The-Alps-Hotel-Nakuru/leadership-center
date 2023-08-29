@@ -19,7 +19,7 @@ class EmployeeNHIFExport implements WithHeadings, WithMapping, WithStyles,  From
      */
     public function collection()
     {
-        $employeesNhifData = EmployeesDetail::with('user')->select('id', 'user_id', 'nhif', 'created_at')->orderBy('id', 'asc')->get();
+        $employeesNhifData = EmployeesDetail::with('user')->select('id', 'user_id', 'nhif', 'national_id','created_at')->where('nhif', '!=', null)->orderBy('id', 'asc')->get();
         return $employeesNhifData;
     }
 

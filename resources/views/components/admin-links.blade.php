@@ -231,5 +231,77 @@
             </ul>
         </div>
     </li>
+{{-- 
+    <li class="nav-item nav-category">Assets</li>
+
+    <li class="nav-item @if (Request::is('admin/assets*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#assets" role="button" aria-expanded="false"
+            aria-controls="assets">
+            <i class="material-icons material-symbols-outlined">
+                workspaces
+            </i>
+            <span class="link-title">Assets</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/assets*')) show @endif" id="assets">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.assets.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.assets.index') active @endif">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.assets.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.assets.create') active @endif">Add An Asset</a>
+                </li>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item @if (Request::is('admin/asset_categories*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#asset_categories" role="button" aria-expanded="false"
+            aria-controls="asset_categories">
+            <i class="material-icons material-symbols-outlined">
+                workspaces
+            </i>
+            <span class="link-title">Assets Categories</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/asset_categories*')) show @endif" id="asset_categories">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.asset_categories.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.asset_categories.index') active @endif">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.asset_categories.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.asset_categories.create') active @endif">Add a Category</a>
+                </li>
+
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item @if (Request::is('admin/asset_subcategories*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#asset_subcategories" role="button" aria-expanded="false"
+            aria-controls="asset_subcategories">
+            <i class="material-icons material-symbols-outlined">
+                workspaces
+            </i>
+            <span class="link-title">Assets Subcategories</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/asset_subcategories*')) show @endif" id="asset_subcategories">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.asset_subcategories.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.asset_subcategories.index') active @endif">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.asset_subcategories.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.asset_subcategories.create') active @endif">Add a Subcategory</a>
+                </li>
+                </li>
+            </ul>
+        </div>
+    </li> --}}
 
 </ul>
