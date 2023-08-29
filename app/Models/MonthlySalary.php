@@ -51,7 +51,13 @@ class MonthlySalary extends Model
 
     public function getDaysMissedAttribute()
     {
-        return Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->daysInMonth - $this->employee->daysWorked($this->payroll->year . '-' . $this->payroll->month);
+        $days = Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->daysInMonth - $this->employee->daysWorked($this->payroll->year . '-' . $this->payroll->month);
+        $leaveDays = $this->employee->daysOnLeave($this->payroll->year . '-' . $this->payroll->month);
+        if ($leaveDays >= $days) {
+            return 0;
+        } else {
+            return $days - $leaveDays;
+        }
     }
 
 
@@ -83,24 +89,26 @@ class MonthlySalary extends Model
         return $this->gross_salary - $this->nssf;
     }
 
-    public function getPayeAttribute()
+    public function getIncomeTaxAttribute()
     {
-        $paye = 0;
+        $tax = 0;
         $level1 = (288000 / 12);
         $level2 = (388000 / 12);
 
-        if ($this->employee && $this->employee->is_full_time) {
+        if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth())) {
             if ($this->taxable_income <= $level1) {
-                $paye = $this->taxable_income * 0.1;
+                $tax = $this->taxable_income * 0.1;
             } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
-                $paye = (($this->taxable_income - $level1) * 0.25) + 2400;
+                $tax = (($this->taxable_income - $level1) * 0.25) + 2400;
             } elseif ($this->taxable_income > $level2) {
-                $paye = (($this->taxable_income - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+                $tax = (($this->taxable_income - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
             }
         }
 
-        return $paye;
+        return $tax;
     }
+
+
 
     public function getNhifAttribute()
     {
@@ -150,10 +158,10 @@ class MonthlySalary extends Model
     public function getAttendancePenaltyAttribute()
     {
         $penalty = 0;
-        if ($this->employee && $this->employee->has_active_contract ) {
+        if ($this->employee && $this->employee->has_active_contract && $this->employee->is_full_time) {
             if ($this->employee->is_full_time && $this->employee->designation->is_penalizable) {
-                if ($this->days_missed > 4) {
-                    $penalty = $this->daily_rate * ($this->days_missed - 4);
+                if ($this->days_missed > 6) {
+                    $penalty = $this->daily_rate * ($this->days_missed - 6);
                 }
             } else {
                 $penalty = 0;
@@ -161,6 +169,16 @@ class MonthlySalary extends Model
         }
 
         return $penalty;
+    }
+
+    function getHousingLevyAttribute()
+    {
+        $levy = 0;
+        if ($this->employee && $this->employee->is_full_time) {
+            $levy = 0.015 * $this->gross_salary;
+        }
+
+        return $levy;
     }
 
 
@@ -175,28 +193,32 @@ class MonthlySalary extends Model
         $level1 = (288000 / 12);
         $level2 = (388000 / 12);
 
-        if ($this->employee && $this->employee->is_full_time) {
-            if ($actual_taxable <= $level1) {
-                $paye = $actual_taxable * 0.1;
-            } elseif ($actual_taxable > $level1 && $actual_taxable <= $level2) {
-                $paye = (($actual_taxable - $level1) * 0.25) + 2400;
-            } else {
-                $paye = (($actual_taxable - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+        if ($this->attendance_penalty > 0) {
+            if ($this->employee && $this->employee->is_full_time) {
+                if ($actual_taxable <= $level1) {
+                    $paye = $actual_taxable * 0.1;
+                } elseif ($actual_taxable > $level1 && $actual_taxable <= $level2) {
+                    $paye = (($actual_taxable - $level1) * 0.25) + 2400;
+                } else {
+                    $paye = (($actual_taxable - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+                }
             }
+
+            $relief = 0;
+            if ($paye > 2400) {
+                $relief = 2400;
+            } else {
+                $relief = $paye;
+            }
+
+
+
+
+
+            return ($this->paye) - ($paye - $relief);
         }
 
-        $relief = 0;
-        if ($paye > 2400) {
-            $relief = 2400;
-        } else {
-            $relief = $paye;
-        }
-
-
-
-
-
-        return ($this->paye - $this->tax_relief) - ($paye - $relief);
+        return 0;
     }
 
 
@@ -217,6 +239,18 @@ class MonthlySalary extends Model
         return $relief;
     }
 
+    public function getAdvancesAttribute()
+    {
+        $a = 0;
+        foreach ($this->employee->advances as $advance) {
+            if ($advance->year == $this->payroll->year && $advance->month == $this->payroll->month) {
+                $a += $advance->amount_kes; //check the month
+            }
+        }
+
+
+        return $a;
+    }
     public function getBonusesAttribute()
     {
         $b = 0;
@@ -247,10 +281,10 @@ class MonthlySalary extends Model
     public function getTaxReliefAttribute()
     {
         $relief = 0;
-        if ($this->paye > 2400) {
+        if ($this->income_tax > 2400) {
             $relief = 2400;
         } else {
-            $relief = $this->paye;
+            $relief = $this->income_tax;
         }
 
         return $relief;
@@ -261,15 +295,19 @@ class MonthlySalary extends Model
         return $this->tax_relief + $this->general_relief;
     }
 
+    public function getPayeAttribute()
+    {
+        return $this->income_tax > $this->total_relief ? $this->income_tax - $this->total_relief : 0;
+    }
 
     public function getTotalDeductionsAttribute()
     {
-        return $this->nhif + $this->attendance_penalty + $this->paye + $this->fines;
+        return $this->nhif + $this->nssf + $this->housing_levy + $this->attendance_penalty + $this->paye + $this->fines + $this->advances;
     }
 
     public function getTotalAdditionsAttribute()
     {
-        return $this->total_relief + $this->general_relief + $this->bonuses + $this->rebate;
+        return $this->bonuses + $this->rebate;
     }
 
     public function getNetPayAttribute()

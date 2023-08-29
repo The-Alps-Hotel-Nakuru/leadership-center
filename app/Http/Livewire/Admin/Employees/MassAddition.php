@@ -26,9 +26,10 @@ class MassAddition extends Component
     public $readyUsers = [];
     public $existingUsers = [];
     public $invalidUsers = [];
+    public $uploadingUsersCount = 0;
 
     protected $rules = [
-        'employeeFile' => 'required|mimes:xlsx,csv,txt'
+        'employeeFile' => 'required|mimes:xlsx,xls,csv,txt'
     ];
 
 
@@ -113,7 +114,7 @@ class MassAddition extends Component
             $employee->national_id = intval($readyUser[2]);
             $employee->phone_number = $readyUser[7];
             $employee->gender = $readyUser[5] == "M" ? "male" : "female";
-            $employee->birth_date = Carbon::parse($readyUser[8])->toDateString();
+            $employee->birth_date = Carbon::parse(($readyUser[8] - 25569) * 86400)->toDateString();
             $employee->kra_pin = $readyUser[11];
             if ($readyUser[12]) {
                 $employee->nssf = $readyUser[12];
@@ -122,6 +123,7 @@ class MassAddition extends Component
                 $employee->nhif = $readyUser[13];
             }
             $employee->save();
+            $this->uploadingUsersCount++;
             // Mail::to($user->email)->send(new AccountCreated($user, $employee, $password));
             SendWelcomeEmailJob::dispatch($user, $employee, $password);
         }

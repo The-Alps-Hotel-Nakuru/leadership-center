@@ -65,5 +65,22 @@
             </div>
 
         </div>
+        <div class="col-md-2 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="downloadEmployeesData"
+                            wire:click="downloadEmployeesData">
+                            <span wire:loading.remove wire:target="downloadEmployeesData">
+                               Download Employees Data
+                            </span>
+                            <span wire:loading wire:target="downloadEmployeesData">
+                                Downloading...
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

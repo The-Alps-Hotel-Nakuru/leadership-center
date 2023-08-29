@@ -19,7 +19,7 @@ class MassAddition extends Component
     public $validAttendances = [], $invalidAttendances = [], $alreadyExisting = [];
 
     protected $rules = [
-        'attendanceFile' => 'required|mimes:xlsx,csv,txt'
+        'attendanceFile' => 'required|mimes:xlsx,xls,csv,txt'
     ];
 
     function checkData()
@@ -45,32 +45,36 @@ class MassAddition extends Component
         for ($i = 0; $i < count($fields); $i++) {
             if ($data[0][$i] != $fields[$i]) {
                 throw ValidationException::withMessages([
-                    'contractsFile' => ['The Fields set are incorrect']
+                    'attendanceFile' => ['The Fields set are incorrect']
                 ]);
             }
         }
 
         foreach ($data as $item) {
-            if ($item[0] != null) {
+            if ($item[0] != null && !boolval($item[15])) {
                 array_push($values, [$item[2], $item[5], $item[9], $item[10] ?? null, $item[15]]);
                 // National Id, Date, Clock in, Clock Out, Absent
             }
         }
 
+        // dd($values);
+
         for ($i = 1; $i < count($values); $i++) {
             $employee = EmployeesDetail::where('national_id', $values[$i][0]);
-            if (!$values[$i][0] || !$values[$i][1] || !$values[$i][2]) {
-                array_push($this->invalidAttendances, $values[$i]);
-            } elseif ($employee->exists()) {
-                if ($employee->first()->ActiveContractOn($values[$i][1])) {
-                    if (!$employee->first()->hasSignedOn($values[$i][1])) {
-                        array_push($this->validAttendances, $values[$i]);
-                    } else {
-                        array_push($this->alreadyExisting, $values[$i]);
+            if ($employee->exists()) {
+                if (!$values[$i][0] || !$values[$i][1] || !$values[$i][2] || !$employee->first()->ActiveContractOn(Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $values[$i][1])->toDateString())) {
+                    array_push($this->invalidAttendances, [$values[$i], "Missing Values or Inactive Contract"]);
+                } else {
+                    if ($employee->first()->ActiveContractOn(Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $values[$i][1])->toDateString())) {
+                        if (!$employee->first()->hasSignedOn(Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $values[$i][1])->toDateString())) {
+                            array_push($this->validAttendances, $values[$i]);
+                        } else {
+                            array_push($this->alreadyExisting, $values[$i]);
+                        }
                     }
                 }
             } else {
-                array_push($this->invalidAttendances, $values[$i]);
+                array_push($this->invalidAttendances, [$values[$i], "User not Found"]);
             }
         }
     }
@@ -79,21 +83,24 @@ class MassAddition extends Component
     {
         $count = 0;
         foreach ($this->validAttendances as $attendance) {
-            $newAttendance = new Attendance();
             $employee = EmployeesDetail::where('national_id', $attendance[0])->first();
+            if (Attendance::where('employees_detail_id', $employee->id)->where('date', Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $attendance[1])->toDateString())->exists()) {
+                continue;
+            }
+            $newAttendance = new Attendance();
             $newAttendance->employees_detail_id = $employee->id;
-            $newAttendance->date = Carbon::parse($attendance[1])->toDateString();
-            $newAttendance->check_in = Carbon::parse($attendance[1] . ' ' . $attendance[2])->toDateTimeString();
+            $newAttendance->date = Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $attendance[1])->toDateString();
+            $newAttendance->check_in = Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[2])->toDateTimeString();
             $newAttendance->check_out = $attendance[3] ?
-                Carbon::parse($attendance[1] . ' ' . $attendance[3])->toDateTimeString() :
-                Carbon::parse($attendance[1] . ' ' . $attendance[2])->addHours(6)->toDateTimeString();
+                Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[3])->toDateTimeString() :
+                Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[2])->addHours(6)->toDateTimeString();
             $newAttendance->created_by = 1;
             $newAttendance->save();
             $count++;
         }
 
-        $this->emit('done',[
-            'success'=>"Successfully Uploaded {$count} attendance records"
+        $this->emit('done', [
+            'success' => "Successfully Uploaded {$count} attendance records"
         ]);
     }
 

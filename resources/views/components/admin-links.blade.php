@@ -8,6 +8,43 @@
             <span class="link-title">Dashboard</span>
         </a>
     </li>
+    <li class="nav-item nav-category">Accounting</li>
+    <li class="nav-item  @if (Request::is('*/dashboard')) active @endif">
+        <a href="/" class="nav-link">
+            <i class="material-icons material-symbols-outlined">
+                monitoring
+            </i>
+            <span class="link-title">Analytics</span>
+        </a>
+    </li>
+    <li class="nav-item @if (Request::is('admin/banks*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#banks" role="button" aria-expanded="false"
+            aria-controls="banks">
+            <i class="material-icons material-symbols-outlined">
+                account_balance
+            </i>
+            <span class="link-title">Banks</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/admins*')) show @endif" id="banks">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.banks.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.banks.index') active @endif">List of
+                        Banks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.banks.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.banks.create') active @endif">Create a new
+                        Bank</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.banks.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.banks.mass_addition') active @endif">Banks Mass Addition</a>
+                </li>
+            </ul>
+        </div>
+    </li>
     <li class="nav-item nav-category">Human Resource</li>
     <li class="nav-item @if (Request::is('admin/admins*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#admins" role="button" aria-expanded="false"
@@ -130,11 +167,65 @@
             </ul>
         </div>
     </li>
+    <li class="nav-item @if (Request::is('admin/employee_accounts*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#employee_accounts" role="button"
+            aria-expanded="false" aria-controls="emails">
+            <i class="material-icons material-symbols-outlined">
+                account_balance_wallet
+            </i>
+            <span class="link-title">Employees' Accounts</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/employee_accounts*')) show @endif" id="employee_accounts">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.employee_accounts.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_accounts.index') active @endif">Accounts List</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.employee_accounts.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_accounts.create') active @endif">Add an Account</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.employee_accounts.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_accounts.mass_addition') active @endif">Mass Addition</a>
+                </li>
+            </ul>
+        </div>
+
+    </li>
+    <li class="nav-item @if (Request::is('admin/leaves*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#leaves" role="button" aria-expanded="false"
+            aria-controls="leaves">
+            <i class="material-icons material-symbols-outlined">
+                free_cancellation
+            </i>
+            <span class="link-title">leaves</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/leaves*')) show @endif" id="leaves">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.leaves.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.index') active @endif">Leave Days List</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.leaves.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.create') active @endif">Add Leave Records</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.leaves.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.mass_addition') active @endif">Leave Mass Addition</a>
+                </li>
+
+            </ul>
+        </div>
+    </li>
     <li class="nav-item @if (Request::is('admin/attendances*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#attendances" role="button" aria-expanded="false"
             aria-controls="attendances">
             <i class="material-icons material-symbols-outlined">
-                free_cancellation
+                event_available
             </i>
             <span class="link-title">Attendances</span>
             <i class="link-arrow" data-feather="chevron-down"></i>

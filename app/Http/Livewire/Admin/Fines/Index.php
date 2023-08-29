@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire\Admin\Fines;
 
+use App\Exports\FineTemplateExport;
 use App\Models\Fine;
 use App\Models\Log;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -30,6 +32,10 @@ class Index extends Component
         $this->emit('done', [
             'success' => "Successfully Deleted the Fine from the system"
         ]);
+    }
+
+    public function downloadTemplate(){
+        return Excel::download(new FineTemplateExport, 'mass_fines_data.xlsx');
     }
     public function render()
     {

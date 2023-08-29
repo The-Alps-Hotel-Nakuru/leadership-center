@@ -37,6 +37,10 @@ class EmployeeContract extends Model
     {
         return $this->employment_type->id == 2;
     }
+    public function is_intern()
+    {
+        return $this->employment_type->id == 3;
+    }
 
     public function terminate()
     {

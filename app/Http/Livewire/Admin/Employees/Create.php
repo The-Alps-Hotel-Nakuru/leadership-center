@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Employees;
 
+use App\Jobs\SendWelcomeEmailJob;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\User;
@@ -57,7 +58,8 @@ class Create extends Component
     {
         $this->validate();
         $this->employee->role_id = 3;
-        $this->employee->password = Hash::make('1234567890');
+        $password = Str::random(8);
+        $this->employee->password = Hash::make($password);
 
 
         if (isset($this->photo)) {
@@ -80,6 +82,7 @@ class Create extends Component
         $this->employee->save();
         $this->detail->user_id = $this->employee->id;
         $this->detail->save();
+        SendWelcomeEmailJob::dispatch($this->employee, $this->detail, $password);
 
         $log = new Log();
         $log->user_id = auth()->user()->id;

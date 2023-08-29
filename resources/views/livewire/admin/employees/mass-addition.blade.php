@@ -52,6 +52,7 @@
                                         <th>First Name(s)</th>
                                         <th>Email</th>
                                         <th>National ID</th>
+                                        <th>Date of Birth</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
@@ -69,6 +70,7 @@
                                             <td scope="row">{{ implode(' ', $nameArray) }}</td>
                                             <td>{{ $readyUser[4] }}</td>
                                             <td>{{ $readyUser[2] }}</td>
+                                            <td>{{ Carbon\Carbon::parse(($readyUser[8] - 25569) * 86400)->format('l jS F,Y') }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -77,7 +79,7 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="row mb-2">
+                        <div class="row mt-2">
                             <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="uploadUsers"
                                 wire:click="uploadUsers">
                                 <span wire:loading.remove wire:target="uploadUsers">
@@ -184,13 +186,13 @@
                                                 $reason = 'Missing Mandatory Field: ';
                                                 foreach ($invalidUser as $key => $value) {
                                                     if (!$value) {
-                                                        $reason .= $key == 2 ? 'National ID, ' : 
-                                                        ($key == 3 ? 'Name, ' : 
-                                                            ($key == 4 ? 'Email Address, ' : 
-                                                                ($key == 5 ? 'Gender, ' : 
-                                                                    ($key == 6 ? 'Designation, ' : 
-                                                                        ($key == 7 ? 'Phone Number (Invalid Format or Null), ' : 
-                                                                            ($key == 8 ? 'Birthday, ' : 
+                                                        $reason .= $key == 2 ? 'National ID, ' :
+                                                        ($key == 3 ? 'Name, ' :
+                                                            ($key == 4 ? 'Email Address, ' :
+                                                                ($key == 5 ? 'Gender, ' :
+                                                                    ($key == 6 ? 'Designation, ' :
+                                                                        ($key == 7 ? 'Phone Number (Invalid Format or Null), ' :
+                                                                            ($key == 8 ? 'Birthday, ' :
                                                                                 ($key == 10 ? 'Nationality, ' : '')
                                                                             )
                                                                         )
@@ -200,7 +202,7 @@
                                                         );
                                                     }
                                                 }
-                                                
+
                                                 if (!preg_match('/^\d{10}$/', $invalidUser[7])) {
                                                     $reason .= ' + Invalid phone number format';
                                                 }

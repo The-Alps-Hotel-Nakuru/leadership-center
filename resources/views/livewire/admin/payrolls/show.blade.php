@@ -19,6 +19,7 @@
                             <th scope="col">NSSF Contribution <span class="text-danger">(-)</span></th>
                             <th scope="col">PAYE <span class="text-danger">(-)</span></th>
                             <th scope="col">NHIF Premium <span class="text-danger">(-)</span></th>
+                            <th scope="col">Housing Levy<span class="text-danger">(-)</span></th>
                             <th scope="col">Absence Penalty <span class="text-danger">(-)</span></th>
                             <th scope="col"> Bonuses <span class="text-success">(+)</span></th>
                             <th scope="col">Fines <span class="text-danger">(-)</span></th>
@@ -31,10 +32,12 @@
                     </thead>
                     <tbody>
                         @php
+                            $count = 0;
                             $total_gross = 0;
                             $total_nhif = 0;
                             $total_paye = 0;
                             $total_nssf = 0;
+                            $total_housing_levy = 0;
                             $total_pen = 0;
                             $total_additions = 0;
                             $total_deductions = 0;
@@ -43,8 +46,10 @@
                             $total_bonuses = 0;
                             $total_fines = 0;
                         @endphp
-                        @foreach ($payroll->monthlySalaries as $salary)
-                            @if ($salary->employee->has_active_contract && $salary->employee->is_full_time)
+                        @foreach ($payroll->monthlySalaries()->orderBy('basic_salary_kes', 'DESC')->get() as $salary)
+                            @if (
+                                $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
+                                    Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) && $salary->employee->is_full_time)
                                 <tr class="">
                                     <td scope="row">{{ $salary->id }}</td>
                                     <td>{{ $salary->employee->user->name }}</td>
@@ -56,6 +61,7 @@
                                     <td>KES {{ number_format($salary->nssf, 2) }}</td>
                                     <td>KES {{ number_format($salary->paye, 2) }}</td>
                                     <td>KES {{ number_format($salary->nhif, 2) }}</td>
+                                    <td>KES {{ number_format($salary->housing_levy, 2) }}</td>
                                     <td>KES {{ number_format($salary->attendance_penalty, 2) }}
                                         @if ($salary->employee->is_full_time)
                                             <br><small class="text-muted"> for {{ $salary->days_missed }} Days
@@ -83,10 +89,12 @@
                                         </div>
                                     </td>
                                     @php
+                                        $count++;
                                         $total_gross += $salary->gross_salary;
                                         $total_nhif += $salary->nhif;
                                         $total_paye += $salary->paye;
                                         $total_nssf += $salary->nssf;
+                                        $total_housing_levy += $salary->housing_levy;
                                         $total_pen += $salary->attendance_penalty;
                                         $total_bonuses += $salary->bonuses;
                                         $total_fines += $salary->fines;
@@ -103,12 +111,14 @@
                         <tr>
                             <td></td>
                             <td><strong>TOTALS</strong></td>
-                            <td></td>
+                            <td class="text-primary"> <strong>{{ $count }} <br> Full Time Employees</strong></td>
                             <td></td>
                             <td class="text-primary"><strong>KES {{ number_format($total_gross, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_nssf, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_paye, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_nhif, 2) }}</strong></td>
+                            <td class="text-danger"><strong>KES {{ number_format($total_housing_levy, 2) }}</strong>
+                            </td>
                             <td class="text-danger"><strong>KES {{ number_format($total_pen, 2) }}</strong></td>
                             <td class="text-success"><strong>KES {{ number_format($total_bonuses, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_fines, 2) }}</strong></td>

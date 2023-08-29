@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Payroll extends Model
 {
     use HasFactory;
+
+    function getYearmonthAttribute() {
+        return Carbon::parse($this->year.'-'.$this->month)->format('F \of Y');
+    }
 
     public function monthlySalaries()
     {
@@ -96,6 +101,16 @@ class Payroll extends Model
 
         foreach ($this->monthlySalaries as $salary) {
             $amount += $salary->nssf;
+        }
+
+        return $amount;
+    }
+    public function getHousingLevyTotalAttribute()
+    {
+        $amount = 0;
+
+        foreach ($this->monthlySalaries as $salary) {
+            $amount += $salary->housing_levy;
         }
 
         return $amount;

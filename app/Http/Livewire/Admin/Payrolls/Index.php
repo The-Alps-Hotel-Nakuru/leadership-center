@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Payrolls;
 
+use App\Exports\PayrollExport;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\MonthlySalary;
@@ -9,6 +10,7 @@ use App\Models\Payroll;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -24,6 +26,11 @@ class Index extends Component
         $this->yearmonth = Carbon::now()->year . '-' . Carbon::now()->month;
     }
 
+    function downloadPayrollBreakdown($id)
+    {
+        return Excel::download(new PayrollExport($id), "Payroll for " . Payroll::find($id)->yearmonth . '.xlsx');
+        // dd(Payroll::find($id));
+    }
 
 
     public function generate()
@@ -36,11 +43,11 @@ class Index extends Component
                 'yearmonth' => 'The Payroll You are trying to generate already Exists'
             ]);
         } else {
-            if (!Carbon::now()->isAfter(Carbon::parse($year . '-' . $month)->lastOfMonth())) {
-                throw ValidationException::withMessages([
-                    'yearmonth' => 'The Payroll You are trying to generate cannot be generated now. Wait until after ' . Carbon::parse($year . '-' . $month)->lastOfMonth()->format("jS F, Y")
-                ]);
-            }
+            // if (!Carbon::now()->isAfter(Carbon::parse($year . '-' . $month)->lastOfMonth())) {
+            //     throw ValidationException::withMessages([
+            //         'yearmonth' => 'The Payroll You are trying to generate cannot be generated now. Wait until after ' . Carbon::parse($year . '-' . $month)->lastOfMonth()->format("jS F, Y")
+            //     ]);
+            // }
             $count = 0;
             $testarray = [];
             $payroll = new Payroll();
@@ -60,6 +67,8 @@ class Index extends Component
                             $salary->house_allowance_kes = $contract->house_allowance;
                         } else if ($contract->is_casual()) {
                             $salary->basic_salary_kes = $contract->salary_kes * $employee->daysWorked($year . '-' . $month);
+                        }else if ($contract->is_intern()){
+                            $salary->basic_salary_kes = $contract->salary_kes;
                         }
                     } else {
                         $salary->basic_salary_kes = 0;
