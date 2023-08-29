@@ -47,6 +47,7 @@
                             <th>Total PAYE</th>
                             <th>Total NHIF</th>
                             <th>Total NSSF</th>
+                            <th>Total Housing Levy</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -73,6 +74,8 @@
                                 </td>
                                 <td>KES <span class="text-success">{{ number_format($payroll->nssf_total, 2) }}</span>
                                 </td>
+                                <td>KES <span class="text-success">{{ number_format($payroll->housing_levy_total, 2) }}</span>
+                                </td>
                                 <td>
                                     <div class="d-flex flex-row justify-content-center">
                                         <div class="flex-col m-3">
@@ -84,7 +87,7 @@
                                         </div>
                                         <div class="flex-col m-3">
                                             <button class="btn btn-secondary" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="Download CSV Breakdown">
+                                                data-bs-placement="top" title="Download Excel Breakdown" wire:click="downloadPayrollBreakdown({{ $payroll->id }})">
                                                 <i class="material-icons material-symbols-outlined">description</i>
                                             </button>
                                         </div>

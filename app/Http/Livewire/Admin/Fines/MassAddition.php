@@ -29,7 +29,7 @@ class MassAddition extends Component
         Excel::import($import, $filePath);
 
         $actualFields = $import->getFields();
-        $expectedFields = ["ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON", "NATIONAL_ID"];
+        $expectedFields = ["ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON", "EMAIL"];
 
         if ($actualFields !== $expectedFields) {
             $this->addError('employee_fines_file', 'The fields set are incorrect');
@@ -38,38 +38,16 @@ class MassAddition extends Component
         $this->fines = $import->getValues();
     }
 
-    public function uploadFines()
-    {
-        $expectedFields = ["ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON", "NATIONAL_ID"];
+    public function uploadFines(){
+        foreach($this->fines as $finesData){
+            $user = User::where('email', $finesData['EMAIL'])->first();
 
-        foreach ($this->fines as $index => $finesData) {
-
-            $rules = [];
-            foreach ($expectedFields as $field) {
-                $rules[$field] = 'required';
-            }
-
-            $validator = Validator::make($finesData, $rules);
-
-            if ($validator->fails()) {
-                $this->emit('warning', [
-                    'message' => "Invalid data in record $index: " . implode(', ', $validator->errors()->all())
-                ]);
-                continue;
-            }
-
-            $employee = EmployeesDetail::where('national_id', $finesData['NATIONAL_ID'])->first();
-
-            if ($employee) {
-
-                $existingFine = Fine::where('employees_detail_id', $employee->id)
-                    ->where('year', $finesData['YEAR'])
-                    ->where('month', $finesData['MONTH'])
-                    ->first();
-
-                if (!$existingFine) {
-                    Fine::create([
-                        'employees_detail_id' => $employee->id,
+            if($user){
+                $employee = $user->employee;
+                if($employee){
+                    $employee->fines()->create([
+                        'year' => $finesData['YEAR'],
+                        'month' => $finesData['MONTH'],
                         'reason' => $finesData['REASON'],
                         'amount_kes' => $finesData['AMOUNT'],
                         'year' => $finesData['YEAR'],

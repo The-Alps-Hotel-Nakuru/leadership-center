@@ -40,7 +40,7 @@ class EmployeeNSSFExport implements WithHeadings, WithMapping, WithStyles, FromC
             $row->id . "",
             $emloyeeID . "",
             $emloyeeName . "",
-            "'" . strval($employeeeNssf),
+            strval($employeeeNssf),
             $registeredDate . ""
         ];
     }

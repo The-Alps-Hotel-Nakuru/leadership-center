@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Fines;
 
+use App\Models\EmployeesDetail;
 use App\Models\Fine;
 use App\Models\Log;
 use Carbon\Carbon;
@@ -11,12 +12,20 @@ class Create extends Component
 {
     public Fine $fine;
     public $yearmonth;
+    public $search = "";
+
     protected $rules = [
         'yearmonth' => 'required',
         'fine.employees_detail_id' => 'required',
         'fine.amount_kes' => 'required',
         'fine.reason' => 'nullable',
     ];
+
+    public function selectEmployee($id)
+    {
+        $this->fine->employees_detail_id = $id;
+    }
+
 
     public function mount()
     {
@@ -41,6 +50,13 @@ class Create extends Component
     }
     public function render()
     {
-        return view('livewire.admin.fines.create');
+        $employees = EmployeesDetail::whereHas('user', function ($query) {
+            $query->where('first_name', 'like', '%' . $this->search . '%')
+                ->orWhere('last_name', 'like', '%' . $this->search . '%');
+        })->get();
+
+        return view('livewire.admin.fines.create', [
+            'employees' => $employees,
+        ]);
     }
 }

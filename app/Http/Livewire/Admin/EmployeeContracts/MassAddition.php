@@ -54,9 +54,15 @@ class MassAddition extends Component
             }
         }
 
-        foreach ($data as $item) {
+        foreach ($data as $key => $item) {
             if ($item[0] != null) {
-                array_push($values, [$item[0], $item[1], $item[2], $item[3], $item[4]]);
+                if ($key == 0) {
+                    array_push($values, [$item[0], $item[1], $item[2], $item[3], $item[4]]);
+                    continue;
+                }
+                array_push($values, [$item[0], $item[1], Carbon::parse(($item[2] - 25569) * 86400)->getTimestamp(), Carbon::parse(($item[3] - 25569) * 86400)->getTimestamp(), $item[4]]);
+
+                // Name, TypeId, StartDate, EndDate, Salary
             }
         }
 
@@ -90,19 +96,18 @@ class MassAddition extends Component
             $newContract->employees_detail_id = EmployeesDetail::where('user_id', $contract[0])->first()->id;
             $newContract->designation_id = $contract[1];
             $newContract->employment_type_id = $contract[2];
-            $newContract->start_date = Carbon::parse($contract[3])->toDateString();
-            $newContract->end_date = Carbon::parse($contract[4])->toDateString();
+            $newContract->start_date = $contract[3];
+            $newContract->end_date = $contract[4];
             $newContract->salary_kes = $contract[5];
             $newContract->save();
             $count++;
         }
         // dd();
 
-        $this->emit('done',[
-            'success'=>"Successfully Uploaded {$count} Contracts"
+        $this->emit('done', [
+            'success' => "Successfully Uploaded {$count} Contracts"
         ]);
         $this->reset();
-
     }
     public function render()
     {

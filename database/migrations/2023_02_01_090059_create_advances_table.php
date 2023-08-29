@@ -16,11 +16,16 @@ return new class extends Migration
         Schema::create('advances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employees_detail_id')->constrained();
-            $table->dateTime('date_issued');
-            $table->unsignedTinyInteger('start_after_months');
-            $table->unsignedTinyInteger('pay_period_months');
-            $table->string('transaction_id')->constrained();
+            $table->year('year');
+            $table->unsignedTinyInteger('month');
+            $table->index(['year', 'month'], 'period');
             $table->float('amount_kes');
+            $table->string('transaction');
+            $table->longText('reason')->nullable();
+            $table->unsignedBigInteger('created_by')->default(1);
+            $table->foreign('created_by')->references('id')->on('users')->cascadeOnDelete();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();
             $table->timestamps();
         });
     }

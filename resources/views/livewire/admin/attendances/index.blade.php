@@ -48,7 +48,7 @@
                                                         ->where('date', $date)
                                                         ->first();
                                                 @endphp
-                                                <div class="p-2 ms-1 {{ in_array($date, $employee->attended_dates) ? 'bg-success' : ($today > $i + 1 ? 'bg-danger' : 'bg-secondary') }}"
+                                                <div class="p-2 ms-1 {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $i + 1 ? 'bg-danger' : 'bg-secondary')) }}"
                                                     @if ($employee->ActiveContractOn($date) && !$curr) data-bs-toggle="modal"
                                                 data-bs-target="#modal-{{ $date }}-{{ $employee->id }}"
 

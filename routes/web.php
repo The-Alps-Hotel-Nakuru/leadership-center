@@ -40,7 +40,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         } elseif (auth()->user()->is_employee) {
             if (auth()->user()->first_login) {
                 return redirect()->route('employee.profile');
-            }else{
+            } else {
                 return redirect()->route('employee.dashboard');
             }
         } else {
@@ -52,6 +52,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::middleware('admin')->prefix('admin')->group(function () {
         Route::get('dashboard', Admin\Dashboard::class)->name('admin.dashboard');
 
+        Route::prefix('settings')->group(function () {
+            Route::get('/mail', Admin\Settings\Mail::class)->name('admin.settings.mail');
+            Route::get('/general', Admin\Settings\General::class)->name('admin.settings.general');
+        });
         Route::prefix('admins')->group(function () {
             Route::get('/', Admin\Admins\Index::class)->name('admin.admins.index');
             Route::get('/create', Admin\Admins\Create::class)->name('admin.admins.create');
@@ -91,6 +95,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/{id}/edit', Admin\Employees\Edit::class)->name('admin.employees.edit');
             Route::get('/mass_addition', Admin\Employees\MassAddition::class)->name('admin.employees.mass_addition');
         });
+        Route::prefix('banks')->group(function () {
+            Route::get('/', Admin\Banks\Index::class)->name('admin.banks.index');
+            Route::get('/create', Admin\Banks\Create::class)->name('admin.banks.create');
+            Route::get('/{id}/edit', Admin\Banks\Edit::class)->name('admin.banks.edit');
+            Route::get('/mass_addition', Admin\Banks\MassAddition::class)->name('admin.banks.mass_addition');
+        });
         Route::prefix('employee_contracts')->group(function () {
             Route::get('/', Admin\EmployeeContracts\Index::class)->name('admin.employee_contracts.index');
             Route::get('/{id}/contract', Admin\EmployeeContracts\Show::class)->name('admin.employee_contracts.show');
@@ -98,12 +108,24 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/{id}/edit', Admin\EmployeeContracts\Edit::class)->name('admin.employee_contracts.edit');
             Route::get('/mass_addition', Admin\EmployeeContracts\MassAddition::class)->name('admin.employee_contracts.mass_addition');
         });
+        Route::prefix('employee_accounts')->group(function () {
+            Route::get('/', Admin\EmployeeAccounts\Index::class)->name('admin.employee_accounts.index');
+            Route::get('/create', Admin\EmployeeAccounts\Create::class)->name('admin.employee_accounts.create');
+            Route::get('/{id}/edit', Admin\EmployeeAccounts\Edit::class)->name('admin.employee_accounts.edit');
+            Route::get('/mass_addition', Admin\EmployeeAccounts\MassAddition::class)->name('admin.employee_accounts.mass_addition');
+        });
 
         Route::prefix('attendances')->group(function () {
             Route::get('/', Admin\Attendances\Index::class)->name('admin.attendances.index');
             Route::get('/create', Admin\Attendances\Create::class)->name('admin.attendances.create');
             Route::get('/{id}/edit', Admin\Attendances\Edit::class)->name('admin.attendances.edit');
             Route::get('/mass_addition', Admin\Attendances\MassAddition::class)->name('admin.attendances.mass_addition');
+        });
+        Route::prefix('leaves')->group(function () {
+            Route::get('/', Admin\Leaves\Index::class)->name('admin.leaves.index');
+            Route::get('/create', Admin\Leaves\Create::class)->name('admin.leaves.create');
+            Route::get('/{id}/edit', Admin\Leaves\Edit::class)->name('admin.leaves.edit');
+            Route::get('/mass_addition', Admin\Leaves\MassAddition::class)->name('admin.leaves.mass_addition');
         });
         Route::prefix('product_categories')->group(function () {
             Route::get('/', Admin\ProductCategories\Index::class)->name('admin.product_categories.index');

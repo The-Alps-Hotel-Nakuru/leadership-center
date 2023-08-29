@@ -53,7 +53,7 @@
                                             {{ App\Models\EmployeesDetail::where('national_id', $attendance[0])->first()->user->name }}
                                         </td>
                                         <td scope="row">
-                                            {{ Carbon\Carbon::parse($attendance[1])->format('jS F,Y') }}
+                                            {{ Carbon\Carbon::createFromFormat('d/m/Y', $attendance[1])->format('jS F,Y') }}
                                         </td>
                                         <td scope="row">
                                             {{ Carbon\Carbon::parse($attendance[2])->format('h:i:s A') }}
@@ -96,7 +96,7 @@
                                             {{ App\Models\EmployeesDetail::where('national_id', $attendance[0])->first()->user->name }}
                                         </td>
                                         <td scope="row">
-                                            {{ Carbon\Carbon::parse($attendance[2])->format('jS F,Y') }}
+                                            {{ Carbon\Carbon::createFromFormat('d/m/Y', $attendance[1])->format('jS F,Y') }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -119,19 +119,23 @@
                                     <th scope="col">User ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Date</th>
+                                    <th scope="col">Invalidity Reason</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($invalidAttendances as $attendance)
                                     <tr class="">
                                         <td scope="row">
-                                            {{ App\Models\EmployeesDetail::where('national_id', $attendance[0])->first() ? App\Models\EmployeesDetail::where('national_id', $attendance[0])->first()->user->id : 'User Not found (' . $attendance[0] . ')' }}
+                                            {{ App\Models\EmployeesDetail::where('national_id', $attendance[0][0])->first() ? App\Models\EmployeesDetail::where('national_id', $attendance[0][0])->first()->user->id : 'User Not found (' . $attendance[0][0] . ')' }}
                                         </td>
                                         <td scope="row">
-                                            {{ App\Models\EmployeesDetail::where('national_id', $attendance[0])->first() ? App\Models\EmployeesDetail::where('national_id', $attendance[0])->first()->user->name : 'User not found' }}
+                                            {{ App\Models\EmployeesDetail::where('national_id', $attendance[0][0])->first() ? App\Models\EmployeesDetail::where('national_id', $attendance[0][0])->first()->user->name : 'User not found' }}
                                         </td>
                                         <td scope="row">
-                                            {{ Carbon\Carbon::parse($attendance[2])->format('jS F,Y') }}
+                                            {{ Carbon\Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $attendance[0][1])->format('jS F,Y') }}
+                                        </td>
+                                        <td scope="row">
+                                            {{ $attendance[1] }}
                                         </td>
                                     </tr>
                                 @endforeach

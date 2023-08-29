@@ -32,6 +32,10 @@ return new class extends Migration
                 'title'=>'Fixed-term',
                 'description'=> 'apply to employees who work regular hours and are paid a salary. The contracts are ongoing until the set end date approaches, for example, after six months or one year'
             ],
+            [
+                'title'=>'Internship',
+                'description'=> 'apply to employees who work regular hours and are paid a Stipend. The contracts are ongoing until the set end date approaches, for example, after six months or one year. The stipend is not to accrue deductions and any leverage on the intern is to be dispensed as a company expense.'
+            ],
         ]);
     }
 

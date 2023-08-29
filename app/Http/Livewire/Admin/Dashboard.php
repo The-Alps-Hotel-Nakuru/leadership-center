@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Exports\EmployeesDataExport;
 use App\Models\EventOrder;
 use App\Models\Log;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Dashboard extends Component
 
@@ -17,9 +19,12 @@ class Dashboard extends Component
     public $increase = 0;
     protected $paginationTheme = 'bootstrap';
 
-    public function mount()
-    {
+    function downloadEmployeesData() {
+        return Excel::download(new EmployeesDataExport, 'employees data.xlsx');
 
+        $this->emit('done', [
+            'success' => 'Employees data exported successfully'
+        ]);
     }
 
 
