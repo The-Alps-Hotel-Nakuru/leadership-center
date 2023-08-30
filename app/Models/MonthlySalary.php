@@ -14,6 +14,7 @@ class MonthlySalary extends Model
 
     protected $appends = [
         'gross_salary',
+        'rebate',
         'paye',
         'nhif',
         'nssf',

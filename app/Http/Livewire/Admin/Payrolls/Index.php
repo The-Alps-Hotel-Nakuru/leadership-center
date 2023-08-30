@@ -111,7 +111,9 @@ class Index extends Component
             $payment->total_advances = $salary->advances;
             $payment->total_welfare_contributions = $salary->welfare_contributions;
             $payment->save();
-
+            $this->emit('done', [
+                'success'=>"Successfully Generated Payment Slips for KCB Banking"
+            ]);
 
         }
 
