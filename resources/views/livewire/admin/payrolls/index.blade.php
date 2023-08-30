@@ -92,6 +92,12 @@
                                             </button>
                                         </div>
                                         <div class="flex-col m-3">
+                                            <button class="btn btn-dark" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" title="Make Payments" wire:click="makePayment({{ $payroll->id }})">
+                                                <i class="material-icons material-symbols-outlined">monetization_on</i>
+                                            </button>
+                                        </div>
+                                        <div class="flex-col m-3">
                                             <a href="{{ route('admin.payrolls.show', $payroll->id) }}"
                                                 class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="View Payroll Breakdown">

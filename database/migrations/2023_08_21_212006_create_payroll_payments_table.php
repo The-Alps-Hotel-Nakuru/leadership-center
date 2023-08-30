@@ -20,13 +20,12 @@ return new class extends Migration
             $table->float('gross_salary')->constrained();
             $table->float('nssf');
             $table->float('nhif');
-            $table->float('income_tax');
-            $table->float('total_relief');
+            $table->float('paye');
             $table->float('housing_levy');
-            $table->float('bonus');
             $table->float('total_fines');
-            $table->float('total_advance');
+            $table->float('total_advances');
             $table->float('total_bonuses');
+            $table->float('total_welfare_contributions');
             $table->timestamps();
         });
     }

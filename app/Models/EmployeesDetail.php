@@ -22,6 +22,10 @@ class EmployeesDetail extends Model
         return $this->belongsTo(Designation::class);
     }
 
+    public function welfareContributions(){
+        return $this->hasMany(WelfareContribution::class);
+    }
+
     public function contracts()
     {
         return $this->hasMany(EmployeeContract::class);

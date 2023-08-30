@@ -62,10 +62,17 @@ class MassAddition extends Component
         for ($i = 1; $i < count($values); $i++) {
             $employee = EmployeesDetail::where('national_id', $values[$i][0]);
             if ($employee->exists()) {
-                if (!$values[$i][0] || !$values[$i][1] || !$values[$i][2] || !$employee->first()->ActiveContractOn(Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $values[$i][1])->toDateString())) {
-                    array_push($this->invalidAttendances, [$values[$i], "Missing Values or Inactive Contract"]);
+                if (!$values[$i][0] || !$values[$i][1] || !$employee->first()->ActiveContractOn(Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $values[$i][1])->toDateString())) {
+                    array_push($this->invalidAttendances, [$values[$i], "Missing Values or No active Contract"]);
                 } else {
-                    if ($employee->first()->ActiveContractOn(Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $values[$i][1])->toDateString())) {
+                    if ($values[$i][2] && $employee->first()->ActiveContractOn(Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $values[$i][1])->toDateString())) {
+                        if (!$employee->first()->hasSignedOn(Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $values[$i][1])->toDateString())) {
+                            array_push($this->validAttendances, $values[$i]);
+                        } else {
+                            array_push($this->alreadyExisting, $values[$i]);
+                        }
+                    }
+                    if (!$values[$i][2] && $values[$i][3]) {
                         if (!$employee->first()->hasSignedOn(Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $values[$i][1])->toDateString())) {
                             array_push($this->validAttendances, $values[$i]);
                         } else {
@@ -90,7 +97,10 @@ class MassAddition extends Component
             $newAttendance = new Attendance();
             $newAttendance->employees_detail_id = $employee->id;
             $newAttendance->date = Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $attendance[1])->toDateString();
-            $newAttendance->check_in = Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[2])->toDateTimeString();
+            $newAttendance->check_in = $attendance[2] ?
+                Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[2])->toDateTimeString() :
+                Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[3])->subHours(6);
+
             $newAttendance->check_out = $attendance[3] ?
                 Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[3])->toDateTimeString() :
                 Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[2])->addHours(6)->toDateTimeString();

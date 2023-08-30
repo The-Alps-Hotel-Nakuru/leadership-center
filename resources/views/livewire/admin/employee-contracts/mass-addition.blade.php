@@ -33,7 +33,8 @@
             <div class="col-md-4 col-12 mb-3">
                 <div class="card">
                     <div class="card-header">
-                        <h5><strong>Ready Contracts <small>({{ count($validContracts) }} contracts)</small></strong></h5>
+                        <h5><strong>Ready Contracts <small>({{ count($validContracts) }} contracts)</small></strong>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive" style="max-height: 400px">
@@ -59,10 +60,10 @@
                                                 {{ App\Models\EmploymentType::find($contract[2])->title }}
                                             </td>
                                             <td scope="row">
-                                                {{ Carbon\Carbon::parse(($contract[3] - 25569) * 86400)->format('jS F,Y') }}
+                                                {{ Carbon\Carbon::parse($contract[3])->format('jS F,Y') }}
                                             </td>
                                             <td scope="row">
-                                                {{ Carbon\Carbon::parse(($contract[4] - 25569) * 86400)->format('jS F,Y') }}
+                                                {{ Carbon\Carbon::parse($contract[4])->format('jS F,Y') }}
                                             </td>
                                             <td scope="row">{{ number_format($contract[5], 2) }}</td>
                                         </tr>
@@ -90,7 +91,8 @@
             <div class="col-md-4 col-12 mb-3">
                 <div class="card">
                     <div class="card-header">
-                        <h5><strong>Already Active <small>({{ count($alreadyExisting) }} contracts)</small></strong></h5>
+                        <h5><strong>Already Active <small>({{ count($alreadyExisting) }} contracts)</small></strong>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive" style="max-height: 400px">
@@ -144,7 +146,8 @@
             <div class="col-md-4 col-12 mb-3">
                 <div class="card">
                     <div class="card-header">
-                        <h5><strong>Invalid Contracts <small>({{ count($invalidContracts) }} contracts)</small></strong></h5>
+                        <h5><strong>Invalid Contracts <small>({{ count($invalidContracts) }}
+                                    contracts)</small></strong></h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive" style="max-height: 400px">
