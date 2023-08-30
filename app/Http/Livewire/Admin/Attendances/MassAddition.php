@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Attendances;
 
+use App\Exports\EmployeesAttendancesExport;
 use App\Imports\AttendancesImport;
 use App\Models\Attendance;
 use App\Models\EmployeesDetail;
@@ -21,6 +22,11 @@ class MassAddition extends Component
     protected $rules = [
         'attendanceFile' => 'required|mimes:xlsx,xls,csv,txt'
     ];
+
+    //exports the template for mass addition of employee attendances
+    public function downloadTemplate(){
+        return Excel::download(new EmployeesAttendancesExport, 'employee_attendances_file.xlsx');
+    }
 
     function checkData()
     {

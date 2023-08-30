@@ -4,9 +4,21 @@
     </x-slot:header>
 
     <div class="card" style="max-height: 500px">
-        <div class="card-header">
+        {{-- <div class="card-header">
             <h5>Upload Attendance File</h5>
-        </div>
+        </div> --}}
+        <div class="card-header d-flex">
+                <h5>Upload Attendance File</h5>
+                <button class="btn btn-primary ms-auto me-2" wire:loading.attr="disabled" wire:target="downloadTemplate"
+                    wire:click="downloadTemplate">
+                    <span wire:loading.remove wire:target="downloadTemplate">
+                        Download Template
+                    </span>
+                    <span wire:loading wire:target="downloadTemplate">
+                        Downloading...
+                    </span>
+                </button>
+            </div>
         <div class="card-body">
             <div class="mb-3">
                 <label for="" class="form-label">Mass Attendances Upload</label>

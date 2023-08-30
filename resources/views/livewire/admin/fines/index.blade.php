@@ -3,8 +3,6 @@
         Fines Overview
     </x-slot>
 
-    <button class="btn btn-xs btn-primary" wire:click='downloadTemplate'>Mass Fines Template</button>
-
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">

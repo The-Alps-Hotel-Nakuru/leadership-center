@@ -3,9 +3,22 @@
         Employees Accounts
     </x-slot:header>
 
-    <div class="card">
+    {{-- <div class="card">
         <div class="card-header">
+            
+  
+        </div> --}}
+        <div class="card-header d-flex">
             <h5>List of Employees' Accounts</h5>
+            <button class="btn btn-primary ms-auto me-2" wire:loading.attr="disabled" wire:target="downloadData"
+                wire:click="downloadData">
+                <span wire:loading.remove wire:target="downloadData">
+                    Download Data
+                </span>
+                <span wire:loading wire:target="downloadData">
+                    Downloading...
+                </span>
+            </button>
         </div>
         <div class="table-responsive card-body">
             <table class="table ">

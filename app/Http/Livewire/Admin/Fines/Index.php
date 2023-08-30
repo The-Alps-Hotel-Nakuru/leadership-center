@@ -34,9 +34,6 @@ class Index extends Component
         ]);
     }
 
-    public function downloadTemplate(){
-        return Excel::download(new FineTemplateExport, 'mass_fines_data.xlsx');
-    }
     public function render()
     {
         return view('livewire.admin.fines.index', [

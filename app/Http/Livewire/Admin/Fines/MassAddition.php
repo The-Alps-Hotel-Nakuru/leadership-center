@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Fines;
 
+use App\Exports\FineTemplateExport;
 use App\Imports\FinesImport;
 use App\Models\EmployeesDetail;
 use App\Models\Fine;
@@ -20,6 +21,12 @@ class MassAddition extends Component
         'employee_fines_file' => 'required|mimes:xlsx,csv,txt'
     ];
 
+    //exports the template for mass addition of employee fines
+    public function downloadTemplate()
+    {
+        return Excel::download(new FineTemplateExport, 'employee_fines_file.xlsx');
+    }
+
     public function validateData()
     {
 
@@ -29,40 +36,30 @@ class MassAddition extends Component
         Excel::import($import, $filePath);
 
         $actualFields = $import->getFields();
-        $expectedFields = ["ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON", "EMAIL"];
+
+        // dd($actualFields);
+        $expectedFields = ["ID",  "NATIONAL_ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON"];
 
         if ($actualFields !== $expectedFields) {
             $this->addError('employee_fines_file', 'The fields set are incorrect');
         }
-
+        // dd($this->fines);
         $this->fines = $import->getValues();
+
     }
 
-    public function uploadFines(){
-        foreach($this->fines as $finesData){
-            $user = User::where('email', $finesData['EMAIL'])->first();
-
-            if($user){
-                $employee = $user->employee;
-                if($employee){
-                    $employee->fines()->create([
-                        'year' => $finesData['YEAR'],
-                        'month' => $finesData['MONTH'],
-                        'reason' => $finesData['REASON'],
-                        'amount_kes' => $finesData['AMOUNT'],
-                        'year' => $finesData['YEAR'],
-                        'month' => $finesData['MONTH'],
-                    ]);
-
-                    $this->emit('success', [
-                        'message' => "Fine added successfully for record $index"
-                    ]);
-                } else {
-
-                    $this->emit('warning', [
-                        'message' => "Duplicate record in record $index"
-                    ]);
-                }
+    public function uploadFines()
+    {
+        foreach ($this->fines as $finesData) {
+            $employee = EmployeesDetail::where('national_id', $finesData['NATIONAL_ID'])->first();
+            // dd($employee);
+            if ($employee) {
+                $employee->fines()->create([
+                    'year' => $finesData['YEAR'],
+                    'month' => $finesData['MONTH'],
+                    'reason' => $finesData['REASON'],
+                    'amount_kes' => $finesData['AMOUNT'],
+                ]);
             }
         }
 

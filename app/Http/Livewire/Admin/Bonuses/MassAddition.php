@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Admin\Bonuses;
 
+use App\Exports\BonusesTemplateExport;
 use App\Imports\BonusesImport;
 use App\Models\EmployeesDetail;
+use App\Models\Log;
 use App\Models\User;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
@@ -20,6 +22,20 @@ class MassAddition extends Component
         'employee_bonuses_file' => 'required|mimes:xlsx,csv,txt',
     ];
 
+    // public function logs()
+    // {
+    //     $log = new Log();
+    //     $log->user_id = auth()->user();
+    //     $log->model = 'App\Models\EmployeesDetail';
+    //     $log->payload = "<strong>" . auth()->user()->name . "</strong> has downloaded <strong> " . 'Bonuses Template' . "</strong> from the system";
+    //     $log->save();
+    // }
+
+    //exports the template for mass addition of employee bonuses
+    public function downloadTemplate(){
+        return Excel::download(new BonusesTemplateExport, 'employee_bonuses_file.xlsx');
+    }
+
     public function validateData()
     {
         $this->validate();
@@ -31,7 +47,7 @@ class MassAddition extends Component
         $actualFields = $import->getFields();
 
 
-        $expectedFields = ["ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON", "NATIONAL_ID"];
+        $expectedFields = ["ID", "NATIONAL_ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON"];
         // dd($expectedFields);
 
         if ($actualFields !== $expectedFields) {

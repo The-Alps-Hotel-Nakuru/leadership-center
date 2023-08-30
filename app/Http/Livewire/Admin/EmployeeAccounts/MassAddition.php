@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\EmployeeAccounts;
 
+use App\Exports\EmployeesBankAccountsTemplateExport;
 use App\Imports\AccountsImport;
 use App\Models\Bank;
 use App\Models\EmployeeAccount;
@@ -24,6 +25,11 @@ class MassAddition extends Component
     protected $rules = [
         'accountsFile' => 'required|mimes:xlsx,csv,txt'
     ];
+
+    //exports the template for mass addition of bank accounts
+    public function downloadTemplate(){
+        return Excel::download(new EmployeesBankAccountsTemplateExport,  'employee_bank_accounts_template.xlsx');
+    }
 
     function checkData()
     {

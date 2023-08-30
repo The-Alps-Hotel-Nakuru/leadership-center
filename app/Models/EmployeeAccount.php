@@ -15,6 +15,10 @@ class EmployeeAccount extends Model
     public function employee() {
         return $this->belongsTo(EmployeesDetail::class, 'employees_detail_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 
 }

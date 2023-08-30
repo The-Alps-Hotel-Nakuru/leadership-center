@@ -31,15 +31,15 @@ class EmployeeNSSFExport implements WithHeadings, WithMapping, WithStyles, FromC
 
     public function map($row): array
     {
-        $emloyeeName = $row->user ? $row->user->name : 'N/A';
-        $emloyeeID = $row->national_id;
+        $employeeName = $row->user ? $row->user->name : 'N/A';
+        $employeeID = $row->national_id;
         $employeeeNssf = $row->nssf ? $row->nssf : 'N/A';
         $registeredDate = Carbon::parse($row->created_at)->format('jS F Y');
 
         return [
             $row->id . "",
-            $emloyeeID . "",
-            $emloyeeName . "",
+            $employeeID . "",
+            $employeeName . "",
             strval($employeeeNssf),
             $registeredDate . ""
         ];

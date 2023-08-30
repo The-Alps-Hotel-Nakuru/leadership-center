@@ -8,32 +8,32 @@
         <div class="card-header d-flex">
 
 
-            <button class="btn btn-dark ms-auto me-2" wire:loading.attr="disabled" wire:target="exportData('nssf')"
-                wire:click="exportData('nssf')">
-                <span wire:loading.remove wire:target="exportData('nssf')">
+            <button class="btn btn-dark ms-auto me-2" wire:loading.attr="disabled" wire:target="exportNssfData"
+                wire:click="exportNssfData">
+                <span wire:loading.remove wire:target="exportNssfData">
                     Export NSSF Data
                 </span>
-                <span wire:loading wire:target="exportData('nssf')">
+                <span wire:loading wire:target="exportNssfData">
                     Exporting...
                 </span>
             </button>
 
-            <button class="btn btn-success me-2" wire:loading.attr="disabled" wire:target="exportData('nhif')"
-                wire:click="exportData('nhif')">
-                <span wire:loading.remove wire:target="exportData('nhif')">
+            <button class="btn btn-success me-2" wire:loading.attr="disabled" wire:target="exportNhifData"
+                wire:click="exportNhifData">
+                <span wire:loading.remove wire:target="exportNhifData">
                     Export NHIF Data
                 </span>
-                <span wire:loading wire:target="exportData('nhif')">
+                <span wire:loading wire:target="exportNhifData">
                     Exporting...
                 </span>
             </button>
 
-            <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="exportData('kra')"
-                wire:click="exportData('kra')">
-                <span wire:loading.remove wire:target="exportData('kra')">
+            <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="exportKraData"
+                wire:click="exportKraData">
+                <span wire:loading.remove wire:target="exportKraData">
                     Export KRA Data
                 </span>
-                <span wire:loading wire:target="exportData('kra')">
+                <span wire:loading wire:target="exportKraData">
                     Exporting...
                 </span>
             </button>

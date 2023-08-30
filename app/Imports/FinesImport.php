@@ -27,22 +27,22 @@ class FinesImport implements ToCollection
 
             // $email = $rowData[7];
             // $user = User::where('email', $email)->first();
-            $national_id = $rowData[7];
-            // dd($nationalId);
+            $national_id = $rowData[1];
+            // dd($national_id);
             $employee = EmployeesDetail::where('national_id', $national_id)->first();
             // dd($user);
-
+            // dd($employee);
                 if($employee){
+
                     $finesData= [
                         'ID' => $rowData[0],
-                        'FIRST_NAME' => $rowData[1],
-                        'LAST_NAME' => $rowData[2],
-                        'YEAR' => $rowData[3],
-                        'MONTH' => $rowData[4],
-                        'AMOUNT' => $rowData[5],
-                        'REASON' => $rowData[6],
-                        // 'NATIONAL_ID' => $user->email,
                         'NATIONAL_ID' => $employee->national_id,
+                        'FIRST_NAME' => $rowData[2],
+                        'LAST_NAME' => $rowData[3],
+                        'YEAR' => $rowData[4],
+                        'MONTH' => $rowData[5],
+                        'AMOUNT' => $rowData[6],
+                        'REASON' => $rowData[7],
                     ];
 
                     $this->values[] = $finesData;
@@ -52,10 +52,14 @@ class FinesImport implements ToCollection
     }
     
     public function getFields(){
+        // dd($this->fields);
         return $this->fields;
+        
     }
 
     public function getValues(){
+        // dd($this->values);
         return $this->values;
+        
     }
 }

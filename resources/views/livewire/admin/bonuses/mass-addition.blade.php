@@ -4,8 +4,21 @@
         </x-slot>
 
         <div class="card">
-            <div class="card-header">
+            {{-- <div class="card-header">
                 <h5>Upload Employee Bonuses</h5>
+            </div> --}}
+
+            <div class="card-header d-flex">
+                <h5>Upload Employee Bonuses</h5>
+                <button class="btn btn-primary ms-auto me-2" wire:loading.attr="disabled" wire:target="downloadTemplate"
+                    wire:click="downloadTemplate">
+                    <span wire:loading.remove wire:target="downloadTemplate">
+                        Download Template
+                    </span>
+                    <span wire:loading wire:target="downloadTemplate">
+                        Downloading...
+                    </span>
+                </button>
             </div>
             <div class="card-body">
                 <div class="mb-3">
@@ -40,7 +53,7 @@
                             <table class="table table-striped table-hover table-borderless align-middle">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>No</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Year</th>
@@ -56,12 +69,12 @@
                                     @foreach ($bonuses as $bonus)
                                         <tr>
                                             <td>{{ $bonus['ID'] }}</td>
+                                            <td>{{ $bonus['NATIONAL_ID'] }}</td>
                                             <td>{{ $bonus['FIRST_NAME'] }}</td>
                                             <td>{{ $bonus['LAST_NAME'] }}</td>
                                             <td>{{ $bonus['YEAR'] }}</td>
                                             <td>{{ $bonus['MONTH'] }}</td>
                                             <td>{{ $bonus['AMOUNT'] }}</td>
-                                            <td>{{ $bonus['NATIONAL_ID'] }}</td>
                                             <td>{{ $bonus['REASON'] }}</td>
                                         </tr>
                                     @endforeach
@@ -79,7 +92,6 @@
                                 </button>
                             </div>
                         </div>
-              
                     </div>
                 </div>
             </div>
