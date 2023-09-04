@@ -36,7 +36,7 @@
 <body>
     <div class="container">
         <h1>Welcome to The Alps Hotel Nakuru!</h1>
-        <p>Dear {{ $user->name }},</p>
+        <p>Greetings {{ $user->name }},</p>
         <p>Thank you for joining our team. We are excited to have you on board and look forward to working together.</p>
         <p>Please find below your login credentials to access the system:</p>
 

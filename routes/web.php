@@ -137,6 +137,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/{designation_id}/create', Admin\Responsibilities\Create::class)->name('admin.responsibilities.create');
             Route::get('/{id}/edit', Admin\Responsibilities\Edit::class)->name('admin.responsibilities.edit');
         });
+        Route::prefix('welfare_contributions')->group(function () {
+            Route::get('/', Admin\WelfareContributions\Index::class)->name('admin.welfare_contributions.index');
+            Route::get('/create', Admin\WelfareContributions\Create::class)->name('admin.welfare_contributions.create');
+            Route::get('/{id}/edit', Admin\WelfareContributions\Edit::class)->name('admin.welfare_contributions.edit');
+            Route::get('/mass_addition', Admin\WelfareContributions\MassAddition::class)->name('admin.welfare_contributions.mass_addition');
+        });
         Route::prefix('payrolls')->group(function () {
             Route::get('/', Admin\Payrolls\Index::class)->name('admin.payrolls.index');
             Route::get('/{id}/show', Admin\Payrolls\Show::class)->name('admin.payrolls.show');

@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class InternExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting, WithStyles, WithTitle, ShouldAutoSize
+class ExternalExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting, WithStyles, WithTitle, ShouldAutoSize
 {
     public $id;
 
@@ -30,16 +30,16 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
     {
         $payroll = Payroll::find($this->id);
 
-        $intern = [];
+        $external = [];
 
         foreach ($payroll->monthlySalaries as $salary) {
             $employee = EmployeesDetail::find($salary->employees_detail_id);
-            if ($employee->isInternBetween(Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) && $salary->basic_salary_kes > 0) {
-                array_push($intern, $salary);
+            if ($employee->isExternalBetween(Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) && $salary->basic_salary_kes > 0) {
+                array_push($external, $salary);
             }
         }
 
-        return collect($intern)->sortByDesc('basic_salary_kes');
+        return collect($external)->sortByDesc('basic_salary_kes');
     }
 
 
@@ -51,7 +51,6 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
             "Full Name",                       //C
             "Department",                       //D
             "Designation",                       //E
-            "No. of Days Worked",                       //F
             "Advance",                       //G
             "Bonuses",                       //H
             "Fines",                       //I
@@ -66,7 +65,7 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
 
     function title(): string
     {
-        return "Intern Payroll";
+        return "External Employees Payroll";
     }
 
 
@@ -81,7 +80,6 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
             $row->employee->user->name,
             $row->employee->designation->department->title,
             $row->employee->designation->title,
-            $row->employee->daysWorked($row->payroll->year . '-' . $row->payroll->month),
             $row->advances,
             $row->bonuses,
             $row->fines,
@@ -105,16 +103,15 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
             'C' => NumberFormat::FORMAT_TEXT,
             'D' => NumberFormat::FORMAT_TEXT,
             'E' => NumberFormat::FORMAT_TEXT,
-            'F' => NumberFormat::FORMAT_NUMBER,
+            'F' => $KES_FORMAT,
             'G' => $KES_FORMAT,
             'H' => $KES_FORMAT,
             'I' => $KES_FORMAT,
             'J' => $KES_FORMAT,
             'K' => $KES_FORMAT,
             'L' => $KES_FORMAT,
-            'M' => $KES_FORMAT,
+            'M' => NumberFormat::FORMAT_TEXT,
             'N' => NumberFormat::FORMAT_TEXT,
-            'O' => NumberFormat::FORMAT_TEXT,
         ];
     }
 

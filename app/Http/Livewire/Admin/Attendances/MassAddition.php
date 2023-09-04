@@ -112,6 +112,8 @@ class MassAddition extends Component
         $this->emit('done', [
             'success' => "Successfully Uploaded {$count} attendance records"
         ]);
+
+        $this->reset();
     }
 
 

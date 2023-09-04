@@ -17,15 +17,18 @@ return new class extends Migration
             $table->id();
             $table->foreignId('payroll_id')->constrained();
             $table->foreignId('employees_detail_id')->constrained();
-            $table->float('gross_salary')->constrained();
+            $table->unique(['payroll_id', 'employees_detail_id']);
+            $table->float('gross_salary');
             $table->float('nssf');
             $table->float('nhif');
             $table->float('paye');
             $table->float('housing_levy');
+            $table->float('tax_rebate');
             $table->float('total_fines');
             $table->float('total_advances');
             $table->float('total_bonuses');
             $table->float('total_welfare_contributions');
+            $table->string('bank_slip_path')->nullable();
             $table->timestamps();
         });
     }

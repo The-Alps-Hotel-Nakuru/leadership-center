@@ -126,10 +126,10 @@
                                                 {{ Carbon\Carbon::parse($contract[4])->format('jS F,Y') }}
                                             </td>
                                             <td scope="row">
-                                                {{ Carbon\Carbon::parse($contract[6]->start_date)->format('jS F,Y') }}
+                                                {{ $contract[6] ? Carbon\Carbon::parse($contract[6]->start_date)->format('jS F,Y') : '' }}
                                             </td>
                                             <td scope="row">
-                                                {{ Carbon\Carbon::parse($contract[6]->end_date)->format('jS F,Y') }}
+                                                {{ $contract[6] ? Carbon\Carbon::parse($contract[6]->end_date)->format('jS F,Y') : '' }}
                                             </td>
                                             <td scope="row">{{ number_format($contract[5], 2) }}</td>
                                         </tr>

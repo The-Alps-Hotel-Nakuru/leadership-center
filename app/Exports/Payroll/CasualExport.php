@@ -101,7 +101,7 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithCol
             $row->bonuses,
             $row->fines,
             0,
-            0,
+            $row->welfare_contributions,
             $row->total_deductions,
             $row->net_pay,
             $row->employee->bankAccount && $row->employee->bankAccount->bank ? $row->employee->bankAccount->bank->name : "",

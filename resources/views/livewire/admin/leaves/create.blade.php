@@ -18,7 +18,10 @@
                         <ul class="list-group mt-2 w-100">
                             @if ($search != '')
                                 @foreach ($employees as $employee)
-                                    @if ($employee->is_full_time)
+                                    @if (
+                                        $employee->isFullTimeBetween(
+                                            $leave->start_date ?? Carbon\Carbon::now()->toDateString(),
+                                            $leave->end_date ?? Carbon\Carbon::now()->toDateString()))
                                         <li wire:click="selectEmployee({{ $employee->id }})"
                                             class="list-group-item {{ $selectedEmployee == $employee->id ? 'active' : '' }}">
                                             {{ $employee->user->name }}

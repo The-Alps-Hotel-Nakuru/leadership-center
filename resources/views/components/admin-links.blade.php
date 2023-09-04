@@ -194,33 +194,6 @@
         </div>
 
     </li>
-    <li class="nav-item @if (Request::is('admin/leaves*')) active @endif">
-        <a class="nav-link" data-bs-toggle="collapse" href="#leaves" role="button" aria-expanded="false"
-            aria-controls="leaves">
-            <i class="material-icons material-symbols-outlined">
-                free_cancellation
-            </i>
-            <span class="link-title">leaves</span>
-            <i class="link-arrow" data-feather="chevron-down"></i>
-        </a>
-        <div class="collapse @if (Request::is('admin/leaves*')) show @endif" id="leaves">
-            <ul class="nav sub-menu">
-                <li class="nav-item ">
-                    <a href="{{ route('admin.leaves.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.index') active @endif">Leave Days List</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.leaves.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.create') active @endif">Add Leave Records</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.leaves.mass_addition') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.mass_addition') active @endif">Leave Mass Addition</a>
-                </li>
-
-            </ul>
-        </div>
-    </li>
     <li class="nav-item @if (Request::is('admin/attendances*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#attendances" role="button" aria-expanded="false"
             aria-controls="attendances">
@@ -248,6 +221,34 @@
             </ul>
         </div>
     </li>
+    <li class="nav-item @if (Request::is('admin/leaves*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#leaves" role="button" aria-expanded="false"
+            aria-controls="leaves">
+            <i class="material-icons material-symbols-outlined">
+                free_cancellation
+            </i>
+            <span class="link-title">leaves</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/leaves*')) show @endif" id="leaves">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.leaves.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.index') active @endif">Leave Days List</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.leaves.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.create') active @endif">Add Leave Records</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.leaves.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.mass_addition') active @endif">Leave Mass Addition</a>
+                </li>
+
+            </ul>
+        </div>
+    </li>
+
     <li class="nav-item @if (Request::is('admin/fines*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#fines" role="button" aria-expanded="false"
             aria-controls="fines">
@@ -280,7 +281,7 @@
         <a class="nav-link" data-bs-toggle="collapse" href="#bonuses" role="button" aria-expanded="false"
             aria-controls="bonuses">
             <i class="material-icons material-symbols-outlined">
-                attach_money
+                paid
             </i>
             <span class="link-title">Bonuses</span>
             <i class="link-arrow" data-feather="chevron-down"></i>
@@ -299,6 +300,57 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.employee_bonuses.mass_addition') }}"
                         class="nav-link @if (Route::currentRouteName() == 'admin.employee_bonuses.mass_addition') active @endif">Mass Bonuses Addition</a>
+                </li>
+
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item @if (Request::is('admin/welfare_contributions*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#welfare_contributions" role="button"
+            aria-expanded="false" aria-controls="welfare_contributions">
+            <i class="material-icons material-symbols-outlined">
+                card_membership
+            </i>
+            <span class="link-title">Staff Welfare</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/welfare_contributions*')) show @endif" id="welfare_contributions">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.welfare_contributions.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.welfare_contributions.index') active @endif">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.welfare_contributions.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.welfare_contributions.create') active @endif">Add Contribution</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.welfare_contributions.mass_addition') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.welfare_contributions.mass_addition') active @endif">Mass Contribution</a>
+                </li>
+
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item @if (Request::is('admin/advances*')) active @endif">
+        <a class="nav-link" data-bs-toggle="collapse" href="#advances" role="button" aria-expanded="false"
+            aria-controls="advances">
+            <i class="material-icons material-symbols-outlined">
+                decimal_decrease
+            </i>
+            <span class="link-title">Advances</span>
+            <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse @if (Request::is('admin/advances*')) show @endif" id="advances">
+            <ul class="nav sub-menu">
+                <li class="nav-item ">
+                    <a href="{{ route('admin.advances.index') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.advances.index') active @endif">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.advances.create') }}"
+                        class="nav-link @if (Route::currentRouteName() == 'admin.advances.create') active @endif">Add Advances Records</a>
                 </li>
 
             </ul>

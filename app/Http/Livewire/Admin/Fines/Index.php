@@ -40,7 +40,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.fines.index', [
-            'fines' => Fine::paginate(10)
+            'fines' => Fine::orderBy('id', 'DESC')->paginate(10)
         ]);
     }
 }

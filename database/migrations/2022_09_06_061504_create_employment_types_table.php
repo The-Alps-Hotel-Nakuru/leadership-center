@@ -34,7 +34,11 @@ return new class extends Migration
             ],
             [
                 'title'=>'Internship',
-                'description'=> 'apply to employees who work regular hours and are paid a Stipend. The contracts are ongoing until the set end date approaches, for example, after six months or one year. The stipend is not to accrue deductions and any leverage on the intern is to be dispensed as a company expense.'
+                'description'=> 'apply to employees who work regular hours and are paid a Stipend untaxed. The contracts are ongoing until the set end date approaches, for example, after six months or one year. The stipend is not to accrue deductions and any leverage on the intern is to be dispensed as a company expense.'
+            ],
+            [
+                'title'=>'External',
+                'description'=> 'apply to employees who work on External assistance Basis. Mostly consist of accountants, auditors and IT Staff their agreed salaries are untaxed and no benefits are to be paid'
             ],
         ]);
     }
