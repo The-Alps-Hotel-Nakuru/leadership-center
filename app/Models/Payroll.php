@@ -23,8 +23,6 @@ class Payroll extends Model
 
     public function getTotalAttribute()
     {
-
-
         return $this->casual_gross + $this->full_time_gross + $this->intern_gross + $this->external_gross;
     }
 
