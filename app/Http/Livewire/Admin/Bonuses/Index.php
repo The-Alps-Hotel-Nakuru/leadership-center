@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire\Admin\Bonuses;
 
+use App\Exports\BonusesDataExport;
+use App\Exports\FinesDataExport;
 use App\Models\Bonus;
 use App\Models\Log;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -30,6 +33,11 @@ class Index extends Component
         $this->emit('done', [
             'success' => "Successfully Deleted the Bonus from the system"
         ]);
+    }
+
+    function downloadBonusesData()
+    {
+        return Excel::download(new BonusesDataExport, "Bonuses data.xlsx");
     }
     public function render()
     {

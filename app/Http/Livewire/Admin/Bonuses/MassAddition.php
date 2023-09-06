@@ -28,18 +28,21 @@ class MassAddition extends Component
         $import = new BonusesImport;
         Excel::import($import, $filePath);
 
-        $actualFields = $import->getFields();
+        $values = $import->getData();
 
+        $expectedFields = ["ID", "NATIONAL_ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON"];
+        // dd([$values[0]->toArray(), $expectedFields]);
 
-        $expectedFields = ["ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON", "EMAIL"];
-        // dd($expectedFields);
-
-        if ($actualFields !== $expectedFields) {
+        if ($values[0]->toArray() !== $expectedFields) {
             $this->addError('employee_bonuses_file', 'The Fields set are incorrect');
             return;
         }
 
-        $this->bonuses = $import->getValues();
+        $this->reset('bonuses');
+
+        for ($i = 2; $i < count($values); $i++) {
+            array_push($this->bonuses, $values[$i]);
+        }
 
         // dd($this->bonuses);
     }
@@ -47,18 +50,15 @@ class MassAddition extends Component
     public function uploadBonuses()
     {
         foreach ($this->bonuses as $bonusData) {
-            $user = User::where('email', $bonusData['EMAIL'])->first();
+            $employee = EmployeesDetail::where('national_id', $bonusData[1])->first();
 
-            if ($user) {
-                $employee = $user->employee;
-                if($employee){
-                    $employee->bonuses()->create([
-                        'year' => $bonusData['YEAR'],
-                        'month' => $bonusData['MONTH'],
-                        'reason' => $bonusData['REASON'],
-                        'amount_kes' => $bonusData['AMOUNT'],
-                    ]);
-                }
+            if ($employee) {
+                $employee->bonuses()->create([
+                    'year' => $bonusData[4],
+                    'month' => $bonusData[5],
+                    'amount_kes' => $bonusData[6],
+                    'reason' => $bonusData[7],
+                ]);
             }
         }
 
