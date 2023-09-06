@@ -3,7 +3,9 @@
 use App\Http\Livewire\Admin;
 use App\Http\Livewire\Employee;
 use App\Models\EmployeeContract;
+use App\Models\Log;
 use App\Models\MonthlySalary;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Faker\Factory;
@@ -39,6 +41,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             return redirect()->route('admin.dashboard');
         } elseif (auth()->user()->is_employee) {
             if (auth()->user()->first_login) {
+                $user = User::find(auth()->user()->id);
+                $user->first_login = false;
+                $user->save();
                 return redirect()->route('employee.profile');
             } else {
                 return redirect()->route('employee.dashboard');
@@ -217,6 +222,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
                 ]);
                 return $pdf->stream();
             } else {
+                Log::create([
+                    'user_id' => auth()->user()->id,
+                    'payload' => "Tried to View Someone else's Payslip",
+                    'model' => 'App\Models\Payroll'
+                ]);
                 abort(403, "You Are Not Authorized to view this Payslip because it doesn't belong to you");
             }
         })->name('employee.payslips.view');
@@ -245,6 +255,7 @@ Route::get('testPDF', function () {
 
     return $pdf->stream();
 });
+
 Route::get('/{id}/draft_contract', function ($id) {
 
     $faker = Factory::create();
