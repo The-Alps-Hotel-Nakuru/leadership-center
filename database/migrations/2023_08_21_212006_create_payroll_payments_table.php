@@ -28,6 +28,8 @@ return new class extends Migration
             $table->float('total_advances');
             $table->float('total_bonuses');
             $table->float('total_welfare_contributions');
+            $table->foreignId('bank_id')->constrained();
+            $table->string('account_number');
             $table->string('bank_slip_path')->nullable();
             $table->timestamps();
         });

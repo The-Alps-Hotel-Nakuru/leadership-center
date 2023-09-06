@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-xl-4">
             <!-- Profile picture card-->
-            <div class="card mb-4 mb-xl-0">
+            <div class="card mb-4 mb-xl-0 shadow">
                 <div class="card-header">Profile Picture</div>
                 <div class="card-body text-center">
                     <!-- Profile picture image-->
@@ -23,6 +23,34 @@
                                 width="80px"> --}}
                     </div>
                     {{-- @endif --}}
+                </div>
+            </div>
+            <div class="mt-4"></div>
+            <div class="card mb-4 mb-xl-0 shadow">
+                <div class="card-header">Payment Account Details</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="bank_id" class="form-label">Bank</label>
+                        <select wire:model="account.bank_id" class="form-select form-select-lg" name="bank_id"
+                            id="bank_id">
+                            <option selected>Select one</option>
+                            @foreach (App\Models\Bank::all() as $bank)
+                                <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('account.bank_id')
+                            <small id="account_number" class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="account_number" class="form-label">Account Number</label>
+                        <input wire:model='account.account_number' type="text" class="form-control"
+                            name="account_number" id="account_number" aria-describedby="account_number"
+                            placeholder="Enter your Account Number">
+                        @error('account.account_number')
+                            <small id="account_number" class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
                 </div>
             </div>
         </div>

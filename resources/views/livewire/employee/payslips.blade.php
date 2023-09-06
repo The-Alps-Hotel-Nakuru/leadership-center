@@ -25,7 +25,8 @@
                             <th class="">Total Bonuses</th>
                             <th class="">Total Fines</th>
                             <th class="bg-black text-white">Welfare Contribution</th>
-                            <th class="bg-black text-white">Net Salary</th>
+                            <th></th>
+                            <th class="bg-success text-white">NET SALARY</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -47,18 +48,22 @@
                                 <td class="text-danger">KES {{ number_format($payslip->housing_levy, 2) }}</td>
                                 <td class="text-success">KES {{ number_format($payslip->bonuses, 2) }}</td>
                                 <td class="text-danger">KES {{ number_format($payslip->fines, 2) }}</td>
-                                <td class="text-danger">KES {{ number_format($payslip->welfare_contributions, 2) }}</td>
-                                <td class="bg-black text-white" style="font-weight:bold">KES
+                                <td class="text-danger">KES {{ number_format($payslip->welfare_contributions, 2) }}
+                                </td>
+                                <td></td>
+                                <td class="text-black" style="font-weight:bold">KES
                                     {{ number_format($payslip->net_pay, 2) }}</td>
                                 <td class="d-flex flex-row">
-                                    <div class="flex-col mx-2">
-                                        <a href="{{ route('employee.payslips.view', $payslip->id) }}"
-                                            class="btn btn-dark">
-                                            <i class="material-icons material-symbols-outlined">
-                                                receipt_long
-                                            </i>
-                                        </a>
-                                    </div>
+                                    @if ($payslip->payroll->payment)
+                                        <div class="flex-col mx-2">
+                                            <a href="{{ route('employee.payslips.view', $payslip->id) }}"
+                                                class="btn btn-dark">
+                                                <i class="material-icons material-symbols-outlined">
+                                                    receipt_long
+                                                </i>
+                                            </a>
+                                        </div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

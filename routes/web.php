@@ -215,16 +215,26 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 
             if (auth()->user()->employee->id == $salary->employees_detail_id) {
-                $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper('a4', 'portrait');
+                if ($salary->payroll->payment) {
+                    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper('a4', 'portrait');
 
-                $pdf->loadView('doc.payslip', [
-                    'salary' => $salary
-                ]);
-                return $pdf->stream();
+                    $pdf->loadView('doc.payslip', [
+                        'salary' => $salary
+                    ]);
+                    return $pdf->stream();
+                } else {
+                    Log::create([
+                        'user_id' => auth()->user()->id,
+                        'payload' => "tried to view the Payslip when not Ready",
+                        'model' => 'App\Models\Payroll'
+                    ]);
+                    abort(403, "You Are Not Authorized to view this Payslip because it is not ready");
+                }
+
             } else {
                 Log::create([
                     'user_id' => auth()->user()->id,
-                    'payload' => "Tried to View Someone else's Payslip",
+                    'payload' => "tried to view someone else's payslip",
                     'model' => 'App\Models\Payroll'
                 ]);
                 abort(403, "You Are Not Authorized to view this Payslip because it doesn't belong to you");
