@@ -49,10 +49,10 @@ class MassAddition extends Component
 
     public function uploadBonuses()
     {
+        $count = 0;
+        $amount = 0;
         foreach ($this->bonuses as $bonusData) {
             $employee = EmployeesDetail::where('national_id', $bonusData[1])->first();
-            $count = 0;
-            $amount = 0;
 
             if ($employee) {
                 $employee->bonuses()->create([
