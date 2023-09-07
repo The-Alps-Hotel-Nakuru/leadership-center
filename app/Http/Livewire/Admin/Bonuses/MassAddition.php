@@ -40,7 +40,7 @@ class MassAddition extends Component
 
         $this->reset('bonuses');
 
-        for ($i = 2; $i < count($values); $i++) {
+        for ($i = 1; $i < count($values); $i++) {
             array_push($this->bonuses, $values[$i]);
         }
 
@@ -51,6 +51,8 @@ class MassAddition extends Component
     {
         foreach ($this->bonuses as $bonusData) {
             $employee = EmployeesDetail::where('national_id', $bonusData[1])->first();
+            $count = 0;
+            $amount = 0;
 
             if ($employee) {
                 $employee->bonuses()->create([
@@ -59,11 +61,13 @@ class MassAddition extends Component
                     'amount_kes' => $bonusData[6],
                     'reason' => $bonusData[7],
                 ]);
+                $count++;
+                $amount += $bonusData[6];
             }
         }
 
         $this->emit('done', [
-            'success' => 'Successfully Added Bonuses To Employees'
+            'success' => 'Successfully Added ' . $count . ' Bonuses To Employees Amounting to KES ' . number_format($amount, 2)
         ]);
         $this->reset();
     }

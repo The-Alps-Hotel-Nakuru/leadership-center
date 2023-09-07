@@ -3,9 +3,27 @@
         Fines Overview
     </x-slot>
 
-    <button class="btn btn-xs btn-primary" wire:click='downloadTemplate'>Mass Fines Template</button>
-
     <div class="container-fluid">
+        <div class="card-header d-flex">
+            <button class="btn btn-secondary ms-auto me-2"  wire:loading.attr="disabled" wire:target="downloadTemplate"
+                wire:click="downloadTemplate">
+                <span wire:loading.remove wire:target="downloadTemplate">
+                    Download Fines Template
+                </span>
+                <span wire:loading wire:target="downloadTemplate">
+                    Downloading...
+                </span>
+            </button>
+            <button class="btn btn-warning"  wire:loading.attr="disabled" wire:target="downloadFinesData"
+                wire:click="downloadFinesData">
+                <span wire:loading.remove wire:target="downloadFinesData">
+                    Download Fines Data
+                </span>
+                <span wire:loading wire:target="downloadFinesData">
+                    Downloading...
+                </span>
+            </button>
+        </div>
         <div class="card">
             <div class="card-header">
                 <h5>List of Issued Fines</h5>

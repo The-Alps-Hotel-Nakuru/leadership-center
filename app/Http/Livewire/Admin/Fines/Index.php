@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Fines;
 
+use App\Exports\FinesDataExport;
 use App\Exports\FineTemplateExport;
 use App\Models\Fine;
 use App\Models\Log;
@@ -36,6 +37,11 @@ class Index extends Component
 
     public function downloadTemplate(){
         return Excel::download(new FineTemplateExport, 'mass_fines_data.xlsx');
+    }
+
+    function downloadFinesData()
+    {
+        return Excel::download(new FinesDataExport, "Fines data.xlsx");
     }
     public function render()
     {
