@@ -61,10 +61,10 @@ class MassAddition extends Component
 
     public function uploadFines()
     {
+        $count = 0;
+        $amount = 0;
         foreach ($this->fines as $finesData) {
             $employee = EmployeesDetail::where('national_id', $finesData[1])->first();
-            $count = 0;
-            $amount = 0;
             if ($employee) {
                 $employee->fines()->create([
                     'year' => $finesData[4],
