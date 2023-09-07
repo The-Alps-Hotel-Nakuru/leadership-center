@@ -20,25 +20,26 @@ class Index extends Component
         'done' => 'render'
     ];
 
-    public function delete($id)
-    {
-        $bonus  = Bonus::find($id);
-        $bonus->delete();
+    // public function delete($id)
+    // {
+    //     $bonus  = Bonus::find($id);
+    //     $bonus->delete();
 
-        $log = new Log();
-        $log->user_id = auth()->user()->id;
-        $log->model = 'App\Models\Bonus';
-        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Deleted Bonus for <strong>" . $bonus->employee->user->name . ' on ' . Carbon::parse($bonus->created_at)->format('j F, Y - h:i A') . "</strong> amounting to <strong>KES " . number_format($bonus->amount_kes) . "</strong> in the system";
+    //     $log = new Log();
+    //     $log->user_id = auth()->user()->id;
+    //     $log->model = 'App\Models\Bonus';
+    //     $log->payload = "<strong>" . auth()->user()->name . "</strong> has Deleted Bonus for <strong>" . $bonus->employee->user->name . ' on ' . Carbon::parse($bonus->created_at)->format('j F, Y - h:i A') . "</strong> amounting to <strong>KES " . number_format($bonus->amount_kes) . "</strong> in the system";
 
-        $this->emit('done', [
-            'success' => "Successfully Deleted the Bonus from the system"
-        ]);
-    }
+    //     $this->emit('done', [
+    //         'success' => "Successfully Deleted the Bonus from the system"
+    //     ]);
+    // }
 
     function downloadBonusesData()
     {
-        return Excel::download(new BonusesDataExport, "Bonuses data.xlsx");
+        return Excel::download(new BonusesDataExport, "Bonuses Data.xlsx");
     }
+
     public function render()
     {
         return view('livewire.admin.bonuses.index', [
