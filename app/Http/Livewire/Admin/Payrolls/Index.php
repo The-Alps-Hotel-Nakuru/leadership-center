@@ -167,7 +167,7 @@ class Index extends Component
         }
 
         $payroll->save();
-        if (!$payroll->payment->bank_slip_path) {
+        if ($payroll->payment->bank_slip_path) {
             $this->emit('done', [
                 'danger' => "The Payments Have already Been Made"
             ]);
