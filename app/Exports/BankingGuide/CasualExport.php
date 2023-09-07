@@ -65,8 +65,8 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithTit
     public function map($row): array
     {
         return [
-            env('BANK_NAME'),
             env('BANK_ACCOUNT_NUMBER'),
+            env('BANK_SORT'),
             $row->employee->user->name,
             $row->employee->bankAccount && $row->employee->bankAccount->bank ? $row->employee->bankAccount->bank->short_name : '',
             'NAIROBI',

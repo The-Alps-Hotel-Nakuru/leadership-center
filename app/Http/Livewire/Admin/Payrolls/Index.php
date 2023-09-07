@@ -33,7 +33,8 @@ class Index extends Component
         $this->yearmonth = Carbon::now()->year . '-' . Carbon::now()->month;
     }
 
-    public function loadItems() {
+    public function loadItems()
+    {
         $this->readyToLoad = true;
     }
 
@@ -166,6 +167,12 @@ class Index extends Component
         }
 
         $payroll->save();
+        if (!$payroll->payment->bank_slip_path) {
+            $this->emit('done', [
+                'danger' => "The Payments Have already Been Made"
+            ]);
+            return;
+        }
         if (count($payroll->payment) > 0) {
             $payroll->payment()->delete();
         }
