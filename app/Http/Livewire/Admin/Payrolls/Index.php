@@ -168,12 +168,12 @@ class Index extends Component
 
         $payroll->save();
         if (count($payroll->payment) > 0) {
-            if ($payroll->payment->bank_slip_path) {
-                $this->emit('done', [
-                    'danger' => "The Payments Have already Been Made"
-                ]);
-                return;
-            }
+            // if ($payroll->payment->bank_slip_path) {
+            //     $this->emit('done', [
+            //         'danger' => "The Payments Have already Been Made"
+            //     ]);
+            //     return;
+            // }
             $payroll->payment()->delete();
         }
 
