@@ -96,8 +96,8 @@ class MassAddition extends Component
             $newContract->employees_detail_id = EmployeesDetail::where('user_id', $contract[0])->first()->id;
             $newContract->designation_id = $contract[1];
             $newContract->employment_type_id = $contract[2];
-            $newContract->start_date = $contract[3];
-            $newContract->end_date = $contract[4];
+            $newContract->start_date = Carbon::parse($contract[3])->toDateString();
+            $newContract->end_date = Carbon::parse($contract[4])->toDateString();
             $newContract->salary_kes = $contract[5];
             $newContract->save();
             $count++;

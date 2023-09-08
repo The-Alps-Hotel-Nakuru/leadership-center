@@ -116,14 +116,18 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Bank Short Name</th>
                                         <th scope="col">Account Number</th>
+                                        <th scope="col">Existing Account</th>
+                                        <th scope="col">Account Number</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($alreadyExisting as $account)
                                         <tr class="">
-                                            <td scope="row">{{ $account[0] }}</td>
-                                            <td scope="row">{{ $account[1] }}</td>
-                                            <td scope="row">{{ $account[2] }}</td>
+                                            <td scope="row">{{ $account[0][0] }}</td>
+                                            <td scope="row">{{ $account[0][1] }}</td>
+                                            <td scope="row">{{ $account[0][2] }}</td>
+                                            <td scope="row">{{ $account[1]->bank->name }}</td>
+                                            <td scope="row">{{ $account[1]->account_number }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -149,6 +153,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Bank Short Name</th>
                                         <th scope="col">Account Number</th>
+                                        <th scope="col">Reason</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -157,6 +162,7 @@
                                             <td scope="row">{{ $account[0] }}</td>
                                             <td scope="row">{{ $account[1] }}</td>
                                             <td scope="row">{{ $account[2] }}</td>
+                                            <td scope="row" class="text-danger">Employee Not Found</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

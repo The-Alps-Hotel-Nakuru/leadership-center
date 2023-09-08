@@ -74,8 +74,8 @@ class MassAddition extends Component
             if (User::where('first_name', 'LIKE', "%{$first_name}%")->where('last_name', 'LIKE', "%{$last_name}%")->exists()) {
                 $user = User::where('first_name', 'LIKE', "%{$first_name}%")->where('last_name', 'LIKE', "%{$last_name}%")->first();
                 if ($user->employee) {
-                    if ($user->employee->bankAccount && $user->employee->bankAccount->bank->short_name == $values[$i][1] && $user->employee->bankAccount->account_number == $values[$i][2]) {
-                        array_push($this->alreadyExisting, $values[$i]);
+                    if ($user->employee->bankAccount) {
+                        array_push($this->alreadyExisting, [$values[$i], $user->employee->bankAccount]);
                     } else {
                         array_push($this->validAccounts, [$user->id, $values[$i][1], $values[$i][2]]);
                     }
@@ -90,8 +90,9 @@ class MassAddition extends Component
     {
         $count = 0;
         foreach ($this->validAccounts as $account) {
-            $user = User::find($account[0]);
-            $acc = $user->employee->bankAccount ? EmployeeAccount::find($user->employee->bankAccount->id) : new EmployeeAccount();
+            // $user = User::find($account[0]);
+            // $acc = $user->employee->bankAccount ? EmployeeAccount::find($user->employee->bankAccount->id) : new EmployeeAccount();
+            $acc = new EmployeeAccount();
             $acc->employees_detail_id = EmployeesDetail::where('user_id', $account[0])->first()->id;
             $acc->bank_id = Bank::where('short_name', $account[1])->first()->id;
             $acc->account_number = $account[2];

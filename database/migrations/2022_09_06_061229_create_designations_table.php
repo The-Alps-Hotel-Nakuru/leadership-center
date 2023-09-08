@@ -262,7 +262,7 @@ return new class extends Migration
             [
                 'department_id' => 7,
                 'title' =>
-                'Steward',
+                'Kitchen Steward',
                 'is_penalizable' => true
             ],
 

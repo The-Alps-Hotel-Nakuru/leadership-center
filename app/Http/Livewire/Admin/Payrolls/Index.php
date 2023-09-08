@@ -7,6 +7,7 @@ use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\MonthlySalary;
 use App\Models\Payroll;
+use App\Models\PayrollPayment;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -91,6 +92,32 @@ class Index extends Component
                 'success' => 'Successfully Generated Payroll for ' . $count . ' employees'
             ]);
         }
+    }
+
+    function makePayment($id){
+        $payroll = Payroll::find($id);
+
+        foreach ($payroll->monthlySalaries as $key => $salary) {
+            $payment = new PayrollPayment();
+            $payment->payroll_id = $payroll->id;
+            $payment->employees_detail_id = $salary->employee->id;
+            $payment->gross_salary = $salary->gross_salary;
+            $payment->nssf = $salary->nssf;
+            $payment->nhif = $salary->nhif;
+            $payment->paye = $salary->paye;
+            $payment->housing_levy = $salary->housing_levy;
+            $payment->total_fines = $salary->fines;
+            $payment->total_bonuses = $salary->bonuses;
+            $payment->total_advances = $salary->advances;
+            $payment->total_welfare_contributions = $salary->welfare_contributions;
+            $payment->save();
+            $this->emit('done', [
+                'success'=>"Successfully Generated Payment Slips for KCB Banking"
+            ]);
+
+        }
+
+
     }
 
     public function update($id)

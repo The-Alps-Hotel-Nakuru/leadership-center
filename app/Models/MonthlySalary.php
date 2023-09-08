@@ -14,6 +14,7 @@ class MonthlySalary extends Model
 
     protected $appends = [
         'gross_salary',
+        'rebate',
         'paye',
         'nhif',
         'nssf',
@@ -48,6 +49,14 @@ class MonthlySalary extends Model
 
         return $rate;
     }
+
+    public function welfareContributions()
+    {
+        $contributions = $this->employee->welfareContributions()->where('year', $this->payroll->year)->where('month', $this->payroll->month)->get();
+
+        return $contributions;
+    }
+
 
     public function getDaysMissedAttribute()
     {
@@ -295,9 +304,21 @@ class MonthlySalary extends Model
         return $this->tax_relief + $this->general_relief;
     }
 
+    public function getWelfareContributionsAttribute()
+    {
+        $total = 0;
+        foreach ($this->welfareContributions as $contribution) {
+            $total += $contribution->amount_kes;
+        }
+
+        return $total;
+    }
+
     public function getPayeAttribute()
     {
-        return $this->income_tax > $this->total_relief ? $this->income_tax - $this->total_relief : 0;
+        $paye = $this->income_tax > $this->total_relief ? $this->income_tax - $this->total_relief : 0;
+
+        return $paye - $this->rebate;
     }
 
     public function getTotalDeductionsAttribute()
