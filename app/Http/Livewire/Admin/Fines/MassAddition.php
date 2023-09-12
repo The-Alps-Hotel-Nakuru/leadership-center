@@ -5,14 +5,8 @@ namespace App\Http\Livewire\Admin\Fines;
 use App\Exports\FineTemplateExport;
 use App\Imports\FinesImport;
 use App\Models\EmployeesDetail;
-<<<<<<< HEAD
-use App\Models\Fine;
-use App\Models\User;
-use Illuminate\Support\Facades\Validator;
-=======
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
->>>>>>> master
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
@@ -40,16 +34,9 @@ class MassAddition extends Component
         $import = new FinesImport;
         Excel::import($import, $filePath);
 
-<<<<<<< HEAD
-        $actualFields = $import->getFields();
-
-        // dd($actualFields);
-        $expectedFields = ["ID",  "NATIONAL_ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON"];
-=======
         $data = $import->getData();
         $values = [];
         $expectedFields = ["ID", "NATIONAL_ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON"];
->>>>>>> master
 
 
         for ($i = 0; $i < count($expectedFields); $i++) {
@@ -64,11 +51,6 @@ class MassAddition extends Component
                 array_push($values, [$item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7]]);
             }
         }
-<<<<<<< HEAD
-        // dd($this->fines);
-        $this->fines = $import->getValues();
-
-=======
 
         $this->reset('fines');
 
@@ -82,7 +64,6 @@ class MassAddition extends Component
         }
 
         // dd($this->fines);
->>>>>>> master
     }
 
     public function uploadFines()
@@ -90,18 +71,6 @@ class MassAddition extends Component
         $count = 0;
         $amount = 0;
         foreach ($this->fines as $finesData) {
-<<<<<<< HEAD
-            $employee = EmployeesDetail::where('national_id', $finesData['NATIONAL_ID'])->first();
-            // dd($employee);
-            if ($employee) {
-                $employee->fines()->create([
-                    'year' => $finesData['YEAR'],
-                    'month' => $finesData['MONTH'],
-                    'reason' => $finesData['REASON'],
-                    'amount_kes' => $finesData['AMOUNT'],
-                ]);
-            }
-=======
             $employee = EmployeesDetail::where('national_id', $finesData[1])->first();
             if ($employee) {
                 $employee->fines()->create([
@@ -117,7 +86,6 @@ class MassAddition extends Component
                 'success' => 'Successfully Added ' . $count . ' Fines To Employees Amounting to KES ' . number_format($amount, 2)
             ]);
             $this->reset();
->>>>>>> master
         }
 
         $this->emit('done', [

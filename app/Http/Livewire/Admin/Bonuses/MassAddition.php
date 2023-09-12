@@ -49,14 +49,7 @@ class MassAddition extends Component
         $expectedFields = ["ID", "NATIONAL_ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON"];
         // dd([$values[0]->toArray(), $expectedFields]);
 
-<<<<<<< HEAD
-        $expectedFields = ["ID", "NATIONAL_ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON"];
-        // dd($expectedFields);
-
-        if ($actualFields !== $expectedFields) {
-=======
         if ($values[0]->toArray() !== $expectedFields) {
->>>>>>> master
             $this->addError('employee_bonuses_file', 'The Fields set are incorrect');
             return;
         }
@@ -75,21 +68,6 @@ class MassAddition extends Component
         $count = 0;
         $amount = 0;
         foreach ($this->bonuses as $bonusData) {
-<<<<<<< HEAD
-            // $user = User::where('email', $bonusData['EMAIL'])->first();
-            $employee = EmployeesDetail::where('national_id', $bonusData['NATIONAL_ID'])->first();
-
-            // if ($user) {
-                // $employee = $user->employee;
-                if($employee){
-                    $employee->bonuses()->create([
-                        'year' => $bonusData['YEAR'],
-                        'month' => $bonusData['MONTH'],
-                        'reason' => $bonusData['REASON'],
-                        'amount_kes' => $bonusData['AMOUNT'],
-                    ]);
-                // }
-=======
             $employee = EmployeesDetail::where('national_id', $bonusData[1])->first();
 
             if ($employee) {
@@ -101,7 +79,6 @@ class MassAddition extends Component
                 ]);
                 $count++;
                 $amount += $bonusData[6];
->>>>>>> master
             }
         }
 
