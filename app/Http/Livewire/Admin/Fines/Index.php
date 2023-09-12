@@ -35,8 +35,6 @@ class Index extends Component
         ]);
     }
 
-<<<<<<< HEAD
-=======
     public function downloadTemplate(){
         return Excel::download(new FineTemplateExport, 'mass_fines_data.xlsx');
     }
@@ -45,7 +43,6 @@ class Index extends Component
     {
         return Excel::download(new FinesDataExport, "Fines data.xlsx");
     }
->>>>>>> master
     public function render()
     {
         return view('livewire.admin.fines.index', [
