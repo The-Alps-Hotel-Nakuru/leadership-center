@@ -79,7 +79,17 @@
                             </tbody>
                         </table>
                     </div>
-                    <button class="btn btn-primary" wire:click="uploadAttendances">Upload Attendances</button>
+                    <div class="row mt-2">
+                            <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="uploadAttendances"
+                                wire:click="uploadAttendances">
+                                <span wire:loading.remove wire:target="uploadAttendances">
+                                    Upload Attendances
+                                </span>
+                                <span wire:loading wire:target="uploadAttendances">
+                                    Uploading...
+                                </span>
+                            </button>
+                        </div>
                 </div>
             </div>
         @endif

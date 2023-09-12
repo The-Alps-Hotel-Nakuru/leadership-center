@@ -22,7 +22,6 @@ return new class extends Migration
             $table->longText('physical_address')->nullable();
             $table->enum('marital_status',['married', 'single', 'divorced', 'widowed'])->default('single');
             $table->enum('gender',['male', 'female']);
-            $table->integer('children')->default(0);
             $table->string('kra_pin')->nullable();
             $table->string('kra_pin_path')->nullable();
             $table->string('nssf')->nullable();

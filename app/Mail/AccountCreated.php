@@ -35,7 +35,7 @@ class AccountCreated extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'The Alps Hotel - Account Created for '.$this->user->name,
+            subject: 'The Alps Hotel Nakuru- Account Created for '.$this->user->name,
         );
     }
 

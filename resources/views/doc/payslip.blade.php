@@ -6,32 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
     <style>
-        /* body{
-        } */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
         table {
             border: 1px solid black;
             width: 100%;
             line-height: 0.5;
             padding: 10px;
+            font-size: 11px
         }
     </style>
 </head>
 
 <body>
-    <table style="background-color:#1575bb; color:#fff">
+    <table width="100%" style="border: 0">
+        <tr>
+            <td style="vertical-align: text-top; ">
+                <div
+                    style="background: transparent url({{ env('APP_URL') }}/logo.png);width: 120px;height: 120px;background-position: center; margin:auto;background-size: 120px;">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; text-transform:uppercase"><strong>The Alps Hotel Nakuru</strong></td>
+        </tr>
+    </table>
+    <br>
+    <table style="border:0">
         <thead>
-            <strong style="text-align: right">The Alps Hotel Nakuru</strong>
-            <h2 style="color: #efefef">Payslip -
+            <h2 style="text-transform:uppercase; text-align:center">Payslip for
                 {{ Carbon\Carbon::parse($salary->payroll->year . '-' . $salary->payroll->month)->format('F, Y') }}</h2>
         </thead>
     </table>
+    @php
+        $active_contract = $salary->employee->ActiveContractDuring(Carbon\Carbon::createFromFormat('Y-m',$salary->payroll->year.'-'.$salary->payroll->month)->firstOfMonth(), Carbon\Carbon::createFromFormat('Y-m',$salary->payroll->year.'-'.$salary->payroll->month)->lastOfMonth())
+    @endphp
     <table>
         <thead>
             <small>Name: </small><strong>{{ $salary->employee->user->name }}</strong><br><br>
             <small>Designation: </small><strong>{{ $salary->employee->designation->title }}</strong><br><br>
             <small>Employee No.: </small><strong>{{ $salary->employee->id }}</strong><br><br>
-            @if ($salary->employee->is_full_time)
+            @if ($active_contract->is_full_time())
                 <small>KRA PIN: </small><strong
                     style="text-transform: uppercase">{{ $salary->employee->kra_pin }}</strong><br><br>
                 <small>NSSF No.: </small><strong>{{ $salary->employee->nssf }}</strong><br><br>
@@ -81,6 +106,35 @@
                 </small>{{ number_format($salary->taxable_income, 2) }}</th>
         </thead>
     </table>
+
+    <table>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Income Tax</td>
+            <td colspan="1" style="text-align: right">(<small>KES
+                </small>{{ number_format($salary->income_tax, 2) }})
+            </td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Tax Relief</td>
+            <td colspan="1" style="text-align: right"><small>KES </small>{{ number_format($salary->tax_relief, 2) }}
+            </td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">Insurance Relief</td>
+            <td colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->general_relief, 2) }}
+            </td>
+        </thead>
+    </table>
+    <table>
+        <thead style="width: 100%;">
+            <th colspan="2" style="text-align: left">Total PAYE</th>
+            <th colspan="1" style="text-align: right"><small>KES
+                </small>({{ number_format($salary->paye, 2) }})</th>
+        </thead>
+    </table>
     <table>
         <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">PAYE</td>
@@ -95,8 +149,46 @@
         </thead>
         <br>
         <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">Amounts Already Paid (loans, OT, etc.)</td>
-            <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format(0, 2) }})</td>
+            <td colspan="2" style="text-align: left">Housing Levy</td>
+            <td colspan="1" style="text-align: right">({{ number_format($salary->housing_levy, 2) }})</td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">
+                Advances
+                @if (count($salary->employee->advances) > 0)
+                    <br>
+                    <ul>
+                        @foreach ($salary->employee->advances as $advance)
+                            @if ($advance->year == $salary->payroll->year && $advance->month == $salary->payroll->month)
+                                <li style="font-size: 8px">{{ $advance->reason }}: <br><br><strong>KES
+                                        {{ number_format($advance->amount_kes, 2) }}</strong>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                @endif
+            </td>
+            <td colspan="1" style="text-align: right">({{ number_format($salary->advances, 2) }})</td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">
+                Fines
+                @if (count($salary->employee->fines) > 0)
+                    <br>
+                    <ul>
+                        @foreach ($salary->employee->fines as $fine)
+                            @if ($fine->year == $salary->payroll->year && $fine->month == $salary->payroll->month)
+                                <li style="font-size: 8">{{ $fine->reason }}: <br><br><strong>KES
+                                        {{ number_format($fine->amount_kes, 2) }}</strong>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                @endif
+            </td>
+            <td colspan="1" style="text-align: right">({{ number_format($salary->fines, 2) }})</td>
         </thead>
         <br>
         <thead style="width: 100%;">
@@ -106,35 +198,52 @@
         </thead>
         <br>
         <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">Total Fines</td>
+            <td colspan="2" style="text-align: left">
+                Staff Welfare Contribution
+                @if (count($salary->employee->welfareContributions) > 0)
+                    <br>
+                    <ul>
+                        @foreach ($salary->employee->welfareContributions as $welfare_contribution)
+                            @if ($welfare_contribution->year == $salary->payroll->year && $welfare_contribution->month == $salary->payroll->month)
+                                <li style="font-size: 8">{{ $welfare_contribution->reason }} <br><br><strong>KES
+                                        {{ number_format($welfare_contribution->amount_kes, 2) }}</strong>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                @endif
+            </td>
             <td colspan="1" style="text-align: right">(<small>KES
-                </small>{{ number_format($salary->fines, 2) }})</td>
+                </small>{{ number_format($salary->welfare_contributions, 2) }})</td>
         </thead>
         <br>
 
     </table>
     <table>
         <thead style="width: 100%;">
-            <th colspan="2" style="text-align: left">Total Deductions</th>
+            <th colspan="2" style="text-align: left">Total Deductions <small style="font-size: 10px">(incl. NSSF
+                    Contribution)</small></th>
             <th colspan="1" style="text-align: right"><small>KES
-                </small>{{ number_format($salary->total_deductions, 2) }}</th>
+                </small>({{ number_format($salary->total_deductions, 2) }})</th>
         </thead>
     </table>
+    <br>
     <table>
         <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">Tax Relief</td>
-            <td colspan="1" style="text-align: right"><small>KES </small>{{ number_format($salary->tax_relief, 2) }}
+            <td colspan="2" style="text-align: left">Total Bonuses
+                @if (count($salary->employee->bonuses) > 0)
+                    <br>
+                    <ul>
+                        @foreach ($salary->employee->bonuses as $bonus)
+                            @if ($bonus->year == $salary->payroll->year && $bonus->month == $salary->payroll->month)
+                                <li style="font-size: 8">{{ $bonus->reason }} <br><br><strong>KES
+                                        {{ number_format($bonus->amount_kes, 2) }}</strong>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                @endif
             </td>
-        </thead>
-        <br>
-        <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">General Relief (Insurance, etc.)</td>
-            <td colspan="1" style="text-align: right"><small>KES
-                </small>{{ number_format($salary->general_relief, 2) }}</td>
-        </thead>
-        <br>
-        <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">Total Bonuses</td>
             <td colspan="1" style="text-align: right"><small>KES
                 </small>{{ number_format($salary->bonuses, 2) }}</td>
         </thead>

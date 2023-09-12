@@ -245,6 +245,18 @@ class EmployeesDetail extends Model
         }
         return false;
     }
+    public function isExternalBetween($date1, $date2)
+    {
+        foreach ($this->contracts as $contract) {
+            if ($contract->isActiveDuring(Carbon::parse($date1)->toDateString(), Carbon::parse($date2)->toDateString())) {
+                $contract = EmployeeContract::find($contract->id);
+                if ($contract->employment_type_id == 4) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public function getIsFullTimeAttribute()
     {
         if ($this->has_active_contract) {
@@ -283,6 +295,6 @@ class EmployeesDetail extends Model
     }
     public function bankAccount()
     {
-        return $this->belongsTo(EmployeeAccount::class, 'id');
+        return $this->hasOne(EmployeeAccount::class, 'employees_detail_id', 'id');
     }
 }

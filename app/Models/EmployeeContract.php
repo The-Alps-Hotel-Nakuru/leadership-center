@@ -41,6 +41,10 @@ class EmployeeContract extends Model
     {
         return $this->employment_type->id == 3;
     }
+    public function is_external()
+    {
+        return $this->employment_type->id == 4;
+    }
 
     public function terminate()
     {

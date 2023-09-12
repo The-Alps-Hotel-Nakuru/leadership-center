@@ -10,14 +10,14 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 class FinesImport implements ToCollection
 {
     /**
-    * @param Collection $collection
-    */
+     * @param Collection $collection
+     */
 
-    public $fields = [];
-    public $values = [];
+    public $data = [];
 
     public function collection(Collection $collection)
     {
+<<<<<<< HEAD
         foreach($collection as $key => $row){
             $rowData = $row->toArray();
             if($key === 0){
@@ -62,4 +62,17 @@ class FinesImport implements ToCollection
         return $this->values;
         
     }
+=======
+        foreach ($collection as $row) {
+            $this->data[] = $row;
+        }
+    }
+
+    public function getData()
+    {
+        return $this->data;
+    }
+
+
+>>>>>>> master
 }

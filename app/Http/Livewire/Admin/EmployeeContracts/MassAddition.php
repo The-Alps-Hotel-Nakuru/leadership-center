@@ -76,7 +76,7 @@ class MassAddition extends Component
                 $user = User::where('first_name', 'LIKE', "%{$first_name}%")->where('last_name', 'LIKE', "%{$last_name}%")->first();
                 if ($user->employee) {
                     if ($user->employee->ActiveContractBetween($values[$i][2], $values[$i][3])) {
-                        array_push($this->alreadyExisting, [$user->id, $user->employee->designation_id, $values[$i][1], $values[$i][2], $values[$i][3], $values[$i][4], $user->employee->active_contract]);
+                        array_push($this->alreadyExisting, [$user->id, $user->employee->designation_id, $values[$i][1], $values[$i][2], $values[$i][3], $values[$i][4], $user->employee->ActiveContractBetween($values[$i][2], $values[$i][3])]);
                     } else {
                         array_push($this->validContracts, [$user->id, $user->employee->designation_id, $values[$i][1], $values[$i][2], $values[$i][3], $values[$i][4],]);
                         // user_id, designation_id, contract_type_id, start_date, end_date, salary

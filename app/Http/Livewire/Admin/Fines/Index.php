@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Fines;
 
+use App\Exports\FinesDataExport;
 use App\Exports\FineTemplateExport;
 use App\Models\Fine;
 use App\Models\Log;
@@ -34,10 +35,21 @@ class Index extends Component
         ]);
     }
 
+<<<<<<< HEAD
+=======
+    public function downloadTemplate(){
+        return Excel::download(new FineTemplateExport, 'mass_fines_data.xlsx');
+    }
+
+    function downloadFinesData()
+    {
+        return Excel::download(new FinesDataExport, "Fines data.xlsx");
+    }
+>>>>>>> master
     public function render()
     {
         return view('livewire.admin.fines.index', [
-            'fines' => Fine::paginate(10)
+            'fines' => Fine::orderBy('id', 'DESC')->paginate(10)
         ]);
     }
 }

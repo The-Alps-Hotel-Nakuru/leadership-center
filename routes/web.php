@@ -3,7 +3,9 @@
 use App\Http\Livewire\Admin;
 use App\Http\Livewire\Employee;
 use App\Models\EmployeeContract;
+use App\Models\Log;
 use App\Models\MonthlySalary;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Faker\Factory;
@@ -39,6 +41,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             return redirect()->route('admin.dashboard');
         } elseif (auth()->user()->is_employee) {
             if (auth()->user()->first_login) {
+                $user = User::find(auth()->user()->id);
+                $user->first_login = false;
+                $user->save();
                 return redirect()->route('employee.profile');
             } else {
                 return redirect()->route('employee.dashboard');
@@ -137,6 +142,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/{designation_id}/create', Admin\Responsibilities\Create::class)->name('admin.responsibilities.create');
             Route::get('/{id}/edit', Admin\Responsibilities\Edit::class)->name('admin.responsibilities.edit');
         });
+        Route::prefix('welfare_contributions')->group(function () {
+            Route::get('/', Admin\WelfareContributions\Index::class)->name('admin.welfare_contributions.index');
+            Route::get('/create', Admin\WelfareContributions\Create::class)->name('admin.welfare_contributions.create');
+            Route::get('/{id}/edit', Admin\WelfareContributions\Edit::class)->name('admin.welfare_contributions.edit');
+            Route::get('/mass_addition', Admin\WelfareContributions\MassAddition::class)->name('admin.welfare_contributions.mass_addition');
+        });
         Route::prefix('payrolls')->group(function () {
             Route::get('/', Admin\Payrolls\Index::class)->name('admin.payrolls.index');
             Route::get('/{id}/show', Admin\Payrolls\Show::class)->name('admin.payrolls.show');
@@ -202,13 +213,28 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 
             if (auth()->user()->employee->id == $salary->employees_detail_id) {
-                $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper('a4', 'portrait');
+                if ($salary->payroll->payment) {
+                    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper('a4', 'portrait');
 
-                $pdf->loadView('doc.payslip', [
-                    'salary' => $salary
-                ]);
-                return $pdf->stream();
+                    $pdf->loadView('doc.payslip', [
+                        'salary' => $salary
+                    ]);
+                    return $pdf->stream();
+                } else {
+                    Log::create([
+                        'user_id' => auth()->user()->id,
+                        'payload' => "tried to view the Payslip when not Ready",
+                        'model' => 'App\Models\Payroll'
+                    ]);
+                    abort(403, "You Are Not Authorized to view this Payslip because it is not ready");
+                }
+
             } else {
+                Log::create([
+                    'user_id' => auth()->user()->id,
+                    'payload' => "tried to view someone else's payslip",
+                    'model' => 'App\Models\Payroll'
+                ]);
                 abort(403, "You Are Not Authorized to view this Payslip because it doesn't belong to you");
             }
         })->name('employee.payslips.view');
@@ -237,6 +263,7 @@ Route::get('testPDF', function () {
 
     return $pdf->stream();
 });
+
 Route::get('/{id}/draft_contract', function ($id) {
 
     $faker = Factory::create();

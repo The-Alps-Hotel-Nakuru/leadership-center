@@ -4,6 +4,17 @@
     </x-slot>
 
     <div class="container-fluid">
+        <div class="card-header d-flex">
+            <button class="btn btn-primary ms-auto"  wire:loading.attr="disabled" wire:target="downloadBonusesData"
+                wire:click="downloadBonusesData">
+                <span wire:loading.remove wire:target="downloadBonusesData">
+                    Download Bonuses
+                </span>
+                <span wire:loading wire:target="downloadBonusesData">
+                    Downloading...
+                </span>
+            </button>
+        </div>
         <div class="card">
             <div class="card-header">
                 <h5>List of Issued Bonuses</h5>
@@ -27,7 +38,7 @@
                                 <td scope="row">{{ $bonus->employee->user->name }}</td>
                                 <td>{{ Carbon\Carbon::parse($bonus->year . '-' . $bonus->month)->format('F, Y') }}</td>
                                 <td>KES {{ number_format($bonus->amount_kes) }}</td>
-                                <td>{{ ($bonus->reason) }}</td>
+                                <td>{{ $bonus->reason }}</td>
                                 <td class="d-flex flex-row justify-content-center">
                                     <div class="flex-col me-2">
                                         <a href="{{ route('admin.bonuses.edit', $bonus->id) }}"
@@ -47,6 +58,8 @@
                 </table>
             </div>
             <div class="my-3"> {{ $bonuses->links() }}</div>
+
+
         </div>
     </div>
 </div>

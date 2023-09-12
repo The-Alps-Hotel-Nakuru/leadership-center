@@ -10,10 +10,10 @@ class EmployeeAccount extends Model
     use HasFactory;
 
     public function bank() {
-        return $this->belongsTo(Bank::class, 'bank_id');
+        return $this->belongsTo(Bank::class);
     }
     public function employee() {
-        return $this->belongsTo(EmployeesDetail::class, 'employees_detail_id');
+        return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
     }
     public function user()
     {

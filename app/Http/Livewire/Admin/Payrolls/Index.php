@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Payrolls;
 
+use App\Exports\BankingGuideExport;
 use App\Exports\PayrollExport;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
@@ -16,10 +17,15 @@ use Maatwebsite\Excel\Facades\Excel;
 class Index extends Component
 {
     public $yearmonth;
+    public $readyToLoad = false;
 
 
     protected $rules = [
         'yearmonth' => 'required'
+    ];
+
+    protected $listeners = [
+        'done' => 'render'
     ];
 
     public function mount()
@@ -27,10 +33,21 @@ class Index extends Component
         $this->yearmonth = Carbon::now()->year . '-' . Carbon::now()->month;
     }
 
+    public function loadItems()
+    {
+        $this->readyToLoad = true;
+    }
+
     function downloadPayrollBreakdown($id)
     {
         return Excel::download(new PayrollExport($id), "Payroll for " . Payroll::find($id)->yearmonth . '.xlsx');
         // dd(Payroll::find($id));
+    }
+
+    function downloadBankSlip($id)
+    {
+        return Excel::download(new BankingGuideExport($id), "Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx');
+        // dd(PayrollPayment::where('payroll_id', $id)->get());
     }
 
 
@@ -67,8 +84,10 @@ class Index extends Component
                             $salary->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
                             $salary->house_allowance_kes = $contract->house_allowance;
                         } else if ($contract->is_casual()) {
-                            $salary->basic_salary_kes = $contract->salary_kes * $employee->daysWorked($year . '-' . $month);
-                        }else if ($contract->is_intern()){
+                            $salary->basic_salary_kes = $contract->salary_kes * $employee->daysWorked($payroll->year . '-' . $payroll->month);
+                        } else if ($contract->is_intern()) {
+                            $salary->basic_salary_kes = $contract->salary_kes;
+                        } else if ($contract->is_external()) {
                             $salary->basic_salary_kes = $contract->salary_kes;
                         }
                     } else {
@@ -94,10 +113,17 @@ class Index extends Component
         }
     }
 
-    function makePayment($id){
+    function makePayment($id)
+    {
         $payroll = Payroll::find($id);
 
-        foreach ($payroll->monthlySalaries as $key => $salary) {
+        if (count($payroll->payment)) {
+            $this->emit('done', [
+                'warning' => 'Payment already Made'
+            ]);
+        }
+
+        foreach ($payroll->monthlySalaries as $salary) {
             $payment = new PayrollPayment();
             $payment->payroll_id = $payroll->id;
             $payment->employees_detail_id = $salary->employee->id;
@@ -105,19 +131,19 @@ class Index extends Component
             $payment->nssf = $salary->nssf;
             $payment->nhif = $salary->nhif;
             $payment->paye = $salary->paye;
+            $payment->tax_rebate = $salary->rebate;
             $payment->housing_levy = $salary->housing_levy;
             $payment->total_fines = $salary->fines;
             $payment->total_bonuses = $salary->bonuses;
             $payment->total_advances = $salary->advances;
             $payment->total_welfare_contributions = $salary->welfare_contributions;
+            $payment->bank_id = $salary->employee->bankAccount->bank_id;
+            $payment->account_number = $salary->employee->bankAccount->account_number;
             $payment->save();
             $this->emit('done', [
-                'success'=>"Successfully Generated Payment Slips for KCB Banking"
+                'success' => "Successfully Generated Payment Slips for KCB Banking"
             ]);
-
         }
-
-
     }
 
     public function update($id)
@@ -141,6 +167,15 @@ class Index extends Component
         }
 
         $payroll->save();
+        if (count($payroll->payment) > 0) {
+            // if ($payroll->payment->bank_slip_path) {
+            //     $this->emit('done', [
+            //         'danger' => "The Payments Have already Been Made"
+            //     ]);
+            //     return;
+            // }
+            $payroll->payment()->delete();
+        }
 
         $log = new Log();
         $log->user_id = auth()->user()->id;
@@ -156,6 +191,13 @@ class Index extends Component
     public function delete($id)
     {
         $payroll = Payroll::find($id);
+        if (count($payroll->payment) > 0) {
+            $this->emit('done', [
+                'warning' => "This Payroll has already been paid"
+            ]);
+
+            return;
+        }
         $payroll->delete();
 
         $log = new Log();
@@ -176,7 +218,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.payrolls.index', [
-            'payrolls' => Payroll::all()
+            'payrolls' => $this->readyToLoad ? Payroll::all() : []
         ]);
     }
 }

@@ -44,25 +44,38 @@ class MassAddition extends Component
         $import = new BonusesImport;
         Excel::import($import, $filePath);
 
-        $actualFields = $import->getFields();
+        $values = $import->getData();
 
+        $expectedFields = ["ID", "NATIONAL_ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON"];
+        // dd([$values[0]->toArray(), $expectedFields]);
 
+<<<<<<< HEAD
         $expectedFields = ["ID", "NATIONAL_ID", "FIRST_NAME", "LAST_NAME", "YEAR", "MONTH", "AMOUNT", "REASON"];
         // dd($expectedFields);
 
         if ($actualFields !== $expectedFields) {
+=======
+        if ($values[0]->toArray() !== $expectedFields) {
+>>>>>>> master
             $this->addError('employee_bonuses_file', 'The Fields set are incorrect');
             return;
         }
 
-        $this->bonuses = $import->getValues();
+        $this->reset('bonuses');
+
+        for ($i = 1; $i < count($values); $i++) {
+            array_push($this->bonuses, $values[$i]);
+        }
 
         // dd($this->bonuses);
     }
 
     public function uploadBonuses()
     {
+        $count = 0;
+        $amount = 0;
         foreach ($this->bonuses as $bonusData) {
+<<<<<<< HEAD
             // $user = User::where('email', $bonusData['EMAIL'])->first();
             $employee = EmployeesDetail::where('national_id', $bonusData['NATIONAL_ID'])->first();
 
@@ -76,11 +89,24 @@ class MassAddition extends Component
                         'amount_kes' => $bonusData['AMOUNT'],
                     ]);
                 // }
+=======
+            $employee = EmployeesDetail::where('national_id', $bonusData[1])->first();
+
+            if ($employee) {
+                $employee->bonuses()->create([
+                    'year' => $bonusData[4],
+                    'month' => $bonusData[5],
+                    'amount_kes' => $bonusData[6],
+                    'reason' => $bonusData[7],
+                ]);
+                $count++;
+                $amount += $bonusData[6];
+>>>>>>> master
             }
         }
 
         $this->emit('done', [
-            'success' => 'Successfully Added Bonuses To Employees'
+            'success' => 'Successfully Added ' . $count . ' Bonuses To Employees Amounting to KES ' . number_format($amount, 2)
         ]);
         $this->reset();
     }

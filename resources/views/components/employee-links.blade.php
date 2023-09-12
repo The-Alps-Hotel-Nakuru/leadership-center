@@ -1,7 +1,7 @@
 <ul class="nav">
     <li class="nav-item nav-category">Main</li>
     <li class="nav-item  @if (Request::is('*/dashboard')) active @endif">
-        <a href="/" class="nav-link">
+        <a href="{{ route('employee.dashboard') }}" class="nav-link">
             <i class="material-icons material-symbols-outlined">
                 dashboard
             </i>

@@ -10,11 +10,11 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 
 class BonusesImport implements ToCollection
 {
-    protected $fields = [];
-    protected $values = [];
+    protected $data = [];
 
     public function collection(Collection $collection)
     {
+<<<<<<< HEAD
         foreach ($collection as $key => $row) {
             $rowData = $row->toArray();
             if ($key === 0) {
@@ -61,20 +61,19 @@ class BonusesImport implements ToCollection
                     // dd($bonusData);
                 }
             // }
+=======
+        foreach ($collection as $row) {
+            $this->data[] = $row;
+>>>>>>> master
         }
     }
 
-    public function getFields()
+    public function getData()
     {
         // dd($this->fields);
-        return $this->fields;
+        return $this->data;
     }
 
-    public function getValues()
-    {
-        // dd($this->values);
-        return $this->values;
-    }
 }
 
 
