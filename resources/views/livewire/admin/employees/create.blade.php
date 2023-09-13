@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
-                            <label for="national_id" class="form-label">National ID<span
+                            <label for="national_id" class="form-label">National ID*<span
                                     class="text-danger">*</span></label>
                             <input wire:model="detail.national_id" type="number" class="form-control"
                                 name="national_id" aria-describedby="national_id"
