@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Leaves;
 use App\Models\EmployeesDetail;
 use App\Models\Leave;
 use App\Models\LeaveType;
+use App\Models\Log;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -61,6 +62,12 @@ class Create extends Component
         $this->emit('done', [
             'success' => 'Successfully Created Leave for ' . $employee->user->name
         ]);
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeesDetail';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has recorded leave for <strong> " . $employee->user->name . "</strong> in the system";
+        $log->save();
 
         $this->reset([
             'search', 'selectedEmployee'

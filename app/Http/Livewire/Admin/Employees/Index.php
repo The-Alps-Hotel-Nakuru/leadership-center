@@ -55,6 +55,12 @@ class Index extends Component
             'success'=>'Successfully Reset this Employee\'s Password'
         ]);
 
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeesDetail';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Reset the Password for <strong> " . $user->name . "</strong> in the system";
+        $log->save();
+
     }
 
     public function exportKraData()
