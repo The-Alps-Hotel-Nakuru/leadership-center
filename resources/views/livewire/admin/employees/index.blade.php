@@ -112,10 +112,20 @@
                                         class="btn btn-dark"><i class="fas fa-address-card"></i></a></div>
                                 <div class="flex-col mx-1"><a href="{{ route('admin.employees.edit', $employee->id) }}"
                                         class="btn btn-secondary"><i class="fas fa-edit"></i></a></div>
-                                <div class="flex-col mx-1"><button
+                                <div class="flex-col mx-1">
+                                    <button
                                         onclick="confirm('Are you sure you want to delete this Employee?')||event.stopImmediatePropagation()"
                                         wire:click="delete({{ $employee->id }})" class="btn btn-danger"><i
-                                            class="fas fa-trash"></i></button></div>
+                                            class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="flex-col mx-1">
+                                    <button
+                                        onclick="confirm('Are you sure you want to Reset this Employee\'s Password?')||event.stopImmediatePropagation()"
+                                        wire:click="resetPassword({{ $employee->user_id }})" class="btn btn-warning"><i
+                                            class="fas fa-unlock"></i>
+                                    </button>
+                                </div>
                             </div>
                         </td>
                     </tr>

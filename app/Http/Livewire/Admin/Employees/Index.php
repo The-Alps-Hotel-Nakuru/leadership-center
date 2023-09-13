@@ -5,12 +5,15 @@ namespace App\Http\Livewire\Admin\Employees;
 use App\Exports\EmployeeKRAExport;
 use App\Exports\EmployeeNHIFExport;
 use App\Exports\EmployeeNSSFExport;
+use App\Jobs\PasswordResetMailJob;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class Index extends Component
 {
@@ -38,6 +41,20 @@ class Index extends Component
         $log->model = 'App\Models\EmployeesDetail';
         $log->payload = "<strong>" . auth()->user()->name . "</strong> has Deleted <strong> " . $this->detail->user->name . "</strong> from the system";
         $log->save();
+    }
+
+    function resetPassword($user_id) {
+        $password = Str::random(10);
+        $user = User::find($user_id);
+        $user->password = Hash::make($password);
+        $user->save();
+
+        PasswordResetMailJob::dispatch($user, $password);
+
+        $this->emit('done',[
+            'success'=>'Successfully Reset this Employee\'s Password'
+        ]);
+
     }
 
     public function exportKraData()
