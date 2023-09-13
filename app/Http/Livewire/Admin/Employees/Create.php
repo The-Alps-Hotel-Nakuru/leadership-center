@@ -27,6 +27,7 @@ class Create extends Component
         'employee.email' => 'required|email',
         'detail.designation_id' => 'required',
         'detail.phone_number' => 'required',
+        'detail.national_id' => 'required',
         'detail.physical_address' => 'required',
         'detail.marital_status' => 'required',
         'detail.gender' => 'required',

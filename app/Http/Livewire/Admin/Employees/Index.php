@@ -16,6 +16,7 @@ class Index extends Component
 {
     use WithPagination;
 
+    public $search = "";
     protected $listeners = [
         'done' => 'render'
     ];
@@ -68,8 +69,13 @@ class Index extends Component
 
     public function render()
     {
+        $employees = EmployeesDetail::whereHas('user', function ($query) {
+            $query->where('first_name', 'like', '%' . $this->search . '%')
+                ->orWhere('last_name', 'like', '%' . $this->search . '%');
+        });
+
         return view('livewire.admin.employees.index', [
-            'employees' => EmployeesDetail::orderBy('id', 'DESC')->paginate(5),
+            'employees' => $employees->orderBy('id', 'DESC')->paginate(5),
         ]);
     }
 }

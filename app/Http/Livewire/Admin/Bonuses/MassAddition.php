@@ -38,6 +38,7 @@ class MassAddition extends Component
             return;
         }
 
+
         $this->reset('bonuses');
 
         for ($i = 1; $i < count($values); $i++) {

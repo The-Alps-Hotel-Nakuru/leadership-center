@@ -19,17 +19,6 @@ class EmployeesImport implements ToCollection
         }
     }
 
-
-    // public function map($row): array
-    // {
-    //     // Perform any necessary mapping or transformation on each row
-    //     return [
-    //         'column1' => $row[0],
-    //         'column2' => $row[1],
-    //         // Add more columns as needed
-    //     ];
-    // }
-
     public function getData()
     {
         return $this->data;

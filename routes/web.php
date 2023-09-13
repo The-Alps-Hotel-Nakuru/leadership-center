@@ -5,11 +5,15 @@ use App\Http\Livewire\Employee;
 use App\Models\EmployeeContract;
 use App\Models\Log;
 use App\Models\MonthlySalary;
+use App\Models\Payroll;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Support\Facades\Route;
+use LynX39\LaraPdfMerger\Facades\PdfMerger;
+
+use function Deployer\download;
 
 /*
 |--------------------------------------------------------------------------
@@ -216,7 +220,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
             if (auth()->user()->employee->id == $salary->employees_detail_id) {
                 if ($salary->payroll->payment) {
-                    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper('a4', 'portrait');
+                    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper(array(0, 0, 400, 1200), 'portrait');
 
                     $pdf->loadView('doc.payslip', [
                         'salary' => $salary
@@ -230,7 +234,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
                     ]);
                     abort(403, "You Are Not Authorized to view this Payslip because it is not ready");
                 }
-
             } else {
                 Log::create([
                     'user_id' => auth()->user()->id,
@@ -276,14 +279,53 @@ Route::get('/{id}/draft_contract', function ($id) {
 
     return $pdf->stream();
 })->name('doc.contract');
+
+
+
 Route::get('/{id}/payslip', function ($id) {
-    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper('a4', 'portrait');
+    $pdf = Pdf::setPaper(array(0, 0, 400, 1200), 'portrait')->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => false, 'debugPng' => true]);
 
     $pdf->loadView('doc.payslip', [
         'salary' => MonthlySalary::find($id)
     ]);
     return $pdf->stream();
 })->name('doc.payslip');
+
+function rrmdir($dir)
+{
+    if (is_dir($dir)) {
+        $objects = scandir($dir);
+        foreach ($objects as $object) {
+            if ($object != "." && $object != "..") {
+                if (is_dir($dir . DIRECTORY_SEPARATOR . $object) && !is_link($dir . "/" . $object))
+                    rrmdir($dir . DIRECTORY_SEPARATOR . $object);
+                else
+                    unlink($dir . DIRECTORY_SEPARATOR . $object);
+            }
+        }
+        rmdir($dir);
+    }
+}
+// Route::get('/{id}/print_payslips', function ($id) {
+
+//     $payroll = Payroll::find($id);
+//     $pdfMerger = PdfMerger::init();
+//     foreach ($payroll->monthlySalaries as $key => $salary) {
+
+//         $pdf = Pdf::setPaper(array(0, 0, 400, 1250), 'portrait')->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => false, 'debugPng' => true]);
+//         $pdf->loadView('doc.payslip', [
+//             'salary' => $salary
+//         ]);
+//         $pdf->save('payslips/' . $salary->month_string . '/' . $key+1 . '.pdf', 'public');
+//         $pdfMerger->addPDF('payslips/' . $salary->month_string . '/' . $key . '.pdf');
+//     }
+//     $pdfMerger->merge();
+//     $pdfMerger->save(public_path(Carbon::parse($payroll->year . '-' . $payroll->month)->format('F-Y') . '.pdf'));
+//     // rrmdir(public_path('payslips'));
+//     Pdf::loadView('merged-payslips/' . Carbon::parse($payroll->year . '-' . $payroll->month)->format('F-Y') . '.pdf');
+//     return $pdf->stream();
+// })->name('doc.print-payslips');
+
 
 
 Route::get('/event-summary-today', function () {

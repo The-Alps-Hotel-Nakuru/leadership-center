@@ -55,6 +55,18 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
+                            <label for="national_id" class="form-label">National ID<span
+                                    class="text-danger">*</span></label>
+                            <input wire:model="detail.national_id" type="number" class="form-control"
+                                name="national_id" aria-describedby="national_id"
+                                placeholder="Enter the Phone Number">
+                            @error('detail.national_id')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="col-md-8 col-12">
                         <div class="mb-3">
                             <label for="photo" class="form-label">Photo</label>

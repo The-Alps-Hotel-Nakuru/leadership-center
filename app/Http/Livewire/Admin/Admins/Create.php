@@ -2,20 +2,22 @@
 
 namespace App\Http\Livewire\Admin\Admins;
 
+use App\Jobs\SendAdminWelcomeEmailJob;
 use App\Models\Log;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class Create extends Component
 {
     public User $admin;
 
     protected $rules = [
-        'admin.first_name'=>'required',
-        'admin.last_name'=>'required',
-        'admin.email'=>'required|email|unique:users,email',
-        'admin.role_id'=>'required',
+        'admin.first_name' => 'required',
+        'admin.last_name' => 'required',
+        'admin.email' => 'required|email|unique:users,email',
+        'admin.role_id' => 'required',
     ];
 
     public function mount()
@@ -27,8 +29,12 @@ class Create extends Component
     public function save()
     {
         $this->validate();
+        $password = Str::random(10);
         $this->admin->password = Hash::make(env('DEFAULT_PASSWORD'));
         $this->admin->save();
+
+
+        SendAdminWelcomeEmailJob::dispatch($this->admin, $password);
 
         $log = new Log();
         $log->user_id = auth()->user()->id;
