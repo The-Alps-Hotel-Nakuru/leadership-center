@@ -30,7 +30,7 @@ class Create extends Component
     {
         $this->validate();
         $password = Str::random(10);
-        $this->admin->password = Hash::make(env('DEFAULT_PASSWORD'));
+        $this->admin->password = Hash::make($password);
         $this->admin->save();
 
 
