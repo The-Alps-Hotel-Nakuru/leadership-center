@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,height=auto, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +23,7 @@
             width: 100%;
             line-height: 0.5;
             padding: 10px;
-            font-size: 11px
+            font-size: 15px
         }
     </style>
 </head>
@@ -38,18 +38,19 @@
             </td>
         </tr>
         <tr>
-            <td style="text-align: center; text-transform:uppercase"><strong>The Alps Hotel Nakuru</strong></td>
+            <td style="text-align: center; text-transform:uppercase">
+                <h1><strong>The Alps Hotel Nakuru</strong></h1>
+            </td>
         </tr>
     </table>
-    <br>
     <table style="border:0">
         <thead>
-            <h2 style="text-transform:uppercase; text-align:center">Payslip for
-                {{ Carbon\Carbon::parse($salary->payroll->year . '-' . $salary->payroll->month)->format('F, Y') }}</h2>
+            <h1 style="text-transform:uppercase; text-align:center">Payslip for
+                {{ Carbon\Carbon::parse($salary->payroll->year . '-' . $salary->payroll->month)->format('F, Y') }}</h1>
         </thead>
     </table>
     @php
-        $active_contract = $salary->employee->ActiveContractDuring(Carbon\Carbon::createFromFormat('Y-m',$salary->payroll->year.'-'.$salary->payroll->month)->firstOfMonth(), Carbon\Carbon::createFromFormat('Y-m',$salary->payroll->year.'-'.$salary->payroll->month)->lastOfMonth())
+        $active_contract = $salary->employee->ActiveContractDuring(Carbon\Carbon::createFromFormat('Y-m', $salary->payroll->year . '-' . $salary->payroll->month)->firstOfMonth(), Carbon\Carbon::createFromFormat('Y-m', $salary->payroll->year . '-' . $salary->payroll->month)->lastOfMonth());
     @endphp
     <table>
         <thead>
@@ -227,7 +228,6 @@
                 </small>({{ number_format($salary->total_deductions, 2) }})</th>
         </thead>
     </table>
-    <br>
     <table>
         <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">Total Bonuses
@@ -253,7 +253,6 @@
             <td colspan="1" style="text-align: right"><small>KES
                 </small>{{ number_format($salary->rebate, 2) }}</td>
         </thead>
-        <br>
     </table>
     <table>
         <thead style="width: 100%;">

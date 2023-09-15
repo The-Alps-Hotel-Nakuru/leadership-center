@@ -218,7 +218,7 @@
                                             class="text-success">{{ number_format($payroll->housing_levy_total, 2) }}</span>
                                     </td>
                                     <td>
-                                        <div class="d-flex flex-row justify-content-center">
+                                        <div class="d-flex flex-row my-1 justify-content-center">
 
                                             <div class="flex-col m-3">
                                                 <button class="btn btn-secondary" data-bs-toggle="tooltip"
@@ -260,6 +260,21 @@
                                                     <i class="material-icons material-symbols-outlined">list</i>
                                                 </a>
                                             </div>
+                                            <div class="flex-col m-3">
+                                                <button class="btn btn-warning" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Print Payslips"
+                                                    wire:click='sendPayslips({{ $payroll->id }})'
+                                                    wire:loading.class='disabled' wire:target='sendPayslips'>
+                                                    <i
+                                                        class="material-icons material-symbols-outlined">document_scanner</i>
+                                                </button>
+                                            </div>
+                                            @if (file_exists('/' . $payroll->month_string . '.pdf'))
+                                                <a href="/{{ $payroll->month_string . '.pdf' }}">
+                                                    <i class="material-icons material-symbols-outlined">download</i>
+
+                                                </a>
+                                            @endif
                                             <div class="flex-col m-3">
                                                 <button wire:click="delete({{ $payroll->id }})"
                                                     class="btn btn-danger" data-bs-toggle="tooltip"

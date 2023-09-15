@@ -7,6 +7,7 @@ use App\Jobs\SendWelcomeEmailJob;
 use App\Mail\AccountCreated;
 use App\Models\Designation;
 use App\Models\EmployeesDetail;
+use App\Models\Log;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -132,6 +133,12 @@ class MassAddition extends Component
             'success' => 'Successfully Added ' . count($this->readyUsers) . " users into the system."
         ]);
         $this->reset();
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeesDetail';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has created <strong> " . count($this->readyUsers). " employees</strong> in the system through mass addition";
+        $log->save();
     }
 
 

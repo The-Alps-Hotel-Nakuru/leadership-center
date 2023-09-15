@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Fines;
 use App\Exports\FineTemplateExport;
 use App\Imports\FinesImport;
 use App\Models\EmployeesDetail;
+use App\Models\Log;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -88,10 +89,11 @@ class MassAddition extends Component
             $this->reset();
         }
 
-        $this->emit('done', [
-            'success' => 'Successfully Added Fines To Employees'
-        ]);
-        $this->reset();
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\Fine';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has created fines to <strong> " . $count . " employees</strong> in the system through mass addition";
+        $log->save();
     }
 
 

@@ -5,17 +5,21 @@ namespace App\Http\Livewire\Admin\Employees;
 use App\Exports\EmployeeKRAExport;
 use App\Exports\EmployeeNHIFExport;
 use App\Exports\EmployeeNSSFExport;
+use App\Jobs\PasswordResetMailJob;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class Index extends Component
 {
     use WithPagination;
 
+    public $search = "";
     protected $listeners = [
         'done' => 'render'
     ];
@@ -39,48 +43,25 @@ class Index extends Component
         $log->save();
     }
 
-    // public function exportData($exportType)
-    // {
-    //     $this->logs($exportType);
+    function resetPassword($user_id) {
+        $password = Str::random(10);
+        $user = User::find($user_id);
+        $user->password = Hash::make($password);
+        $user->save();
 
-    //     $fileName = '';
-    //     $exportClass = null;
+        PasswordResetMailJob::dispatch($user, $password);
 
-    //     if ($exportType === 'kra') {
-    //         $fileName = 'employeeskra.xlsx';
-    //         $exportClass = new EmployeeKRAExport;
-    //     } elseif ($exportType === 'nhif') {
-    //         $fileName = 'employeesnhif.xlsx';
-    //         $exportClass = new EmployeeNHIFExport;
-    //     } elseif ($exportType === 'nssf') {
-    //         $fileName = 'employeesnssf.xlsx';
-    //         $exportClass = new EmployeeNSSFExport;
-    //     }
+        $this->emit('done',[
+            'success'=>'Successfully Reset this Employee\'s Password'
+        ]);
 
-    //     if ($exportClass) {
-    //         Excel::download($exportClass, $fileName);
-    //         // $this->emit('done', [
-    //         //     'success' => ucfirst($exportType) . ' data exported successfully'
-    //         // ]);
-    //     }
-    // }
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeesDetail';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Reset the Password for <strong> " . $user->name . "</strong> in the system";
+        $log->save();
 
-    // public function logs($exportType)
-    // {
-    //     $log = new Log();
-    //     $log->user_id = auth()->user()->id;
-    //     $log->model = 'App\Models\EmployeesDetail';
-
-    //     if ($exportType === 'kra') {
-    //         $log->payload = "<strong>" . auth()->user()->name . "</strong> has done mass extraction of KRA information for <strong> " . 'every employee' . "</strong> in the system";
-    //     } elseif ($exportType === 'nhif') {
-    //         $log->payload = "<strong>" . auth()->user()->name . "</strong> has done mass extraction of NHIF information for <strong> " . 'every employee' . "</strong> in the system";
-    //     } elseif ($exportType === 'nssf') {
-    //         $log->payload = "<strong>" . auth()->user()->name . "</strong> has done mass extraction of NSSF information for <strong> " . 'every employee' . "</strong> in the system";
-    //     }
-
-    //     $log->save();
-    // }
+    }
 
     public function exportKraData()
     {
@@ -100,8 +81,13 @@ class Index extends Component
 
     public function render()
     {
+        $employees = EmployeesDetail::whereHas('user', function ($query) {
+            $query->where('first_name', 'like', '%' . $this->search . '%')
+                ->orWhere('last_name', 'like', '%' . $this->search . '%');
+        });
+
         return view('livewire.admin.employees.index', [
-            'employees' => EmployeesDetail::orderBy('id', 'DESC')->paginate(5),
+            'employees' => $employees->orderBy('id', 'DESC')->paginate(5),
         ]);
     }
 }

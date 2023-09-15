@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Welcome to The Alps Hotel Nakuru - KCB Leadership Centre</title>
+    <title>Your Password Has Been Reset</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,10 +42,9 @@
 
 <body>
     <div class="container">
-        <h1>Welcome to The Alps Hotel Nakuru!</h1>
+        <h1>Password Has Been Reset</h1>
         <p>Greetings {{ $user->name }},</p>
-        <p>Thank you for joining our team as an Administrator. We are excited to have you on board and look forward to
-            working together.</p>
+        <p>We have deemed it so that your password had to be reset given internal circumstances.</p>
         <p>Please find below your login credentials to access the system:</p>
 
         <table class="login-table">
