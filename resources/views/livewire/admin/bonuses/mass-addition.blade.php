@@ -3,24 +3,6 @@
         Mass Addition of Bonuses
     </x-slot>
 
-<<<<<<< HEAD
-        <div class="card">
-            {{-- <div class="card-header">
-                <h5>Upload Employee Bonuses</h5>
-            </div> --}}
-
-            <div class="card-header d-flex">
-                <h5>Upload Employee Bonuses</h5>
-                <button class="btn btn-primary ms-auto me-2" wire:loading.attr="disabled" wire:target="downloadTemplate"
-                    wire:click="downloadTemplate">
-                    <span wire:loading.remove wire:target="downloadTemplate">
-                        Download Template
-                    </span>
-                    <span wire:loading wire:target="downloadTemplate">
-                        Downloading...
-                    </span>
-                </button>
-=======
 
 
     <div class="card">
@@ -34,7 +16,6 @@
                 @error('employee_bonuses_file')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
->>>>>>> master
             </div>
 
             <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="validateData"
@@ -130,94 +111,6 @@
                                 </tr>
                             </thead>
 
-<<<<<<< HEAD
-        @if ($bonuses)
-            <div class="row mt-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Bonuses Data</h5>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover table-borderless align-middle">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Year</th>
-                                        <th>Month</th>
-                                        <th>Amount</th>
-                                        <th>National ID</th>
-                                        <th>Reason</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    @foreach ($bonuses as $bonus)
-                                        <tr>
-                                            <td>{{ $bonus['ID'] }}</td>
-                                            <td>{{ $bonus['NATIONAL_ID'] }}</td>
-                                            <td>{{ $bonus['FIRST_NAME'] }}</td>
-                                            <td>{{ $bonus['LAST_NAME'] }}</td>
-                                            <td>{{ $bonus['YEAR'] }}</td>
-                                            <td>{{ $bonus['MONTH'] }}</td>
-                                            <td>{{ $bonus['AMOUNT'] }}</td>
-                                            <td>{{ $bonus['REASON'] }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <div class="mt-2">
-                                <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="uploadBonuses"
-                                    wire:click="uploadBonuses">
-                                    <span wire:loading.remove wire:target="uploadBonuses">
-                                        Upload Bonuses
-                                    </span>
-                                    <span wire:loading wire:target="uploadBonuses">
-                                        Uploading...
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @else
-            <div class="row mt-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Bonuses Data</h5>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover table-borderless align-middle">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Year</th>
-                                        <th>Month</th>
-                                        <th>Amount</th>
-                                        <th>National ID</th>
-                                        <th>Reason</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <td colspan="8">No Bonuses To Upload</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-=======
                             <tbody>
                                 <tr>
                                     <td colspan="8">No Bonuses To Upload</td>
@@ -229,6 +122,5 @@
             </div>
         </div>
     @endif
->>>>>>> master
 </div>
 </div>

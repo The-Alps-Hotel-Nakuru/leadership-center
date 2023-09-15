@@ -42,7 +42,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.employee-contracts.index', [
-            'contracts'=>EmployeeContract::orderBy('id', 'DESC')->paginate(5),
+            'contracts'=>EmployeeContract::orderBy('id', 'DESC')->paginate(10),
         ]);
     }
 }
