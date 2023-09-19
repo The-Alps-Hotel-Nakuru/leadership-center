@@ -16,6 +16,7 @@ class Create extends Component
 
     protected $rules = [
         'contract.employees_detail_id' => 'required',
+        'contract.designation_id' => 'required',
         'contract.start_date' => 'required',
         'months' => 'required',
         'contract.employment_type_id' => 'required',
@@ -51,6 +52,7 @@ class Create extends Component
     }
     public function render()
     {
+        $this->contract->designation_id = $this->contract->employee->designation_id ?? null;
         return view('livewire.admin.employee-contracts.create');
     }
 }
