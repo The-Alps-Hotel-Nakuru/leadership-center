@@ -51,6 +51,15 @@
                             <small id="account_number" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
+                    <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="saveAccountDetails"
+                        wire:click="saveAccountDetails">
+                        <span wire:loading.remove wire:target="saveAccountDetails">
+                            Save Details
+                        </span>
+                        <span wire:loading wire:target="saveAccountDetails">
+                            Saving...
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
