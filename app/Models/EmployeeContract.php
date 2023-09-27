@@ -12,6 +12,10 @@ class EmployeeContract extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $appends = [
+        'is_active'
+    ];
+
 
     public function getIsActiveAttribute()
     {

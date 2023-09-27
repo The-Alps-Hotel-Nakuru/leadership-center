@@ -5,12 +5,20 @@
 
     <div class="container-fluid">
         <div class="card">
-            <div class="card-header d-flex">
+            <div class="card-header d-flex ">
                 <h5>List of Employees Active Contracts</h5>
                 <div class="flex-col ms-auto">
                     <a wire:ignore href="{{ route('admin.employee_contracts.create') }}" class="btn btn-primary">
                         <i class="fas fa-file-pdf"></i>
                     </a>
+
+                </div>
+                <div class="flex-col mx-2">
+                    <select class="form-select form-select-lg" wire:model='type' name="" id="">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
                 </div>
             </div>
             <div class="card-body table-responsive">
@@ -27,55 +35,52 @@
                     </thead>
                     <tbody>
                         @foreach ($contracts as $key => $contract)
-                            @if ($contract->is_active)
-                                <tr class="">
-                                    <td >{{ $contracts->firstItem() + $key }}</td>
-                                    <td>
-                                        <div class="d-flex flex-row">
-                                            <div class="flex-col">
-                                                <h5>{{ $contract->employee->user->name }}</h5>
-                                                <small>{{ $contract->employee->designation->title }}</small>
-                                            </div>
+                            <tr class="">
+                                <td>{{ $key + 1 }}</td>
+                                <td>
+                                    <div class="d-flex flex-row">
+                                        <div class="flex-col">
+                                            <h5>{{ $contract->employee->user->name }}</h5>
+                                            <small>{{ $contract->employee->designation->title }}</small>
                                         </div>
-                                    </td>
-                                    <td>{{ Carbon\Carbon::parse($contract->start_date)->format('jS \of F, Y') }}</td>
-                                    <td>{{ Carbon\Carbon::parse($contract->end_date)->format('jS \of F, Y') }}</td>
-                                    <td>KES {{ number_format($contract->salary_kes) }} <small>(@if ($contract->employment_type_id == 1)
-                                                per day
-                                            @else
-                                                per month
-                                            @endif)</small></td>
+                                    </div>
+                                </td>
+                                <td>{{ Carbon\Carbon::parse($contract->start_date)->format('jS \of F, Y') }}</td>
+                                <td>{{ Carbon\Carbon::parse($contract->end_date)->format('jS \of F, Y') }}</td>
+                                <td>KES {{ number_format($contract->salary_kes) }} <small>(@if ($contract->employment_type_id == 1)
+                                            per day
+                                        @else
+                                            per month
+                                        @endif)</small></td>
 
-                                    <td>
-                                        <div class="d-flex flex-row justify-content-center">
-                                            @if ($contract->contract_path)
-                                                <a target="_blank" href="javascript:;" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="View Signed Contract"
-                                                    class="btn btn-dark m-1">
-                                                    <i class="fas fa-file-contract"></i>
-                                                </a>
-                                            @else
-                                                <a target="_blank" href="{{ route('doc.contract', $contract->id) }}"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="View Signed Contract" class="btn btn-light shadow-sm m-1">
-                                                    <i class="fas fa-file-pdf"></i>
-                                                </a>
-                                            @endif
-                                            <a href="{{ route('admin.employee_contracts.edit', $contract->id) }}"
-                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Contract"
-                                                class="btn btn-warning m-1">
-                                                <i class="fas fa-edit"></i>
+                                <td>
+                                    <div class="d-flex flex-row justify-content-center">
+                                        @if ($contract->contract_path)
+                                            <a target="_blank" href="javascript:;" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" title="View Signed Contract"
+                                                class="btn btn-dark m-1">
+                                                <i class="fas fa-file-contract"></i>
                                             </a>
-                                            <button wire:click="makeInactive({{ $contract->id }})"
+                                        @else
+                                            <a target="_blank" href="{{ route('doc.contract', $contract->id) }}"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="Terminate Contract" class="btn btn-danger m-1">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endif
-                            {{-- @endif --}}
+                                                title="View Signed Contract" class="btn btn-light shadow-sm m-1">
+                                                <i class="fas fa-file-pdf"></i>
+                                            </a>
+                                        @endif
+                                        <a href="{{ route('admin.employee_contracts.edit', $contract->id) }}"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Contract"
+                                            class="btn btn-warning m-1">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button wire:click="makeInactive({{ $contract->id }})" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" title="Terminate Contract"
+                                            class="btn btn-danger m-1">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
