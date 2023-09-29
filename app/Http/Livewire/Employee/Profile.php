@@ -31,8 +31,8 @@ class Profile extends Component
         'employee.handicap' => 'nullable',
         'employee.religion' => 'nullable',
         'employee.birth_date' => 'required',
-        'account.bank_id'=>'required',
-        'account.account_number'=>'required',
+        'account.bank_id' => 'required',
+        'account.account_number' => 'required',
 
     ];
 
@@ -40,7 +40,8 @@ class Profile extends Component
     {
         $this->user = User::find(auth()->user()->id);
         $this->employee = EmployeesDetail::where('user_id', $this->user->id)->first();
-        $this->account = EmployeeAccount::where('employees_detail_id', $this->employee->id)->first();
+        $this->account = EmployeeAccount::where('employees_detail_id', $this->employee->id)->first() ?? new EmployeeAccount();
+
     }
 
     function saveBasicDetails()
@@ -85,8 +86,10 @@ class Profile extends Component
             'account.bank_id' => 'required',
             'account.account_number' => 'required',
         ]);
-
-        $this->account->update();
+        if (!$this->account->employees_detail_id) {
+            $this->account->employees_detail_id = auth()->user()->employee->id;
+        }
+        $this->account->save();
 
         $this->emit('done', [
             'success' => 'Successfully Saved Your Account Details'
