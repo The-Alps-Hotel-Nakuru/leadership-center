@@ -152,7 +152,7 @@ class Index extends Component
         if (count($payroll->payment) > 0) {
 
             $this->emit('done', [
-                'info'=>'Payment for this Payroll Has Already been Made'
+                'warning'=>'Payment for this Payroll Has Already been Made'
             ]);
 
             return;
@@ -204,7 +204,7 @@ class Index extends Component
             // dd($testarray);
         }
 
-        $payroll->update();
+        $payroll->save();
         // if (count($payroll->payment) > 0) {
 
         //     $payroll->payment()->delete();
