@@ -148,6 +148,13 @@ class Index extends Component
 
     public function update($id)
     {
+        $this->emit('done', [
+            'warning' => 'The Update Button is on Maintenance. Please delete the Payroll and Generate another'
+        ]);
+
+        return;
+
+
         $payroll = Payroll::find($id);
         if (count($payroll->payment) > 0) {
 
@@ -226,7 +233,7 @@ class Index extends Component
         $payroll = Payroll::find($id);
         if (count($payroll->payment) > 0) {
             $this->emit('done', [
-                'info' => 'Payment for this Payroll Has Already been Made'
+                'warning' => 'Payment for this Payroll Has Already been Made'
             ]);
 
             return;
