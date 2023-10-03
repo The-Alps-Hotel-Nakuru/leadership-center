@@ -149,33 +149,66 @@ class Index extends Component
     public function update($id)
     {
         $payroll = Payroll::find($id);
-        foreach ($payroll->monthlySalaries as $salary) {
-            $view = MonthlySalary::find($salary->id);
-            $contract = $salary->employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
-            if ($contract) {
-                if ($contract->is_full_time()) {
-                    $view->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
-                    $view->house_allowance_kes = $contract->house_allowance;
-                } else if ($contract->is_casual()) {
-                    $view->basic_salary_kes = $contract->salary_kes * $salary->employee->daysWorked($payroll->year . '-' . $payroll->month);
+        if (count($payroll->payment) > 0) {
+
+            $this->emit('done', [
+                'info'=>'Payment for this Payroll Has Already been Made'
+            ]);
+
+            return;
+        }
+        // foreach ($payroll->monthlySalaries as $salary) {
+        //     $view = MonthlySalary::find($salary->id);
+        //     $contract = $salary->employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
+        //     if ($contract) {
+        //         if ($contract->is_full_time()) {
+        //             $view->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
+        //             $view->house_allowance_kes = $contract->house_allowance;
+        //         } else if ($contract->is_casual()) {
+        //             $view->basic_salary_kes = $contract->salary_kes * $salary->employee->daysWorked($payroll->year . '-' . $payroll->month);
+        //         }
+        //     } else {
+        //         $view->basic_salary_kes = 0;
+        //     }
+
+        //     $view->update();
+        // }
+
+        $payroll->monthlySalaries()->delete();
+
+        foreach (EmployeesDetail::all() as $employee) {
+            if ($employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)) {
+                // array_push($testarray, $employee);
+                $salary = new MonthlySalary();
+                $salary->payroll_id = $payroll->id;
+                $salary->employees_detail_id = $employee->id;
+                $contract = $employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
+                if ($contract) {
+                    if ($contract->is_full_time()) {
+                        $salary->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
+                        $salary->house_allowance_kes = $contract->house_allowance;
+                    } else if ($contract->is_casual()) {
+                        $salary->basic_salary_kes = $contract->salary_kes * $employee->daysWorked($payroll->year . '-' . $payroll->month);
+                    } else if ($contract->is_intern()) {
+                        $salary->basic_salary_kes = $contract->salary_kes;
+                    } else if ($contract->is_external()) {
+                        $salary->basic_salary_kes = $contract->salary_kes;
+                    }
+                } else {
+                    $salary->basic_salary_kes = 0;
                 }
-            } else {
-                $view->basic_salary_kes = 0;
+
+                $salary->save();
             }
 
-            $view->save();
+            // dd($testarray);
         }
 
-        $payroll->save();
-        if (count($payroll->payment) > 0) {
-            // if ($payroll->payment->bank_slip_path) {
-            //     $this->emit('done', [
-            //         'danger' => "The Payments Have already Been Made"
-            //     ]);
-            //     return;
-            // }
-            $payroll->payment()->delete();
-        }
+        $payroll->update();
+        // if (count($payroll->payment) > 0) {
+
+        //     $payroll->payment()->delete();
+        // }
 
         $log = new Log();
         $log->user_id = auth()->user()->id;
@@ -193,7 +226,7 @@ class Index extends Component
         $payroll = Payroll::find($id);
         if (count($payroll->payment) > 0) {
             $this->emit('done', [
-                'warning' => "This Payroll has already been paid"
+                'info' => 'Payment for this Payroll Has Already been Made'
             ]);
 
             return;
