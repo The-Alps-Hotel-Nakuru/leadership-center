@@ -12,6 +12,8 @@ class Index extends Component
 
     use WithPagination;
 
+    public $type = 'all';
+
     protected $paginationTheme = 'bootstrap';
 
     public function makeInactive($id)
@@ -22,8 +24,8 @@ class Index extends Component
 
         $contract->save();
 
-        $this->emit('done',[
-            'success'=>'Successfully terminated this Contract'
+        $this->emit('done', [
+            'success' => 'Successfully terminated this Contract'
         ]);
     }
 
@@ -33,16 +35,27 @@ class Index extends Component
 
         $contract->delete();
 
-        $this->emit('done',[
-            'success'=>'Successfully Deleted this Contract from the System'
+        $this->emit('done', [
+            'success' => 'Successfully Deleted this Contract from the System'
         ]);
     }
 
 
     public function render()
     {
+        if ($this->type == 'active') {
+            $contracts = EmployeeContract::orderBy('employees_detail_id', 'DESC')->where(function ($employee) {
+                $employee->where('end_date', '>=', Carbon::now()->toDateString());
+            });
+        } elseif ($this->type == 'inactive') {
+            $contracts = EmployeeContract::orderBy('employees_detail_id', 'DESC')->where(function ($employee) {
+                $employee->where('end_date', '<', Carbon::now()->toDateString());
+            });
+        } else {
+            $contracts = EmployeeContract::orderBy('employees_detail_id', 'DESC');
+        }
         return view('livewire.admin.employee-contracts.index', [
-            'contracts'=>EmployeeContract::orderBy('id', 'DESC')->paginate(10),
+            'contracts' => $contracts->paginate(10),
         ]);
     }
 }

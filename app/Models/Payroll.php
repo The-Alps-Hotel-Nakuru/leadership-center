@@ -63,7 +63,7 @@ class Payroll extends Model
     {
         $amount = 0;
         foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_full_time()) {
+            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
                 $amount += $salary->advances;
             }
         }
@@ -74,7 +74,7 @@ class Payroll extends Model
     {
         $amount = 0;
         foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_full_time()) {
+            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
                 $amount += $salary->bonuses;
             }
         }
@@ -85,7 +85,7 @@ class Payroll extends Model
     {
         $amount = 0;
         foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_full_time()) {
+            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
                 $amount += $salary->fines;
             }
         }
@@ -96,7 +96,7 @@ class Payroll extends Model
     {
         $amount = 0;
         foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_full_time()) {
+            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
                 $amount += $salary->attendance_penalty;
             }
         }

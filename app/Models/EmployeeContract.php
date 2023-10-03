@@ -12,6 +12,10 @@ class EmployeeContract extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $appends = [
+        'is_active'
+    ];
+
 
     public function getIsActiveAttribute()
     {
@@ -68,34 +72,42 @@ class EmployeeContract extends Model
 
     public function isActiveDuring($date1, $date2)
     {
-        if (Carbon::parse($date1)->greaterThan($date2)) {
-            if (Carbon::parse($date1)->lessThan($this->start_date)) {
-                if (Carbon::parse($date2)->lessThan($this->start_date)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else {
-                if (Carbon::parse($date1)->greaterThan($this->end_date)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        } else {
-            if (Carbon::parse($date2)->lessThan($this->start_date)) {
-                if (Carbon::parse($date1)->lessThan($this->start_date)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else {
-                if (Carbon::parse($date2)->greaterThan($this->end_date)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
+        // if (Carbon::parse($date1)->isBe($date2)) {
+        //     if (Carbon::parse($date1)->lessThan($this->start_date)) {
+        //         if (Carbon::parse($date2)->lessThan($this->start_date)) {
+        //             return false;
+        //         } else {
+        //             return true;
+        //         }
+        //     } else {
+        //         if (Carbon::parse($date1)->greaterThan($this->end_date)) {
+        //             return false;
+        //         } else {
+        //             return true;
+        //         }
+        //     }
+        // } else {
+        //     if (Carbon::parse($date2)->lessThan($this->start_date)) {
+        //         if (Carbon::parse($date1)->lessThan($this->start_date)) {
+        //             return false;
+        //         } else {
+        //             return true;
+        //         }
+        //     } else {
+        //         if (Carbon::parse($date2)->greaterThan($this->end_date)) {
+        //             return false;
+        //         } else {
+        //             return true;
+        //         }
+        //     }
+        // }
+
+        if (Carbon::parse($date1)->isBetween($this->start_date, $this->end_date)) {
+            return true;
+        }elseif (Carbon::parse($date2)->isBetween($this->start_date, $this->end_date)) {
+            return true;
+        }else{
+            return false;
         }
     }
 
