@@ -10,6 +10,7 @@ class Payroll extends Model
 {
     use HasFactory;
 
+
     function getYearmonthAttribute()
     {
         return Carbon::parse($this->year . '-' . $this->month)->format('F \of Y');

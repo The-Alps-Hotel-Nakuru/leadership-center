@@ -174,7 +174,7 @@ class Index extends Component
         //     $view->update();
         // }
 
-        $payroll->monthlySalaries()->delete();
+        $payroll->monthlySalaries->delete();
 
         foreach (EmployeesDetail::all() as $employee) {
             if ($employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)) {
