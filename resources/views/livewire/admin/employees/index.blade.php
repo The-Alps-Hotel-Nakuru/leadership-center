@@ -64,7 +64,7 @@
             <tbody>
                 @foreach ($employees as $key => $employee)
                     <tr class="">
-                        <td>{{ $employees->id }}</td>
+                        <td>{{ $employee->id }}</td>
                         <td>
                             <div class="d-flex flex-row">
                                 <div class="flex-col">
