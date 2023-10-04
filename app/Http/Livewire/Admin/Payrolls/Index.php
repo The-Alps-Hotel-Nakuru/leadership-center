@@ -117,7 +117,7 @@ class Index extends Component
     {
         $payroll = Payroll::find($id);
 
-        if (count($payroll->payment)) {
+        if (count($payroll->payment) > 0) {
             $this->emit('done', [
                 'warning' => 'Payment already Made'
             ]);
@@ -137,6 +137,7 @@ class Index extends Component
             $payment->total_bonuses = $salary->bonuses;
             $payment->total_advances = $salary->advances;
             $payment->total_welfare_contributions = $salary->welfare_contributions;
+            $payment->attendance_penalty = $salary->attendance_penalty;
             $payment->bank_id = $salary->employee->bankAccount->bank_id;
             $payment->account_number = $salary->employee->bankAccount->account_number;
             $payment->save();
@@ -148,40 +149,23 @@ class Index extends Component
 
     public function update($id)
     {
-        $this->emit('done', [
-            'warning' => 'The Update Button is on Maintenance. Please delete the Payroll and Generate another'
-        ]);
-
-        return;
-
-
         $payroll = Payroll::find($id);
+
+        $month = $payroll->month;
+        $year = $payroll->year;
+
         if (count($payroll->payment) > 0) {
 
-            $this->emit('done', [
-                'warning'=>'Payment for this Payroll Has Already been Made'
-            ]);
-
-            return;
+            $payroll->payment()->delete();
         }
-        // foreach ($payroll->monthlySalaries as $salary) {
-        //     $view = MonthlySalary::find($salary->id);
-        //     $contract = $salary->employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
-        //     if ($contract) {
-        //         if ($contract->is_full_time()) {
-        //             $view->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
-        //             $view->house_allowance_kes = $contract->house_allowance;
-        //         } else if ($contract->is_casual()) {
-        //             $view->basic_salary_kes = $contract->salary_kes * $salary->employee->daysWorked($payroll->year . '-' . $payroll->month);
-        //         }
-        //     } else {
-        //         $view->basic_salary_kes = 0;
-        //     }
-
-        //     $view->update();
-        // }
-
         $payroll->monthlySalaries()->delete();
+
+        $payroll->delete();
+        $payroll = new Payroll();
+        $payroll->id = $id;
+        $payroll->month = $month;
+        $payroll->year = $year;
+        $payroll->save();
 
         foreach (EmployeesDetail::all() as $employee) {
             if ($employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)) {
@@ -211,7 +195,6 @@ class Index extends Component
             // dd($testarray);
         }
 
-        $payroll->save();
         // if (count($payroll->payment) > 0) {
 
         //     $payroll->payment()->delete();
