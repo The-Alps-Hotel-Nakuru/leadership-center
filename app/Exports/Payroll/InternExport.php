@@ -57,6 +57,7 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
             "Fines",                       //I
             "Loan Payment",                       //J
             "Staff Welfare",                       //K
+            "Total Additions",                       //L
             "Total Deductions",                       //L
             "Net Pay",                       //M
             "Bank",                       //N
@@ -87,6 +88,7 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
             $row->fines,
             0,
             $row->welfare_contributions,
+            $row->total_additions,
             $row->total_deductions,
             $row->net_pay,
             $row->employee->bankAccount && $row->employee->bankAccount->bank ? $row->employee->bankAccount->bank->name : "",
@@ -113,8 +115,9 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
             'K' => $KES_FORMAT,
             'L' => $KES_FORMAT,
             'M' => $KES_FORMAT,
-            'N' => NumberFormat::FORMAT_TEXT,
+            'N' => $KES_FORMAT,
             'O' => NumberFormat::FORMAT_TEXT,
+            'P' => NumberFormat::FORMAT_TEXT,
         ];
     }
 

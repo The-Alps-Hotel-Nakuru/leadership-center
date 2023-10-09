@@ -56,6 +56,7 @@ class ExternalExport implements FromCollection, WithHeadings, WithMapping, WithC
             "Fines",                       //I
             "Loan Payment",                       //J
             "Staff Welfare",                       //K
+            "Total Additions",                       //L
             "Total Deductions",                       //L
             "Net Pay",                       //M
             "Bank",                       //N
@@ -85,6 +86,7 @@ class ExternalExport implements FromCollection, WithHeadings, WithMapping, WithC
             $row->fines,
             0,
             $row->welfare_contributions,
+            $row->total_additions,
             $row->total_deductions,
             $row->net_pay,
             $row->employee->bankAccount && $row->employee->bankAccount->bank ? $row->employee->bankAccount->bank->name : "",
@@ -110,8 +112,9 @@ class ExternalExport implements FromCollection, WithHeadings, WithMapping, WithC
             'J' => $KES_FORMAT,
             'K' => $KES_FORMAT,
             'L' => $KES_FORMAT,
-            'M' => NumberFormat::FORMAT_TEXT,
+            'M' => $KES_FORMAT,
             'N' => NumberFormat::FORMAT_TEXT,
+            'O' => NumberFormat::FORMAT_TEXT,
         ];
     }
 

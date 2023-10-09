@@ -68,6 +68,7 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithCol
             "Fines",
             "Loan Payment",
             "Staff Welfare",
+            "Total Additions",
             "Total Deductions",
             "Net Pay",
             "Bank",
@@ -102,6 +103,7 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithCol
             $row->fines,
             0,
             $row->welfare_contributions,
+            $row->total_additions,
             $row->total_deductions,
             $row->net_pay,
             $row->employee->bankAccount && $row->employee->bankAccount->bank ? $row->employee->bankAccount->bank->name : "",
@@ -130,8 +132,9 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithCol
             'M' => $KES_FORMAT,
             'N' => $KES_FORMAT,
             'O' => $KES_FORMAT,
-            'P' => NumberFormat::FORMAT_TEXT,
+            'P' => $KES_FORMAT,
             'Q' => NumberFormat::FORMAT_TEXT,
+            'R' => NumberFormat::FORMAT_TEXT,
         ];
     }
 }

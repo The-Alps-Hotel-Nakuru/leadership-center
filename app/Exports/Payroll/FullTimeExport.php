@@ -72,6 +72,7 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             "Fines",
             "Loan Payment",
             "Staff Welfare",
+            "Total Additions",
             "Total Deductions",
             "Net Pay",
             "Bank",
@@ -101,6 +102,7 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             $row->fines,
             0,
             $row->welfare_contributions,
+            $row->total_additions,
             $row->total_deductions,
             $row->net_pay,
             $row->employee->bankAccount && $row->employee->bankAccount->bank ? $row->employee->bankAccount->bank->name : "",
@@ -135,8 +137,9 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             'S' => $KES_FORMAT,
             'T' => $KES_FORMAT,
             'U' => $KES_FORMAT,
-            'V' => NumberFormat::FORMAT_TEXT,
+            'V' => $KES_FORMAT,
             'W' => NumberFormat::FORMAT_TEXT,
+            'X' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
