@@ -123,7 +123,7 @@
                 @endif
 
                 {{ $slot }}
-                
+
             </div>
 
         </div>

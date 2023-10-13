@@ -215,4 +215,6 @@ class Payroll extends Model
     {
         return $this->hasMany(PayrollPayment::class);
     }
+
+
 }

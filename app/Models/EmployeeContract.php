@@ -72,41 +72,15 @@ class EmployeeContract extends Model
 
     public function isActiveDuring($date1, $date2)
     {
-        // if (Carbon::parse($date1)->isBe($date2)) {
-        //     if (Carbon::parse($date1)->lessThan($this->start_date)) {
-        //         if (Carbon::parse($date2)->lessThan($this->start_date)) {
-        //             return false;
-        //         } else {
-        //             return true;
-        //         }
-        //     } else {
-        //         if (Carbon::parse($date1)->greaterThan($this->end_date)) {
-        //             return false;
-        //         } else {
-        //             return true;
-        //         }
-        //     }
-        // } else {
-        //     if (Carbon::parse($date2)->lessThan($this->start_date)) {
-        //         if (Carbon::parse($date1)->lessThan($this->start_date)) {
-        //             return false;
-        //         } else {
-        //             return true;
-        //         }
-        //     } else {
-        //         if (Carbon::parse($date2)->greaterThan($this->end_date)) {
-        //             return false;
-        //         } else {
-        //             return true;
-        //         }
-        //     }
-        // }
-
         if (Carbon::parse($date1)->isBetween($this->start_date, $this->end_date)) {
             return true;
-        }elseif (Carbon::parse($date2)->isBetween($this->start_date, $this->end_date)) {
+        } elseif (Carbon::parse($date2)->isBetween($this->start_date, $this->end_date)) {
             return true;
-        }else{
+        } elseif (Carbon::parse($this->start_date)->isBetween($date1, $date2)) {
+            return true;
+        } elseif (Carbon::parse($this->end_date)->isBetween($date1, $date2)) {
+            return true;
+        } else {
             return false;
         }
     }
@@ -114,5 +88,20 @@ class EmployeeContract extends Model
     public function isActiveOn($date)
     {
         return Carbon::parse($date)->isBetween($this->start_date, $this->end_date);
+    }
+
+    function attendances()
+    {
+        $attendances = $this->employee->attendances;
+
+        $in = [];
+
+        foreach ($attendances as $key => $attendance) {
+            if (Carbon::parse($attendance->date)->isBetween($this->start_date, $this->end_date)) {
+                array_push($in, $attendance);
+            }
+        }
+
+        return collect($in);
     }
 }
