@@ -112,6 +112,7 @@ class Dashboard extends Component
         $this->currentMonthName = $this->instance->format('F');
         $this->currentMonth = $this->instance->format('m');
         $this->currentYear = $this->instance->format('Y');
+        $this->attendance_percentage = $this->attendance_percentage();
 
         $this->total_fines = 0;
         foreach ($this->employee->fines as $fine) {
