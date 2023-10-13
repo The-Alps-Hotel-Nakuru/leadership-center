@@ -40,7 +40,7 @@ class Dashboard extends Component
             $daysPassed = 0;
         }
 
-        return $daysPassed == 0 ? ($days / $daysPassed) * 100 : 0;
+        return $daysPassed > 0 ? ($days / $daysPassed) * 100 : 0;
     }
 
     function estimated_earnings()
