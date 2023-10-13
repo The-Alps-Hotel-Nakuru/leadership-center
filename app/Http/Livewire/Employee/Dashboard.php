@@ -35,12 +35,12 @@ class Dashboard extends Component
         if (Carbon::now()->format('Y-m') == $this->instance->format('Y-m')) {
             $daysPassed = Carbon::now()->format('d');
         } elseif (Carbon::now()->isAfter($this->instance)) {
-            $daysPassed = $this->instance->format('d');
+            $daysPassed = $this->instance->daysInMonth;
         } else {
             $daysPassed = 0;
         }
 
-        return ($days / $daysPassed) * 100;
+        return $daysPassed == 0 ? ($days / $daysPassed) * 100 : 0;
     }
 
     function estimated_earnings()
