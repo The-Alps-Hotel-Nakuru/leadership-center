@@ -12,7 +12,7 @@
                     <div class="d-flex">
                         <div class="align-self-center">
                             <h3 class="m-b-0">{{ $this->instance->format('F, Y') }}</h3><small>Total
-                                {{ App\Models\Payroll::where('month', $this->instance->format('m'))->where('year', $this->instance->format('Y'))->exists()? '': 'Estimated' }}
+                                {{ App\Models\Payroll::where('month', $this->instance->format('m'))->where('year', $this->instance->format('Y'))->exists()? 'Gross': 'Estimated Gross' }}
                                 Earning</small>
                         </div>
                     </div>
