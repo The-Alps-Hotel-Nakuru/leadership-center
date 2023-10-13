@@ -26,6 +26,7 @@ class Dashboard extends Component
         $this->today = $this->instance->format('Y-m-d');
         $this->attendance_percentage = $this->attendance_percentage();
         $this->month = $this->instance->format('Y-m');
+        $this->estimated = $this->estimated_earnings();
     }
 
     function attendance_percentage()
@@ -88,22 +89,7 @@ class Dashboard extends Component
         return $gross - $penalty;
     }
 
-    // public function lastMonth()
-    // {
-    //     $this->instance->subMonth();
-    //     // $this->today += $this->instance->daysInMonth;
-    //     $this->emit('done', [
-    //         'success' => 'Successfully Moved to the Previous Month'
-    //     ]);
-    // }
-    // public function nextMonth()
-    // {
-    //     // $this->today -= $this->instance->daysInMonth;
-    //     $this->instance->addMonth();
-    //     $this->emit('done', [
-    //         'success' => 'Successfully Moved to the Next Month'
-    //     ]);
-    // }
+
     public function render()
     {
         $this->instance = Carbon::parse($this->month);
@@ -126,6 +112,8 @@ class Dashboard extends Component
                 $this->total_bonuses += $bonus->amount_kes;
             }
         }
+
+        $this->estimated = $this->estimated_earnings() + ($this->total_bonuses - $this->total_fines);
 
         return view('livewire.employee.dashboard');
     }

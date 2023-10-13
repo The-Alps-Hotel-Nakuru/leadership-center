@@ -15,9 +15,9 @@
                                 {{ App\Models\Payroll::where('month', $this->instance->format('m'))->where('year', $this->instance->format('Y'))->exists()? '': 'Estimated' }}
                                 Earning</small>
                         </div>
-                        <div class="ms-auto align-self-center text-success">
+                        <div class="ms-auto align-self-center {{ $estimated>=0?'text-success':'text-danger' }}">
                             <sup>KES</sup>
-                            <h2 class="">{{ number_format($this->estimated_earnings(), 2) }}</h2>
+                            <h2 class="">{{ number_format($estimated, 2) }}</h2>
                         </div>
                     </div>
                 </div>
