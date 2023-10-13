@@ -10,32 +10,48 @@ class Dashboard extends Component
 {
     public $total_fines = 0;
     public $total_bonuses = 0;
-    public $attendance_percentage = 60;
+    public $attendance_percentage = 0;
     public $currentMonth, $currentMonthName, $currentYear, $today, $days, $instance, $employee;
     public $estimated;
+    public $month;
+
+    protected $listeners = [
+        'done' => 'render'
+    ];
 
     public function mount()
     {
-        // $this->month = Carbon::now()->format('Y-m');
-        $this->instance = $this->instance ?? Carbon::now();
+        $this->instance = Carbon::now();
         $this->employee = EmployeesDetail::where('user_id', auth()->user()->id)->first();
-        $this->instance = $this->instance ?? Carbon::now();
-        $this->currentMonthName = $this->instance->format('F');
-        $this->today = $this->today ?? $this->instance->format('d');
-        $this->currentMonth = $this->instance->format('m');
-        $this->days = $this->instance->daysInMonth;
-        $this->currentYear = $this->instance->format('Y');
+        $this->today = $this->instance->format('Y-m-d');
+        $this->attendance_percentage = $this->attendance_percentage();
+        $this->month = $this->instance->format('Y-m');
+    }
+
+    function attendance_percentage()
+    {
+        $days = $this->employee->daysWorked($this->instance->format('Y-m'));
+        $daysPassed = 0;
+        if (Carbon::now()->format('Y-m') == $this->instance->format('Y-m')) {
+            $daysPassed = Carbon::now()->format('d');
+        } elseif (Carbon::now()->isAfter($this->instance)) {
+            $daysPassed = $this->instance->format('d');
+        } else {
+            $daysPassed = 0;
+        }
+
+        return ($days / $daysPassed) * 100;
     }
 
     function estimated_earnings()
     {
-        $days = auth()->user()->employee->daysWorked($this->instance->format('Y-m'));
+        $days = $this->employee->daysWorked($this->instance->format('Y-m'));
         $leaveDays = $this->employee->daysOnLeave($this->instance->format('Y-m'));
         $rate = 0;
         $daysMissed = $this->instance->daysInMonth - $days - $leaveDays;
         $basic_salary_kes = 0;
 
-        if (auth()->user()->employee->ActiveContractDuring($this->instance->format('Y-m'))) {
+        if ($this->employee->ActiveContractDuring($this->instance->format('Y-m'))) {
             if ($this->employee->isCasualBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) || $this->employee->isInternBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
                 $rate = $this->employee->ActiveContractDuring($this->instance->format('Y-m'))->salary_kes;
             } else {
@@ -72,39 +88,43 @@ class Dashboard extends Component
         return $gross - $penalty;
     }
 
-    public function getPreviousMonth()
-    {
-        $this->instance = $this->instance->subMonth();
-        $this->today += $this->instance->daysInMonth;
-        $this->emit('done', [
-            'success' => 'Successfully Moved to the Previous Month'
-        ]);
-    }
-    public function getNextMonth()
-    {
-        $this->today -= $this->instance->daysInMonth;
-        $this->instance = $this->instance->addMonth();
-        $this->emit('done', [
-            'success' => 'Successfully Moved to the Next Month'
-        ]);
-    }
+    // public function lastMonth()
+    // {
+    //     $this->instance->subMonth();
+    //     // $this->today += $this->instance->daysInMonth;
+    //     $this->emit('done', [
+    //         'success' => 'Successfully Moved to the Previous Month'
+    //     ]);
+    // }
+    // public function nextMonth()
+    // {
+    //     // $this->today -= $this->instance->daysInMonth;
+    //     $this->instance->addMonth();
+    //     $this->emit('done', [
+    //         'success' => 'Successfully Moved to the Next Month'
+    //     ]);
+    // }
     public function render()
     {
+        $this->instance = Carbon::parse($this->month);
 
+        $this->days = $this->instance->daysInMonth;
+        $this->currentMonthName = $this->instance->format('F');
+        $this->currentMonth = $this->instance->format('m');
+        $this->currentYear = $this->instance->format('Y');
 
         $this->total_fines = 0;
-        foreach (auth()->user()->employee->fines as $fine) {
+        foreach ($this->employee->fines as $fine) {
             if ($fine->year == $this->instance->format('Y') && $fine->month == $this->instance->format('m')) {
                 $this->total_fines += $fine->amount_kes;
             }
         }
         $this->total_bonuses = 0;
-        foreach (auth()->user()->employee->bonuses as $bonus) {
+        foreach ($this->employee->bonuses as $bonus) {
             if ($bonus->year == $this->instance->format('Y') && $bonus->month == $this->instance->format('m')) {
                 $this->total_bonuses += $bonus->amount_kes;
             }
         }
-
 
         return view('livewire.employee.dashboard');
     }
