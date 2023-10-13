@@ -7,7 +7,7 @@
 
     <div class="container-fluid">
         <div class="row mb-5">
-            <div class="col-md-6 col-12 ">
+            <div class="col-md-4 col-12 ">
                 <div class="card bg-gradient-black text-white mb-3 h-100" style="padding: 30px">
                     <div class="d-flex">
                         <div class="align-self-center">
@@ -27,7 +27,7 @@
                 </div>
 
             </div>
-            <div class="col-md-6 col-12">
+            <div class="col-md-8 col-12">
                 <div class="card mb-3 shadow">
                     <div class="card-header bg-transparent border-0  ">
                         <div class="d-flex flex-row justify-content-center align-items-center">
@@ -71,8 +71,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-12 col-md-12 col-xl-9">
+                                                <small>KES</small>
                                                 <div class="d-flex align-items-baseline ms-auto">
-                                                    <small>KES</small>
                                                     <h4 class="mb-2"> {{ number_format($total_bonuses, 2) }}
                                                     </h4>
 
@@ -119,13 +119,14 @@
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-12">
+            <div class="col-md-10 col-12 h-100">
                 <div class="card shadow">
                     <div class="card-header bg-transparent border-0">
                         <h5 class="text-capitalize"><strong>your attendance</strong> </h5>
                     </div>
                     <div class="card-body table-responsive">
                         <div class="d-flex flex-row">
+
                             @php
                                 $count = 0;
 
@@ -137,7 +138,7 @@
                                         ->where('date', $date)
                                         ->first();
                                 @endphp
-                                <div class="p-md-2 p-1 m-md-1 border-md-0 {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1) ? 'bg-danger' : 'bg-secondary')) }}"
+                                <div class="p-3 m-1  {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1) ? 'bg-danger' : 'bg-secondary')) }}"
                                     @if ($employee->ActiveContractOn($date) && !$curr) data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="{{ $currentMonthName . ' ' . sprintf('%02d', $i + 1) . ', ' . $currentYear }}" @endif>
                                     {{ sprintf('%02d', $i + 1) }}
@@ -152,6 +153,28 @@
                     </div>
                     <div class="card-footer">
                         <h4>{{ $count }} Days</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-12 h-100">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-12">
+                                <button class="btn btn-primary m-1 btn-xs">Download Recent Payslip</button>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <button class="btn btn-primary m-1 btn-xs">Download Recent Payslip</button>
+                            </div>
+                            <div class="col-md-6 col-12 ">
+                                <button class="btn btn-primary m-1 btn-xs">Download Recent Payslip</button>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <button class="btn btn-primary m-1 btn-xs">Download Recent Payslip</button>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
