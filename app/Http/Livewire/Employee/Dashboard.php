@@ -79,7 +79,7 @@ class Dashboard extends Component
         if ($this->employee && $this->employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
             if ($this->employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) && $this->employee->designation->is_penalizable) {
                 if ($daysMissed > 6) {
-                    $penalty = $this->daily_rate * ($daysMissed - 6);
+                    $penalty = $rate * ($daysMissed - 6);
                 }
             } else {
                 $penalty = 0;
