@@ -102,13 +102,15 @@
     </div>
 
     <div class="row mb-5">
-        <div class="card">
-            <div class="card-header bg-transparent">
-                <h5>Payroll Final Amounts</h5>
+        <div class="col-12">
+            <div class="card shadow">
+            <div class="card-header bg-transparent border-0">
+                <h5 class="text-center">Payroll Final Amounts</h5>
             </div>
             <div class="card-body">
-                <canvas id="payroll-chart"></canvas>
+                <canvas id="payroll-chart" height="400px"></canvas>
             </div>
+        </div>
         </div>
     </div>
 
@@ -224,7 +226,7 @@
                             // display: false,
                             gridLines: {
                                 display: true,
-                                lineWidth: '4px',
+                                lineWidth: '3px',
                                 color: 'rgba(0, 0, 0, .2)',
                                 zeroLineColor: 'transparent'
                             },
