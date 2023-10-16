@@ -107,8 +107,8 @@
                 <div class="card-header bg-transparent border-0">
                     <h5 class="text-center">Payroll Final Amounts</h5>
                 </div>
-                <div class="card-body">
-                    <canvas wire:ignore id="payroll-chart" height="400px"></canvas>
+                <div class="card-body" wire:ignore>
+                    <canvas id="payroll-chart" width="400" height="400"></canvas>
                 </div>
             </div>
         </div>
@@ -203,8 +203,8 @@
                 data: {
                     labels,
                     datasets: [{
-                        backgroundColor: '#007bff',
-                        borderColor: '#007bff',
+                        backgroundColor: '#100076',
+                        borderColor: '#0083a3',
                         data,
                     }, ]
                 },
@@ -236,8 +236,8 @@
                             gridLines: {
                                 display: true,
                                 lineWidth: '3px',
-                                color: 'rgba(0, 0, 0, .2)',
-                                zeroLineColor: 'transparent'
+                                color: 'rgba(0, 0, 0, .8)',
+                                zeroLineColor: 'black'
                             },
                             ticks: $.extend({
                                 beginAtZero: true,
@@ -261,9 +261,12 @@
                             }, ticksStyle)
                         }],
                         xAxes: [{
-                            display: true,
+                            // display: true,
                             gridLines: {
-                                display: false
+                                display: true,
+                                lineWidth: '3px',
+                                color: 'rgba(0, 0, 0, .8)',
+                                zeroLineColor: 'transparent'
                             },
                             ticks: ticksStyle
                         }]
