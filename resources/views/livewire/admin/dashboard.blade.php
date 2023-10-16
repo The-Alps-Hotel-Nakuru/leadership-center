@@ -218,11 +218,8 @@
                                 // Format the number as you need (e.g., with commas)
                                 var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem
                                     .index];
-                                var formattedValue = value.toLocaleString(undefined, {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
-                                });
-                                return 'Value: ' + formattedValue;
+                                return 'Value: KES' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                                    ',');
                             }
                         }
                     },
