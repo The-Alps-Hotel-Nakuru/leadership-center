@@ -108,7 +108,7 @@
                     <h5 class="text-center">Payroll Final Amounts</h5>
                 </div>
                 <div class="card-body">
-                    <canvas id="payroll-chart" height="400px"></canvas>
+                    <canvas wire:ignore id="payroll-chart" height="400px"></canvas>
                 </div>
             </div>
         </div>
