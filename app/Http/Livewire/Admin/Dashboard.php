@@ -52,7 +52,7 @@ class Dashboard extends Component
         }
         foreach ($range as $month) {
             array_push($labels, $month->format('F, Y'));
-            $payroll = Payroll::where('month', $month->format('m'))->where('year', $month->format('m'));
+            $payroll = Payroll::where('month', $month->format('m'))->where('year', $month->format('Y'));
             if ($payroll->exists()) {
                 array_push($data, $payroll->first()->total);
             } else {
