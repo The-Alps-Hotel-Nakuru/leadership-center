@@ -54,9 +54,9 @@ class Dashboard extends Component
             array_push($labels, $month->format('F, Y'));
             $payroll = Payroll::where('month', $month->format('m'))->where('year', $month->format('Y'));
             if ($payroll->exists()) {
-                array_push($data, number_format($payroll->first()->total, 2));
+                array_push($data, $payroll->first()->total);
             } else {
-                array_push($data, number_format(0, 2));
+                array_push($data, 0);
             }
         }
 
