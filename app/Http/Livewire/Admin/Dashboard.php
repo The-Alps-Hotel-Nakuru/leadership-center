@@ -48,7 +48,7 @@ class Dashboard extends Component
         $labels = [];
         $data = [];
         for ($i = 0; $i < 7; $i++) {
-            array_push($range, $this->instance->copy()->subMonthsNoOverflow(6 - $i));
+            array_push($range, $this->instance->copy()->subMonthsNoOverflow(7 - $i));
         }
         foreach ($range as $month) {
             array_push($labels, $month->format('F, Y'));
