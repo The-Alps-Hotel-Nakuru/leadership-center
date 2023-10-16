@@ -199,27 +199,30 @@
 
         document.addEventListener("livewire:load", function() {
             var payrollChart = new Chart(document.getElementById('payroll-chart').getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels,
-                        datasets: [{
-                            backgroundColor: '#007bff',
-                            borderColor: '#007bff',
-                            data,
-                        }, ]
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        tooltips: {
-                            mode: mode,
-                            intersect: intersect,
-                            callbacks: {
-                                label: function(tooltipItem, data) {
-                                    // Format the number with two decimal places
-                                    var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem
-                                        .index].toFixed(2);
-                                    return 'Value: ' + value;
-                                }
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        backgroundColor: '#007bff',
+                        borderColor: '#007bff',
+                        data,
+                    }, ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        mode: mode,
+                        intersect: intersect,
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                // Format the number as you need (e.g., with commas)
+                                var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem
+                                    .index];
+                                var formattedValue = value.toLocaleString(undefined, {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                });
+                                return 'Value: ' + formattedValue;
                             }
                         }
                     },
