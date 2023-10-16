@@ -218,7 +218,7 @@
                                 // Format the number as you need (e.g., with commas)
                                 var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem
                                     .index];
-                                return 'Value: KES' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                                return 'Value: KES ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
                                     ',');
                             }
                         }
