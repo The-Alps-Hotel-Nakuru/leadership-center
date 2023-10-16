@@ -104,13 +104,13 @@
     <div class="row mb-5">
         <div class="col-12">
             <div class="card shadow">
-            <div class="card-header bg-transparent border-0">
-                <h5 class="text-center">Payroll Final Amounts</h5>
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="text-center">Payroll Final Amounts</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="payroll-chart" height="400px"></canvas>
+                </div>
             </div>
-            <div class="card-body">
-                <canvas id="payroll-chart" height="400px"></canvas>
-            </div>
-        </div>
         </div>
     </div>
 
@@ -212,7 +212,16 @@
                     maintainAspectRatio: false,
                     tooltips: {
                         mode: mode,
-                        intersect: intersect
+                        intersect: intersect,
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                // Format the number as you need (e.g., with commas)
+                                var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem
+                                    .index];
+                                return 'Value: ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                                    ',');
+                            }
+                        }
                     },
                     hover: {
                         mode: mode,
