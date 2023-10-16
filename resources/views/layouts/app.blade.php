@@ -130,11 +130,13 @@
     </div>
     @vite('resources/js/app.js')
     @stack('modals')
-    @livewireScripts
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="/assets/vendors/feather-icons/feather.min.js"></script>
     <script src="/assets/js/template.js"></script>
 
+
+    @livewireScripts
+    @stack('scripts')
     <script>
         Livewire.on('done', (e) => {
 
@@ -159,7 +161,7 @@
         })
         feather.replace()
     </script>
-    @stack('scripts')
+
 
 </body>
 

@@ -8,6 +8,7 @@ use App\Models\EmployeesDetail;
 use App\Models\EventOrder;
 use App\Models\Fine;
 use App\Models\Log;
+use App\Models\Payroll;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -25,6 +26,13 @@ class Dashboard extends Component
     public $total_fines = 0;
     public $total_bonuses = 0;
 
+
+    // for Payroll Graph
+    public $monthsRange = [];
+    public $labels = [];
+    public $datasets = [];
+    public $data = [];
+
     function downloadEmployeesData()
     {
         return Excel::download(new EmployeesDataExport, 'employees data.xlsx');
@@ -32,6 +40,30 @@ class Dashboard extends Component
         $this->emit('done', [
             'success' => 'Employees data exported successfully'
         ]);
+    }
+    function loadPayrollGraph()
+    {
+
+        $range = [];
+        $labels = [];
+        $data = [];
+        for ($i = 0; $i < 7; $i++) {
+            array_push($range, $this->instance->copy()->subMonthsNoOverflow(6 - $i));
+        }
+        foreach ($range as $month) {
+            array_push($labels, $month->format('F, Y'));
+            $payroll = Payroll::where('month', $month->format('m'))->where('year', $month->format('m'));
+            if ($payroll->exists()) {
+                array_push($data, $payroll->total);
+            } else {
+                array_push($data, 0);
+            }
+        }
+
+
+        $this->monthsRange = $range;
+        $this->labels = $labels;
+        $this->data = $data;
     }
 
     function mount()
@@ -41,6 +73,7 @@ class Dashboard extends Component
         $this->today = $this->instance->format('Y-m-d');
         $this->month = $this->instance->format('Y-m');
         $this->estimated = $this->estimated_earnings();
+        $this->loadPayrollGraph();
     }
 
     function estimated_earnings()

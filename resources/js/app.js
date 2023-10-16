@@ -2,6 +2,7 @@ import './bootstrap';
 
 import Alpine from 'alpinejs';
 
+// import { Chart } from 'chart.js';
 window.Alpine = Alpine;
 
 Alpine.start();
@@ -22,3 +23,8 @@ const Toast = Swal.mixin({
 
 
 window.Toast = Toast
+
+
+
+
+// window.Chart = Chart;

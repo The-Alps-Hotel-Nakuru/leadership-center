@@ -12,8 +12,7 @@
                     </div>
                 </div>
                 <div class="d-flex h-100">
-                    <div class=" ms-auto mt-auto text-success"
-                        style="font-size: xx-large">
+                    <div class=" ms-auto mt-auto text-success" style="font-size: xx-large">
                         <sup>KES</sup>
                         <h2 class="">{{ number_format($estimated, 2) }}</h2>
                     </div>
@@ -81,7 +80,8 @@
                             <div class="card bg-gradient-black text-white h-100" style="min-height: 150px">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-baseline mb-3">
-                                        <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">No. of Employees</h6>
+                                        <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">No. of
+                                            Employees</h6>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-xl-9">
@@ -101,9 +101,19 @@
         </div>
     </div>
 
+    <div class="row mb-5">
+        <div class="card">
+            <div class="card-header bg-transparent">
+                <h5>Payroll Final Amounts</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="payroll-chart"></canvas>
+            </div>
+        </div>
+    </div>
 
 
-    <div class="row mt-3">
+    <div class="row mb-5">
         <div class="col-md-10 col-12">
             <div class="card table-responsive">
                 <div class="card-header">
@@ -155,3 +165,100 @@
         </div>
     </div>
 </div>
+
+
+
+@push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+        var ticksStyle = {
+            fontColor: '#495057',
+            fontStyle: 'bold'
+        }
+
+        var mode = 'index'
+        var intersect = true
+        var labels = [];
+        var data = [];
+    </script>
+    @foreach ($labels as $label)
+        <script>
+            labels.push('{{ $label }}')
+        </script>
+    @endforeach
+    @foreach ($data as $d)
+        <script>
+            data.push('{{ $d }}')
+        </script>
+    @endforeach
+
+    <script>
+        // var $salesChart = $('#sales-chart')
+
+        document.addEventListener("livewire:load", function() {
+            var payrollChart = new Chart(document.getElementById('payroll-chart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        backgroundColor: '#007bff',
+                        borderColor: '#007bff',
+                        data,
+                    }, ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    hover: {
+                        mode: mode,
+                        intersect: intersect
+                    },
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            // display: false,
+                            gridLines: {
+                                display: true,
+                                lineWidth: '4px',
+                                color: 'rgba(0, 0, 0, .2)',
+                                zeroLineColor: 'transparent'
+                            },
+                            ticks: $.extend({
+                                beginAtZero: true,
+
+                                // Include a dollar sign in the ticks
+                                callback: function(value) {
+                                    if (value >= 1000) {
+                                        if (value >= 1000000) {
+                                            value /= 1000000
+                                            value += 'm'
+
+                                        } else {
+
+                                            value /= 1000
+                                            value += 'k'
+                                        }
+                                    }
+
+                                    return 'KES' + value
+                                }
+                            }, ticksStyle)
+                        }],
+                        xAxes: [{
+                            display: true,
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: ticksStyle
+                        }]
+                    }
+                }
+            })
+        });
+    </script>
+@endpush
