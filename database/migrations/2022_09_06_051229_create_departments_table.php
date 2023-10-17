@@ -22,35 +22,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::table('departments')->insert([
-            [
-                'title'=>'Housekeeping'
-            ],
-            [
-                'title'=>'Accounts'
-            ],
-            [
-                'title'=>'Information Technology'
-            ],
-            [
-                'title'=>'Supply Chain & Procurement'
-            ],
-            [
-                'title'=>'Front Office'
-            ],
-            [
-                'title'=>'Food, Beverage and Service'
-            ],
-            [
-                'title'=>'Kitchen'
-            ],
-            [
-                'title'=>'Security'
-            ],
-            [
-                'title'=>'Management'
-            ],
-        ]);
     }
 
     /**
