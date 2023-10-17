@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Exports\EmployeesDataExport;
+use App\Models\Advance;
 use App\Models\Bonus;
 use App\Models\EmployeesDetail;
 use App\Models\EventOrder;
@@ -25,6 +26,7 @@ class Dashboard extends Component
     protected $paginationTheme = 'bootstrap';
     public $total_fines = 0;
     public $total_bonuses = 0;
+    public $total_advances = 0;
 
 
     // for Payroll Graph
@@ -141,6 +143,12 @@ class Dashboard extends Component
                 $this->total_fines += $fine->amount_kes;
             }
         }
+        $this->total_advances = 0;
+        foreach (Advance::all() as $advance) {
+            if ($advance->year == $this->instance->format('Y') && $advance->month == $this->instance->format('m')) {
+                $this->total_advances += $advance->amount_kes;
+            }
+        }
         $this->total_bonuses = 0;
         foreach (Bonus::all() as $bonus) {
             if ($bonus->year == $this->instance->format('Y') && $bonus->month == $this->instance->format('m')) {
@@ -148,7 +156,7 @@ class Dashboard extends Component
             }
         }
 
-        $this->estimated = $this->estimated_earnings() + ($this->total_bonuses - $this->total_fines);
+        $this->estimated = $this->estimated_earnings() + ($this->total_bonuses - $this->total_fines - $this->total_advances);
         $this->loadPayrollGraph();
 
         return view('livewire.admin.dashboard', [
