@@ -109,7 +109,7 @@ class Dashboard extends Component
             }
         }
         $this->total_advances = 0;
-        foreach (Advance::all() as $advance) {
+        foreach ($this->employee->advances as $advance) {
             if ($advance->year == $this->instance->format('Y') && $advance->month == $this->instance->format('m')) {
                 $this->total_advances += $advance->amount_kes;
             }
