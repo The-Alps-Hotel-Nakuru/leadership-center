@@ -38,7 +38,31 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="row justify-content-center">
-                            <div class="col-md-4 col-sm-8 col-12 ">
+                            <div class="col-md-3 col-sm-8 col-12 ">
+                                <div class="card h-100 bg-alps-primary" style="min-height: 150px">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-baseline mb-3">
+                                            <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">Total
+                                                Advances</h6>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-xl-9">
+                                                <small>KES</small>
+                                                <div class="d-flex align-items-baseline ms-auto">
+                                                    <h4 class="mb-2">
+                                                        {{ number_format($total_advances, 2) }}
+                                                    </h4>
+                                                    {{-- <p class="text-success">
+                                        <span>+3.3%</span>
+                                        <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                    </p> --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-8 col-12 ">
                                 <div class="card h-100 bg-alps-primary" style="min-height: 150px">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-baseline mb-3">
@@ -62,7 +86,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-8 col-12 ">
+                            <div class="col-md-3 col-sm-8 col-12 ">
                                 <div class="card bg-alps-primary h-100" style="min-height: 150px">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-baseline mb-3">
@@ -85,7 +109,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-8 col-12 ">
+                            <div class="col-md-3 col-sm-8 col-12 ">
                                 <div class="card h-100 @if ($attendance_percentage >= 85) bg-alps-primary @elseif ($attendance_percentage < 85 && $attendance_percentage >= 55) bg-alps-warning @else  bg-alps-danger @endif"
                                     style="min-height: 150px">
                                     <div class="card-body">

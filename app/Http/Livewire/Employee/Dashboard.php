@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Employee;
 
+use App\Models\Advance;
 use App\Models\EmployeesDetail;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -10,6 +11,7 @@ class Dashboard extends Component
 {
     public $total_fines = 0;
     public $total_bonuses = 0;
+    public $total_advances = 0;
     public $attendance_percentage = 0;
     public $currentMonth, $currentMonthName, $currentYear, $today, $days, $instance, $employee;
     public $estimated;
@@ -104,6 +106,12 @@ class Dashboard extends Component
         foreach ($this->employee->fines as $fine) {
             if ($fine->year == $this->instance->format('Y') && $fine->month == $this->instance->format('m')) {
                 $this->total_fines += $fine->amount_kes;
+            }
+        }
+        $this->total_advances = 0;
+        foreach (Advance::all() as $advance) {
+            if ($advance->year == $this->instance->format('Y') && $advance->month == $this->instance->format('m')) {
+                $this->total_advances += $advance->amount_kes;
             }
         }
         $this->total_bonuses = 0;
