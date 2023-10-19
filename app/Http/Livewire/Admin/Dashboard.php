@@ -27,6 +27,7 @@ class Dashboard extends Component
     public $total_fines = 0;
     public $total_bonuses = 0;
     public $total_advances = 0;
+    public $incompleteEmployees;
 
 
     // for Payroll Graph
@@ -76,8 +77,21 @@ class Dashboard extends Component
         $this->month = $this->instance->format('Y-m');
         $this->estimated = $this->estimated_earnings();
         $this->loadPayrollGraph();
+        $this->incompleteEmployees = $this->incompleteEmployees();
     }
 
+    function incompleteEmployees()
+    {
+
+        $employees = EmployeesDetail::where('kra_pin', null)->orWhere('nssf', null)->orWhere('nhif', null)->get();
+        $collect = [];
+        foreach ($employees as $employee) {
+            if ($employee->isFullTimeBetween('01/01/1970','now')) {
+                array_push($collect, $employee);
+            }
+        }
+        return collect($collect);
+    }
     function estimated_earnings()
     {
         $earning = 0;

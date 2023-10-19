@@ -140,12 +140,13 @@
 
 
     <div class="row mb-5">
-        <div class="col-md-10 col-12">
-            <div class="card table-responsive">
+        <div class="col-md-6 col-12">
+            <div class="card">
                 <div class="card-header">
                     <h5>Event Log</h5>
                 </div>
-                <table class="table table-hover table-bordered">
+                <div class="table-responsive card-body" style="max-height: 450px">
+                    <table class="table table-hover table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -166,26 +167,71 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
+
                 <div class="card-footer">
                     {{ $logs->links() }}
                 </div>
             </div>
 
         </div>
-        <div class="col-md-2 col-12">
+        <div class="col-md-6 col-12">
             <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="downloadEmployeesData"
-                            wire:click="downloadEmployeesData">
-                            <span wire:loading.remove wire:target="downloadEmployeesData">
-                                Download Employees Data
-                            </span>
-                            <span wire:loading wire:target="downloadEmployeesData">
-                                Downloading...
-                            </span>
-                        </button>
-                    </div>
+                <div class="card-header">
+                    <h5 class="text-center">Incomplete Full Time Employees</h5>
+                </div>
+                <div class="table-responsive card-body" style="max-height: 450px">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Employee ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Missing Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($incompleteEmployees as $employee)
+                                <tr class="">
+                                    <td scope="row">{{ $employee->id }}</td>
+                                    <td>{{ $employee->user->name }}</td>
+                                    <td class="text-danger">
+                                        @if (!$employee->kra_pin)
+                                            KRA Pin
+                                            @if (!$employee->nssf || !$employee->nhif)
+                                                ,
+                                            @endif
+                                        @endif
+                                        @if (!$employee->nssf)
+                                            NSSF
+                                            @if (!$employee->nhif)
+                                                , and
+                                            @endif
+                                        @endif
+                                        @if (!$employee->nhif)
+                                            NHIF Pin
+                                        @endif
+                                        missing
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="row">
+                    <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="downloadEmployeesData"
+                        wire:click="downloadEmployeesData">
+                        <span wire:loading.remove wire:target="downloadEmployeesData">
+                            Download Employees Data
+                        </span>
+                        <span wire:loading wire:target="downloadEmployeesData">
+                            Downloading...
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
