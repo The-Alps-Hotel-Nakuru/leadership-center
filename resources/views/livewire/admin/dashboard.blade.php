@@ -147,26 +147,26 @@
                 </div>
                 <div class="table-responsive card-body" style="max-height: 450px">
                     <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Activity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach ($logs as $log)
-                            <tr class="">
-                                <td scope="row">{{ $log->id }}</td>
-                                <td colspan="1">{!! $log->payload !!}</td>
-                                <td>
-                                    {{ Carbon\Carbon::parse($log->created_at)->toDateTimeString() }}
-                                </td>
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Activity</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+
+                            @foreach ($logs as $log)
+                                <tr class="">
+                                    <td scope="row">{{ $log->id }}</td>
+                                    <td colspan="1">{!! $log->payload !!}</td>
+                                    <td>
+                                        {{ Carbon\Carbon::parse($log->created_at)->toDateTimeString() }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="card-footer">
@@ -184,14 +184,16 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th scope="col">#</th>
                                 <th scope="col">Employee ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Missing Details</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($incompleteEmployees as $employee)
+                            @foreach ($incompleteEmployees as $key => $employee)
                                 <tr class="">
+                                    <td scope="row">{{ $key + 1 }}</td>
                                     <td scope="row">{{ $employee->id }}</td>
                                     <td>{{ $employee->user->name }}</td>
                                     <td class="text-danger">
