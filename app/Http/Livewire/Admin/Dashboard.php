@@ -172,6 +172,7 @@ class Dashboard extends Component
 
         $this->estimated = $this->estimated_earnings() + ($this->total_bonuses - $this->total_fines - $this->total_advances);
         $this->loadPayrollGraph();
+        $this->incompleteEmployees = $this->incompleteEmployees();
 
         return view('livewire.admin.dashboard', [
             'logs' => Log::orderBy('id', 'DESC')->paginate(10)
