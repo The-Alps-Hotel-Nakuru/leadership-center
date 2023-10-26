@@ -190,7 +190,7 @@
                                 <th scope="col">Missing Details</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody wire:ignore>
                             @foreach ($incompleteEmployees as $key => $employee)
                                 <tr class="">
                                     <td scope="row">{{ $key + 1 }}</td>
