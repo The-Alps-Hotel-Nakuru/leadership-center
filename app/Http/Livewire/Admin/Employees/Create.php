@@ -28,7 +28,7 @@ class Create extends Component
         'detail.designation_id' => 'required',
         'detail.phone_number' => 'required',
         'detail.national_id' => 'required',
-        'detail.physical_address' => 'required',
+        'detail.physical_address' => 'nullable',
         'detail.marital_status' => 'required',
         'detail.gender' => 'required',
         'detail.birth_date' => 'required',
