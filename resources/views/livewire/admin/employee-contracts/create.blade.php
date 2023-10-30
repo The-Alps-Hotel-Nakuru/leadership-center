@@ -66,16 +66,16 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
-                        {{-- <div class="mb-3">
+                        <div class="mb-3">
                             <label for="end_date" class="form-label">Expiry Date</label>
                             <input wire:model="contract.end_date" type="date" class="form-control" name="end_date" id="end_date"
                                 aria-describedby="end_date" placeholder="Enter the Appointment Date">
                             @error('contract.end_date')
                                 <small id="end_date" class="form-text text-danger">{{ $message }}</small>
                             @enderror
-                        </div> --}}
+                        </div>
 
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="months" class="form-label">Duration</label>
                             <select wire:model="months" class="form-select form-select-sm" name="months" id="months">
                                 <option selected>Select Duration</option>
@@ -86,7 +86,7 @@
                             @error('months')
                                 <small id="end_date" class="form-text text-danger">{{ $message }}</small>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="col-md-4 col-6">
                         <div class="mb-3">
