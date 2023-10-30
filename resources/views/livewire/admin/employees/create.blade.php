@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
-                            <label for="national_id" class="form-label">National ID*<span
+                            <label for="national_id" class="form-label">National ID<span
                                     class="text-danger">*</span></label>
                             <input wire:model="detail.national_id" type="number" class="form-control"
                                 name="national_id" aria-describedby="national_id"
@@ -162,25 +162,14 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 col-6">
-                        <div class="mb-3">
-                            <label for="children" class="form-label">Number of Children<span
-                                    class="text-danger">*</span></label>
-                            <input wire:model="detail.children" type="number" class="form-control" name="children"
-                                id="children" aria-describedby="children"
-                                placeholder="Enter the number of Children You have">
-                            @error('detail.children')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
+
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="physical_address" class="form-label">Physical Address</label>
                             <textarea wire:model="detail.physical_address" placeholder="Enter your Physical Address" class="form-control"
                                 name="physical_address" id="physical_address" rows="2"></textarea>
 
-                            @error('detail.handicap')
+                            @error('detail.physical_address')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
