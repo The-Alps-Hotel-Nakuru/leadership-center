@@ -201,7 +201,7 @@
                                             KRA Pin
                                             @if (!$employee->nssf || !$employee->nhif)
                                                 ,
-                                                @if (!$employee->nhif)
+                                                @if ($employee->nhif)
                                                     and
                                                 @endif
                                             @endif
