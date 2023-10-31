@@ -26,7 +26,7 @@ class Create extends Component
         'photo' => 'nullable|image|max:2048',
         'employee.first_name' => 'required',
         'employee.last_name' => 'required',
-        'employee.email' => 'required|email',
+        'employee.email' => 'required|email|unique:users,email',
         'detail.designation_id' => 'required',
         'detail.phone_number' => 'required',
         'detail.national_id' => 'required',
