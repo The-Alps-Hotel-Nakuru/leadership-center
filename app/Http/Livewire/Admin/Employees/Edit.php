@@ -56,6 +56,7 @@ class Edit extends Component
         $this->employee = User::find($this->detail->user_id);
         $this->dpt_id = $this->detail->designation->department_id;
         $this->account = EmployeeAccount::where('employees_detail_id', $this->detail->id)->first() ?? new EmployeeAccount();
+        $this->account->employees_detail_id = $this->detail->id;
     }
 
 
