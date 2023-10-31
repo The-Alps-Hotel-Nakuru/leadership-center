@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Employees;
 
 use App\Jobs\SendWelcomeEmailJob;
 use App\Models\EmployeesDetail;
+use App\Models\EmployeeAccount;
 use App\Models\Log;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -19,9 +20,10 @@ class Create extends Component
     public $dpt_id;
     public User $employee;
     public EmployeesDetail $detail;
+    public EmployeeAccount $account;
 
     protected $rules = [
-        'photo'=>'nullable|image|max:2048',
+        'photo' => 'nullable|image|max:2048',
         'employee.first_name' => 'required',
         'employee.last_name' => 'required',
         'employee.email' => 'required|email',
@@ -40,10 +42,11 @@ class Create extends Component
         'detail.nhif_path' => 'nullable',
         'detail.handicap' => 'nullable',
         'detail.religion' => 'nullable',
-        'kra_file'=>'nullable|mimes:jpg,pdf|max:4096',
-        'nssf_file'=>'nullable|mimes:jpg,pdf|max:4096',
-        'nhif_file'=>'nullable|mimes:jpg,pdf|max:4096',
-
+        'kra_file' => 'nullable|mimes:jpg,pdf|max:4096',
+        'nssf_file' => 'nullable|mimes:jpg,pdf|max:4096',
+        'nhif_file' => 'nullable|mimes:jpg,pdf|max:4096',
+        'account.bank_id' => 'required',
+        'account.account_number' => 'required',
     ];
 
 
@@ -51,6 +54,7 @@ class Create extends Component
     {
         $this->employee = new User();
         $this->detail = new EmployeesDetail();
+        $this->account = new EmployeeAccount();
     }
 
 
@@ -67,21 +71,22 @@ class Create extends Component
         }
 
         if (isset($this->kra_file)) {
-            $this->kra_file->storeAs('public/'.Str::slug($this->employee->name).'-'.$this->detail->id, 'kra_pin.'.$this->kra_file->extension());
-            $this->detail->kra_pin_path = '/storage/'.Str::slug($this->employee->name).'-'.$this->detail->id.'/kra_pin.'.$this->kra_file->extension();
+            $this->kra_file->storeAs('public/' . Str::slug($this->employee->name) . '-' . $this->detail->id, 'kra_pin.' . $this->kra_file->extension());
+            $this->detail->kra_pin_path = '/storage/' . Str::slug($this->employee->name) . '-' . $this->detail->id . '/kra_pin.' . $this->kra_file->extension();
         }
         if (isset($this->nssf_file)) {
-            $this->kra_file->storeAs('public/'.Str::slug($this->employee->name).'-'.$this->detail->id, 'nssf.'.$this->nssf_file->extension());
-            $this->detail->nssf_path = '/storage/'.Str::slug($this->employee->name).'-'.$this->detail->id.'/nssf.'.$this->nssf_file->extension();
+            $this->kra_file->storeAs('public/' . Str::slug($this->employee->name) . '-' . $this->detail->id, 'nssf.' . $this->nssf_file->extension());
+            $this->detail->nssf_path = '/storage/' . Str::slug($this->employee->name) . '-' . $this->detail->id . '/nssf.' . $this->nssf_file->extension();
         }
         if (isset($this->nhif_file)) {
-            $this->kra_file->storeAs('public/'.Str::slug($this->employee->name).'-'.$this->detail->id, 'nhif.'.$this->nhif_file->extension());
-            $this->detail->nhif_path = '/storage/'.Str::slug($this->employee->name).'-'.$this->detail->id.'/nhif.'.$this->nhif_file->extension();
+            $this->kra_file->storeAs('public/' . Str::slug($this->employee->name) . '-' . $this->detail->id, 'nhif.' . $this->nhif_file->extension());
+            $this->detail->nhif_path = '/storage/' . Str::slug($this->employee->name) . '-' . $this->detail->id . '/nhif.' . $this->nhif_file->extension();
         }
 
         $this->employee->save();
         $this->detail->user_id = $this->employee->id;
         $this->detail->save();
+        $this->account->save();
         SendWelcomeEmailJob::dispatch($this->employee, $this->detail, $password);
 
         $log = new Log();

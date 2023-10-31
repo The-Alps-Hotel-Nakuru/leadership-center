@@ -60,8 +60,7 @@
                             <label for="national_id" class="form-label">National ID<span
                                     class="text-danger">*</span></label>
                             <input wire:model="detail.national_id" type="number" class="form-control"
-                                name="national_id" aria-describedby="national_id"
-                                placeholder="Enter the Phone Number">
+                                name="national_id" aria-describedby="national_id" placeholder="Enter the Phone Number">
                             @error('detail.national_id')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -70,7 +69,8 @@
                     <div class="col-md-8 col-12">
                         <div class="mb-3">
                             <label for="photo" class="form-label">Photo</label>
-                            <input type="file" class="form-control " name="photo" wire:model="photo" id="photo">
+                            <input type="file" class="form-control " name="photo" wire:model="photo"
+                                id="photo">
                             @error('photo')
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
@@ -252,8 +252,41 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-4 col-6">
+                        <div class="mb-3">
+                            <label for="bank_id" class="form-label">Bank</label>
+                            <select wire:model="account.bank_id" class="form-select form-select-lg" name="bank_id"
+                                id="bank_id">
+                                <option selected>Select one</option>
+                                @foreach (App\Models\Bank::all() as $bank)
+                                    <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('account.bank_id')
+                                <small id="account_number" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6">
+                        <div class="mb-3">
+                            <label for="account_number" class="form-label">Account Number</label>
+                            <input wire:model='account.account_number' type="text" class="form-control"
+                                name="account_number" id="account_number" aria-describedby="account_number"
+                                placeholder="Enter your Account Number">
+                            @error('account.account_number')
+                                <small id="account_number" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
-                <button wire:click="save" class="btn btn-dark text-uppercase">Save</button>
+                <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="save" wire:click="save">
+                    <span wire:loading.remove wire:target="save">
+                        Save
+                    </span>
+                    <span wire:loading wire:target="save">
+                        Saving...
+                    </span>
+                </button>
             </div>
         </div>
     </div>
