@@ -17,12 +17,23 @@ class EmployeesDetail extends Model
         return $this->belongsTo(User::class);
     }
 
+    function ban()
+    {
+        return $this->hasOne(Ban::class, 'employees_detail_id', 'id' );
+    }
+
+    function getIsBannedAttribute()
+    {
+        return $this->ban != null;
+    }
+
     public function designation()
     {
         return $this->belongsTo(Designation::class);
     }
 
-    public function welfareContributions(){
+    public function welfareContributions()
+    {
         return $this->hasMany(WelfareContribution::class);
     }
 

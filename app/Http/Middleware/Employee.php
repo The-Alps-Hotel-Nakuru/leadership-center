@@ -16,7 +16,7 @@ class Employee
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->is_employee) {
+        if (auth()->user()->is_employee && !auth()->user()->employee->is_banned) {
             return $next($request);
         } else {
             abort(403, "You are not an Employee of this Organization currently");

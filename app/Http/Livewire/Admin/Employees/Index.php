@@ -6,6 +6,7 @@ use App\Exports\EmployeeKRAExport;
 use App\Exports\EmployeeNHIFExport;
 use App\Exports\EmployeeNSSFExport;
 use App\Jobs\PasswordResetMailJob;
+use App\Models\Ban;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\User;
@@ -20,8 +21,13 @@ class Index extends Component
     use WithPagination;
 
     public $search = "";
+    public $reason = "";
     protected $listeners = [
         'done' => 'render'
+    ];
+
+    protected $rules = [
+        'reason'
     ];
 
     protected $paginationTheme = 'bootstrap';
@@ -43,7 +49,8 @@ class Index extends Component
         $log->save();
     }
 
-    function resetPassword($user_id) {
+    function resetPassword($user_id)
+    {
         $password = Str::random(10);
         $user = User::find($user_id);
         $user->password = Hash::make($password);
@@ -51,8 +58,8 @@ class Index extends Component
 
         PasswordResetMailJob::dispatch($user, $password);
 
-        $this->emit('done',[
-            'success'=>'Successfully Reset this Employee\'s Password'
+        $this->emit('done', [
+            'success' => 'Successfully Reset this Employee\'s Password'
         ]);
 
         $log = new Log();
@@ -60,8 +67,38 @@ class Index extends Component
         $log->model = 'App\Models\EmployeesDetail';
         $log->payload = "<strong>" . auth()->user()->name . "</strong> has Reset the Password for <strong> " . $user->name . "</strong> in the system";
         $log->save();
-
     }
+
+    function banEmployee($employee_id)
+    {
+
+        $this->validate([
+            'reason' => 'required'
+        ]);
+        $ban = new Ban();
+        if (Ban::where('employees_detail_id', $employee_id)->exists()) {
+            $this->emit('done', [
+                'warning' => 'This Employee has Already been Banned'
+            ]);
+            return;
+        }
+
+        $ban->employees_detail_id = $employee_id;
+        $ban->reason = $this->reason;
+        $ban->save();
+
+        $this->emit('done', [
+            'success' => 'Successfully Banned this Employee'
+        ]);
+        $this->reset('reason');
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\Ban';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has banned <strong> " . $ban->employee->user->name . "</strong> from accessing the system";
+        $log->save();
+    }
+
 
     public function exportKraData()
     {
@@ -77,7 +114,7 @@ class Index extends Component
         return Excel::download(new EmployeeNHIFExport, 'employeesnhif.xlsx');
 
         $this->emit('done', [
-            'success'=> 'NHIF data exported successfully'
+            'success' => 'NHIF data exported successfully'
         ]);
     }
 
@@ -86,7 +123,17 @@ class Index extends Component
         return Excel::download(new EmployeeNSSFExport, 'employeesnssf.xlsx');
 
         $this->emit('done', [
-            'success'=> 'NSSF data exported successfully'
+            'success' => 'NSSF data exported successfully'
+        ]);
+    }
+
+    public function unban($id)
+    {
+        $ban = Ban::find($id);
+        $ban->delete();
+
+        $this->emit('done',[
+            'success'=>'You have successfully Unbanned this User'
         ]);
     }
 
