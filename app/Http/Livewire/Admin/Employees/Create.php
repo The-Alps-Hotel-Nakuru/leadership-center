@@ -86,6 +86,7 @@ class Create extends Component
         $this->employee->save();
         $this->detail->user_id = $this->employee->id;
         $this->detail->save();
+        $this->account->employees_detail_id = $this->detail->id;
         $this->account->save();
         SendWelcomeEmailJob::dispatch($this->employee, $this->detail, $password);
 
