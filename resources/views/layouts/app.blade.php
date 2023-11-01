@@ -158,10 +158,6 @@
                     text: e.danger
                 })
             }
-
-            let instance = document.querySelector('.modal')
-            let modal = bootstrap.Modal.getInstance(instance);
-            modal.hide()
         })
         feather.replace()
     </script>
