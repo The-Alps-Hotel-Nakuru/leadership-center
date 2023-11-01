@@ -164,15 +164,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- @push('scripts') --}}
-                                        <script>
-                                            Livewire.on('done', (e) => {
-                                                let instance = $("#banEmployee{{ $employee->id }}")
-                                                instance.modal('hide');
-                                                // modal.hide()
-                                            })
-                                        </script>
-                                        {{-- @endpush --}}
+                                        @push('scripts')
+                                            <script>
+                                                Livewire.on('done', (e) => {
+                                                    var modal = new bootstrap.Modal(document.getElementById('banEmployee{{ $employee->id }}'));
+                                                    modal.hide();
+                                                    // modal.hide()
+                                                })
+                                            </script>
+                                        @endpush
                                     @else
                                         <button
                                             onclick="confirm('Are you sure you want to unban this Employee\'s Login?')||event.stopImmediatePropagation()"
