@@ -136,9 +136,9 @@
                                         <!-- Modal Body -->
                                         <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
                                         <div wire:ignore class="modal fade" id="banEmployee{{ $employee->id }}"
-                                            tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+                                            tabindex="-1" data-bs-keyboard="false"
                                             role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
+                                            <div class="modal-dialog modal-lg"
                                                 role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
