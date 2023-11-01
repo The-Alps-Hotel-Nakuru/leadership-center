@@ -167,9 +167,8 @@
                                         @push('scripts')
                                             <script>
                                                 Livewire.on('done', (e) => {
-                                                    var modal = new bootstrap.Modal(document.getElementById('banEmployee{{ $employee->id }}'));
+                                                    let modal = bootstrap.Modal.getOrCreateInstance(document.querySelector('#banEmployee{{ $employee->id }}'));
                                                     modal.hide();
-                                                    // modal.hide()
                                                 })
                                             </script>
                                         @endpush

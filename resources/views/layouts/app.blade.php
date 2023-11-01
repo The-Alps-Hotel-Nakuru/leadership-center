@@ -88,15 +88,15 @@
                                 </div>
                                 <ul class="list-unstyled p-1">
                                     <li class="dropdown-item py-2">
-                                        <a href="{{ Request::is('employee/*')?route('employee.profile'):route('profile.show') }}" class="text-body ms-0">
+                                        <a href="{{ Request::is('employee/*') ? route('employee.profile') : route('profile.show') }}"
+                                            class="text-body ms-0">
                                             <i class="me-2 icon-md" data-feather="user"></i>
                                             <span>Profile</span>
                                         </a>
                                     </li>
 
                                     <li class="dropdown-item py-2">
-                                        <a href="javascript:;"
-                                            onclick="document.getElementById('logout-form').submit()"
+                                        <a href="javascript:;" onclick="document.getElementById('logout-form').submit()"
                                             class="text-body ms-0">
                                             <i class="me-2 icon-md" data-feather="log-out"></i>
                                             <span>Log Out</span>
@@ -158,6 +158,10 @@
                     text: e.danger
                 })
             }
+
+            let instance = document.querySelector('.modal')
+            let modal = bootstrap.Modal.getInstance(instance);
+            modal.hide()
         })
         feather.replace()
     </script>
