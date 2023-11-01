@@ -48,12 +48,8 @@
                                                         ->where('date', $date)
                                                         ->first();
                                                 @endphp
-                                                <div class="p-2 ms-1 {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $i + 1 ? 'bg-danger' : 'bg-secondary')) }}"
-                                                    @if ($employee->ActiveContractOn($date) && !$curr) data-bs-toggle="modal"
-                                                data-bs-target="#modal-{{ $date }}-{{ $employee->id }}"
-
-                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                title="{{ $currentMonthName . ' ' . sprintf('%02d', $i + 1) . ', ' . '2022' }}" @endif>
+                                                <div
+                                                    class="p-2 ms-1 {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $i + 1 ? 'bg-danger' : 'bg-secondary')) }}">
                                                     {{ sprintf('%02d', $i + 1) }}
                                                     @php
                                                         if (in_array($date, $employee->attended_dates)) {
@@ -61,63 +57,6 @@
                                                         }
                                                     @endphp
                                                 </div>
-
-                                                <!-- Modal -->
-                                                <div class="modal fade"
-                                                    id="modal-{{ $date }}-{{ $employee->id }}" tabindex="-1"
-                                                    role="dialog" aria-labelledby="modalTitleId{{ $i + 1 }}"
-                                                    aria-hidden="true" wire:ignore>
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <span class="modal-title" id="modalTitleId">For
-                                                                    <strong>{{ $employee->user->name }}</strong> on
-                                                                    <strong>{{ $date }}</strong>
-                                                                </span>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="container-fluid">
-                                                                    <div class="col-12">
-                                                                        <div class="mb-3">
-                                                                            <label for="shift_id"
-                                                                                class="form-label">Shift</label>
-                                                                            <select wire:model="shift_id"
-                                                                                class="form-select" name="shift_id"
-                                                                                id="shift_id">
-                                                                                <option selected>Select one</option>
-                                                                                @foreach ($shifts as $shift)
-                                                                                    <option
-                                                                                        value="{{ $shift->id }}">
-                                                                                        {{ $shift->title }}</option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                            @error('shift_id')
-                                                                                <small
-                                                                                    class="text-danger">{{ $message }}</small>
-                                                                            @enderror
-                                                                        </div>
-                                                                    </div>
-                                                                    <button
-                                                                        wire:click="clockIn({{ $employee->id }},'{{ $date }}')"
-                                                                        class="btn btn-dark text-uppercase">
-                                                                        Clock In
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {{-- @push('scripts')
-                                                <script>
-                                                    Livewire.on('done', (e) => {
-                                                        let instance = $("#modal-{{ $date }}-{{ $employee->id }}")
-                                                        let modal = bootstrap.Modal.getInstance(instance);
-                                                        modal.hide()
-                                                    })
-                                                </script>
-                                            @endpush --}}
                                             @endfor
                                         </td>
                                         <td>{{ $count }}</td>
