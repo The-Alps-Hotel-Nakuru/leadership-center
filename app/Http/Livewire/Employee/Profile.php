@@ -4,7 +4,9 @@ namespace App\Http\Livewire\Employee;
 
 use App\Models\EmployeeAccount;
 use App\Models\EmployeesDetail;
+use App\Models\Log;
 use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Profile extends Component
@@ -41,7 +43,6 @@ class Profile extends Component
         $this->user = User::find(auth()->user()->id);
         $this->employee = EmployeesDetail::where('user_id', $this->user->id)->first();
         $this->account = EmployeeAccount::where('employees_detail_id', $this->employee->id)->first() ?? new EmployeeAccount();
-
     }
 
     function saveBasicDetails()
@@ -62,6 +63,12 @@ class Profile extends Component
         $this->emit('done', [
             'success' => 'Successfully Saved Your Details'
         ]);
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeesDetail';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has edited their Basic Details at " . Carbon::parse($this->attendance->created_at)->format('h:i A') . " in the system";
+        $log->save();
     }
 
     function saveMoreDetails()
@@ -79,6 +86,12 @@ class Profile extends Component
         $this->emit('done', [
             'success' => 'Successfully Saved Your Details'
         ]);
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeesDetail';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has edited their Govt. Details at " . Carbon::parse($this->attendance->created_at)->format('h:i A') . " in the system";
+        $log->save();
     }
     function saveAccountDetails()
     {
@@ -94,6 +107,12 @@ class Profile extends Component
         $this->emit('done', [
             'success' => 'Successfully Saved Your Account Details'
         ]);
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeeAccount';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has edited their Payment Details at " . Carbon::parse($this->attendance->created_at)->format('h:i A') . " in the system";
+        $log->save();
     }
 
     public function render()
