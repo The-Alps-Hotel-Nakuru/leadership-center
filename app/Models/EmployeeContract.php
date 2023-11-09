@@ -28,6 +28,11 @@ class EmployeeContract extends Model
         return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
     }
 
+    public function user()
+    {
+        return $this->through('employee')->has('user');
+    }
+
     public function employment_type()
     {
         return $this->belongsTo(EmploymentType::class);

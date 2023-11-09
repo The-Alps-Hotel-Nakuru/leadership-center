@@ -4,6 +4,18 @@
     </x-slot>
 
     <div class="container-fluid">
+        <div class=" mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <label for="" class="form-label">
+                        <h4>Search an Employee </h4>
+                    </label>
+                    <input wire:model="searchEmployee" type="text" class="form-control" name="" id=""
+                        aria-describedby="helpId" placeholder="Search By Name">
+
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header d-flex ">
                 <h5>List of Employees Active Contracts</h5>
@@ -36,7 +48,7 @@
                     <tbody>
                         @foreach ($contracts as $key => $contract)
                             <tr class="">
-                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $contract->employee->id}}</td>
                                 <td>
                                     <div class="d-flex flex-row">
                                         <div class="flex-col">
