@@ -37,6 +37,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th scope="col">Contract No.</th>
                             <th scope="col">ID</th>
                             <th scope="col">Employee's Name & Designation</th>
                             <th scope="col">Appointment Date</th>
@@ -48,6 +49,7 @@
                     <tbody>
                         @foreach ($contracts as $key => $contract)
                             <tr class="">
+                                <td>{{ $contract->id}}</td>
                                 <td>{{ $contract->employee->id}}</td>
                                 <td>
                                     <div class="d-flex flex-row">
