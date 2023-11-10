@@ -26,7 +26,7 @@
             <span class="link-title">Banks</span>
             <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
-        <div class="collapse @if (Request::is('admin/admins*')) show @endif" id="banks">
+        <div class="collapse @if (Request::is('admin/banks*')) show @endif" id="banks">
             <ul class="nav sub-menu">
                 <li class="nav-item ">
                     <a href="{{ route('admin.banks.index') }}"
