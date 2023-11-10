@@ -202,6 +202,8 @@ class MonthlySalary extends Model
         $paye = 0;
         $level1 = (288000 / 12);
         $level2 = (388000 / 12);
+        $level3 = (6000000 / 12);
+        $level4 = (9600000 / 12);
 
         if ($this->attendance_penalty > 0) {
             if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
@@ -209,8 +211,12 @@ class MonthlySalary extends Model
                     $paye = $actual_taxable * 0.1;
                 } elseif ($actual_taxable > $level1 && $actual_taxable <= $level2) {
                     $paye = (($actual_taxable - $level1) * 0.25) + 2400;
-                } else {
+                } elseif ($actual_taxable > $level2 && $actual_taxable <= $level3) {
                     $paye = (($actual_taxable - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+                } elseif ($actual_taxable > $level3 && $actual_taxable <= $level4) {
+                    $paye = (($actual_taxable - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+                } else {
+                    $paye = (($actual_taxable - $level4) * 0.325) + (($level4 - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
                 }
             }
 

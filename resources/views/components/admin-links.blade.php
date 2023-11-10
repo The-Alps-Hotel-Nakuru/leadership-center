@@ -139,30 +139,39 @@
             <ul class="nav sub-menu">
                 <li class="nav-item ">
                     <a href="{{ route('admin.employees.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employees.index') active @endif">List of
-                        Employees</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employees.index') active @endif">
+                        List of Employees
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.employees.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employees.create') active @endif">Create a new
-                        employee</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employees.create') active @endif">
+                        Create a new employee
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.employee_contracts.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_contracts.index') active @endif">View Employee Contracts</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_contracts.index') active @endif">
+                        View Employee Contracts
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.employee_contracts.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_contracts.create') active @endif">Create an Employee
-                        Contract</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_contracts.create') active @endif">
+                        Create an Employee Contract
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.employees.mass_addition') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employees.mass_addition') active @endif">Mass Employee Creation</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employees.mass_addition') active @endif">
+                        Mass Employee Creation
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.employee_contracts.mass_addition') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_contracts.mass_addition') active @endif">Mass Contracts Addition</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_contracts.mass_addition') active @endif">
+                        Mass Contracts Addition
+                    </a>
                 </li>
             </ul>
         </div>
@@ -180,15 +189,21 @@
             <ul class="nav sub-menu">
                 <li class="nav-item ">
                     <a href="{{ route('admin.employee_accounts.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_accounts.index') active @endif">Accounts List</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_accounts.index') active @endif">
+                        Accounts List
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.employee_accounts.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_accounts.create') active @endif">Add an Account</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_accounts.create') active @endif">
+                        Add an Account
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.employee_accounts.mass_addition') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_accounts.mass_addition') active @endif">Mass Addition</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_accounts.mass_addition') active @endif">
+                        Mass Addition
+                    </a>
                 </li>
             </ul>
         </div>
@@ -207,15 +222,21 @@
             <ul class="nav sub-menu">
                 <li class="nav-item ">
                     <a href="{{ route('admin.attendances.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.attendances.index') active @endif">Attendance Register</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.attendances.index') active @endif">
+                        Attendance Register
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.attendances.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.attendances.create') active @endif">Add Attendance Records</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.attendances.create') active @endif">
+                        Add Attendance Records
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.attendances.mass_addition') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.attendances.mass_addition') active @endif">Attendance Mass Addition</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.attendances.mass_addition') active @endif">
+                        Attendance Mass Addition
+                    </a>
                 </li>
 
             </ul>
@@ -234,15 +255,21 @@
             <ul class="nav sub-menu">
                 <li class="nav-item ">
                     <a href="{{ route('admin.leaves.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.index') active @endif">Leave Days List</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.index') active @endif">
+                        Leave Days List
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.leaves.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.create') active @endif">Add Leave Records</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.create') active @endif">
+                        Add Leave Records
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.leaves.mass_addition') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.mass_addition') active @endif">Leave Mass Addition</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.leaves.mass_addition') active @endif">
+                        Leave Mass Addition
+                    </a>
                 </li>
 
             </ul>
@@ -262,16 +289,22 @@
             <ul class="nav sub-menu">
                 <li class="nav-item ">
                     <a href="{{ route('admin.fines.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.fines.index') active @endif">Overview</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.fines.index') active @endif">
+                        Overview
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.fines.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.fines.create') active @endif">Add Fine Records</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.fines.create') active @endif">
+                        Add Fine Records
+                    </a>
                 </li>
 
                 <li class="nav-item">
                     <a href="{{ route('admin.employee_fines.mass_addition') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_fines.mass_addition') active @endif">Mass Fines Addition</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_fines.mass_addition') active @endif">
+                        Mass Fines Addition
+                    </a>
                 </li>
 
             </ul>
@@ -290,16 +323,22 @@
             <ul class="nav sub-menu">
                 <li class="nav-item ">
                     <a href="{{ route('admin.bonuses.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.bonuses.index') active @endif">Overview</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.bonuses.index') active @endif">
+                        Overview
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.bonuses.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.bonuses.create') active @endif">Add Bonus Records</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.bonuses.create') active @endif">
+                        Add Bonus Records
+                    </a>
                 </li>
 
                 <li class="nav-item">
                     <a href="{{ route('admin.employee_bonuses.mass_addition') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_bonuses.mass_addition') active @endif">Mass Bonuses Addition</a>
+                        class="nav-link @if (Route::currentRouteName() == 'admin.employee_bonuses.mass_addition') active @endif">
+                        Mass Bonuses Addition
+                    </a>
                 </li>
 
             </ul>
