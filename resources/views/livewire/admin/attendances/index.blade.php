@@ -5,14 +5,13 @@
 
     <div class="container-fluid">
         <div class="card mb-5">
-            <div class="card-header d-flex flex-row justify-content-center align-items-center">
-                <button wire:click="getPreviousMonth" class="btn-xs btn-dark p-2 mx-4">
-                    <i class="fas fa-caret-left"></i>
-                </button>
-                <h3>{{ $currentMonthName }}, {{ $currentYear }}</h3>
-                <button wire:click="getNextMonth" class="btn-xs btn-dark p-2 mx-4">
-                    <i class="fas fa-caret-right"></i>
-                </button>
+            <div class="card-header d-flex flex-row">
+                <h3 class="text-success">
+                    {{ $instance->format('F, Y')}}
+                </h3>
+                <div class="ms-auto">
+                    <input class="form-control" type="month" wire:model="month">
+                </div>
             </div>
             <div class="card-body table-responsive">
                 @foreach (App\Models\Department::all() as $department)
@@ -49,7 +48,7 @@
                                                         ->first();
                                                 @endphp
                                                 <div
-                                                    class="p-2 ms-1 {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $i + 1 ? 'bg-danger' : 'bg-secondary')) }}">
+                                                    class="p-2 ms-1 {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1) ? 'bg-danger' : 'bg-secondary')) }}">
                                                     {{ sprintf('%02d', $i + 1) }}
                                                     @php
                                                         if (in_array($date, $employee->attended_dates)) {
