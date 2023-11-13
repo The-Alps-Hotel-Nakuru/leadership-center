@@ -104,14 +104,21 @@ class MonthlySalary extends Model
         $tax = 0;
         $level1 = (288000 / 12);
         $level2 = (388000 / 12);
+        $level3 = (6000000 / 12);
+        $level4 = (9600000 / 12);
+
 
         if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
             if ($this->taxable_income <= $level1) {
                 $tax = $this->taxable_income * 0.1;
             } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
                 $tax = (($this->taxable_income - $level1) * 0.25) + 2400;
-            } elseif ($this->taxable_income > $level2) {
+            } elseif ($this->taxable_income > $level2 && $this->taxable_income <= $level3) {
                 $tax = (($this->taxable_income - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+            } elseif ($this->taxable_income > $level3 && $this->taxable_income <= $level4) {
+                $tax = (($this->taxable_income - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+            } else {
+                $tax = (($this->taxable_income - $level4) * 0.35) + (($level4 - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
             }
         }
 
@@ -216,7 +223,7 @@ class MonthlySalary extends Model
                 } elseif ($actual_taxable > $level3 && $actual_taxable <= $level4) {
                     $paye = (($actual_taxable - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
                 } else {
-                    $paye = (($actual_taxable - $level4) * 0.325) + (($level4 - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+                    $paye = (($actual_taxable - $level4) * 0.35) + (($level4 - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
                 }
             }
 

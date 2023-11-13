@@ -74,7 +74,6 @@ class Index extends Component
             $payroll->save();
             foreach (EmployeesDetail::all() as $employee) {
                 if ($employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)) {
-                    // array_push($testarray, $employee);
                     $salary = new MonthlySalary();
                     $salary->payroll_id = $payroll->id;
                     $salary->employees_detail_id = $employee->id;
@@ -97,8 +96,6 @@ class Index extends Component
                     $salary->save();
                     $count++;
                 }
-
-                // dd($testarray);
             }
 
             $log = new Log();
