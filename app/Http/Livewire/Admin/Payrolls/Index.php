@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Payrolls;
 
 use App\Exports\BankingGuideExport;
 use App\Exports\PayrollExport;
+use App\Models\EmployeeContract;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\MonthlySalary;
@@ -97,6 +98,14 @@ class Index extends Component
                     $count++;
                 }
             }
+
+
+
+            // foreach (EmployeeContract::all() as $key => $contract) {
+            //     if ($contract->isActiveDuring(Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())) {
+            //         $
+            //     }
+            // }
 
             $log = new Log();
             $log->user_id = auth()->user()->id;
