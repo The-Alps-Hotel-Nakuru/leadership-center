@@ -14,7 +14,8 @@ class Create extends Component
 
     protected $rules = [
         'designation.department_id'=>'required',
-        'designation.title'=>'required|unique:designations,title'
+        'designation.title'=>'required|unique:designations,title',
+        'designation.is_penalizable'=>'required'
     ];
 
     public function mount()

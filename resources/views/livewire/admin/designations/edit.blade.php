@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="mb-3">
                             <label for="" class="form-label">Department</label>
                             <select wire:model="designation.department_id" class="form-select form-select-lg" name="" id="">
@@ -22,12 +22,25 @@
                             <small id="title" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
                             <input type="text" wire:model="designation.title" class="form-control" name="title"
                                 id="title" aria-describedby="title" placeholder="Enter your Designation Title">
                             @error('designation.title')
+                                <small id="title" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Legible for Attendance Penalty</label>
+                            <select wire:model='designation.is_penalizable' class="form-select form-select-lg" name="" id="">
+                                <option selected>Select one</option>
+                                <option value="1">True</option>
+                                <option value="0">False</option>
+                            </select>
+                            @error('designation.is_penalizable')
                                 <small id="title" class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
