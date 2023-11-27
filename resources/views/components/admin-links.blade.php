@@ -1,75 +1,86 @@
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <!-- Add icons to the links using the .nav-icon class
+           with font-awesome or any other icon font library -->
+
+    <li class="nav-header text-underline">Initialization</li>
+
+    {{-- Dashboard --}}
+    <x-new-nav-link fa_icon="fa-xs fa-check" title="Dashboard" route="admin.dashboard" fa_icon="fa-tachometer-alt"></x-new-nav-link>
+    {{-- <x-new-nav-link fa_icon="fa-xs fa-check" title="Analytics" route="admin.analytics" fa_icon="fa-chart-bar"></x-new-nav-link> --}}
+    <x-new-nav-link-dropdown title="Settings" route="admin.settings*" fa_icon="fa-cogs">
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="General" route="admin.settings.general"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Mail" route="admin.settings.mail"></x-new-nav-link>
+
+    </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Banks" route="admin.banks*" fa_icon="fa-university">
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Overview" route="admin.banks.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create a Bank" route="admin.banks.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create Multiple Banks" route="admin.banks.mass_addition"></x-new-nav-link>
+
+
+    </x-new-nav-link-dropdown>
+
+    <li class="nav-header">Human Resource</li>
+    <x-new-nav-link-dropdown title="Admins" route="admin.admins*" fa_icon="fa-user-cog">
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Overview" route="admin.admins.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create a Bank" route="admin.admins.create"></x-new-nav-link>
+    </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Departments" route="admin.departments*" fa_icon="fa-building">
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Overview" route="admin.departments.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create a Department" route="admin.departments.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Designations List" route="admin.designations.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create a Designation" route="admin.designations.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="List of Responsibilities" route="admin.responsibilities.index"></x-new-nav-link>
+    </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Employees" route="admin.employees*" fa_icon="fa-user-md">
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Overview" route="admin.employees.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create a Bank" route="admin.employees.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create Multiple Employees" route="admin.employees.mass_addition"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="List of Contracts" route="admin.employee_contracts.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create a Contract" route="admin.employee_contracts.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create Multiple Employee_contracts"
+            route="admin.employee_contracts.mass_addition"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Bank Accounts" route="admin.employee_accounts.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create Multiple Employee Accounts"
+            route="admin.employee_accounts.mass_addition"></x-new-nav-link>
+
+
+    </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Attendances" route="admin.attendances*" fa_icon="fa-calendar-check">
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Overview" route="admin.attendances.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create a Bank" route="admin.attendances.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create Multiple Attendances" route="admin.attendances.mass_addition"></x-new-nav-link>
+
+
+    </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Leaves" route="admin.leaves*" fa_icon="fa-umbrella-beach">
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Overview" route="admin.leaves.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create a Bank" route="admin.leaves.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Create Multiple Leaves" route="admin.leaves.mass_addition"></x-new-nav-link>
+
+
+    </x-new-nav-link-dropdown>
+    @php
+        $routeOne = ['admin.fines*', 'admin.bonuses*', 'admin.advances*', 'admin.welfare_contributions*'];
+
+    @endphp
+    <x-new-nav-link-dropdown title="Salary Adjustments" active="{{ request()->routeIs($routeOne) ? true : false }}"
+        route="" fa_icon="fa-money-bill ">
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Fines" route="admin.fines.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Bonuses" route="admin.bonuses.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Salary Advances" route="admin.advances.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Welfare Contributions" route="admin.welfare_contributions.index"></x-new-nav-link>
+
+
+    </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Payroll" route="admin.payrolls*" fa_icon="fa-cash-register">
+        <x-new-nav-link fa_icon="fa-xs fa-check" title="Overview" route="admin.payrolls.index"></x-new-nav-link>
+    </x-new-nav-link-dropdown>
+</ul>
+
+{{--
 <ul class="nav">
-    <li class="nav-item nav-category">Main</li>
-    <li class="nav-item  @if (Request::is('*/dashboard')) active @endif">
-        <a href="/" class="nav-link">
-            <i class="material-icons material-symbols-outlined">
-                dashboard
-            </i>
-            <span class="link-title">Dashboard</span>
-        </a>
-    </li>
-    <li class="nav-item nav-category">Accounting</li>
-    <li class="nav-item  @if (Request::is('*/dashboard')) active @endif">
-        <a href="/" class="nav-link">
-            <i class="material-icons material-symbols-outlined">
-                monitoring
-            </i>
-            <span class="link-title">Analytics</span>
-        </a>
-    </li>
-    <li class="nav-item @if (Request::is('admin/banks*')) active @endif">
-        <a class="nav-link" data-bs-toggle="collapse" href="#banks" role="button" aria-expanded="false"
-            aria-controls="banks">
-            <i class="material-icons material-symbols-outlined">
-                account_balance
-            </i>
-            <span class="link-title">Banks</span>
-            <i class="link-arrow" data-feather="chevron-down"></i>
-        </a>
-        <div class="collapse @if (Request::is('admin/banks*')) show @endif" id="banks">
-            <ul class="nav sub-menu">
-                <li class="nav-item ">
-                    <a href="{{ route('admin.banks.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.banks.index') active @endif">List of
-                        Banks</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.banks.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.banks.create') active @endif">Create a new
-                        Bank</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.banks.mass_addition') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.banks.mass_addition') active @endif">Banks Mass Addition</a>
-                </li>
-            </ul>
-        </div>
-    </li>
-    <li class="nav-item nav-category">Human Resource</li>
-    <li class="nav-item @if (Request::is('admin/admins*')) active @endif">
-        <a class="nav-link" data-bs-toggle="collapse" href="#admins" role="button" aria-expanded="false"
-            aria-controls="admins">
-            <i class="material-icons material-symbols-outlined">
-                admin_panel_settings
-            </i>
-            <span class="link-title">Administrators</span>
-            <i class="link-arrow" data-feather="chevron-down"></i>
-        </a>
-        <div class="collapse @if (Request::is('admin/admins*')) show @endif" id="admins">
-            <ul class="nav sub-menu">
-                <li class="nav-item ">
-                    <a href="{{ route('admin.admins.index') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.admins.index') active @endif">List of
-                        Administrators</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.admins.create') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'admin.admins.create') active @endif">Create a new
-                        Administrator</a>
-                </li>
-            </ul>
-        </div>
-    </li>
+
     <li class="nav-item @if (Request::is('admin/departments*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#departments" role="button" aria-expanded="false"
             aria-controls="departments">
@@ -275,7 +286,6 @@
             </ul>
         </div>
     </li>
-
     <li class="nav-item @if (Request::is('admin/fines*')) active @endif">
         <a class="nav-link" data-bs-toggle="collapse" href="#fines" role="button" aria-expanded="false"
             aria-controls="fines">
@@ -414,4 +424,4 @@
         </div>
     </li>
 
-</ul>
+</ul> --}}

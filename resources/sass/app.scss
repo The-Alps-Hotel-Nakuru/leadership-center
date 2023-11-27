@@ -1,15 +1,14 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+// @import "variables";
 
 // Bootstrap
-@import 'node_modules/bootstrap/scss/bootstrap';
+// @import "node_modules/bootstrap/scss/bootstrap";
 
 // Custom
-@import "custom";
-
+// @import "custom";
 
 // Custom stuff
 
@@ -17,52 +16,101 @@
     margin-left: 10px !important;
 }
 
-// Material Icons
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap");
+body {
+    font-family: "Lexend", sans-serif;
+    font-size: 13px;
+}
 
+h1,
+h2 {
+    //    font-size: 12px;
+    font-weight: 400;
+    // color: #0e244d;
+}
+h3,
+h4,
+h5,
+h6 {
+    // font-size: smaller;
+    font-weight: 200;
+    // color: black;
+}
 
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+li {
+    // font-size: 12px;
+    font-weight: 500;
+    // color: #1575bb !important;
+    // font-style: italic;
+}
+
+span,
+a,
+p {
+    font-size: 12px;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 
 .material-symbols-outlined {
-    font-variation-settings:
-        'FILL'0,
-        'GRAD'20,
-        'opsz'25;
+    font-variation-settings: "FILL" 0, "GRAD" 20, "opsz" 25;
 }
 
-
-.nav-item.active{
-    .nav-link{
+.nav-item.active {
+    .nav-link {
         .material-symbols-outlined {
-            font-variation-settings:
-                'FILL'1 !important;
+            font-variation-settings: "FILL" 1 !important;
         }
     }
 }
-.nav-item:hover{
-    .nav-link{
+.nav-item:hover {
+    .nav-link {
         .material-symbols-outlined {
-            font-variation-settings:
-                'FILL'1 !important;
+            font-variation-settings: "FILL" 1 !important;
         }
     }
 }
 
-
-.bg-alps-primary{
+.bg-alps-primary {
     background-color: #1575bb !important;
-    color: white;
+    color: white !important;
 }
-.bg-alps-warning{
-    background-color: #bb7515 !important;
-    color: white;
+.bg-alps-warning {
+    background-color: #bb7515 !important ;
+    color: white !important;
 }
-.bg-alps-danger{
-    background-color: #901515 !important;
-    color: white;
+.bg-alps-danger {
+    background: linear-gradient(90deg, #010a1c, #242464) !important;
+    color: white !important;
+
+    .nav-item {
+        color: lighten($color: #1575bb, $amount: 40%) !important;
+        :hover {
+            color: white !important;
+        }
+        .active {
+            color: white !important;
+        }
+    }
+    .nav-link.active {
+        background-color: #00000065 !important;
+    }
 }
-.bg-gradient-black{
-    background: linear-gradient(60deg, #000000, #001247);
+
+.bg-gradient-black {
+    background: darken($color: #bbbbcb, $amount: 60) !important;
 }
-.bg-gradient-maroon{
-    background: linear-gradient(60deg, #0083a3, #100076);
+.bg-gradient-maroon {
+    background: darken($color: #bbbbcd, $amount: 60) !important;
+}
+
+.main-header {
+    background-color:#dddddd !important;
+    border-bottom: 0;
+}
+.content-wrapper {
+    background-color:#dddddd !important;
+}
+.content {
+    background-color: #dddddd !important;
 }

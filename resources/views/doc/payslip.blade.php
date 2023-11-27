@@ -33,13 +33,13 @@
         <tr>
             <td style="vertical-align: text-top; ">
                 <div
-                    style="background: transparent url({{ env('APP_URL') }}/logo.png);width: 120px;height: 120px;background-position: center; margin:auto;background-size: 120px;">
+                    style="background: transparent url({{ env('APP_URL') }}/company_logo.png);width: 120px;height: 120px;background-position: center; margin:auto;background-size: 120px;">
                 </div>
             </td>
         </tr>
         <tr>
             <td style="text-align: center; text-transform:uppercase">
-                <h1><strong>The Alps Hotel Nakuru</strong></h1>
+                <h1><strong>{{ env('COMPANY_NAME') }}</strong></h1>
             </td>
         </tr>
     </table>
