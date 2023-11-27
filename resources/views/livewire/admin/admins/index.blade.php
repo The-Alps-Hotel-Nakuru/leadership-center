@@ -40,16 +40,16 @@
                                     <div class="d-flex flex-row justify-content-center">
                                         <div class="flex-col m-2">
                                             <a wire:ignore href="{{ route('admin.admins.edit', $admin->id) }}"
-                                                class="btn btn-xs btn-secondary">
-                                                <i data-feather="edit"></i>
+                                                class="btn btn-secondary">
+                                                <i class="fa fa-edit"></i>
                                             </a>
                                         </div>
                                         @if (auth()->user()->id != $admin->id)
                                             <div class="flex-col  m-2">
-                                                <button wire:ignore class="btn btn-xs btn-danger"
+                                                <button wire:ignore class="btn btn-danger"
                                                     onclick="confirm('Are you sure you want to Delete this Administrator?')||event.stopImmediatePropagation()"
                                                     wire:click='delete({{ $admin->id }})'>
-                                                    <i data-feather="x"></i>
+                                                    <i class="fa fa-trash"></i>
                                                 </button>
                                             </div>
                                         @endif
