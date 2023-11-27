@@ -9,6 +9,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
 
+    <link rel="shortcut icon" href="/logo.png" type="image/x-icon">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
