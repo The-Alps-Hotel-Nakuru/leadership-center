@@ -4,8 +4,11 @@
 <head>
     <title>Welcome to The Alps Hotel Nakuru - KCB Leadership Centre</title>
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Lexend", sans-serif;
+            font-size: 13px;
         }
 
         .container {
@@ -16,7 +19,7 @@
         }
 
         h1 {
-            color: #1575BB;
+            color: #242464;
         }
 
         .login-table {
@@ -28,23 +31,23 @@
         .login-table th,
         .login-table td {
             padding: 10px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #b4b4b4;
             text-align: left;
         }
 
         .message {
             margin-top: 30px;
             font-style: italic;
-            color: #555;
+            color: #424242;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Welcome to The Alps Hotel Nakuru!</h1>
+        <h1>Welcome to {{ env('COMPANY_NAME') }}!</h1>
         <p>Greetings {{ $user->name }},</p>
-        <p>Thank you for joining our team as an Administrator. We are excited to have you on board and look forward to
+        <p>Thank you for joining our team. We are excited to have you on board and look forward to
             working together.</p>
         <p>Please find below your login credentials to access the system:</p>
 
@@ -64,15 +67,14 @@
             <li>Go to <a href="{{ env('APP_URL') }}" target="_blank">This Portal</a></li>
             <li>Enter your credentials as provided above.</li>
         </ol>
-        <p>If you have any questions or need any assistance, feel free to reach out to the ICT department.</p>
+        <p>If you have any questions or need any assistance, feel free to reach out to the support team.</p>
 
-        <p>Welcome aboard once again, and we wish you a successful and fulfilling journey with The Alps Hotel!</p>
+        <p>Welcome aboard once again, and we wish you a successful and fulfilling journey with {{ env('COMPANY_NAME') }}!</p>
 
         <p>Best regards,<br>
-            Steve O. Nyanumba <i>SwE.</i><br>
-            IT Manager & ICT Director<br>
-            The Alps Hotel Nakuru
-            <a href="mailto:tech@thealpshotelnakuru.com">tech@thealpshotelnakuru.com</a>
+            Support Team,<br>
+            {{ env('COMPANY_NAME') }}
+            <a href="mailto:{{ env('COMPANY_EMAIL') }}">{{ env('COMPANY_EMAIL') }}</a>
         </p>
     </div>
 </body>
