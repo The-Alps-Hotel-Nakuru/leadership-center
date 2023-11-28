@@ -31,7 +31,31 @@
             </div>
             <div class="card shadow">
                 <div class="card-body">
-                    <div class="row justify-content-center">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-8 col-12 ">
+                            <div class="card h-100 bg-gradient-black   text-white" style="min-height: 150px">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-baseline mb-3">
+                                        <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">Total
+                                            Penalties</h6>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-xl-9">
+                                            <small>KES</small>
+                                            <div class="d-flex align-items-baseline ms-auto">
+                                                <h4 class="mb-2">
+                                                    {{ number_format($total_penalties, 2) }}
+                                                </h4>
+                                                {{-- <p class="text-success">
+                                        <span>+3.3%</span>
+                                        <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                    </p> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-3 col-sm-8 col-12 ">
                             <div class="card h-100 bg-gradient-black   text-white" style="min-height: 150px">
                                 <div class="card-body">
@@ -94,25 +118,6 @@
                                                 <h4 class="mb-2"> {{ number_format($total_bonuses, 2) }}
                                                 </h4>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-8 col-12 ">
-                            <div class="card bg-gradient-black text-white h-100" style="min-height: 150px">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-baseline mb-3">
-                                        <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">No. of
-                                            Employees</h6>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-xl-9">
-                                            <div class="d-flex align-items-baseline">
-                                                <h3 class="mb-2">
-                                                    {{ number_format(count(App\Models\EmployeesDetail::all())) }}
-                                                </h3>
                                             </div>
                                         </div>
                                     </div>
@@ -274,12 +279,12 @@
 
         document.addEventListener("livewire:load", function() {
             var payrollChart = new Chart(document.getElementById('payroll-chart').getContext('2d'), {
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels,
                     datasets: [{
-                        backgroundColor: '#100076',
-                        borderColor: '#0083a3',
+                        backgroundColor: '#242464',
+                        borderColor: '#90151a',
                         data,
                     }, ]
                 },

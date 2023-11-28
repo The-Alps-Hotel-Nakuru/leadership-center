@@ -22,6 +22,7 @@ class Dashboard extends Component
 
     public $currentMonth, $currentMonthName, $currentYear, $today, $days, $instance, $employees;
     public $estimated = 0;
+    public $total_penalties = 0;
     public $month;
     protected $paginationTheme = 'bootstrap';
     public $total_fines = 0;
@@ -50,7 +51,7 @@ class Dashboard extends Component
         $range = [];
         $labels = [];
         $data = [];
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             array_push($range, $this->instance->copy()->subMonthsNoOverflow(7 - $i));
         }
         foreach ($range as $month) {
@@ -86,22 +87,22 @@ class Dashboard extends Component
         $employees = EmployeesDetail::where('kra_pin', null)->orWhere('nssf', null)->orWhere('nhif', null)->get();
         $collect = [];
         foreach ($employees as $employee) {
-            if ($employee->isFullTimeBetween('01/01/1970','now')) {
+            if ($employee->isFullTimeBetween('01/01/1970', 'now')) {
                 array_push($collect, $employee);
             }
         }
         return collect($collect);
     }
-    function estimated_earnings()
+
+    function penalties()
     {
-        $earning = 0;
         foreach ($this->employees as $key => $employee) {
+            $total_penalties = 0;
+            $penalty = 0;
+            $rate = 0;
             $days = $employee->daysWorked($this->instance->format('Y-m'));
             $leaveDays = $employee->daysOnLeave($this->instance->format('Y-m'));
-            $rate = 0;
             $daysMissed = $this->instance->daysInMonth - $days - $leaveDays;
-            $basic_salary_kes = 0;
-
             if ($employee->ActiveContractDuring($this->instance->format('Y-m'))) {
                 if ($employee->isCasualBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) || $employee->isInternBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
                     $rate = $employee->ActiveContractDuring($this->instance->format('Y-m'))->salary_kes;
@@ -109,6 +110,26 @@ class Dashboard extends Component
                     $rate = $employee->ActiveContractDuring($this->instance->format('Y-m'))->salary_kes / $this->instance->daysInMonth;
                 }
             }
+            if ($employee && $employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
+                if ($employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) && $employee->designation->is_penalizable) {
+                    if ($daysMissed > 6) {
+                        $penalty = $rate * ($daysMissed - 6);
+                    }
+                } else {
+                    $penalty = 0;
+                }
+            }
+            $total_penalties += $penalty;
+        }
+
+        return $total_penalties;
+    }
+    function estimated_earnings()
+    {
+        $earning = 0;
+        foreach ($this->employees as $key => $employee) {
+            $days = $employee->daysWorked($this->instance->format('Y-m'));
+            $basic_salary_kes = 0;
             $contract = $employee->ActiveContractDuring($this->instance->format('Y-m'));
             if ($contract) {
                 if ($contract->is_full_time()) {
@@ -125,18 +146,8 @@ class Dashboard extends Component
             }
 
             $gross = ($basic_salary_kes ?? 0);
-            $penalty = 0;
-            if ($employee && $employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
-                if ($employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) && $employee->designation->is_penalizable) {
-                    if ($daysMissed > 6) {
-                        $penalty = $rate * ($daysMissed - 6);
-                    }
-                } else {
-                    $penalty = 0;
-                }
-            }
 
-            $earning += ($gross - $penalty);
+            $earning += $gross;
         }
 
         return $earning;
@@ -170,7 +181,8 @@ class Dashboard extends Component
             }
         }
 
-        $this->estimated = $this->estimated_earnings() + ($this->total_bonuses - $this->total_fines - $this->total_advances);
+        $this->estimated = $this->estimated_earnings();
+        $this->total_penalties = $this->penalties();
         $this->loadPayrollGraph();
         $this->incompleteEmployees = $this->incompleteEmployees();
 
