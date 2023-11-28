@@ -103,11 +103,13 @@ class Dashboard extends Component
             $days = $employee->daysWorked($this->instance->format('Y-m'));
             $leaveDays = $employee->daysOnLeave($this->instance->format('Y-m'));
             $daysMissed = $this->instance->daysInMonth - $days - $leaveDays;
-            if ($employee->ActiveContractDuring($this->instance->format('Y-m'))) {
+            $contract = $employee->ActiveContractDuring($this->instance->format('Y-m'));
+
+            if ($contract) {
                 if ($employee->isCasualBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) || $employee->isInternBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
-                    $rate = $employee->ActiveContractDuring($this->instance->format('Y-m'))->salary_kes;
+                    $rate = $contract->salary_kes;
                 } else {
-                    $rate = $employee->ActiveContractDuring($this->instance->format('Y-m'))->salary_kes / $this->instance->daysInMonth;
+                    $rate = $contract->salary_kes / $this->instance->daysInMonth;
                 }
             }
             if ($employee && $employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {

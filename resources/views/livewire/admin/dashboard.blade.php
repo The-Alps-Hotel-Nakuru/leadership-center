@@ -44,7 +44,7 @@
                                             <small>KES</small>
                                             <div class="d-flex align-items-baseline ms-auto">
                                                 <h4 class="mb-2">
-                                                    {{ number_format($total_penalties, 2) }}
+                                                    {{ number_format($this->penalties(), 2) }}
                                                 </h4>
                                                 {{-- <p class="text-success">
                                         <span>+3.3%</span>
