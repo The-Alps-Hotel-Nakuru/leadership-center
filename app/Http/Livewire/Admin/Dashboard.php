@@ -96,8 +96,8 @@ class Dashboard extends Component
 
     function penalties()
     {
+        $total_penalties = 0;
         foreach ($this->employees as $key => $employee) {
-            $total_penalties = 0;
             $penalty = 0;
             $rate = 0;
             $days = $employee->daysWorked($this->instance->format('Y-m'));
