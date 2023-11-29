@@ -2,7 +2,7 @@
 # /public/build
 # /public/hot
 /public/storage
-/public/*.png
+/public/company_logo.png
 /storage/*.key
 /vendor
 .env
