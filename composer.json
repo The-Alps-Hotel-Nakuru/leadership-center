@@ -8,6 +8,7 @@
         "php": "^8.0.2",
         "daltcore/lara-pdf-merger": "^2.0",
         "deployer/deployer": "^7.0",
+        "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "laracasts/generators": "^2.0",
         "laravel/framework": "^9.19",

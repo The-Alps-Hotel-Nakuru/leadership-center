@@ -3,11 +3,12 @@
 
     <div class="container-fluid">
         <div class="card">
-            <div class="card-header d-flex">
+            <div class="card-header d-flex bg-transparent border-0">
                 <h4>List of Administrators</h4>
-                <div class="flex-col ms-auto">
-                    <a wire:ignore href="{{ route('admin.admins.create') }}" class="btn btn-primary">
-                        <i data-feather="user-plus"></i>
+                <div class="flex-col ml-auto">
+                    <a wire:ignore data-bs-toggle="tooltip" data-bs-placement="left" title="Add a new Administrator"
+                        href="{{ route('admin.admins.create') }}" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
                     </a>
                 </div>
             </div>

@@ -16,8 +16,9 @@
             </button>
         </div>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header d-flex">
                 <h5>List of Issued Bonuses</h5>
+                <a href="{{ route('admin.bonuses.create') }}" class="btn btn-primary ml-auto">Create New</a>
             </div>
             <div class="card-body table-responsive">
                 <table class="table">

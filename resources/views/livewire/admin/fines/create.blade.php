@@ -58,6 +58,7 @@
                         </div>
                     </div>
                 </div>
+                <a href="{{ route('admin.fines.index') }}" class="btn btn-warning">BACK</a>
                 <button wire:click="save" class="btn btn-dark">SAVE</button>
             </div>
         </div>

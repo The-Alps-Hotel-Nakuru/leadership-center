@@ -27,7 +27,7 @@ class Index extends Component
             $contract->save();
         } else {
             $this->emit('done', [
-                'warning' => "Cantract was Already Terminated"
+                'warning' => "The Contract was Already Terminated"
             ]);
             return;
         }

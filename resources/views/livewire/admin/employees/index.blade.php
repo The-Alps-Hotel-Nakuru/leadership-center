@@ -158,7 +158,7 @@
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Close</button>
                                                         <button type="button" class="btn btn-primary"
-                                                            onclick="confirm('Are you sure you want to delete this Employee?')||event.stopImmediatePropagation()"
+                                                            onclick="confirm('Are you sure you want to ban this Employee?')||event.stopImmediatePropagation()"
                                                             wire:click='banEmployee({{ $employee->id }})'>Save</button>
                                                     </div>
                                                 </div>

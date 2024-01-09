@@ -12,7 +12,7 @@ class Create extends Component
 {
     public Attendance $attendance;
 
-    public $employees;
+    public $employees, $check_in, $check_out;
 
     protected $listeners = [
         'done' => 'mount'
@@ -21,21 +21,23 @@ class Create extends Component
     protected $rules = [
         'attendance.employees_detail_id' => 'required',
         'attendance.date' => 'required',
-        'attendance.check_in' => 'required',
-        'attendance.check_out' => 'nullable',
+        'check_in' => 'required',
+        'check_out' => 'nullable',
     ];
 
     public function mount()
     {
         $this->employees = EmployeesDetail::all();
         $this->attendance = new Attendance();
-        $this->attendance->check_in = Carbon::now()->toTimeString();
+        $this->attendance->check_in = Carbon::now()->toDateTimeLocalString();
         $this->attendance->date = Carbon::now()->toDateString();
     }
 
     public function save()
     {
         $this->validate();
+        $this->attendance->check_in = Carbon::parse($this->attendance->date . ' ' . $this->check_in)->toDateTimeString();
+        $this->attendance->check_out = Carbon::parse($this->attendance->date . ' ' . $this->check_out)->toDateTimeString();
 
         $this->attendance->save();
 
@@ -46,7 +48,7 @@ class Create extends Component
         $log->save();
 
         $this->emit('done', [
-            'success' => 'Successfully Signed in ' . $this->attendance->employee->user->name . ' at ' . Carbon::parse($this->attendance->created_at)->format('h:i A'),
+            'success' => 'Successfully Signed in ' . $this->attendance->employee->user->name . ' for ' . $this->attendance->full_date . ' at ' . Carbon::parse($this->attendance->created_at)->format('h:i A'),
         ]);
     }
     public function render()

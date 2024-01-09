@@ -1,9 +1,9 @@
-@props(['title', 'route', 'new' => false, 'fa_icon'=>null])
+@props(['title', 'route', 'new' => false, 'fa_icon' => null, 'active' => false])
 
 <li class="nav-item">
-    <a href="{{ route($route) }}" class="nav-link {{ request()->routeIs($route) ? 'active' : '' }}">
+    <a href="{{ route($route) }}" class="nav-link {{ request()->routeIs($route) || $active ? 'active' : '' }}">
         @if ($fa_icon)
-        <i class="nav-icon fas {{ $fa_icon }}"></i>
+            <i class="nav-icon fas {{ $fa_icon }}"></i>
         @endif
         <p>
             {{ $title }}

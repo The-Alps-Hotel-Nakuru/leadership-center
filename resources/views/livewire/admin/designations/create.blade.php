@@ -4,26 +4,26 @@
         Create a new Designation
     </x-slot>
 
-    <div class="container">
+    <div class="">
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="mb-3">
                             <label for="" class="form-label">Department</label>
-                            <select wire:model="designation.department_id" class="form-select form-select-lg"
-                                name="" id="">
+                            <select wire:model="designation.department_id" class="form-control " name=""
+                                id="">
                                 <option selected>Select a Department</option>
                                 @foreach ($departments as $department)
                                     <option value="{{ $department->id }}">{{ $department->title }}</option>
                                 @endforeach
                             </select>
+                            @error('designation.department_id')
+                                <small id="title" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
-                        @error('designation.department_id')
-                            <small id="title" class="form-text text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
                             <input type="text" wire:model="designation.title" class="form-control" name="title"
@@ -33,10 +33,11 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="mb-3">
                             <label for="" class="form-label">Legible for Attendance Penalty</label>
-                            <select wire:model='designation.is_penalizable' class="form-select form-select-lg" name="" id="">
+                            <select wire:model='designation.is_penalizable' class="form-control" name=""
+                                id="">
                                 <option selected>Select one</option>
                                 <option value="1">True</option>
                                 <option value="0">False</option>

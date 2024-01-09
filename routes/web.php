@@ -10,6 +10,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Faker\Factory;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use LynX39\LaraPdfMerger\Facades\PdfMerger;
 
@@ -31,6 +32,7 @@ use function Deployer\download;
 
 Route::redirect('/', '/dashboard');
 
+
 // if (auth()->user()->is_admin) {
 //     Route::redirect('/dashboard','/admin/dashboard');
 // }
@@ -38,7 +40,7 @@ Route::redirect('/', '/dashboard');
 //     Route::redirect('/dashboard','/employee/dashboard');
 // }
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'subscribed'])->group(function () {
 
     Route::get('dashboard', function () {
         if (auth()->user()->is_admin) {
@@ -69,6 +71,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/', Admin\Admins\Index::class)->name('admin.admins.index');
             Route::get('/create', Admin\Admins\Create::class)->name('admin.admins.create');
             Route::get('/{id}/edit', Admin\Admins\Edit::class)->name('admin.admins.edit');
+        });
+        Route::prefix('bans')->group(function () {
+            Route::get('/', Admin\Bans\Index::class)->name('admin.bans.index');
         });
         Route::prefix('departments')->group(function () {
             Route::get('/', Admin\Departments\Index::class)->name('admin.departments.index');

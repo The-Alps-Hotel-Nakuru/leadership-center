@@ -15,7 +15,7 @@
     <x-new-nav-link-dropdown title="Banks" route="admin.banks*" fa_icon="fa-university">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.banks.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create a Bank" route="admin.banks.create"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="Create Multiple Banks" route="admin.banks.mass_addition"></x-new-nav-link>
+        {{-- <x-new-nav-link fa_icon="" title="Create Multiple Banks" route="admin.banks.mass_addition"></x-new-nav-link> --}}
 
 
     </x-new-nav-link-dropdown>
@@ -25,17 +25,27 @@
         <x-new-nav-link fa_icon="" title="Overview" route="admin.admins.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create an Admin" route="admin.admins.create"></x-new-nav-link>
     </x-new-nav-link-dropdown>
-    <x-new-nav-link-dropdown title="Departments" route="admin.departments*" fa_icon="fa-building">
+    @php
+        $routeOne = ['admin.departments*', 'admin.designations*', 'admin.responsibilities*'];
+
+    @endphp
+    <x-new-nav-link-dropdown active="{{ request()->routeIs($routeOne) ? true : false }}" route="" title="Departments" route="admin.departments*" fa_icon="fa-building">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.departments.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create a Department" route="admin.departments.create"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Designations List" route="admin.designations.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create a Designation" route="admin.designations.create"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="List of Responsibilities" route="admin.responsibilities.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="List of Responsibilities" route="admin.responsibilities.index" active="{{ request()->routeIs('admin.responsibilities.create') ? true : false }}"></x-new-nav-link>
     </x-new-nav-link-dropdown>
-    <x-new-nav-link-dropdown title="Employees" route="admin.employees*" fa_icon="fa-user-md">
+
+    @php
+        $routeTwo = ['admin.employees*', 'admin.employee_contracts*', 'admin.employee_accounts*','admin.bans*'];
+
+    @endphp
+    <x-new-nav-link-dropdown title="Employees" active="{{ request()->routeIs($routeTwo) ? true : false }}" route="" fa_icon="fa-user-md">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.employees.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create an Employee" route="admin.employees.create"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create Multiple Employees" route="admin.employees.mass_addition"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Banned Employees" route="admin.bans.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="List of Contracts" route="admin.employee_contracts.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create a Contract" route="admin.employee_contracts.create"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create Multiple Employee Contracts"
@@ -48,23 +58,23 @@
     </x-new-nav-link-dropdown>
     <x-new-nav-link-dropdown title="Attendances" route="admin.attendances*" fa_icon="fa-calendar-check">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.attendances.index"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="Create a Bank" route="admin.attendances.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Add an Attendance Record" route="admin.attendances.create"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create Multiple Attendances" route="admin.attendances.mass_addition"></x-new-nav-link>
 
 
     </x-new-nav-link-dropdown>
     <x-new-nav-link-dropdown title="Leaves" route="admin.leaves*" fa_icon="fa-umbrella-beach">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.leaves.index"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="Create a Bank" route="admin.leaves.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Add a Leave Record" route="admin.leaves.create"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create Multiple Leaves" route="admin.leaves.mass_addition"></x-new-nav-link>
 
 
     </x-new-nav-link-dropdown>
     @php
-        $routeOne = ['admin.fines*', 'admin.bonuses*', 'admin.advances*', 'admin.welfare_contributions*'];
+        $routeThree = ['admin.fines*', 'admin.bonuses*', 'admin.advances*', 'admin.welfare_contributions*'];
 
     @endphp
-    <x-new-nav-link-dropdown title="Salary Adjustments" active="{{ request()->routeIs($routeOne) ? true : false }}"
+    <x-new-nav-link-dropdown title="Salary Adjustments" active="{{ request()->routeIs($routeThree) ? true : false }}"
         route="" fa_icon="fa-money-bill ">
         <x-new-nav-link fa_icon="" title="Fines" route="admin.fines.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Bonuses" route="admin.bonuses.index"></x-new-nav-link>

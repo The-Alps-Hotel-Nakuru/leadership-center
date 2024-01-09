@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Settings;
 
+use App\Models\Bank;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -16,6 +17,8 @@ class General extends Component
     public $companyName;
     public $companyEmail;
     public $companyLogo;
+    public $banks;
+    public $bank;
 
     use WithFileUploads;
 
@@ -37,10 +40,11 @@ class General extends Component
     {
         $this->attendanceDateFormat = env('ATTENDANCE_DATE_FORMAT');
         $this->bankName = env('BANK_NAME');
-        $this->accountNumber = env('BANK_ACCOUNT_NUMBER');
         $this->sortCode = env('BANK_SORT');
+        $this->accountNumber = env('BANK_ACCOUNT_NUMBER');
         $this->companyName = env('COMPANY_NAME');
         $this->companyEmail = env('COMPANY_EMAIL');
+        $this->banks = Bank::all();
     }
 
     public function saveAttendanceFormat()
@@ -93,6 +97,36 @@ class General extends Component
 
         $this->emit('done', [
             'success' => 'Successfully Saved the Company Details Settings'
+        ]);
+    }
+
+    public function saveAccountDetails()
+    {
+        $this->validate([
+            'bankName' => 'required',
+            'accountNumber' => 'required',
+            'sortCode' => 'required',
+        ]);
+
+
+
+        $envData = [
+            'BANK_NAME' => $this->bankName,
+            'BANK_ACCOUNT_NUMBER' => $this->accountNumber,
+            'BANK_SORT' => $this->sortCode,
+        ];
+
+        $envFile = base_path('.env');
+        $oldEnvContent = File::get($envFile);
+
+        foreach ($envData as $key => $value) {
+            $oldEnvContent = preg_replace("/$key=.*$/m", "$key=\"$value\"", $oldEnvContent);
+        }
+
+        File::put($envFile, $oldEnvContent);
+
+        $this->emit('done', [
+            'success' => 'Successfully Saved the Company Account Details'
         ]);
     }
 
