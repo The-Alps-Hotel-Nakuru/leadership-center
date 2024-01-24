@@ -46,7 +46,7 @@
         }
 
         .sidebar {
-            background-color: {{ env('MENU_SIDEBAR COLOR') }};
+            background-color: {{ env('MENU_SIDEBAR_COLOR') }};
         }
     </style>
 </head>

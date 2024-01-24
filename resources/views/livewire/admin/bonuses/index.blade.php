@@ -5,12 +5,12 @@
 
     <div class="container-fluid">
         <div class="card-header d-flex">
-            <button class="btn btn-primary ms-auto"  wire:loading.attr="disabled" wire:target="downloadBonusesData"
-                wire:click="downloadBonusesData">
-                <span wire:loading.remove wire:target="downloadBonusesData">
-                    Download Bonuses
+            <button class="btn btn-primary ms-auto"  wire:loading.attr="disabled" wire:target="downloadBonusesTemplate"
+                wire:click="downloadBonusesTemplate">
+                <span wire:loading.remove wire:target="downloadBonusesTemplate">
+                    Download Bonuses Template
                 </span>
-                <span wire:loading wire:target="downloadBonusesData">
+                <span wire:loading wire:target="downloadBonusesTemplate">
                     Downloading...
                 </span>
             </button>
