@@ -193,7 +193,7 @@
     <ol>
         @foreach (App\Models\EmployeesDetail::all() as $employee)
             @if (!$employee->bankAccount)
-                <li>{{ $employee->name }}</li>
+                <li>{{ $employee->user->name }}</li>
             @endif
         @endforeach
 

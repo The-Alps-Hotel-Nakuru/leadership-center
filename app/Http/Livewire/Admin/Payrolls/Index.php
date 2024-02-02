@@ -131,7 +131,7 @@ class Index extends Component
         foreach ($payroll->monthlySalaries as $salary) {
             if (!$salary->employee->bankAccount) {
                 $this->emit('done', [
-                    'warning' => $salary->employee->name . ' has not set a bank account'
+                    'warning' => $salary->employee->user->name . ' has not set a bank account'
                 ]);
                 # code...
             }
