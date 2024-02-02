@@ -80,6 +80,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/create', Admin\Departments\Create::class)->name('admin.departments.create');
             Route::get('/{id}/edit', Admin\Departments\Edit::class)->name('admin.departments.edit');
         });
+        Route::prefix('holidays')->group(function () {
+            Route::get('/', Admin\Holidays\Index::class)->name('admin.holidays.index');
+            Route::get('/create', Admin\Holidays\Create::class)->name('admin.holidays.create');
+            Route::get('/{id}/edit', Admin\Holidays\Edit::class)->name('admin.holidays.edit');
+        });
         Route::prefix('designations')->group(function () {
             Route::get('/', Admin\Designations\Index::class)->name('admin.designations.index');
             Route::get('/create', Admin\Designations\Create::class)->name('admin.designations.create');
