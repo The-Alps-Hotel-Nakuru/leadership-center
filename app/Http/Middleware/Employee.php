@@ -19,7 +19,7 @@ class Employee
         if (auth()->user()->is_employee && !auth()->user()->employee->is_banned) {
             return $next($request);
         } else {
-            abort(403, "You are not an Employee of this Organization currently");
+            abort(403, "You are not an Employee of this Organization currently or you have been banned");
         }
     }
 }

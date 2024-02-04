@@ -13,6 +13,10 @@ class Department extends Model
     {
         return $this->hasMany(Asset::class);
     }
+    public function company()
+    {
+        return $this->hasOne(Company::class, 'id', 'company_id');
+    }
     public function designations()
     {
         return $this->hasMany(Designation::class);

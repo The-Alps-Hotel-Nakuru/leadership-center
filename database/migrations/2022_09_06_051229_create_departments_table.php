@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained();
             $table->string('title');
             $table->unsignedBigInteger('hod')->nullable();
             $table->foreign('hod')->references('id')->on('users')->nullOnDelete();

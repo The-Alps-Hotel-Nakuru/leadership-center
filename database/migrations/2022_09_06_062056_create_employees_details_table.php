@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('designation_id')->constrained();
+            $table->unique(['designation_id','user_id']);
             $table->unsignedBigInteger('national_id');
             $table->string('phone_number')->unique();
             $table->longText('physical_address')->nullable();

@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('salary_scales', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained();
             $table->string('code');
             $table->unsignedBigInteger('min_kes_monthly');
             $table->unsignedBigInteger('max_kes_monthly');

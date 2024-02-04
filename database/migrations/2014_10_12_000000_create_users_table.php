@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->foreignId('role_id')->constrained();
+            $table->foreignId('role_id')->constrained()->default(3);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('first_login')->default(true);

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('payrolls', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained();
             $table->year('year');
             $table->unsignedTinyInteger('month');
             $table->unique(['year', 'month'], 'period');
