@@ -167,7 +167,7 @@
                             <span class="spinner-border text-right ml-auto" role="status"></span>
                         </div>
                     @else
-                        <livewire:livewire-line-chart key="{{ $lineChartModel->reactiveKey() }}" :line-chart-model="$lineChartModel" />
+                        <livewire:livewire-line-chart :line-chart-model="$lineChartModel" />
                     @endif
                 </div>
 
