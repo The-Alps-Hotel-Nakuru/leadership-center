@@ -23,13 +23,13 @@ class Dashboard extends Component
     use WithPagination;
 
     public $currentMonth, $currentMonthName, $currentYear, $today, $days, $instance, $employees;
-    public $estimated = 0;
-    public $total_penalties = 0;
+    public $estimated = null;
+    public $total_penalties = null;
     public $month;
     protected $paginationTheme = 'bootstrap';
-    public $total_fines = 0;
-    public $total_bonuses = 0;
-    public $total_advances = 0;
+    public $total_fines = null;
+    public $total_bonuses = null;
+    public $total_advances = null;
     public $incompleteEmployees;
 
 
