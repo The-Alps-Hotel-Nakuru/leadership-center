@@ -10,6 +10,8 @@ use App\Models\EventOrder;
 use App\Models\Fine;
 use App\Models\Log;
 use App\Models\Payroll;
+use Asantibanez\LivewireCharts\Models\ColumnChartModel;
+use Asantibanez\LivewireCharts\Models\LineChartModel;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -29,6 +31,9 @@ class Dashboard extends Component
     public $total_bonuses = 0;
     public $total_advances = 0;
     public $incompleteEmployees;
+
+
+    // private $columnChartModel;
 
 
     // for Payroll Graph
@@ -86,8 +91,10 @@ class Dashboard extends Component
         $this->today = $this->instance->format('Y-m-d');
         $this->month = $this->instance->format('Y-m');
         // $this->estimated = $this->estimated_earnings();
-        // $this->loadPayrollGraph();
+        $this->loadPayrollGraph();
         $this->incompleteEmployees = $this->incompleteEmployees();
+
+
     }
 
     function incompleteEmployees()
@@ -196,13 +203,23 @@ class Dashboard extends Component
 
             $this->estimated = $this->estimated_earnings();
             $this->total_penalties = $this->penalties();
-            $this->loadPayrollGraph();
             $this->incompleteEmployees = $this->incompleteEmployees();
         }
+        $this->loadPayrollGraph();
 
+        $this->emit('loadedAll');
+
+        $lineChartModel =
+        (new LineChartModel())
+        ->setTitle("Payroll Graph");
+
+        foreach ($this->labels as $key => $label) {
+            $lineChartModel->addPoint($label, $this->data[$key]);
+        }
 
         return view('livewire.admin.dashboard', [
-            'logs' => $this->readyToLoad ? Log::orderBy('id', 'DESC')->paginate(10) : []
+            'logs' => $this->readyToLoad ? Log::orderBy('id', 'DESC')->paginate(10) : [],
+            'lineChartModel'=> $lineChartModel,
         ]);
     }
 }

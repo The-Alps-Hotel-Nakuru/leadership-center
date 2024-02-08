@@ -159,16 +159,17 @@
                 <div class="card-header bg-transparent border-0">
                     <h5 class="text-center">Payroll Final Amounts</h5>
                 </div>
-                @if (!$labels || !$data)
+                <div style="height: 32rem;">
+
+                    <livewire:livewire-line-chart {{-- key="{{ $columnChartModel->reactiveKey() }}" --}} :line-chart-model="$lineChartModel" />
+                </div>
+                {{-- @if (tru)
                     <div class="card-body d-flex justify-content-center">
                         <strong>Loading...</strong>
                         <span class="spinner-border text-right ml-auto" role="status"></span>
                     </div>
-                @else
-                    <div class="card-body" wire:ignore>
-                        <canvas id="payroll-chart" width="400" height="400"></canvas>
-                    </div>
-                @endif
+                @else --}}
+
             </div>
         </div>
     </div>
@@ -285,121 +286,6 @@
 
 
 
-@push('scripts')
-    @script
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    @endscript
-    @script
-        <script>
-            var ticksStyle = {
-                fontColor: '#495057',
-                fontStyle: 'bold'
-            }
 
-            var mode = 'index'
-            var intersect = true
-            var labels = [];
-            var data = [];
-        </script>
-    @endscript
-    @if ($labels && $data)
-        @foreach ($labels as $label)
-            @script
-                <script>
-                    labels.push('{{ $label }}')
-                </script>
-            @endscript
-        @endforeach
-        @foreach ($data as $d)
-            @script
-                <script>
-                    data.push('{{ $d }}')
-                </script>
-            @endscript
-        @endforeach
-
-        @script
-            <script>
-                // var $salesChart = $('#sales-chart')
-
-                document.addEventListener("livewire:load", function() {
-                    var payrollChart = new Chart(document.getElementById('payroll-chart').getContext('2d'), {
-                        type: 'line',
-                        data: {
-                            labels,
-                            datasets: [{
-                                backgroundColor: '#242464',
-                                borderColor: '#90151a',
-                                data,
-                            }, ]
-                        },
-                        options: {
-                            maintainAspectRatio: false,
-                            tooltips: {
-                                mode: mode,
-                                intersect: intersect,
-                                callbacks: {
-                                    label: function(tooltipItem, data) {
-                                        // Format the number as you need (e.g., with commas)
-                                        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem
-                                            .index];
-                                        return 'Value: KES ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-                                            ',');
-                                    }
-                                }
-                            },
-                            hover: {
-                                mode: mode,
-                                intersect: intersect
-                            },
-                            legend: {
-                                display: false
-                            },
-                            scales: {
-                                yAxes: [{
-                                    // display: false,
-                                    gridLines: {
-                                        display: true,
-                                        lineWidth: '3px',
-                                        color: 'rgba(0, 0, 0, .8)',
-                                        zeroLineColor: 'black'
-                                    },
-                                    ticks: $.extend({
-                                        beginAtZero: true,
-
-                                        // Include a dollar sign in the ticks
-                                        callback: function(value) {
-                                            if (value >= 1000) {
-                                                if (value >= 1000000) {
-                                                    value /= 1000000
-                                                    value += 'm'
-
-                                                } else {
-
-                                                    value /= 1000
-                                                    value += 'k'
-                                                }
-                                            }
-
-                                            return 'KES' + value
-                                        }
-                                    }, ticksStyle)
-                                }],
-                                xAxes: [{
-                                    // display: true,
-                                    gridLines: {
-                                        display: true,
-                                        lineWidth: '3px',
-                                        color: 'rgba(0, 0, 0, .8)',
-                                        zeroLineColor: 'transparent'
-                                    },
-                                    ticks: ticksStyle
-                                }]
-                            }
-                        }
-                    })
-                });
-            </script>
-        @endscript
-    @endif
-@endpush
+{{-- <livewire:scripts /> --}}
+@livewireChartsScripts
