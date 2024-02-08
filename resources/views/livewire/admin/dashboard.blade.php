@@ -225,21 +225,21 @@
                 </div>
                 <div class="table-responsive card-body" style="max-height: 450px">
                     <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Employee ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Missing Details</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (!$incompleteEmployees)
-                                <div class="card-body d-flex justify-content-center">
-                                    <strong>Loading...</strong>
-                                    <span class="spinner-border text-right ml-auto" role="status"></span>
-                                </div>
-                            @else
+                        @if (!$incompleteEmployees)
+                            <div class="card-body d-flex justify-content-center">
+                                <strong>Loading...</strong>
+                                <span class="spinner-border text-right ml-auto" role="status"></span>
+                            </div>
+                        @else
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Employee ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Missing Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 @foreach ($incompleteEmployees as $key => $employee)
                                     <tr class="">
                                         <td scope="row">{{ $key + 1 }}</td>
@@ -268,8 +268,8 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                            @endif
-                        </tbody>
+                            </tbody>
+                        @endif
                     </table>
                 </div>
 
