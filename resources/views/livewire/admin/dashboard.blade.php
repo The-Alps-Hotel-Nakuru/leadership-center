@@ -159,7 +159,7 @@
                 <div class="card-header bg-transparent border-0">
                     <h5 class="text-center">Payroll Final Amounts</h5>
                 </div>
-                <div style="height: 32rem;">
+                <div style="height: 25rem;">
 
                     @if (!$labels || !$data)
                         <div class="card-body d-flex justify-content-center">
@@ -167,7 +167,7 @@
                             <span class="spinner-border text-right ml-auto" role="status"></span>
                         </div>
                     @else
-                        <livewire:livewire-line-chart key="{{ $lineChartModel->reactiveKey() }}" :line-chart-model="$lineChartModel" />
+                        <livewire:livewire-column-chart key="{{ $columnChartModel->reactiveKey() }}" :column-chart-model="$columnChartModel" />
                     @endif
                 </div>
 

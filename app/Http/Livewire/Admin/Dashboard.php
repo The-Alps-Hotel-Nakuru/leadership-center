@@ -171,8 +171,8 @@ class Dashboard extends Component
 
     public function render()
     {
-        $lineChartModel =
-            (new LineChartModel())
+        $columnChartModel =
+            (new ColumnChartModel())
             ->setTitle("Payroll Graph");
         if ($this->readyToLoad) {
             # code...
@@ -206,21 +206,18 @@ class Dashboard extends Component
             $this->total_penalties = $this->penalties();
             $this->incompleteEmployees = $this->incompleteEmployees();
             $this->loadPayrollGraph();
+
+            foreach ($this->labels as $key => $label) {
+                $columnChartModel->addColumn($label, $this->data[$key], "#242464");
+            }
         }
 
-        $lineChartModel =
-            (new LineChartModel())
-            ->setTitle("Payroll Graph");
-
-        foreach ($this->labels as $key => $label) {
-            $lineChartModel->addPoint($label, $this->data[$key], []);
-        }
         // $this->emit('loadedAll');
 
 
         return view('livewire.admin.dashboard', [
             'logs' => $this->readyToLoad ? Log::orderBy('id', 'DESC')->paginate(10) : [],
-            'lineChartModel' => $this->readyToLoad ? $lineChartModel : new LineChartModel(),
+            'columnChartModel' => $this->readyToLoad ? $columnChartModel : new ColumnChartModel(),
         ]);
     }
 }
