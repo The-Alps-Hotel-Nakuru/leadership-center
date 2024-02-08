@@ -1,4 +1,4 @@
-<div>
+<div wire:init='loadItems'>
     <x-slot name="header">Administrator's Dashboard</x-slot>
 
     <div class="row mb-5">
@@ -7,14 +7,19 @@
                 <div class="d-flex">
                     <div class="align-self-center">
                         <h3 class="m-b-0">{{ $this->instance->format('F, Y') }}</h3><small>Total
-                            {{ App\Models\Payroll::where('month', $this->instance->format('m'))->where('year', $this->instance->format('Y'))->exists()? 'Gross': 'Estimated Gross' }}
+                            {{ App\Models\Payroll::where('month', $this->instance->format('m'))->where('year', $this->instance->format('Y'))->exists() ? 'Gross' : 'Estimated Gross' }}
                             Payroll Amount</small>
                     </div>
                 </div>
                 <div class="d-flex h-100">
                     <div class=" ms-auto mt-auto text-success" style="font-size: xx-large">
-                        <sup>KES</sup>
-                        <h2 class="">{{ number_format($estimated, 2) }}</h2>
+                        @if (!$estimated)
+                            <span class="spinner-border text-right" role="status"></span>
+                        @else
+                            <sup>KES</sup>
+                            <h2 class="">{{ number_format($estimated, 2) }}</h2>
+                        @endif
+
                     </div>
 
                 </div>
@@ -41,16 +46,21 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-xl-9">
-                                            <small>KES</small>
-                                            <div class="d-flex align-items-baseline ms-auto">
-                                                <h4 class="mb-2">
-                                                    {{ number_format($this->penalties(), 2) }}
-                                                </h4>
-                                                {{-- <p class="text-success">
+
+                                            @if ($total_penalties == null)
+                                                <span class="spinner-border text-right" role="status"></span>
+                                            @else
+                                                <small>KES</small>
+                                                <div class="d-flex align-items-baseline ms-auto">
+                                                    <h4 class="mb-2">
+                                                        {{ number_format($total_penalties, 2) }}
+                                                    </h4>
+                                                </div>
+                                            @endif
+                                            {{-- <p class="text-success">
                                         <span>+3.3%</span>
                                         <i data-feather="arrow-up" class="icon-sm mb-1"></i>
                                     </p> --}}
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -65,16 +75,20 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-xl-9">
-                                            <small>KES</small>
-                                            <div class="d-flex align-items-baseline ms-auto">
-                                                <h4 class="mb-2">
-                                                    {{ number_format($total_advances, 2) }}
-                                                </h4>
-                                                {{-- <p class="text-success">
+                                            @if ($total_advances == null)
+                                                <span class="spinner-border text-right" role="status"></span>
+                                            @else
+                                                <small>KES</small>
+                                                <div class="d-flex align-items-baseline ms-auto">
+                                                    <h4 class="mb-2">
+                                                        {{ number_format($total_advances, 2) }}
+                                                    </h4>
+                                                </div>
+                                            @endif
+                                            {{-- <p class="text-success">
                                         <span>+3.3%</span>
                                         <i data-feather="arrow-up" class="icon-sm mb-1"></i>
                                     </p> --}}
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -89,16 +103,21 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-xl-9">
-                                            <small>KES</small>
-                                            <div class="d-flex align-items-baseline ms-auto">
-                                                <h4 class="mb-2">
-                                                    {{ number_format($total_fines, 2) }}
-                                                </h4>
-                                                {{-- <p class="text-success">
+
+                                            @if ($total_fines == null)
+                                                <span class="spinner-border text-right" role="status"></span>
+                                            @else
+                                                <small>KES</small>
+                                                <div class="d-flex align-items-baseline ms-auto">
+                                                    <h4 class="mb-2">
+                                                        {{ number_format($total_fines, 2) }}
+                                                    </h4>
+                                                </div>
+                                            @endif
+                                            {{-- <p class="text-success">
                                         <span>+3.3%</span>
                                         <i data-feather="arrow-up" class="icon-sm mb-1"></i>
                                     </p> --}}
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -113,12 +132,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-xl-9">
-                                            <small>KES</small>
-                                            <div class="d-flex align-items-baseline ms-auto">
-                                                <h4 class="mb-2"> {{ number_format($total_bonuses, 2) }}
-                                                </h4>
+                                            @if ($total_bonuses == null)
+                                                <span class="spinner-border text-right" role="status"></span>
+                                            @else
+                                                <small>KES</small>
+                                                <div class="d-flex align-items-baseline ms-auto">
+                                                    <h4 class="mb-2"> {{ number_format($total_bonuses, 2) }}
+                                                    </h4>
 
-                                            </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -174,9 +197,11 @@
                     </table>
                 </div>
 
-                <div class="card-footer">
-                    {{ $logs->links() }}
-                </div>
+                @if ($logs)
+                    <div class="card-footer">
+                        {{ $logs->links() }}
+                    </div>
+                @endif
             </div>
 
         </div>

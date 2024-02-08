@@ -37,6 +37,15 @@ class Dashboard extends Component
     public $datasets = [];
     public $data = [];
 
+    public $readyToLoad = false;
+
+
+    public function loadItems()
+    {
+        $this->readyToLoad = true;
+    }
+
+
     function downloadEmployeesData()
     {
         return Excel::download(new EmployeesDataExport, 'employees data.xlsx');
@@ -157,39 +166,43 @@ class Dashboard extends Component
 
     public function render()
     {
-        $this->instance = Carbon::parse($this->month);
+        if ($this->readyToLoad) {
+            # code...
+            $this->instance = Carbon::parse($this->month);
 
-        $this->days = $this->instance->daysInMonth;
-        $this->currentMonthName = $this->instance->format('F');
-        $this->currentMonth = $this->instance->format('m');
-        $this->currentYear = $this->instance->format('Y');
+            $this->days = $this->instance->daysInMonth;
+            $this->currentMonthName = $this->instance->format('F');
+            $this->currentMonth = $this->instance->format('m');
+            $this->currentYear = $this->instance->format('Y');
 
-        $this->total_fines = 0;
-        foreach (Fine::all() as $fine) {
-            if ($fine->year == $this->instance->format('Y') && $fine->month == $this->instance->format('m')) {
-                $this->total_fines += $fine->amount_kes;
+            $this->total_fines = 0;
+            foreach (Fine::all() as $fine) {
+                if ($fine->year == $this->instance->format('Y') && $fine->month == $this->instance->format('m')) {
+                    $this->total_fines += $fine->amount_kes;
+                }
             }
-        }
-        $this->total_advances = 0;
-        foreach (Advance::all() as $advance) {
-            if ($advance->year == $this->instance->format('Y') && $advance->month == $this->instance->format('m')) {
-                $this->total_advances += $advance->amount_kes;
+            $this->total_advances = 0;
+            foreach (Advance::all() as $advance) {
+                if ($advance->year == $this->instance->format('Y') && $advance->month == $this->instance->format('m')) {
+                    $this->total_advances += $advance->amount_kes;
+                }
             }
-        }
-        $this->total_bonuses = 0;
-        foreach (Bonus::all() as $bonus) {
-            if ($bonus->year == $this->instance->format('Y') && $bonus->month == $this->instance->format('m')) {
-                $this->total_bonuses += $bonus->amount_kes;
+            $this->total_bonuses = 0;
+            foreach (Bonus::all() as $bonus) {
+                if ($bonus->year == $this->instance->format('Y') && $bonus->month == $this->instance->format('m')) {
+                    $this->total_bonuses += $bonus->amount_kes;
+                }
             }
+
+            $this->estimated = $this->estimated_earnings();
+            $this->total_penalties = $this->penalties();
+            $this->loadPayrollGraph();
+            $this->incompleteEmployees = $this->incompleteEmployees();
         }
 
-        $this->estimated = $this->estimated_earnings();
-        $this->total_penalties = $this->penalties();
-        $this->loadPayrollGraph();
-        $this->incompleteEmployees = $this->incompleteEmployees();
 
         return view('livewire.admin.dashboard', [
-            'logs' => Log::orderBy('id', 'DESC')->paginate(10)
+            'logs' => $this->readyToLoad ? Log::orderBy('id', 'DESC')->paginate(10) : []
         ]);
     }
 }
