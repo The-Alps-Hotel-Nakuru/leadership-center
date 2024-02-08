@@ -159,7 +159,7 @@
                 <div class="card-header bg-transparent border-0">
                     <h5 class="text-center">Payroll Final Amounts</h5>
                 </div>
-                <div style="height: 25rem;">
+                <div >
 
                     @if (!$labels || !$data)
                         <div class="card-body d-flex justify-content-center">
