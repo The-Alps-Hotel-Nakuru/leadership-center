@@ -85,8 +85,8 @@ class Dashboard extends Component
         $this->employees = EmployeesDetail::all();
         $this->today = $this->instance->format('Y-m-d');
         $this->month = $this->instance->format('Y-m');
-        $this->estimated = $this->estimated_earnings();
-        $this->loadPayrollGraph();
+        // $this->estimated = $this->estimated_earnings();
+        // $this->loadPayrollGraph();
         $this->incompleteEmployees = $this->incompleteEmployees();
     }
 
