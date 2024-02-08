@@ -161,14 +161,15 @@
                 </div>
                 <div style="height: 32rem;">
 
-                    <livewire:livewire-line-chart {{-- key="{{ $columnChartModel->reactiveKey() }}" --}} :line-chart-model="$lineChartModel" />
+                    @if (!$labels || !$data)
+                        <div class="card-body d-flex justify-content-center">
+                            <strong>Loading...</strong>
+                            <span class="spinner-border text-right ml-auto" role="status"></span>
+                        </div>
+                    @else
+                        <livewire:livewire-line-chart {{-- key="{{ $columnChartModel->reactiveKey() }}" --}} :line-chart-model="$lineChartModel" />
+                    @endif
                 </div>
-                {{-- @if (tru)
-                    <div class="card-body d-flex justify-content-center">
-                        <strong>Loading...</strong>
-                        <span class="spinner-border text-right ml-auto" role="status"></span>
-                    </div>
-                @else --}}
 
             </div>
         </div>

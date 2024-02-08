@@ -93,8 +93,6 @@ class Dashboard extends Component
         // $this->estimated = $this->estimated_earnings();
         $this->loadPayrollGraph();
         $this->incompleteEmployees = $this->incompleteEmployees();
-
-
     }
 
     function incompleteEmployees()
@@ -173,6 +171,9 @@ class Dashboard extends Component
 
     public function render()
     {
+        $lineChartModel =
+            (new LineChartModel())
+            ->setTitle("Payroll Graph");
         if ($this->readyToLoad) {
             # code...
             $this->instance = Carbon::parse($this->month);
@@ -204,22 +205,22 @@ class Dashboard extends Component
             $this->estimated = $this->estimated_earnings();
             $this->total_penalties = $this->penalties();
             $this->incompleteEmployees = $this->incompleteEmployees();
+            $this->loadPayrollGraph();
         }
-        $this->loadPayrollGraph();
-
-        $this->emit('loadedAll');
 
         $lineChartModel =
-        (new LineChartModel())
-        ->setTitle("Payroll Graph");
+            (new LineChartModel())
+            ->setTitle("Payroll Graph");
 
         foreach ($this->labels as $key => $label) {
-            $lineChartModel->addPoint($label, $this->data[$key]);
+            $lineChartModel->addPoint($label, $this->data[$key], []);
         }
+        // $this->emit('loadedAll');
+
 
         return view('livewire.admin.dashboard', [
             'logs' => $this->readyToLoad ? Log::orderBy('id', 'DESC')->paginate(10) : [],
-            'lineChartModel'=> $lineChartModel,
+            'lineChartModel' => $this->readyToLoad ? $lineChartModel : $lineChartModel,
         ]);
     }
 }
