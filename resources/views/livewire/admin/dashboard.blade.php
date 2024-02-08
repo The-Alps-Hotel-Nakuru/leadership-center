@@ -159,9 +159,16 @@
                 <div class="card-header bg-transparent border-0">
                     <h5 class="text-center">Payroll Final Amounts</h5>
                 </div>
-                <div class="card-body" wire:ignore>
-                    <canvas id="payroll-chart" width="400" height="400"></canvas>
-                </div>
+                @if (!$labels || $data)
+                    <div class="card-body d-flex justify-content-center">
+                        <strong>Loading...</strong>
+                        <span class="spinner-border text-right ml-auto" role="status"></span>
+                    </div>
+                @else
+                    <div class="card-body" wire:ignore>
+                        <canvas id="payroll-chart" width="400" height="400"></canvas>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -183,16 +190,19 @@
                             </tr>
                         </thead>
                         <tbody>
-
-                            @foreach ($logs as $log)
-                                <tr class="">
-                                    <td scope="row">{{ $log->id }}</td>
-                                    <td colspan="1">{!! $log->payload !!}</td>
-                                    <td>
-                                        {{ Carbon\Carbon::parse($log->created_at)->toDateTimeString() }}
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @if (!$logs)
+                                <span class="spinner-border text-right" role="status"></span>
+                            @else
+                                @foreach ($logs as $log)
+                                    <tr class="">
+                                        <td scope="row">{{ $log->id }}</td>
+                                        <td colspan="1">{!! $log->payload !!}</td>
+                                        <td>
+                                            {{ Carbon\Carbon::parse($log->created_at)->toDateTimeString() }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
