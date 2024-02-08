@@ -220,7 +220,7 @@ class Dashboard extends Component
 
         return view('livewire.admin.dashboard', [
             'logs' => $this->readyToLoad ? Log::orderBy('id', 'DESC')->paginate(10) : [],
-            'lineChartModel' => $this->readyToLoad ? $lineChartModel : $lineChartModel,
+            'lineChartModel' => $this->readyToLoad ? $lineChartModel : new LineChartModel(),
         ]);
     }
 }
