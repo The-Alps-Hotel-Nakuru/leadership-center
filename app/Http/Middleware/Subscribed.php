@@ -16,6 +16,10 @@ class Subscribed
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        if (true) {
+            return $next($request);
+        }else{
+            abort(503, "You are not Subscribed");
+        }
     }
 }
