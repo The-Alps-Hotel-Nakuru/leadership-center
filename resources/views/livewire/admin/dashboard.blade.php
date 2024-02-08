@@ -159,7 +159,7 @@
                 <div class="card-header bg-transparent border-0">
                     <h5 class="text-center">Payroll Final Amounts</h5>
                 </div>
-                @if (!$labels || $data)
+                @if (!$labels || !$data)
                     <div class="card-body d-flex justify-content-center">
                         <strong>Loading...</strong>
                         <span class="spinner-border text-right ml-auto" role="status"></span>
