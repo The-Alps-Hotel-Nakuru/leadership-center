@@ -91,8 +91,8 @@ class Dashboard extends Component
         $this->today = $this->instance->format('Y-m-d');
         $this->month = $this->instance->format('Y-m');
         // $this->estimated = $this->estimated_earnings();
-        $this->loadPayrollGraph();
-        $this->incompleteEmployees = $this->incompleteEmployees();
+        // $this->loadPayrollGraph();
+        // $this->incompleteEmployees = $this->incompleteEmployees();
     }
 
     function incompleteEmployees()
@@ -204,8 +204,8 @@ class Dashboard extends Component
 
             $this->estimated = $this->estimated_earnings();
             $this->total_penalties = $this->penalties();
-            $this->incompleteEmployees = $this->incompleteEmployees();
             $this->loadPayrollGraph();
+            $this->incompleteEmployees = $this->incompleteEmployees();
 
             foreach ($this->labels as $key => $label) {
                 $columnChartModel->addColumn($label, $this->data[$key], "#242464");

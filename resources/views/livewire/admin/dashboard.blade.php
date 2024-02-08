@@ -167,7 +167,8 @@
                             <span class="spinner-border text-right ml-auto" role="status"></span>
                         </div>
                     @else
-                        <livewire:livewire-column-chart key="{{ $columnChartModel->reactiveKey() }}" :column-chart-model="$columnChartModel" />
+                        <livewire:livewire-column-chart key="{{ $columnChartModel->reactiveKey() }}"
+                            :column-chart-model="$columnChartModel" />
                     @endif
                 </div>
 
@@ -233,34 +234,41 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($incompleteEmployees as $key => $employee)
-                                <tr class="">
-                                    <td scope="row">{{ $key + 1 }}</td>
-                                    <td scope="row">{{ $employee->id }}</td>
-                                    <td>{{ $employee->user->name }}</td>
-                                    <td class="text-danger">
-                                        @if (!$employee->kra_pin)
-                                            KRA Pin
-                                            @if (!$employee->nssf || !$employee->nhif)
-                                                ,
-                                                @if ($employee->nhif)
-                                                    and
+                            @if (!$incompleteEmployees)
+                                <div class="card-body d-flex justify-content-center">
+                                    <strong>Loading...</strong>
+                                    <span class="spinner-border text-right ml-auto" role="status"></span>
+                                </div>
+                            @else
+                                @foreach ($incompleteEmployees as $key => $employee)
+                                    <tr class="">
+                                        <td scope="row">{{ $key + 1 }}</td>
+                                        <td scope="row">{{ $employee->id }}</td>
+                                        <td>{{ $employee->user->name }}</td>
+                                        <td class="text-danger">
+                                            @if (!$employee->kra_pin)
+                                                KRA Pin
+                                                @if (!$employee->nssf || !$employee->nhif)
+                                                    ,
+                                                    @if ($employee->nhif)
+                                                        and
+                                                    @endif
                                                 @endif
                                             @endif
-                                        @endif
-                                        @if (!$employee->nssf)
-                                            NSSF
-                                            @if (!$employee->nhif)
-                                                , and
+                                            @if (!$employee->nssf)
+                                                NSSF
+                                                @if (!$employee->nhif)
+                                                    , and
+                                                @endif
                                             @endif
-                                        @endif
-                                        @if (!$employee->nhif)
-                                            NHIF Pin
-                                        @endif
-                                        missing
-                                    </td>
-                                </tr>
-                            @endforeach
+                                            @if (!$employee->nhif)
+                                                NHIF Pin
+                                            @endif
+                                            missing
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
