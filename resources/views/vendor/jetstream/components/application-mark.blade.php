@@ -1,1 +1,1 @@
-<img src="/company_logo.png" alt="">
+<img src="/company_logo.png?{{ random_int(1,500000) }}" alt="">
