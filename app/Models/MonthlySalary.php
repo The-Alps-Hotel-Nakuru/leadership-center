@@ -80,7 +80,7 @@ class MonthlySalary extends Model
     {
         $nssf = 0;
 
-        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth()->isBefore('2024-01-31')) {
+        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month.'-01')->isBefore('2024-01-31')) {
             if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
                 $nssf = 200;
                 if ($this->gross_salary > (40000 / 12)) {
