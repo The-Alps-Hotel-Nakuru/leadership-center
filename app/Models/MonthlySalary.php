@@ -80,26 +80,26 @@ class MonthlySalary extends Model
     {
         $nssf = 0;
 
-        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lessThan('2024-02')) {
-            if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
-                $nssf = 200;
-                if ($this->gross_salary > (40000 / 12)) {
-                    $nssf = 0.06 * $this->gross_salary;
-                    if ($nssf > 1080) {
-                        $nssf = 1080;
-                    }
+        // if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lessThan('2024-02')) {
+        //     if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+        //         $nssf = 200;
+        //         if ($this->gross_salary > (40000 / 12)) {
+        //             $nssf = 0.06 * $this->gross_salary;
+        //             if ($nssf > 1080) {
+        //                 $nssf = 1080;
+        //             }
+        //         }
+        //     }
+        // } else {
+        if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+            $nssf = 420;
+            if ($this->gross_salary > (7000)) {
+                $nssf = 0.06 * $this->gross_salary;
+                if ($nssf > 1740) {
+                    $nssf = 1740;
                 }
             }
-        } else {
-            if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
-                $nssf = 420;
-                if ($this->gross_salary > (7000)) {
-                    $nssf = 0.06 * $this->gross_salary;
-                    if ($nssf > 1740) {
-                        $nssf = 1740;
-                    }
-                }
-            }
+            // }
         }
 
 
