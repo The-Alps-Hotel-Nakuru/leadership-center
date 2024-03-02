@@ -8,7 +8,7 @@
             <div class="card-header d-flex flex-row">
 
                 <h5 >Sign In for {{ Carbon\Carbon::parse($attendance->date)->format('jS F, Y') }}</h5>
-                <h5 class="ms-auto">
+                <h5 class="ml-auto">
                     <input type="date" wire:model="attendance.date" class="form-control" name="date" id="date">
                 </h5>
 
@@ -18,12 +18,12 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="employees_detail_id" class="form-label">Employee's Name</label>
-                            <select wire:model="attendance.employees_detail_id" class="form-select form-select-lg"
+                            <select wire:model="attendance.employees_detail_id" class="form-control form-control"
                                 name="employees_detail_id" id="employees_detail_id">
                                 <option selected>Select an Employee</option>
 
                                 @foreach ($employees as $employee)
-                                    <option @if ($employee->hasSignedInToday()) disabled @endif
+                                    <option @if ($employee->hasSignedOn($attendance->date)) disabled @endif
                                         value="{{ $employee->id }}">{{ $employee->user->name }}</option>
                                 @endforeach
                             </select>
@@ -35,9 +35,9 @@
                     {{-- <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="sign_in" class="form-label">Sign In Time</label>
-                            <input wire:model="attendance.check_in" type="check_in" class="form-control" name="time"
+                            <input wire:model="check_in" type="check_in" class="form-control" name="time"
                                 id="time" aria-describedby="time" placeholder="Enter the time signed in">
-                            @error('attendance.check_in')
+                            @error('check_in')
                                 <small id="time" class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -45,13 +45,13 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="sign_in" class="form-label">Sign In Time</label>
-                            <input wire:model="attendance.check_in" type="time" class="form-control" name="time"
+                            <input wire:model="check_in" type="time" class="form-control" name="time"
                                 id="time" aria-describedby="time" placeholder="Enter the time signed in">
-                            @error('attendance.check_in')
+                            @error('check_in')
                                 <small id="time" class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <button wire:click="save" class="btn btn-dark text-uppercase">Save</button>
             </div>

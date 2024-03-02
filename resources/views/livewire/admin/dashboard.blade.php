@@ -1,4 +1,4 @@
-<div>
+<div wire:init='loadItems'>
     <x-slot name="header">Administrator's Dashboard</x-slot>
 
     <div class="row mb-5">
@@ -7,14 +7,19 @@
                 <div class="d-flex">
                     <div class="align-self-center">
                         <h3 class="m-b-0">{{ $this->instance->format('F, Y') }}</h3><small>Total
-                            {{ App\Models\Payroll::where('month', $this->instance->format('m'))->where('year', $this->instance->format('Y'))->exists()? 'Gross': 'Estimated Gross' }}
+                            {{ App\Models\Payroll::where('month', $this->instance->format('m'))->where('year', $this->instance->format('Y'))->exists() ? 'Gross' : 'Estimated Gross' }}
                             Payroll Amount</small>
                     </div>
                 </div>
                 <div class="d-flex h-100">
                     <div class=" ms-auto mt-auto text-success" style="font-size: xx-large">
-                        <sup>KES</sup>
-                        <h2 class="">{{ number_format($estimated, 2) }}</h2>
+                        @if (!$estimated)
+                            <span class="spinner-border text-right" role="status"></span>
+                        @else
+                            <sup>KES</sup>
+                            <h2 class="">{{ number_format($estimated, 2) }}</h2>
+                        @endif
+
                     </div>
 
                 </div>
@@ -31,7 +36,36 @@
             </div>
             <div class="card shadow">
                 <div class="card-body">
-                    <div class="row justify-content-center">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-8 col-12 ">
+                            <div class="card h-100 bg-gradient-black   text-white" style="min-height: 150px">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-baseline mb-3">
+                                        <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">Total
+                                            Penalties</h6>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 col-xl-9">
+
+                                            @if ($total_penalties === null)
+                                                <span class="spinner-border text-right" role="status"></span>
+                                            @else
+                                                <small>KES</small>
+                                                <div class="d-flex align-items-baseline ms-auto">
+                                                    <h4 class="mb-2">
+                                                        {{ number_format($total_penalties, 2) }}
+                                                    </h4>
+                                                </div>
+                                            @endif
+                                            {{-- <p class="text-success">
+                                        <span>+3.3%</span>
+                                        <i data-feather="arrow-up" class="icon-sm mb-1"></i>
+                                    </p> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-3 col-sm-8 col-12 ">
                             <div class="card h-100 bg-gradient-black   text-white" style="min-height: 150px">
                                 <div class="card-body">
@@ -41,16 +75,20 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-xl-9">
-                                            <small>KES</small>
-                                            <div class="d-flex align-items-baseline ms-auto">
-                                                <h4 class="mb-2">
-                                                    {{ number_format($total_advances, 2) }}
-                                                </h4>
-                                                {{-- <p class="text-success">
+                                            @if ($total_advances === null)
+                                                <span class="spinner-border text-right" role="status"></span>
+                                            @else
+                                                <small>KES</small>
+                                                <div class="d-flex align-items-baseline ms-auto">
+                                                    <h4 class="mb-2">
+                                                        {{ number_format($total_advances, 2) }}
+                                                    </h4>
+                                                </div>
+                                            @endif
+                                            {{-- <p class="text-success">
                                         <span>+3.3%</span>
                                         <i data-feather="arrow-up" class="icon-sm mb-1"></i>
                                     </p> --}}
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -65,16 +103,21 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-xl-9">
-                                            <small>KES</small>
-                                            <div class="d-flex align-items-baseline ms-auto">
-                                                <h4 class="mb-2">
-                                                    {{ number_format($total_fines, 2) }}
-                                                </h4>
-                                                {{-- <p class="text-success">
+
+                                            @if ($total_fines === null)
+                                                <span class="spinner-border text-right" role="status"></span>
+                                            @else
+                                                <small>KES</small>
+                                                <div class="d-flex align-items-baseline ms-auto">
+                                                    <h4 class="mb-2">
+                                                        {{ number_format($total_fines, 2) }}
+                                                    </h4>
+                                                </div>
+                                            @endif
+                                            {{-- <p class="text-success">
                                         <span>+3.3%</span>
                                         <i data-feather="arrow-up" class="icon-sm mb-1"></i>
                                     </p> --}}
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -89,31 +132,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-xl-9">
-                                            <small>KES</small>
-                                            <div class="d-flex align-items-baseline ms-auto">
-                                                <h4 class="mb-2"> {{ number_format($total_bonuses, 2) }}
-                                                </h4>
+                                            @if ($total_bonuses === null)
+                                                <span class="spinner-border text-right" role="status"></span>
+                                            @else
+                                                <small>KES</small>
+                                                <div class="d-flex align-items-baseline ms-auto">
+                                                    <h4 class="mb-2"> {{ number_format($total_bonuses, 2) }}
+                                                    </h4>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-8 col-12 ">
-                            <div class="card bg-gradient-black text-white h-100" style="min-height: 150px">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-baseline mb-3">
-                                        <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">No. of
-                                            Employees</h6>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 col-md-12 col-xl-9">
-                                            <div class="d-flex align-items-baseline">
-                                                <h3 class="mb-2">
-                                                    {{ number_format(count(App\Models\EmployeesDetail::all())) }}
-                                                </h3>
-                                            </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -131,9 +159,19 @@
                 <div class="card-header bg-transparent border-0">
                     <h5 class="text-center">Payroll Final Amounts</h5>
                 </div>
-                <div class="card-body" wire:ignore>
-                    <canvas id="payroll-chart" width="400" height="400"></canvas>
+                <div style="height: 25rem;">
+
+                    @if (!$labels || !$data)
+                        <div class="card-body d-flex justify-content-center">
+                            <strong>Loading...</strong>
+                            <span class="spinner-border text-right ml-auto" role="status"></span>
+                        </div>
+                    @else
+                        <livewire:livewire-column-chart key="{{ $columnChartModel->reactiveKey() }}"
+                            :column-chart-model="$columnChartModel" />
+                    @endif
                 </div>
+
             </div>
         </div>
     </div>
@@ -155,23 +193,28 @@
                             </tr>
                         </thead>
                         <tbody>
-
-                            @foreach ($logs as $log)
-                                <tr class="">
-                                    <td scope="row">{{ $log->id }}</td>
-                                    <td colspan="1">{!! $log->payload !!}</td>
-                                    <td>
-                                        {{ Carbon\Carbon::parse($log->created_at)->toDateTimeString() }}
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @if (!$logs)
+                                <span class="spinner-border text-right" role="status"></span>
+                            @else
+                                @foreach ($logs as $log)
+                                    <tr class="">
+                                        <td scope="row">{{ $log->id }}</td>
+                                        <td colspan="1">{!! $log->payload !!}</td>
+                                        <td>
+                                            {{ Carbon\Carbon::parse($log->created_at)->toDateTimeString() }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
 
-                <div class="card-footer">
-                    {{ $logs->links() }}
-                </div>
+                @if ($logs)
+                    <div class="card-footer">
+                        {{ $logs->links() }}
+                    </div>
+                @endif
             </div>
 
         </div>
@@ -182,44 +225,51 @@
                 </div>
                 <div class="table-responsive card-body" style="max-height: 450px">
                     <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Employee ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Missing Details</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($incompleteEmployees as $key => $employee)
-                                <tr class="">
-                                    <td scope="row">{{ $key + 1 }}</td>
-                                    <td scope="row">{{ $employee->id }}</td>
-                                    <td>{{ $employee->user->name }}</td>
-                                    <td class="text-danger">
-                                        @if (!$employee->kra_pin)
-                                            KRA Pin
-                                            @if (!$employee->nssf || !$employee->nhif)
-                                                ,
-                                                @if ($employee->nhif)
-                                                    and
+                        @if (!$incompleteEmployees)
+                            <div class="card-body d-flex justify-content-center">
+                                <strong>Loading...</strong>
+                                <span class="spinner-border text-right ml-auto" role="status"></span>
+                            </div>
+                        @else
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Employee ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Missing Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($incompleteEmployees as $key => $employee)
+                                    <tr class="">
+                                        <td scope="row">{{ $key + 1 }}</td>
+                                        <td scope="row">{{ $employee->id }}</td>
+                                        <td>{{ $employee->user->name }}</td>
+                                        <td class="text-danger">
+                                            @if (!$employee->kra_pin)
+                                                KRA Pin
+                                                @if (!$employee->nssf || !$employee->nhif)
+                                                    ,
+                                                    @if ($employee->nhif)
+                                                        and
+                                                    @endif
                                                 @endif
                                             @endif
-                                        @endif
-                                        @if (!$employee->nssf)
-                                            NSSF
-                                            @if (!$employee->nhif)
-                                                , and
+                                            @if (!$employee->nssf)
+                                                NSSF
+                                                @if (!$employee->nhif)
+                                                    , and
+                                                @endif
                                             @endif
-                                        @endif
-                                        @if (!$employee->nhif)
-                                            NHIF Pin
-                                        @endif
-                                        missing
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                                            @if (!$employee->nhif)
+                                                NHIF Pin
+                                            @endif
+                                            missing
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        @endif
                     </table>
                 </div>
 
@@ -245,109 +295,6 @@
 
 
 
-@push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <script>
-        var ticksStyle = {
-            fontColor: '#495057',
-            fontStyle: 'bold'
-        }
 
-        var mode = 'index'
-        var intersect = true
-        var labels = [];
-        var data = [];
-    </script>
-    @foreach ($labels as $label)
-        <script>
-            labels.push('{{ $label }}')
-        </script>
-    @endforeach
-    @foreach ($data as $d)
-        <script>
-            data.push('{{ $d }}')
-        </script>
-    @endforeach
-
-    <script>
-        // var $salesChart = $('#sales-chart')
-
-        document.addEventListener("livewire:load", function() {
-            var payrollChart = new Chart(document.getElementById('payroll-chart').getContext('2d'), {
-                type: 'bar',
-                data: {
-                    labels,
-                    datasets: [{
-                        backgroundColor: '#100076',
-                        borderColor: '#0083a3',
-                        data,
-                    }, ]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    tooltips: {
-                        mode: mode,
-                        intersect: intersect,
-                        callbacks: {
-                            label: function(tooltipItem, data) {
-                                // Format the number as you need (e.g., with commas)
-                                var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem
-                                    .index];
-                                return 'Value: KES ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-                                    ',');
-                            }
-                        }
-                    },
-                    hover: {
-                        mode: mode,
-                        intersect: intersect
-                    },
-                    legend: {
-                        display: false
-                    },
-                    scales: {
-                        yAxes: [{
-                            // display: false,
-                            gridLines: {
-                                display: true,
-                                lineWidth: '3px',
-                                color: 'rgba(0, 0, 0, .8)',
-                                zeroLineColor: 'black'
-                            },
-                            ticks: $.extend({
-                                beginAtZero: true,
-
-                                // Include a dollar sign in the ticks
-                                callback: function(value) {
-                                    if (value >= 1000) {
-                                        if (value >= 1000000) {
-                                            value /= 1000000
-                                            value += 'm'
-
-                                        } else {
-
-                                            value /= 1000
-                                            value += 'k'
-                                        }
-                                    }
-
-                                    return 'KES' + value
-                                }
-                            }, ticksStyle)
-                        }],
-                        xAxes: [{
-                            // display: true,
-                            gridLines: {
-                                display: true,
-                                lineWidth: '3px',
-                                color: 'rgba(0, 0, 0, .8)',
-                                zeroLineColor: 'transparent'
-                            },
-                            ticks: ticksStyle
-                        }]
-                    }
-                }
-            })
-        });
-    </script>
-@endpush
+{{-- <livewire:scripts /> --}}
+@livewireChartsScripts

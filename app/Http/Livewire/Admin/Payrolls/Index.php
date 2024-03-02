@@ -128,8 +128,16 @@ class Index extends Component
                 'warning' => 'Payment already Made'
             ]);
         }
-
         foreach ($payroll->monthlySalaries as $salary) {
+            if (!$salary->employee->bankAccount) {
+                $this->emit('done', [
+                    'warning' => $salary->employee->user->name . ' has not set a bank account'
+                ]);
+                # code...
+            }
+        }
+        foreach ($payroll->monthlySalaries as $salary) {
+
             $payment = new PayrollPayment();
             $payment->payroll_id = $payroll->id;
             $payment->employees_detail_id = $salary->employee->id;

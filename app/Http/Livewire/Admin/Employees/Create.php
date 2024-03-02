@@ -28,8 +28,8 @@ class Create extends Component
         'employee.last_name' => 'required',
         'employee.email' => 'required|email|unique:users,email',
         'detail.designation_id' => 'required',
-        'detail.phone_number' => 'required',
-        'detail.national_id' => 'required',
+        'detail.phone_number' => 'required|unique:employees_details,phone_number',
+        'detail.national_id' => 'required|unique:employees_details,national_id',
         'detail.physical_address' => 'nullable',
         'detail.marital_status' => 'required',
         'detail.gender' => 'required',
@@ -47,6 +47,22 @@ class Create extends Component
         'nhif_file' => 'nullable|mimes:jpg,pdf|max:4096',
         'account.bank_id' => 'required',
         'account.account_number' => 'required',
+    ];
+
+    protected $messages = [
+        'employee.first_name.required' => "The First Name is Required",
+        'employee.last_name.required' => "The Last Name is Required",
+        'employee.email.required' => "The Email Address is Required",
+        'employee.email.email' => "The Format of this Email is not allowed",
+        'detail.designation_id.required' => "Please select your Designation",
+        'detail.phone_number.required' => "The Phone Number is Required",
+        'detail.phone_number.unique' => "This phone number is already taken",
+        'detail.national_id.required' => "The National ID is required",
+        'detail.gender.required' => "You are required to select your gender",
+        'detail.birth_date.required' => "The Date of Birth is required",
+        'account.bank_id.required' => "Please select your Bank",
+        'account.account_number.required' => "You are required to enter your account number",
+        'detail.marital_status.required'=>"Please select your Marital Status"
     ];
 
 

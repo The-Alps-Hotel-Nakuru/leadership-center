@@ -6,7 +6,7 @@
         <div class="col-xl-4">
             <!-- Profile picture card-->
             <div class="card mb-4 mb-xl-0 shadow">
-                <div class="card-header">Profile Picture</div>
+                <div class="card-header bg-transparent border-0">Profile Picture</div>
                 <div class="card-body text-center">
                     <!-- Profile picture image-->
                     <img class="img-account-profile rounded-circle mb-2" style="height:200px"
@@ -27,12 +27,13 @@
             </div>
             <div class="mt-4"></div>
             <div class="card mb-4 mb-xl-0 shadow">
-                <div class="card-header">Payment Account Details</div>
+                <div class="card-header bg-transparent border-0">
+                    <h5>Payment Account Details</h5>
+                </div>
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="bank_id" class="form-label">Bank</label>
-                        <select wire:model="account.bank_id" class="form-select form-select-lg" name="bank_id"
-                            id="bank_id">
+                        <select wire:model="account.bank_id" class="form-control" name="bank_id" id="bank_id">
                             <option selected>Select one</option>
                             @foreach (App\Models\Bank::all() as $bank)
                                 <option value="{{ $bank->id }}">{{ $bank->name }}</option>
@@ -66,8 +67,8 @@
         <div class="col-xl-8">
             <!-- Account details card-->
             <div class="card mb-4 shadow">
-                <div class="card-header">
-                    <h5 class="text-uppercase">Basic Details</h5>
+                <div class="card-header bg-transparent border-0">
+                    <h5>Basic Details</h5>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
@@ -100,8 +101,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="small mb-1" for="inputUsername">Gender </label>
-                                <select wire:model='employee.gender' class="form-select form-select-lg" name=""
-                                    id="">
+                                <select wire:model='employee.gender' class="form-control" name="" id="">
                                     <option selected>Select one</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -113,28 +113,37 @@
                         </div>
                         <!-- Form Group (location)-->
                         <div class="col-md-6">
-                            <label class="small mb-1" for="birth_date">Date of Birth</label>
-                            <input class="form-control" wire:model='employee.birth_date' id="birth_date" type="date"
-                                placeholder="Enter your Phone Number">
-                            @error('employee.birth_date')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
+                            <div class="mb-3">
+                                <label class="small mb-1" for="birth_date">Date of Birth</label>
+                                <input class="form-control" wire:model='employee.birth_date' id="birth_date"
+                                    type="date" placeholder="Enter your Phone Number">
+                                @error('employee.birth_date')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="small mb-1" for="national_id">National ID Number</label>
+                                <input class="form-control" wire:model='employee.national_id' id="national_id"
+                                    type="number" placeholder="Enter your Phone Number">
+                                @error('employee.national_id')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
                         </div>
                         <div class="col-md-6">
-                            <label class="small mb-1" for="national_id">National ID Number</label>
-                            <input class="form-control" wire:model='employee.national_id' id="national_id"
-                                type="number" placeholder="Enter your Phone Number">
-                            @error('employee.national_id')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label class="small mb-1" for="phone_number">Phone Number</label>
-                            <input class="form-control" wire:model='employee.phone_number' id="phone_number"
-                                type="text" placeholder="Enter your Phone Number">
-                            @error('employee.phone_number')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
+                            <div class="mb-3">
+                                <label class="small mb-1" for="phone_number">Phone Number</label>
+                                <input class="form-control" wire:model='employee.phone_number' id="phone_number"
+                                    type="text" placeholder="Enter your Phone Number">
+                                @error('employee.phone_number')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
                         </div>
                     </div>
                     <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="saveBasicDetails"
@@ -149,8 +158,8 @@
                 </div>
             </div>
             <div class="card mb-4 shadow">
-                <div class="card-header">
-                    <h5 class="text-uppercase">More Details</h5>
+                <div class="card-header bg-transparent border-0">
+                    <h5>Government Details</h5>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">

@@ -94,7 +94,7 @@
                             @enderror
                         </div> --}}
                     </div>
-                    <div class="col-md-4 col-6">
+                    <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="salary_kes" class="form-label">Gross Salary <small class="text-muted">(KES
                                     @if ($contract->employment_type_id == 1)

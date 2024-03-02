@@ -1,8 +1,6 @@
 <div>
     <x-slot name="header">
-        <h2 class="h4 font-weight-bold">
-            {{ __("Employee's Dashboard") }}
-        </h2>
+        {{ __("Employee's Dashboard") }}
     </x-slot>
 
     <div class="container-fluid">
@@ -39,7 +37,7 @@
                     <div class="card-body">
                         <div class="row justify-content-center">
                             <div class="col-md-3 col-sm-8 col-12 ">
-                                <div class="card h-100 bg-alps-primary" style="min-height: 150px">
+                                <div class="card h-100 bg-gradient-black text-white" style="min-height: 150px">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-baseline mb-3">
                                             <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">Total
@@ -63,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-8 col-12 ">
-                                <div class="card h-100 bg-alps-primary" style="min-height: 150px">
+                                <div class="card h-100 bg-gradient-black text-white" style="min-height: 150px">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-baseline mb-3">
                                             <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">Total
@@ -87,7 +85,7 @@
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-8 col-12 ">
-                                <div class="card bg-alps-primary h-100" style="min-height: 150px">
+                                <div class="card bg-gradient-black text-white h-100" style="min-height: 150px">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-baseline mb-3">
                                             <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">Total
@@ -110,24 +108,21 @@
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-8 col-12 ">
-                                <div class="card h-100 @if ($attendance_percentage >= 85) bg-alps-primary @elseif ($attendance_percentage < 85 && $attendance_percentage >= 55) bg-alps-warning @else  bg-alps-danger @endif"
+                                <div class="card h-100 @if ($attendance_percentage >= 85) bg-success @elseif ($attendance_percentage < 85 && $attendance_percentage >= 55) bg-warning @else  bg-danger @endif"
                                     style="min-height: 150px">
                                     <div class="card-body">
                                         <div class=" align-items-baseline mb-3">
                                             <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">
                                                 Attendance
                                             </h6>
+                                            <br>
                                             <small>{{ $this->instance->format('F, Y') }}</small>
                                         </div>
                                         <div class="row">
                                             <div class="d-flex align-items-baseline ms-auto">
-                                                <div class="col-12 col-md-12 col-xl-9">
-                                                    <h4 class="mb-2">{{ number_format($attendance_percentage, 2) }} %
+                                                <div class="col-12 col-md-12 col-xl-10">
+                                                    <h4 class="mb-2">{{ number_format($attendance_percentage, 2) }}%
                                                     </h4>
-                                                    {{-- <p class="text-success">
-                                        <span>+3.3%</span>
-                                        <i data-feather="arrow-up" class="icon-sm mb-1"></i>
-                                    </p> --}}
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-12 col-xl-9">
@@ -143,7 +138,7 @@
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-md-10 col-12 h-100">
+            <div class="col-md-12 col-12 h-100">
                 <div class="card shadow">
                     <div class="card-header bg-transparent border-0">
                         <h5 class="text-capitalize"><strong>your attendance</strong> </h5>
@@ -162,7 +157,7 @@
                                         ->where('date', $date)
                                         ->first();
                                 @endphp
-                                <div class="p-3 m-1  {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1) ? 'bg-danger' : 'bg-secondary')) }}"
+                                <div class="p-3 border  {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1) ? 'bg-danger' : 'bg-secondary')) }}"
                                     @if ($employee->ActiveContractOn($date) && !$curr) data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="{{ $currentMonthName . ' ' . sprintf('%02d', $i + 1) . ', ' . $currentYear }}" @endif>
                                     {{ sprintf('%02d', $i + 1) }}
@@ -176,7 +171,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <h4>{{ $count }} Days</h4>
+                        <h4 class="text-right font-weight-bold">{{ $count }} Days</h4>
                     </div>
                 </div>
             </div>

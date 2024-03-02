@@ -10,6 +10,8 @@ use App\Models\EventOrder;
 use App\Models\Fine;
 use App\Models\Log;
 use App\Models\Payroll;
+use Asantibanez\LivewireCharts\Models\ColumnChartModel;
+use Asantibanez\LivewireCharts\Models\LineChartModel;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -21,13 +23,17 @@ class Dashboard extends Component
     use WithPagination;
 
     public $currentMonth, $currentMonthName, $currentYear, $today, $days, $instance, $employees;
-    public $estimated = 0;
+    public $estimated = null;
+    public $total_penalties = null;
     public $month;
     protected $paginationTheme = 'bootstrap';
-    public $total_fines = 0;
-    public $total_bonuses = 0;
-    public $total_advances = 0;
+    public $total_fines = null;
+    public $total_bonuses = null;
+    public $total_advances = null;
     public $incompleteEmployees;
+
+
+    // private $columnChartModel;
 
 
     // for Payroll Graph
@@ -35,6 +41,15 @@ class Dashboard extends Component
     public $labels = [];
     public $datasets = [];
     public $data = [];
+
+    public $readyToLoad = false;
+
+
+    public function loadItems()
+    {
+        $this->readyToLoad = true;
+    }
+
 
     function downloadEmployeesData()
     {
@@ -50,7 +65,7 @@ class Dashboard extends Component
         $range = [];
         $labels = [];
         $data = [];
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             array_push($range, $this->instance->copy()->subMonthsNoOverflow(7 - $i));
         }
         foreach ($range as $month) {
@@ -75,9 +90,9 @@ class Dashboard extends Component
         $this->employees = EmployeesDetail::all();
         $this->today = $this->instance->format('Y-m-d');
         $this->month = $this->instance->format('Y-m');
-        $this->estimated = $this->estimated_earnings();
-        $this->loadPayrollGraph();
-        $this->incompleteEmployees = $this->incompleteEmployees();
+        // $this->estimated = $this->estimated_earnings();
+        // $this->loadPayrollGraph();
+        // $this->incompleteEmployees = $this->incompleteEmployees();
     }
 
     function incompleteEmployees()
@@ -86,29 +101,51 @@ class Dashboard extends Component
         $employees = EmployeesDetail::where('kra_pin', null)->orWhere('nssf', null)->orWhere('nhif', null)->get();
         $collect = [];
         foreach ($employees as $employee) {
-            if ($employee->isFullTimeBetween('01/01/1970','now')) {
+            if ($employee->isFullTimeBetween('01/01/1970', 'now')) {
                 array_push($collect, $employee);
             }
         }
         return collect($collect);
+    }
+
+    function penalties()
+    {
+        $total_penalties = 0;
+        foreach ($this->employees as $key => $employee) {
+            $penalty = 0;
+            $rate = 0;
+            $days = $employee->daysWorked($this->instance->format('Y-m'));
+            $leaveDays = $employee->daysOnLeave($this->instance->format('Y-m'));
+            $daysMissed = $this->instance->daysInMonth - $days - $leaveDays;
+            $contract = $employee->ActiveContractDuring($this->instance->format('Y-m'));
+
+            if ($contract) {
+                if ($employee->isCasualBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) || $employee->isInternBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
+                    $rate = $contract->salary_kes;
+                } else {
+                    $rate = $contract->salary_kes / $this->instance->daysInMonth;
+                }
+            }
+            if ($employee && $employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
+                if ($employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) && $employee->designation->is_penalizable) {
+                    if ($daysMissed > 6) {
+                        $penalty = $rate * ($daysMissed - 6);
+                    }
+                } else {
+                    $penalty = 0;
+                }
+            }
+            $total_penalties += $penalty;
+        }
+
+        return $total_penalties;
     }
     function estimated_earnings()
     {
         $earning = 0;
         foreach ($this->employees as $key => $employee) {
             $days = $employee->daysWorked($this->instance->format('Y-m'));
-            $leaveDays = $employee->daysOnLeave($this->instance->format('Y-m'));
-            $rate = 0;
-            $daysMissed = $this->instance->daysInMonth - $days - $leaveDays;
             $basic_salary_kes = 0;
-
-            if ($employee->ActiveContractDuring($this->instance->format('Y-m'))) {
-                if ($employee->isCasualBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) || $employee->isInternBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
-                    $rate = $employee->ActiveContractDuring($this->instance->format('Y-m'))->salary_kes;
-                } else {
-                    $rate = $employee->ActiveContractDuring($this->instance->format('Y-m'))->salary_kes / $this->instance->daysInMonth;
-                }
-            }
             $contract = $employee->ActiveContractDuring($this->instance->format('Y-m'));
             if ($contract) {
                 if ($contract->is_full_time()) {
@@ -125,18 +162,8 @@ class Dashboard extends Component
             }
 
             $gross = ($basic_salary_kes ?? 0);
-            $penalty = 0;
-            if ($employee && $employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
-                if ($employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) && $employee->designation->is_penalizable) {
-                    if ($daysMissed > 6) {
-                        $penalty = $rate * ($daysMissed - 6);
-                    }
-                } else {
-                    $penalty = 0;
-                }
-            }
 
-            $earning += ($gross - $penalty);
+            $earning += $gross;
         }
 
         return $earning;
@@ -144,38 +171,53 @@ class Dashboard extends Component
 
     public function render()
     {
-        $this->instance = Carbon::parse($this->month);
+        $columnChartModel =
+            (new ColumnChartModel())
+            ->setTitle("Payroll Graph");
+        if ($this->readyToLoad) {
+            # code...
+            $this->instance = Carbon::parse($this->month);
 
-        $this->days = $this->instance->daysInMonth;
-        $this->currentMonthName = $this->instance->format('F');
-        $this->currentMonth = $this->instance->format('m');
-        $this->currentYear = $this->instance->format('Y');
+            $this->days = $this->instance->daysInMonth;
+            $this->currentMonthName = $this->instance->format('F');
+            $this->currentMonth = $this->instance->format('m');
+            $this->currentYear = $this->instance->format('Y');
 
-        $this->total_fines = 0;
-        foreach (Fine::all() as $fine) {
-            if ($fine->year == $this->instance->format('Y') && $fine->month == $this->instance->format('m')) {
-                $this->total_fines += $fine->amount_kes;
+            $this->total_fines = 0;
+            foreach (Fine::all() as $fine) {
+                if ($fine->year == $this->instance->format('Y') && $fine->month == $this->instance->format('m')) {
+                    $this->total_fines += $fine->amount_kes;
+                }
+            }
+            $this->total_advances = 0;
+            foreach (Advance::all() as $advance) {
+                if ($advance->year == $this->instance->format('Y') && $advance->month == $this->instance->format('m')) {
+                    $this->total_advances += $advance->amount_kes;
+                }
+            }
+            $this->total_bonuses = 0;
+            foreach (Bonus::all() as $bonus) {
+                if ($bonus->year == $this->instance->format('Y') && $bonus->month == $this->instance->format('m')) {
+                    $this->total_bonuses += $bonus->amount_kes;
+                }
+            }
+
+            $this->estimated = $this->estimated_earnings();
+            $this->total_penalties = $this->penalties();
+            $this->loadPayrollGraph();
+            $this->incompleteEmployees = $this->incompleteEmployees();
+
+            foreach ($this->labels as $key => $label) {
+                $columnChartModel->addColumn($label, $this->data[$key], "#242464");
             }
         }
-        $this->total_advances = 0;
-        foreach (Advance::all() as $advance) {
-            if ($advance->year == $this->instance->format('Y') && $advance->month == $this->instance->format('m')) {
-                $this->total_advances += $advance->amount_kes;
-            }
-        }
-        $this->total_bonuses = 0;
-        foreach (Bonus::all() as $bonus) {
-            if ($bonus->year == $this->instance->format('Y') && $bonus->month == $this->instance->format('m')) {
-                $this->total_bonuses += $bonus->amount_kes;
-            }
-        }
 
-        $this->estimated = $this->estimated_earnings() + ($this->total_bonuses - $this->total_fines - $this->total_advances);
-        $this->loadPayrollGraph();
-        $this->incompleteEmployees = $this->incompleteEmployees();
+        // $this->emit('loadedAll');
+
 
         return view('livewire.admin.dashboard', [
-            'logs' => Log::orderBy('id', 'DESC')->paginate(10)
+            'logs' => $this->readyToLoad ? Log::orderBy('id', 'DESC')->paginate(10) : [],
+            'columnChartModel' => $this->readyToLoad ? $columnChartModel : new ColumnChartModel(),
         ]);
     }
 }

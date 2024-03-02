@@ -13,8 +13,16 @@ class Create extends Component
     public $departments;
 
     protected $rules = [
-        'designation.department_id'=>'required',
-        'designation.title'=>'required|unique:designations,title'
+        'designation.department_id' => 'required',
+        'designation.title' => 'required|unique:designations,title',
+        'designation.is_penalizable' => 'required'
+    ];
+
+    protected $messages = [
+        'designation.department_id.required' => "Please select your Department",
+        'designation.title.required' => "The Designation Title is Required",
+        'designation.title.unique' => "This Designation Already Exists",
+        'designation.is_penalizable.required' => "Please Choose if this Designation will attract Attendance Penalties",
     ];
 
     public function mount()
@@ -35,7 +43,6 @@ class Create extends Component
         $log->save();
 
         return redirect()->route('admin.designations.index');
-
     }
     public function render()
     {

@@ -26,6 +26,9 @@
                         <td class="text-center">
                             {{ $bank->bank_code }}
                         </td>
+                        <td class="text-center">
+                            {{ count($bank->accounts) }}
+                        </td>
                         <td>
                             <div class="d-flex flex-row justify-content-center">
                                 <div class="flex-col mx-1">

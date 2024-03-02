@@ -3,11 +3,12 @@
 
     <div class="container-fluid">
         <div class="card">
-            <div class="card-header d-flex">
+            <div class="card-header d-flex bg-transparent border-0">
                 <h4>List of Administrators</h4>
-                <div class="flex-col ms-auto">
-                    <a wire:ignore href="{{ route('admin.admins.create') }}" class="btn btn-primary">
-                        <i data-feather="user-plus"></i>
+                <div class="flex-col ml-auto">
+                    <a wire:ignore data-bs-toggle="tooltip" data-bs-placement="left" title="Add a new Administrator"
+                        href="{{ route('admin.admins.create') }}" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
                     </a>
                 </div>
             </div>
@@ -40,16 +41,16 @@
                                     <div class="d-flex flex-row justify-content-center">
                                         <div class="flex-col m-2">
                                             <a wire:ignore href="{{ route('admin.admins.edit', $admin->id) }}"
-                                                class="btn btn-xs btn-secondary">
-                                                <i data-feather="edit"></i>
+                                                class="btn btn-secondary">
+                                                <i class="fa fa-edit"></i>
                                             </a>
                                         </div>
                                         @if (auth()->user()->id != $admin->id)
                                             <div class="flex-col  m-2">
-                                                <button wire:ignore class="btn btn-xs btn-danger"
+                                                <button wire:ignore class="btn btn-danger"
                                                     onclick="confirm('Are you sure you want to Delete this Administrator?')||event.stopImmediatePropagation()"
                                                     wire:click='delete({{ $admin->id }})'>
-                                                    <i data-feather="x"></i>
+                                                    <i class="fa fa-trash"></i>
                                                 </button>
                                             </div>
                                         @endif

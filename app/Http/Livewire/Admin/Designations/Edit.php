@@ -14,7 +14,8 @@ class Edit extends Component
 
     protected $rules = [
         'designation.department_id'=>'required',
-        'designation.title'=>'required|unique:designations,title'
+        'designation.title'=>'required',
+        'designation.is_penalizable' => 'required'
     ];
 
     public function mount($id)
@@ -27,7 +28,7 @@ class Edit extends Component
     public function save()
     {
         $this->validate();
-        $this->designation->save();
+        $this->designation->update();
 
         $log = new Log();
         $log->user_id = auth()->user()->id;

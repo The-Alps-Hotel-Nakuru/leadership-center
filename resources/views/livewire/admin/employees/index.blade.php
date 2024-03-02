@@ -136,10 +136,9 @@
                                         <!-- Modal Body -->
                                         <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
                                         <div wire:ignore class="modal fade" id="banEmployee{{ $employee->id }}"
-                                            tabindex="-1" data-bs-keyboard="false"
-                                            role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg"
-                                                role="document">
+                                            tabindex="-1" data-bs-keyboard="false" role="dialog"
+                                            aria-labelledby="modalTitleId" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="modalTitleId">Ban
@@ -158,7 +157,7 @@
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Close</button>
                                                         <button type="button" class="btn btn-primary"
-                                                            onclick="confirm('Are you sure you want to delete this Employee?')||event.stopImmediatePropagation()"
+                                                            onclick="confirm('Are you sure you want to ban this Employee?')||event.stopImmediatePropagation()"
                                                             wire:click='banEmployee({{ $employee->id }})'>Save</button>
                                                     </div>
                                                 </div>
@@ -167,7 +166,8 @@
                                         @push('scripts')
                                             <script>
                                                 Livewire.on('done', (e) => {
-                                                    let modal = bootstrap.Modal.getOrCreateInstance(document.querySelector('#banEmployee{{ $employee->id }}'));
+                                                    let modal = bootstrap.Modal.getOrCreateInstance(document.querySelector(
+                                                        '#banEmployee{{ $employee->id }}'));
                                                     modal.hide();
                                                 })
                                             </script>
@@ -188,4 +188,14 @@
         </table>
     </div>
     <div class="my-3"> {{ $employees->links() }}</div>
+
+    <p>The Following do not have bank accounts set</p>
+    <ol>
+        @foreach (App\Models\EmployeesDetail::all() as $employee)
+            @if (!$employee->bankAccount)
+                <li>{{ $employee->user->name }}</li>
+            @endif
+        @endforeach
+
+    </ol>
 </div>

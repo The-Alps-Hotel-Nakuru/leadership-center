@@ -8,14 +8,13 @@
     <title>Contract: {{ $contract->employee->user->name }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap">
     <style>
+
         body {
-            font-family: 'Roboto', sans-serif;
-            /* font-weight: 200; */
-            font-size: 15px;
+            font-family: "Lexend", sans-serif;
+            font-size: 13px;
             margin-top: 99px;
             display: flex;
         }
@@ -84,7 +83,7 @@
                 <p>
                 <ul>
                     @foreach ($contract->employee->designation->responsibilities as $responsibility)
-                    <li>{{ $responsibility->responsibility }}</li>
+                        <li>{{ $responsibility->responsibility }}</li>
                     @endforeach
                 </ul>
                 </p>

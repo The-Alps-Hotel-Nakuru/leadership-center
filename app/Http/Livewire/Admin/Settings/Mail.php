@@ -14,6 +14,7 @@ class Mail extends Component
     public $mailHost;
     public $mailPort;
     public $mailFromAddress;
+    public bool $passwordVisible = false;
 
 
 
@@ -27,6 +28,11 @@ class Mail extends Component
         $this->mailPassword = env('MAIL_PASSWORD');
     }
 
+    function toggleVisibility()
+    {
+        $this->passwordVisible = $this->passwordVisible ? false : true;
+    }
+
     public function saveSettings()
     {
         $this->validate([
@@ -37,7 +43,7 @@ class Mail extends Component
             'mailUsername' => 'required|string',
             'mailPassword' => 'required|min:8',
         ]);
-        // Update the .env file
+
         $envData = [
             'MAIL_MAILER' => $this->mailDriver,
             'MAIL_HOST' => $this->mailHost,
@@ -45,7 +51,6 @@ class Mail extends Component
             'MAIL_FROM_ADDRESS' => $this->mailFromAddress,
             'MAIL_USERNAME' => $this->mailUsername,
             'MAIL_PASSWORD' => $this->mailPassword,
-            // Set more keys as needed
         ];
 
         $envFile = base_path('.env');

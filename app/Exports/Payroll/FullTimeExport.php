@@ -66,6 +66,8 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             "Tax Relief",
             "Insurance Relief",
             "PAYE",
+            "Attendance Penalty",
+            "PAYE Rebate",
             "Housing Levy",
             "Advance",
             "Bonuses",
@@ -96,6 +98,8 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             $row->tax_relief,
             $row->general_relief,
             $row->paye,
+            $row->attendance_penalty,
+            $row->rebate,
             $row->housing_levy,
             $row->advances,
             $row->bonuses,
@@ -138,8 +142,10 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             'T' => $KES_FORMAT,
             'U' => $KES_FORMAT,
             'V' => $KES_FORMAT,
-            'W' => NumberFormat::FORMAT_TEXT,
-            'X' => NumberFormat::FORMAT_TEXT,
+            'W' => $KES_FORMAT,
+            'X' => $KES_FORMAT,
+            'Y' => NumberFormat::FORMAT_TEXT,
+            'Z' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
@@ -147,7 +153,7 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
     {
         return [
             1 => [
-                'font' => ['bold' => true, 'size' => 12],
+                'font' => ['bold' => true, 'size' => 13],
             ],
         ];
     }

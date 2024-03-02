@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Create extends Component
 {
-    public Bank $bank;
+    public $bank;
 
     protected $rules = [
         'bank.name' => 'required',
@@ -25,7 +25,7 @@ class Create extends Component
 
     function save()
     {
-        $this->validate;
+        $this->validate();
         $this->bank->save();
 
         $this->emit('done', [
@@ -34,6 +34,8 @@ class Create extends Component
         $this->reset();
         $this->bank = new Bank();
     }
+
+
     public function render()
     {
         return view('livewire.admin.banks.create');
