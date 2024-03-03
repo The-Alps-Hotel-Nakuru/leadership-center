@@ -185,18 +185,49 @@ class MonthlySalary extends Model
         return $nhif;
     }
 
+    function getHolidaysAttribute()
+    {
+        $count = 0;
+
+        foreach (Holiday::all() as $key => $holiday) {
+            if (Carbon::parse($holiday->date)->isBetween($this->month->firstOfMonth(), $this->month->lastOfMonth())) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
     public function getAttendancePenaltyAttribute()
     {
         $penalty = 0;
-        if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
-            if ($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && $this->employee->designation->is_penalizable) {
-                if ($this->days_missed > 6) {
-                    $penalty = $this->daily_rate * ($this->days_missed - 6);
+        $off = 4 + $this->holidays;
+        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-02-29')) {
+            if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                if ($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && $this->employee->designation->is_penalizable) {
+                    if ($this->days_missed > 6) {
+                        $penalty = $this->daily_rate * ($this->days_missed - 6);
+                    }
+                } else {
+                    $penalty = 0;
                 }
-            } else {
-                $penalty = 0;
+            }
+        } else {
+            /**
+             * As from 1st March - New Caluclation of Off Days to include Holidays and limit the off Days from 6 to 4
+             */
+            if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                if ($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && $this->employee->designation->is_penalizable) {
+                    if ($this->days_missed > $off) {
+                        $penalty = $this->daily_rate * ($this->days_missed - $off);
+                    }
+                } else {
+                    $penalty = 0;
+                }
             }
         }
+
+
 
         return $penalty;
     }
@@ -370,5 +401,9 @@ class MonthlySalary extends Model
     public function getMonthStringAttribute()
     {
         return Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->format('F \of Y');
+    }
+    public function getMonthAttribute()
+    {
+        return Carbon::parse($this->payroll->year . '-' . $this->payroll->month);
     }
 }
