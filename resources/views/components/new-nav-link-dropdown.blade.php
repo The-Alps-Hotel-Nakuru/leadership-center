@@ -1,6 +1,6 @@
 @props(['route' => null, 'title', 'fa_icon' => null, 'active' => false])
 
-<li class="nav-item ">
+<li class="nav-item {{ request()->routeIs($route) || $active ? 'menu-is-opening menu-open' : '' }}">
     <a href="#"
         class="nav-link {{ request()->routeIs($route) || $active ? 'active menu-is-opening menu-open' : '' }}">
         @if ($fa_icon)
