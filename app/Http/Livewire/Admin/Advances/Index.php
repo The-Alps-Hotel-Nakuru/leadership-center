@@ -22,7 +22,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.advances.index', [
-            'advances' => Advance::paginate(5)
+            'advances' => Advance::orderBy('created_at','DESC')->paginate(5)
         ]);
     }
 }
