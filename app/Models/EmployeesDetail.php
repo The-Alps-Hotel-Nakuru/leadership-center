@@ -14,7 +14,17 @@ class EmployeesDetail extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    function ban()
+    {
+        return $this->hasOne(Ban::class, 'employees_detail_id', 'id' );
+    }
+
+    function getIsBannedAttribute()
+    {
+        return $this->ban != null;
     }
 
     public function designation()
@@ -22,7 +32,8 @@ class EmployeesDetail extends Model
         return $this->belongsTo(Designation::class);
     }
 
-    public function welfareContributions(){
+    public function welfareContributions()
+    {
         return $this->hasMany(WelfareContribution::class);
     }
 

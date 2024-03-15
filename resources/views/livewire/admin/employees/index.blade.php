@@ -64,7 +64,7 @@
             <tbody>
                 @foreach ($employees as $key => $employee)
                     <tr class="">
-                        <td>{{ $employees->firstItem() + $key }}</td>
+                        <td>{{ $employee->id }}</td>
                         <td>
                             <div class="d-flex flex-row">
                                 <div class="flex-col">
@@ -91,10 +91,16 @@
                         </td>
                         <td class="text-center">
                             @if ($employee->has_active_contract)
-                                <a class="badge rounded-pill text-bg-success  text-white text-uppercase">Active</a>
+                                @if ($employee->is_banned)
+                                    <span
+                                        class="badge rounded-pill text-bg-danger  text-white text-uppercase">Banned</span>
+                                @else
+                                    <span
+                                        class="badge rounded-pill text-bg-success  text-white text-uppercase">Active</span>
+                                @endif
                             @else
                                 <span
-                                    class="badge rounded-pill  text-bg-danger text-white text-uppercase">Inactive</span>
+                                    class="badge rounded-pill text-bg-warning text-white text-uppercase">Inactive</span>
                             @endif
                         </td>
                         <td>
@@ -114,17 +120,65 @@
                                         class="btn btn-secondary"><i class="fas fa-edit"></i></a></div>
                                 <div class="flex-col mx-1">
                                     <button
-                                        onclick="confirm('Are you sure you want to delete this Employee?')||event.stopImmediatePropagation()"
-                                        wire:click="delete({{ $employee->id }})" class="btn btn-danger"><i
-                                            class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                                <div class="flex-col mx-1">
-                                    <button
                                         onclick="confirm('Are you sure you want to Reset this Employee\'s Password?')||event.stopImmediatePropagation()"
                                         wire:click="resetPassword({{ $employee->user_id }})" class="btn btn-warning"><i
                                             class="fas fa-unlock"></i>
                                     </button>
+                                </div>
+                                <div class="flex-col mx-1">
+                                    @if (!$employee->is_banned)
+                                        <!-- Modal trigger button -->
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#banEmployee{{ $employee->id }}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+
+                                        <!-- Modal Body -->
+                                        <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+                                        <div wire:ignore class="modal fade" id="banEmployee{{ $employee->id }}"
+                                            tabindex="-1" data-bs-keyboard="false" role="dialog"
+                                            aria-labelledby="modalTitleId" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalTitleId">Ban
+                                                            {{ $employee->user->name }}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="reason" class="form-label">Reason</label>
+                                                            <textarea placeholder="Enter your Reason" wire:model='reason' class="form-control" name="reason" id="reason"
+                                                                rows="3"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary"
+                                                            onclick="confirm('Are you sure you want to ban this Employee?')||event.stopImmediatePropagation()"
+                                                            wire:click='banEmployee({{ $employee->id }})'>Save</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @push('scripts')
+                                            <script>
+                                                Livewire.on('done', (e) => {
+                                                    let modal = bootstrap.Modal.getOrCreateInstance(document.querySelector(
+                                                        '#banEmployee{{ $employee->id }}'));
+                                                    modal.hide();
+                                                })
+                                            </script>
+                                        @endpush
+                                    @else
+                                        <button
+                                            onclick="confirm('Are you sure you want to unban this Employee\'s Login?')||event.stopImmediatePropagation()"
+                                            wire:click="unban({{ $employee->ban->id }})" class="btn btn-secondary"><i
+                                                class="fas fa-unlock"></i>{{ $employee->ban->id }}
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </td>
@@ -134,4 +188,14 @@
         </table>
     </div>
     <div class="my-3"> {{ $employees->links() }}</div>
+
+    <p>The Following do not have bank accounts set</p>
+    <ol>
+        @foreach (App\Models\EmployeesDetail::all() as $employee)
+            @if (!$employee->bankAccount)
+                <li>{{ $employee->user->name }}</li>
+            @endif
+        @endforeach
+
+    </ol>
 </div>

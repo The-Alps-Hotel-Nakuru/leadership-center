@@ -9,12 +9,10 @@
                 @if ($designation->department_id == $department->id)
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading{{ $designation->id }}">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            <button class="btn accordion-button" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapse{{ $designation->id }}" aria-expanded="false"
                                 aria-controls="collapse{{ $designation->id }}">
-                                {{ $designation->title }}
-
-
+                                <i class="fas fa-arrow-right"></i>{{ $designation->title }}
                             </button>
                         </h2>
                         <div id="collapse{{ $designation->id }}" class="accordion-collapse collapse"
@@ -35,7 +33,7 @@
                                 @endforeach
 
                                 <a href="{{ route('admin.responsibilities.create', $designation) }}"
-                                    class="my-3 btn btn-dark text-uppercase">Create new</a>
+                                    class="my-3 btn btn-sm btn-dark text-uppercase">Create new</a>
                             </div>
                         </div>
                     </div>

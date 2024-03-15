@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Employees;
 
+use App\Models\EmployeeAccount;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\User;
@@ -18,9 +19,10 @@ class Edit extends Component
     public $dpt_id;
     public User $employee;
     public EmployeesDetail $detail;
+    public EmployeeAccount $account;
 
     protected $rules = [
-        'photo'=>'nullable|image|max:2048',
+        'photo' => 'nullable|image|max:2048',
         'employee.first_name' => 'required',
         'employee.last_name' => 'required',
         'employee.email' => 'required|email',
@@ -39,9 +41,11 @@ class Edit extends Component
         'detail.nhif_path' => 'nullable',
         'detail.handicap' => 'nullable',
         'detail.religion' => 'nullable',
-        'kra_file'=>'nullable|mimes:png,jpg,pdf|max:4096',
-        'nssf_file'=>'nullable|mimes:png,jpg,pdf|max:4096',
-        'nhif_file'=>'nullable|mimes:png,jpg,pdf|max:4096',
+        'kra_file' => 'nullable|mimes:png,jpg,pdf|max:4096',
+        'nssf_file' => 'nullable|mimes:png,jpg,pdf|max:4096',
+        'nhif_file' => 'nullable|mimes:png,jpg,pdf|max:4096',
+        'account.bank_id' => 'required',
+        'account.account_number' => 'required',
 
     ];
 
@@ -51,12 +55,14 @@ class Edit extends Component
         $this->detail = EmployeesDetail::find($id);
         $this->employee = User::find($this->detail->user_id);
         $this->dpt_id = $this->detail->designation->department_id;
+        $this->account = EmployeeAccount::where('employees_detail_id', $this->detail->id)->first() ?? new EmployeeAccount();
     }
 
 
     public function save()
     {
         $this->validate();
+        $this->account->employees_detail_id = $this->detail->id;
 
 
         if (isset($this->photo)) {
@@ -64,20 +70,21 @@ class Edit extends Component
         }
 
         if (isset($this->kra_file)) {
-            $this->kra_file->storeAs('public/'.Str::slug($this->employee->name).'-'.$this->detail->id, 'kra_pin.'.$this->kra_file->extension());
-            $this->detail->kra_pin_path = '/storage/'.Str::slug($this->employee->name).'-'.$this->detail->id.'/kra_pin.'.$this->kra_file->extension();
+            $this->kra_file->storeAs('public/' . Str::slug($this->employee->name) . '-' . $this->detail->id, 'kra_pin.' . $this->kra_file->extension());
+            $this->detail->kra_pin_path = '/storage/' . Str::slug($this->employee->name) . '-' . $this->detail->id . '/kra_pin.' . $this->kra_file->extension();
         }
         if (isset($this->nssf_file)) {
-            $this->kra_file->storeAs('public/'.Str::slug($this->employee->name).'-'.$this->detail->id, 'nssf.'.$this->nssf_file->extension());
-            $this->detail->nssf_path = '/storage/'.Str::slug($this->employee->name).'-'.$this->detail->id.'/nssf.'.$this->nssf_file->extension();
+            $this->kra_file->storeAs('public/' . Str::slug($this->employee->name) . '-' . $this->detail->id, 'nssf.' . $this->nssf_file->extension());
+            $this->detail->nssf_path = '/storage/' . Str::slug($this->employee->name) . '-' . $this->detail->id . '/nssf.' . $this->nssf_file->extension();
         }
         if (isset($this->nhif_file)) {
-            $this->kra_file->storeAs('public/'.Str::slug($this->employee->name).'-'.$this->detail->id, 'nhif.'.$this->nhif_file->extension());
-            $this->detail->nhif_path = '/storage/'.Str::slug($this->employee->name).'-'.$this->detail->id.'/nhif.'.$this->nhif_file->extension();
+            $this->kra_file->storeAs('public/' . Str::slug($this->employee->name) . '-' . $this->detail->id, 'nhif.' . $this->nhif_file->extension());
+            $this->detail->nhif_path = '/storage/' . Str::slug($this->employee->name) . '-' . $this->detail->id . '/nhif.' . $this->nhif_file->extension();
         }
 
         $this->employee->save();
         $this->detail->save();
+        $this->account->save();
 
         $log = new Log();
         $log->user_id = auth()->user()->id;

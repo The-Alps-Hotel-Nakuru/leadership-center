@@ -39,7 +39,7 @@ class Create extends Component
 
         $employee = EmployeesDetail::find($this->selectedEmployee);
 
-        if (Carbon::parse($this->leave->start_date)->greaterThanOrEqualTo($this->leave->end_date)) {
+        if (Carbon::parse($this->leave->start_date)->greaterThan($this->leave->end_date)) {
             throw ValidationException::withMessages([
                 'leave.start_date' => 'The Start Date is greater than The End Dates',
             ]);

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Payrolls;
 
 use App\Exports\BankingGuideExport;
 use App\Exports\PayrollExport;
+use App\Models\EmployeeContract;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\MonthlySalary;
@@ -74,7 +75,6 @@ class Index extends Component
             $payroll->save();
             foreach (EmployeesDetail::all() as $employee) {
                 if ($employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)) {
-                    // array_push($testarray, $employee);
                     $salary = new MonthlySalary();
                     $salary->payroll_id = $payroll->id;
                     $salary->employees_detail_id = $employee->id;
@@ -97,9 +97,15 @@ class Index extends Component
                     $salary->save();
                     $count++;
                 }
-
-                // dd($testarray);
             }
+
+
+
+            // foreach (EmployeeContract::all() as $key => $contract) {
+            //     if ($contract->isActiveDuring(Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())) {
+            //         $
+            //     }
+            // }
 
             $log = new Log();
             $log->user_id = auth()->user()->id;
@@ -117,13 +123,21 @@ class Index extends Component
     {
         $payroll = Payroll::find($id);
 
-        if (count($payroll->payment)) {
+        if (count($payroll->payment) > 0) {
             $this->emit('done', [
                 'warning' => 'Payment already Made'
             ]);
         }
-
         foreach ($payroll->monthlySalaries as $salary) {
+            if (!$salary->employee->bankAccount) {
+                $this->emit('done', [
+                    'warning' => $salary->employee->user->name . ' has not set a bank account'
+                ]);
+                # code...
+            }
+        }
+        foreach ($payroll->monthlySalaries as $salary) {
+
             $payment = new PayrollPayment();
             $payment->payroll_id = $payroll->id;
             $payment->employees_detail_id = $salary->employee->id;
@@ -137,6 +151,7 @@ class Index extends Component
             $payment->total_bonuses = $salary->bonuses;
             $payment->total_advances = $salary->advances;
             $payment->total_welfare_contributions = $salary->welfare_contributions;
+            $payment->attendance_penalty = $salary->attendance_penalty;
             $payment->bank_id = $salary->employee->bankAccount->bank_id;
             $payment->account_number = $salary->employee->bankAccount->account_number;
             $payment->save();
@@ -149,33 +164,55 @@ class Index extends Component
     public function update($id)
     {
         $payroll = Payroll::find($id);
-        foreach ($payroll->monthlySalaries as $salary) {
-            $view = MonthlySalary::find($salary->id);
-            $contract = $salary->employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
-            if ($contract) {
-                if ($contract->is_full_time()) {
-                    $view->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
-                    $view->house_allowance_kes = $contract->house_allowance;
-                } else if ($contract->is_casual()) {
-                    $view->basic_salary_kes = $contract->salary_kes * $salary->employee->daysWorked($payroll->year . '-' . $payroll->month);
-                }
-            } else {
-                $view->basic_salary_kes = 0;
-            }
 
-            $view->save();
-        }
+        $month = $payroll->month;
+        $year = $payroll->year;
 
-        $payroll->save();
         if (count($payroll->payment) > 0) {
-            // if ($payroll->payment->bank_slip_path) {
-            //     $this->emit('done', [
-            //         'danger' => "The Payments Have already Been Made"
-            //     ]);
-            //     return;
-            // }
+
             $payroll->payment()->delete();
         }
+        $payroll->monthlySalaries()->delete();
+
+        $payroll->delete();
+        $payroll = new Payroll();
+        $payroll->id = $id;
+        $payroll->month = $month;
+        $payroll->year = $year;
+        $payroll->save();
+
+        foreach (EmployeesDetail::all() as $employee) {
+            if ($employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)) {
+                // array_push($testarray, $employee);
+                $salary = new MonthlySalary();
+                $salary->payroll_id = $payroll->id;
+                $salary->employees_detail_id = $employee->id;
+                $contract = $employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
+                if ($contract) {
+                    if ($contract->is_full_time()) {
+                        $salary->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
+                        $salary->house_allowance_kes = $contract->house_allowance;
+                    } else if ($contract->is_casual()) {
+                        $salary->basic_salary_kes = $contract->salary_kes * $employee->daysWorked($payroll->year . '-' . $payroll->month);
+                    } else if ($contract->is_intern()) {
+                        $salary->basic_salary_kes = $contract->salary_kes;
+                    } else if ($contract->is_external()) {
+                        $salary->basic_salary_kes = $contract->salary_kes;
+                    }
+                } else {
+                    $salary->basic_salary_kes = 0;
+                }
+
+                $salary->save();
+            }
+
+            // dd($testarray);
+        }
+
+        // if (count($payroll->payment) > 0) {
+
+        //     $payroll->payment()->delete();
+        // }
 
         $log = new Log();
         $log->user_id = auth()->user()->id;
@@ -193,7 +230,7 @@ class Index extends Component
         $payroll = Payroll::find($id);
         if (count($payroll->payment) > 0) {
             $this->emit('done', [
-                'warning' => "This Payroll has already been paid"
+                'warning' => 'Payment for this Payroll Has Already been Made'
             ]);
 
             return;

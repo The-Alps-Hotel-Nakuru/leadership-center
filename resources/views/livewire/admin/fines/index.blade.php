@@ -5,7 +5,7 @@
 
     <div class="container-fluid">
         <div class="card-header d-flex">
-            <button class="btn btn-secondary ms-auto me-2"  wire:loading.attr="disabled" wire:target="downloadTemplate"
+            <button class="btn btn-secondary ml-auto mr-2"  wire:loading.attr="disabled" wire:target="downloadTemplate"
                 wire:click="downloadTemplate">
                 <span wire:loading.remove wire:target="downloadTemplate">
                     Download Fines Template
@@ -14,19 +14,12 @@
                     Downloading...
                 </span>
             </button>
-            <button class="btn btn-warning"  wire:loading.attr="disabled" wire:target="downloadFinesData"
-                wire:click="downloadFinesData">
-                <span wire:loading.remove wire:target="downloadFinesData">
-                    Download Fines Data
-                </span>
-                <span wire:loading wire:target="downloadFinesData">
-                    Downloading...
-                </span>
-            </button>
+
         </div>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header d-flex">
                 <h5>List of Issued Fines</h5>
+                <a href="{{ route('admin.fines.create') }}" class="btn btn-primary ml-auto">Create New</a>
             </div>
             <div class="card-body table-responsive">
                 <table class="table">

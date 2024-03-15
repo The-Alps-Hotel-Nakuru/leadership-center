@@ -10,6 +10,7 @@ class Payroll extends Model
 {
     use HasFactory;
 
+
     function getYearmonthAttribute()
     {
         return Carbon::parse($this->year . '-' . $this->month)->format('F \of Y');
@@ -18,6 +19,19 @@ class Payroll extends Model
     public function monthlySalaries()
     {
         return $this->hasMany(MonthlySalary::class,);
+    }
+
+    public function getHolidaysAttribute()
+    {
+        $count = 0;
+        $month = Carbon::parse($this->year . '-' . $this->month);
+        foreach (Holiday::all() as $holiday) {
+            if(Carbon::parse($holiday->date)->isBetween($month->firstOfMonth(),$month->lastOfMonth(),true)){
+                $count++;
+            }
+        }
+
+        return $count;
     }
 
 
@@ -214,4 +228,6 @@ class Payroll extends Model
     {
         return $this->hasMany(PayrollPayment::class);
     }
+
+
 }

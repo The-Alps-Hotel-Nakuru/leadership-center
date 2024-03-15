@@ -12,6 +12,7 @@
                             <th scope="col">Designation Title</th>
                             <th scope="col">Department</th>
                             <th scope="col">Number of Employees</th>
+                            <th scope="col">Legible for Attendance Penalty</th>
                             <th scope="col" class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -22,6 +23,7 @@
                                 <td>{{ $designation->title }}</td>
                                 <td class="text-secondary text-uppercase">{{ $designation->department->title }}</td>
                                 <td><strong>{{ count($designation->employees) }}</strong> employees</td>
+                                <td><strong class="text-{{  $designation->is_penalizable==1?'success':'danger' }}">{{ $designation->is_penalizable==1?'Is Penalizable':'Is not Penalizable' }}</strong></td>
                                 <td class="d-flex flex-row justify-content-center">
                                     <div class="flex-col mx-2">
                                         <a href="{{ route('admin.designations.edit', $designation->id) }}"

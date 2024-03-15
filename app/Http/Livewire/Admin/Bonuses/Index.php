@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Bonuses;
 
 use App\Exports\BonusesDataExport;
+use App\Exports\BonusesTemplateExport;
 use App\Exports\FinesDataExport;
 use App\Models\Bonus;
 use App\Models\Log;
@@ -10,6 +11,8 @@ use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
+
+use function Deployer\timestamp;
 
 class Index extends Component
 {
@@ -39,11 +42,15 @@ class Index extends Component
     {
         return Excel::download(new BonusesDataExport, "Bonuses Data.xlsx");
     }
+    function downloadBonusesTemplate()
+    {
+        return Excel::download(new BonusesTemplateExport, "Bonuses Template - " . Carbon::now()->timestamp . ".xlsx");
+    }
 
     public function render()
     {
         return view('livewire.admin.bonuses.index', [
-            'bonuses' => Bonus::paginate(10)
+            'bonuses' => Bonus::orderBy('created_at', 'DESC')->paginate(10)
         ]);
     }
 }

@@ -1,5 +1,5 @@
 <div>
-    <x-slot name="header">Responsibilities for {{ $designation->title }} staff</x-slot>
+    <x-slot name="header">Responsibilities for <u>{{ $designation->title }}</u> Staff</x-slot>
 
     <div class="container-fluid">
         <div class="card">

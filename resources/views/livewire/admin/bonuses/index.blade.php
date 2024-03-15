@@ -5,19 +5,20 @@
 
     <div class="container-fluid">
         <div class="card-header d-flex">
-            <button class="btn btn-primary ms-auto"  wire:loading.attr="disabled" wire:target="downloadBonusesData"
-                wire:click="downloadBonusesData">
-                <span wire:loading.remove wire:target="downloadBonusesData">
-                    Download Bonuses
+            <button class="btn btn-primary ms-auto"  wire:loading.attr="disabled" wire:target="downloadBonusesTemplate"
+                wire:click="downloadBonusesTemplate">
+                <span wire:loading.remove wire:target="downloadBonusesTemplate">
+                    Download Bonuses Template
                 </span>
-                <span wire:loading wire:target="downloadBonusesData">
+                <span wire:loading wire:target="downloadBonusesTemplate">
                     Downloading...
                 </span>
             </button>
         </div>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header d-flex">
                 <h5>List of Issued Bonuses</h5>
+                <a href="{{ route('admin.bonuses.create') }}" class="btn btn-primary ml-auto">Create New</a>
             </div>
             <div class="card-body table-responsive">
                 <table class="table">

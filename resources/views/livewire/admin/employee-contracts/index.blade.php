@@ -4,17 +4,29 @@
     </x-slot>
 
     <div class="container-fluid">
+        <div class=" mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <label for="" class="form-label">
+                        <h4>Search an Employee </h4>
+                    </label>
+                    <input wire:model="searchEmployee" type="text" class="form-control" name="" id=""
+                        aria-describedby="helpId" placeholder="Search By Name">
+
+                </div>
+            </div>
+        </div>
         <div class="card">
-            <div class="card-header d-flex ">
+            <div class="card-header d-flex bg-transparent border-0">
                 <h5>List of Employees Active Contracts</h5>
-                <div class="flex-col ms-auto">
+                <div class="flex-col ml-auto">
                     <a wire:ignore href="{{ route('admin.employee_contracts.create') }}" class="btn btn-primary">
                         <i class="fas fa-file-pdf"></i>
                     </a>
 
                 </div>
                 <div class="flex-col mx-2">
-                    <select class="form-select form-select-lg" wire:model='type' name="" id="">
+                    <select class="form-control" wire:model='type' name="" id="">
                         <option value="all">All</option>
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
@@ -25,6 +37,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th scope="col">Contract No.</th>
                             <th scope="col">ID</th>
                             <th scope="col">Employee's Name & Designation</th>
                             <th scope="col">Appointment Date</th>
@@ -36,7 +49,8 @@
                     <tbody>
                         @foreach ($contracts as $key => $contract)
                             <tr class="">
-                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $contract->id }}</td>
+                                <td>{{ $contract->employee->id }}</td>
                                 <td>
                                     <div class="d-flex flex-row">
                                         <div class="flex-col">

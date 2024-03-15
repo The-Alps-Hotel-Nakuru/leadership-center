@@ -34,7 +34,7 @@ class OtherExport implements FromCollection, WithMapping, WithTitle, WithHeading
             $employee = EmployeesDetail::find($payment->employees_detail_id);
             $first = Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth();
             $last = Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth();
-            if (!$employee->isCasualBetween($first, $last) && $payment->gross_salary > 0) {
+            if (!$employee->isCasualBetween($first, $last) && $payment->net_pay > 0) {
                 array_push($casual, $payment);
             }
         }
@@ -85,7 +85,7 @@ class OtherExport implements FromCollection, WithMapping, WithTitle, WithHeading
             'E' => NumberFormat::FORMAT_TEXT,
             'F' => NumberFormat::FORMAT_TEXT,
             'G' => NumberFormat::FORMAT_TEXT,
-            'H' => NumberFormat::FORMAT_NUMBER,
+            'H' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
         ];
     }
 }

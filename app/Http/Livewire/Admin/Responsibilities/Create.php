@@ -17,6 +17,10 @@ class Create extends Component
         'responsibility.responsibility' => 'required'
     ];
 
+    protected $messages = [
+        'responsibility.responsibility.required' => "The Responsibility is Required"
+    ];
+
     protected $listeners = [
         'done' => 'render'
     ];

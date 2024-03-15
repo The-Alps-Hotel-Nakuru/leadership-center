@@ -17,10 +17,23 @@
                     </div>
                     <div class="col-md-6 col-12 mb-3">
                         <label for="mailPassword" class="form-label">Mail Password:</label>
-                        <input type="password" class="form-control" wire:model="mailPassword">
+                        {{-- <input type="password" class="form-control" wire:model="mailPassword"> --}}
+                        <div class="input-group">
+                            <input type="{{ $passwordVisible?'text':'password' }}" class="form-control" wire:model="mailPassword" placeholder="Recipient's username"
+                                aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                <button wire:click="toggleVisibility" class="btn btn-outline-secondary" type="button"
+                                    id="button-addon2">@if ($passwordVisible)
+                                        <i class="fas fa-eye-slash"></i>
+                                    @else
+                                        <i class="fas fa-eye"></i>
+                                    @endif</button>
+                            </div>
+                        </div>
                         @error('mailPassword')
                             <span class="form-text text-danger">{{ $message }}</span>
                         @enderror
+
                     </div>
                     <div class="col-md-6 col-12 mb-3">
                         <label for="mailDriver" class="form-label">Mail Driver:</label>

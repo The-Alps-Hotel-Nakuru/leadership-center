@@ -3,16 +3,20 @@
 
     <div class="container-fluid">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-transparent border-0">
                 <h5>Create a new Employee</h5>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <h6 class="text-end text-uppercase">Basic Details</h6>
+                    <div class="col-12 text-end text-uppercase">
+                        <h6>Basic Details</h6>
+                    </div>
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
-                            <label for="first_name" class="form-label">First Name<span
-                                    class="text-danger">*</span></label>
+                            <label for="first_name" class="form-label">
+                                First Name
+                                <span class="text-danger">*</span>
+                            </label>
                             <input wire:model="employee.first_name" type="text" class="form-control"
                                 name="first_name" id="first_name" aria-describedby="first_name"
                                 placeholder="Enter the First Name">
@@ -57,26 +61,26 @@
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
-                            <label for="national_id" class="form-label">National ID*<span
+                            <label for="national_id" class="form-label">National ID<span
                                     class="text-danger">*</span></label>
                             <input wire:model="detail.national_id" type="number" class="form-control"
-                                name="national_id" aria-describedby="national_id"
-                                placeholder="Enter the Phone Number">
+                                name="national_id" aria-describedby="national_id" placeholder="Enter the Phone Number">
                             @error('detail.national_id')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-8 col-12">
+                    <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="photo" class="form-label">Photo</label>
-                            <input type="file" class="form-control " name="photo" wire:model="photo" id="photo">
+                            <input type="file" class="form-control " name="photo" wire:model="photo"
+                                id="photo">
                             @error('photo')
                                 <span class="form-text text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-6 col-12">
                         @if ($photo)
                             Photo Preview:
                             <img class="img-thumbnail" width="150px" src="{{ $photo->temporaryUrl() }}">
@@ -85,6 +89,8 @@
 
 
                 </div>
+                <br>
+                <br>
                 <div class="row">
                     <div class="col-12 text-end">
                         <h6>OTHER DETAILS</h6>
@@ -151,7 +157,7 @@
                     </div>
                     <div class="col-md-4 col-6">
                         <div class="mb-3">
-                            <label for="gender" class="form-label">Gender</label>
+                            <label for="gender" class="form-label">Gender <span class="text-danger">*</span></label>
                             <select wire:model="detail.gender" class="form-control" name="gender" id="gender">
                                 <option>Select a Gender</option>
                                 <option value="male">Male</option>
@@ -162,25 +168,14 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 col-6">
-                        <div class="mb-3">
-                            <label for="children" class="form-label">Number of Children<span
-                                    class="text-danger">*</span></label>
-                            <input wire:model="detail.children" type="number" class="form-control" name="children"
-                                id="children" aria-describedby="children"
-                                placeholder="Enter the number of Children You have">
-                            @error('detail.children')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
+
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="physical_address" class="form-label">Physical Address</label>
                             <textarea wire:model="detail.physical_address" placeholder="Enter your Physical Address" class="form-control"
                                 name="physical_address" id="physical_address" rows="2"></textarea>
 
-                            @error('detail.handicap')
+                            @error('detail.physical_address')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -190,7 +185,7 @@
                             <label for="kra_pin" class="form-label">KRA PIN<span
                                     class="text-danger">*</span></label>
                             <input wire:model="detail.kra_pin" type="text" class="form-control" name="kra_pin"
-                                id="kra_pin" aria-describedby="kra_pin" placeholder="Enter yoru KRA PIN">
+                                id="kra_pin" aria-describedby="kra_pin" placeholder="Enter your KRA PIN">
                             @error('detail.kra_pin')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -198,10 +193,9 @@
                     </div>
                     <div class="col-md-4 col-6">
                         <div class="mb-3">
-                            <label for="nssf" class="form-label">NSSF Identifier<span
-                                    class="text-danger">*</span></label>
+                            <label for="nssf" class="form-label">NSSF Identifier</label>
                             <input wire:model="detail.nssf" type="text" class="form-control" name="nssf"
-                                id="nssf" aria-describedby="nssf" placeholder="Enter yoru NSSF Identifier">
+                                id="nssf" aria-describedby="nssf" placeholder="Enter your NSSF Identifier">
                             @error('detail.nssf')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -209,10 +203,9 @@
                     </div>
                     <div class="col-md-4 col-6">
                         <div class="mb-3">
-                            <label for="nhif" class="form-label">NHIF Identifier<span
-                                    class="text-danger">*</span></label>
+                            <label for="nhif" class="form-label">NHIF Identifier</label>
                             <input wire:model="detail.nhif" type="text" class="form-control" name="nhif"
-                                id="nhif" aria-describedby="nhif" placeholder="Enter yoru NHIF Identifier">
+                                id="nhif" aria-describedby="nhif" placeholder="Enter your NHIF Identifier">
                             @error('detail.nhif')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
@@ -229,6 +222,8 @@
                         </div>
                     </div>
                 </div>
+                <br>
+                <br>
                 <div class="row">
                     <div class="col-12 text-end">
                         <h5>File Upload (Optional)</h5>
@@ -263,8 +258,41 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-4 col-6">
+                        <div class="mb-3">
+                            <label for="bank_id" class="form-label">Bank <span class="text-danger">*</span></label>
+                            <select wire:model="account.bank_id" class="form-control" name="bank_id"
+                                id="bank_id">
+                                <option selected>Select one</option>
+                                @foreach (App\Models\Bank::all() as $bank)
+                                    <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('account.bank_id')
+                                <small id="account_number" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-6">
+                        <div class="mb-3">
+                            <label for="account_number" class="form-label">Account Number <span class="text-danger">*</span></label>
+                            <input wire:model='account.account_number' type="text" class="form-control"
+                                name="account_number" id="account_number" aria-describedby="account_number"
+                                placeholder="Enter your Account Number">
+                            @error('account.account_number')
+                                <small id="account_number" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
-                <button wire:click="save" class="btn btn-dark text-uppercase">Save</button>
+                <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="save" wire:click="save">
+                    <span wire:loading.remove wire:target="save">
+                        Save
+                    </span>
+                    <span wire:loading wire:target="save">
+                        Saving...
+                    </span>
+                </button>
             </div>
         </div>
     </div>

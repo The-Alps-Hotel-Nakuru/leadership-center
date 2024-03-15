@@ -18,9 +18,18 @@ class Create extends Component
         'contract.employees_detail_id' => 'required',
         'contract.designation_id' => 'required',
         'contract.start_date' => 'required',
-        'months' => 'required',
+        'contract.end_date' => 'required',
         'contract.employment_type_id' => 'required',
         'contract.salary_kes' => 'required',
+    ];
+
+    protected $messages = [
+        'contract.employees_detail_id.required' => 'Please select the Employee',
+        'contract.designation_id.required' => 'Please select the Designation',
+        'contract.start_date.required' => 'The Start Date is Required',
+        'contract.end_date.required' => 'The End Date is Required',
+        'contract.employment_type_id.required' => 'Please select the Employment Type',
+        'contract.salary_kes.required' => 'Please enter the Salary (KES)',
     ];
 
     public function mount()
@@ -33,7 +42,7 @@ class Create extends Component
     {
         $this->validate();
 
-        $this->contract->end_date = Carbon::parse($this->contract->start_date)->addMonths($this->months)->toDateString();
+        // $this->contract->end_date = Carbon::parse($this->contract->start_date)->addMonths($this->months)->toDateString();
         $employee = EmployeesDetail::find($this->contract->employees_detail_id);
         foreach ($employee->contracts as $cont) {
             if ($cont->isActiveDuring($this->contract->start_date, $this->contract->end_date)) {

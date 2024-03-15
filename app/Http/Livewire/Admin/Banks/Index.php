@@ -12,6 +12,12 @@ class Index extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    function delete($id) {
+        Bank::find($id)->delete();
+        $this->emit('done', [
+            'success'=>'Successfully Deleted the Bank'
+        ]);
+    }
     public function render()
     {
         return view('livewire.admin.banks.index',[
