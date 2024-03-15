@@ -25,7 +25,7 @@ $(function() {
       Swal.fire({
         title: '<strong>HTML <u>example</u></strong>',
         icon: 'info',
-        html:
+        html: 
           'You can use <b>bold text</b>, ' +
           '<a href="//github.com">links</a> ' +
           'and other HTML tags',
