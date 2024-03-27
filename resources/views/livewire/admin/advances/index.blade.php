@@ -5,7 +5,7 @@
 
     <div class="container-fluid">
         <div class="card-header d-flex">
-            <button class="btn btn-secondary ms-auto me-2" wire:loading.attr="disabled" wire:target="downloadTemplate"
+            {{-- <button class="btn btn-secondary ms-auto me-2" wire:loading.attr="disabled" wire:target="downloadTemplate"
                 wire:click="downloadTemplate">
                 <span wire:loading.remove wire:target="downloadTemplate">
                     Download Advances Template
@@ -22,7 +22,7 @@
                 <span wire:loading wire:target="downloadAdvancesData">
                     Downloading...
                 </span>
-            </button>
+            </button> --}}
         </div>
         <div class="card">
             <div class="card-header d-flex">

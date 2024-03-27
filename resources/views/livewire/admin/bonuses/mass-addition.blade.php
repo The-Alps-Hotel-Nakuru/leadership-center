@@ -8,11 +8,21 @@
     <div class="card">
         <div class="card-header">
             <h5>Upload Employee Bonuses</h5>
+            <button class="btn btn-secondary ml-auto mr-2" wire:loading.attr="disabled" wire:target="downloadTemplate"
+                wire:click="downloadTemplate">
+                <span wire:loading.remove wire:target="downloadTemplate">
+                    Download Bonuses Template
+                </span>
+                <span wire:loading wire:target="downloadTemplate">
+                    Downloading...
+                </span>
+            </button>
         </div>
         <div class="card-body">
             <div class="mb-3">
                 <label for="" class="form-label">File Upload</label>
-                <input type="file" name="employee_bonuses_file" class="form-control" wire:model='employee_bonuses_file'>
+                <input type="file" name="employee_bonuses_file" class="form-control"
+                    wire:model='employee_bonuses_file'>
                 @error('employee_bonuses_file')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
@@ -55,14 +65,17 @@
 
                                 @foreach ($bonuses as $bonus)
                                     @php
-                                        $employee = App\Models\EmployeesDetail::where('national_id', $bonus[1])->first();
+                                        $employee = App\Models\EmployeesDetail::where(
+                                            'national_id',
+                                            $bonus[1],
+                                        )->first();
                                     @endphp
                                     <tr>
                                         <td>{{ $bonus[0] }}</td>
                                         <td>{{ $bonus[1] }}</td>
                                         <td>{{ $employee->user->name }}</td>
                                         <td>{{ $employee->user->email }}</td>
-                                        <td>{{ Carbon\Carbon::parse($bonus[4].'-'.$bonus[5])->format('F, Y')}}</td>
+                                        <td>{{ Carbon\Carbon::parse($bonus[4] . '-' . $bonus[5])->format('F, Y') }}</td>
                                         <td><small>KES
                                             </small><strong>{{ number_format($bonus[6], 2) }}</strong>
                                         </td>

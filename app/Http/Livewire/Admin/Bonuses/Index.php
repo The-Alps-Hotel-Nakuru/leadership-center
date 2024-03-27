@@ -38,10 +38,10 @@ class Index extends Component
     //     ]);
     // }
 
-    function downloadBonusesData()
-    {
-        return Excel::download(new BonusesDataExport, "Bonuses Data.xlsx");
-    }
+    // function downloadBonusesData()
+    // {
+    //     return Excel::download(new BonusesDataExport, "Bonuses Data.xlsx");
+    // }
     function downloadBonusesTemplate()
     {
         return Excel::download(new BonusesTemplateExport, "Bonuses Template - " . Carbon::now()->timestamp . ".xlsx");

@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Admin\Bonuses;
 
+use App\Exports\BonusesTemplateExport;
 use App\Imports\BonusesImport;
 use App\Models\EmployeesDetail;
 use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\ValidationException;
@@ -71,6 +73,11 @@ class MassAddition extends Component
             'success' => 'Successfully Added ' . $count . ' Bonuses To Employees Amounting to KES ' . number_format($amount, 2)
         ]);
         $this->reset();
+    }
+
+    function downloadBonusesTemplate()
+    {
+        return Excel::download(new BonusesTemplateExport, "Bonuses Template - " . Carbon::now()->timestamp . ".xlsx");
     }
 
     public function render()

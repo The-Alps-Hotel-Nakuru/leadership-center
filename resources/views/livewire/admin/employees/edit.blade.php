@@ -262,7 +262,7 @@
                     <div class="col-md-4 col-6">
                         <div class="mb-3">
                             <label for="bank_id" class="form-label">Bank</label>
-                            <select wire:model="account.bank_id" class="form-select form-select-lg" name="bank_id"
+                            <select wire:model="account.bank_id" class="form-control" name="bank_id"
                                 id="bank_id">
                                 <option selected>Select one</option>
                                 @foreach (App\Models\Bank::all() as $bank)

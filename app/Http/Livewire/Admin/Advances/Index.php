@@ -14,10 +14,10 @@ class Index extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    function downloadAdvancesData()
-    {
-        return Excel::download(new AdvancesDataExport, "Advances Data.xlsx");
-    }
+    // function downloadAdvancesData()
+    // {
+    //     return Excel::download(new AdvancesDataExport, "Advances Data.xlsx");
+    // }
 
     public function render()
     {

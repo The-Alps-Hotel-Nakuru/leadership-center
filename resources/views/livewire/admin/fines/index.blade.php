@@ -20,6 +20,7 @@
             <div class="card-header d-flex">
                 <h5>List of Issued Fines</h5>
                 <a href="{{ route('admin.fines.create') }}" class="btn btn-primary ml-auto">Create New</a>
+                <a href="{{ route('admin.fines.mass_addition') }}" class="btn btn-secondary ml-auto">Create Many</a>
             </div>
             <div class="card-body table-responsive">
                 <table class="table">
