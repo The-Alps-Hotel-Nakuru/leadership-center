@@ -244,7 +244,7 @@ class MonthlySalary extends Model
                 if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
                     $levy = 0.015 * $this->gross_salary;
                 }
-            }else{
+            } else {
                 $levy = 0;
             }
         }
