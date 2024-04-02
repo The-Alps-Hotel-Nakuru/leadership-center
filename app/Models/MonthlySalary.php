@@ -240,7 +240,13 @@ class MonthlySalary extends Model
                 $levy = 0.015 * $this->gross_salary;
             }
         } else {
-            $levy = 0;
+            if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isAfter('2024-02-29')) {
+                if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                    $levy = 0.015 * $this->gross_salary;
+                }
+            }else{
+                $levy = 0;
+            }
         }
 
         return $levy;
