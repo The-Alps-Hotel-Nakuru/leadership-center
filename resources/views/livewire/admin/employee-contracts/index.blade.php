@@ -71,8 +71,8 @@
                                     <div class="d-flex flex-row justify-content-center">
                                         @if ($contract->contract_path)
                                             <a target="_blank" href="javascript:;" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="View Signed Contract"
-                                                class="btn btn-dark m-1">
+                                                data-bs-placement="top" title="View Unsigned Contract"
+                                                class="btn btn-success m-1">
                                                 <i class="fas fa-file-contract"></i>
                                             </a>
                                         @else
@@ -89,6 +89,11 @@
                                         </a>
                                         <button wire:click="makeInactive({{ $contract->id }})" data-bs-toggle="tooltip"
                                             data-bs-placement="top" title="Terminate Contract"
+                                            class="btn btn-dark m-1">
+                                            <i class="fas fa-stop-circle"></i>
+                                        </button>
+                                        <button onclick="confirm('Are you sure you want to Delete this contract?')||event.stopImmediatePropagation()" wire:click="delete({{ $contract->id }})" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" title="Delete Contract"
                                             class="btn btn-danger m-1">
                                             <i class="fas fa-trash"></i>
                                         </button>
