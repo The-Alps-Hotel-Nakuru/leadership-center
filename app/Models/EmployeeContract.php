@@ -109,4 +109,19 @@ class EmployeeContract extends Model
 
         return collect($in);
     }
+
+    function payrolls()
+    {
+        $usedPayrolls = [];
+        $payrolls = Payroll::all();
+        foreach ($payrolls as $key => $payroll) {
+            $first = Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth();
+            $last = Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth();
+            if ($this->isActiveDuring($first, $last)) {
+                array_push($usedPayrolls, $payroll);
+            }
+        }
+
+        return $usedPayrolls;
+    }
 }

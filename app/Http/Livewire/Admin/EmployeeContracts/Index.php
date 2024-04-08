@@ -22,14 +22,21 @@ class Index extends Component
     {
         $contract = EmployeeContract::find($id);
 
-        if (Carbon::now()->isBefore($contract->end_date)) {
-            $contract->end_date = Carbon::now()->toDateString();
-            $contract->save();
-        } else {
+        if (count($contract->payrolls()) > 0) {
             $this->emit('done', [
-                'warning' => "The Contract was Already Terminated"
+                'warning' => "You Cannot Delete this Contract since it has already been used for Payroll Payments"
             ]);
             return;
+        } else {
+            if (Carbon::now()->isBefore($contract->end_date)) {
+                $contract->end_date = Carbon::now()->toDateString();
+                $contract->save();
+            } else {
+                $this->emit('done', [
+                    'warning' => "The Contract was Already Terminated"
+                ]);
+                return;
+            }
         }
 
 
@@ -43,11 +50,19 @@ class Index extends Component
     {
         $contract = EmployeeContract::find($id);
 
-        $contract->delete();
+        if (count($contract->payrolls()) > 0) {
+            $this->emit('done', [
+                'warning' => "You Cannot Delete this Contract since it has already been used for Payroll Payments"
+            ]);
+            return;
+        } else {
 
-        $this->emit('done', [
-            'success' => 'Successfully Deleted this Contract from the System'
-        ]);
+            $contract->delete();
+
+            $this->emit('done', [
+                'success' => 'Successfully Deleted this Contract from the System'
+            ]);
+        }
     }
 
 
