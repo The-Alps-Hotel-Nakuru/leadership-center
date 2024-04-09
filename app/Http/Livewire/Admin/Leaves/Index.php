@@ -4,9 +4,12 @@ namespace App\Http\Livewire\Admin\Leaves;
 
 use App\Models\Leave;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination;
+
     function delete($id) {
         Leave::find($id)->delete();
         $this->emit('done', [
@@ -16,7 +19,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.leaves.index',[
-            'leaves'=>Leave::all()
+            'leaves'=>Leave::orderBy('created_at','DESC')->paginate(10)
         ]);
     }
 }

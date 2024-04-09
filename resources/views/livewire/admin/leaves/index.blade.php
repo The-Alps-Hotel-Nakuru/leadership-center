@@ -38,6 +38,8 @@
                     </tbody>
                 </table>
 
+                {{ $leaves->links() }}
+
             </div>
         @else
             <div class="my-5">
