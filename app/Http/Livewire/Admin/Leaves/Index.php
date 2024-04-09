@@ -10,6 +10,8 @@ class Index extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     function delete($id) {
         Leave::find($id)->delete();
         $this->emit('done', [
