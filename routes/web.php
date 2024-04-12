@@ -166,6 +166,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/', Admin\Payrolls\Index::class)->name('admin.payrolls.index');
             Route::get('/{id}/show', Admin\Payrolls\Show::class)->name('admin.payrolls.show');
         });
+        Route::prefix('payroll_payments')->group(function () {
+            Route::get('/', Admin\PayrollPayments\Index::class)->name('admin.payroll_payments.index');
+            Route::get('/{id}/show', Admin\PayrollPayments\Show::class)->name('admin.payroll_payments.show');
+        });
         // Route::prefix('products')->group(function () {
         //     Route::get('/', Admin\Products\Index::class)->name('admin.products.index');
         //     Route::get('/create', Admin\Products\Create::class)->name('admin.products.create');

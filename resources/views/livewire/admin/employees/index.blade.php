@@ -189,13 +189,18 @@
     </div>
     <div class="my-3"> {{ $employees->links() }}</div>
 
-    <p>The Following do not have bank accounts set</p>
-    <ol>
-        @foreach (App\Models\EmployeesDetail::all() as $employee)
-            @if (!$employee->bankAccount)
-                <li>{{ $employee->user->name }}</li>
-            @endif
-        @endforeach
+    @foreach (App\Models\EmployeesDetail::all() as $employee)
+        @if (!$employee->bankAccount)
+            <p>The Following do not have bank accounts set</p>
+        @break
+    @endif
+@endforeach
+<ol>
+    @foreach (App\Models\EmployeesDetail::all() as $employee)
+        @if (!$employee->bankAccount)
+            <li>{{ $employee->user->name }}</li>
+        @endif
+    @endforeach
 
-    </ol>
+</ol>
 </div>

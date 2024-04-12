@@ -26,7 +26,7 @@ class Payroll extends Model
         $count = 0;
         $month = Carbon::parse($this->year . '-' . $this->month);
         foreach (Holiday::all() as $holiday) {
-            if(Carbon::parse($holiday->date)->isBetween($month->firstOfMonth(),$month->lastOfMonth(),true)){
+            if (Carbon::parse($holiday->date)->isBetween($month->firstOfMonth(), $month->lastOfMonth(), true)) {
                 $count++;
             }
         }
@@ -43,9 +43,11 @@ class Payroll extends Model
     public function getCasualGrossAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_casual()) {
-                $amount += $salary->gross_salary;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_casual()) {
+                    $amount += $salary->gross_salary;
+                }
             }
         }
 
@@ -54,9 +56,11 @@ class Payroll extends Model
     public function getCasualTotalAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_casual()) {
-                $amount += $salary->net_pay;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_casual()) {
+                    $amount += $salary->net_pay;
+                }
             }
         }
 
@@ -65,9 +69,11 @@ class Payroll extends Model
     public function getFullTimeGrossAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_full_time()) {
-                $amount += $salary->gross_salary;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_full_time()) {
+                    $amount += $salary->gross_salary;
+                }
             }
         }
 
@@ -76,9 +82,11 @@ class Payroll extends Model
     public function getAdvancesTotalAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
-                $amount += $salary->advances;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
+                    $amount += $salary->advances;
+                }
             }
         }
 
@@ -87,9 +95,11 @@ class Payroll extends Model
     public function getBonusesTotalAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
-                $amount += $salary->bonuses;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
+                    $amount += $salary->bonuses;
+                }
             }
         }
 
@@ -98,9 +108,11 @@ class Payroll extends Model
     public function getFinesTotalAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
-                $amount += $salary->fines;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
+                    $amount += $salary->fines;
+                }
             }
         }
 
@@ -109,9 +121,11 @@ class Payroll extends Model
     public function getPenaltyTotalAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
-                $amount += $salary->attendance_penalty;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
+                    $amount += $salary->attendance_penalty;
+                }
             }
         }
 
@@ -120,9 +134,11 @@ class Payroll extends Model
     public function getFullTimeNetAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_full_time()) {
-                $amount += $salary->net_pay;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_full_time()) {
+                    $amount += $salary->net_pay;
+                }
             }
         }
 
@@ -131,9 +147,11 @@ class Payroll extends Model
     public function getInternGrossAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_intern()) {
-                $amount += $salary->gross_salary;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_intern()) {
+                    $amount += $salary->gross_salary;
+                }
             }
         }
 
@@ -142,9 +160,11 @@ class Payroll extends Model
     public function getInternNetAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_intern()) {
-                $amount += $salary->net_pay;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_intern()) {
+                    $amount += $salary->net_pay;
+                }
             }
         }
 
@@ -153,9 +173,11 @@ class Payroll extends Model
     public function getExternalGrossAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_external()) {
-                $amount += $salary->gross_salary;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_external()) {
+                    $amount += $salary->gross_salary;
+                }
             }
         }
 
@@ -164,9 +186,11 @@ class Payroll extends Model
     public function getExternalNetAttribute()
     {
         $amount = 0;
-        foreach ($this->monthlySalaries as $salary) {
-            if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_external()) {
-                $amount += $salary->net_pay;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_external()) {
+                    $amount += $salary->net_pay;
+                }
             }
         }
 
@@ -177,8 +201,10 @@ class Payroll extends Model
     {
         $amount = 0;
 
-        foreach ($this->monthlySalaries as $salary) {
-            $amount += $salary->paye;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                $amount += $salary->paye;
+            }
         }
 
         return $amount;
@@ -187,8 +213,10 @@ class Payroll extends Model
     {
         $amount = 0;
 
-        foreach ($this->monthlySalaries as $salary) {
-            $amount += $salary->welfare_contributions;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                $amount += $salary->welfare_contributions;
+            }
         }
 
         return $amount;
@@ -197,8 +225,10 @@ class Payroll extends Model
     {
         $amount = 0;
 
-        foreach ($this->monthlySalaries as $salary) {
-            $amount += $salary->nhif;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                $amount += $salary->nhif;
+            }
         }
 
         return $amount;
@@ -207,8 +237,10 @@ class Payroll extends Model
     {
         $amount = 0;
 
-        foreach ($this->monthlySalaries as $salary) {
-            $amount += $salary->nssf;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                $amount += $salary->nssf;
+            }
         }
 
         return $amount;
@@ -217,17 +249,28 @@ class Payroll extends Model
     {
         $amount = 0;
 
-        foreach ($this->monthlySalaries as $salary) {
-            $amount += $salary->housing_levy;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                $amount += $salary->housing_levy;
+            }
         }
 
         return $amount;
     }
 
-    function payment()
+    function payments()
     {
         return $this->hasMany(PayrollPayment::class);
     }
 
+    function getGrossPaymentsTotalAttribute()
+    {
+        $amount = 0;
 
+        foreach ($this->payments as $key => $payment) {
+            $amount += $payment->gross_salary;
+        }
+
+        return $amount;
+    }
 }

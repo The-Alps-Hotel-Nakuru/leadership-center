@@ -20,6 +20,10 @@ class PayrollPayment extends Model
         return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
     }
 
+    function bank() {
+        return $this->belongsTo(Bank::class);
+    }
+
     public function payroll()
     {
         return $this->hasOne(Payroll::class, 'id', 'payroll_id');

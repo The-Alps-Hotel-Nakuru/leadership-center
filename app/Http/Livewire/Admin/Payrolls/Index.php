@@ -79,6 +79,7 @@ class Index extends Component
                     $salary->payroll_id = $payroll->id;
                     $salary->employees_detail_id = $employee->id;
                     $contract = $employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
+                    $salary->basic_salary_kes = 0;
                     if ($contract) {
                         if ($contract->is_full_time()) {
                             $salary->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
@@ -123,7 +124,7 @@ class Index extends Component
     {
         $payroll = Payroll::find($id);
 
-        if (count($payroll->payment) > 0) {
+        if (count($payroll->payments) > 0) {
             $this->emit('done', [
                 'warning' => 'Payment already Made'
             ]);
@@ -138,26 +139,32 @@ class Index extends Component
         }
         foreach ($payroll->monthlySalaries as $salary) {
 
-            $payment = new PayrollPayment();
-            $payment->payroll_id = $payroll->id;
-            $payment->employees_detail_id = $salary->employee->id;
-            $payment->gross_salary = $salary->gross_salary;
-            $payment->nssf = $salary->nssf;
-            $payment->nhif = $salary->nhif;
-            $payment->paye = $salary->paye;
-            $payment->tax_rebate = $salary->rebate;
-            $payment->housing_levy = $salary->housing_levy;
-            $payment->total_fines = $salary->fines;
-            $payment->total_bonuses = $salary->bonuses;
-            $payment->total_advances = $salary->advances;
-            $payment->total_welfare_contributions = $salary->welfare_contributions;
-            $payment->attendance_penalty = $salary->attendance_penalty;
-            $payment->bank_id = $salary->employee->bankAccount->bank_id;
-            $payment->account_number = $salary->employee->bankAccount->account_number;
-            $payment->save();
-            $this->emit('done', [
-                'success' => "Successfully Generated Payment Slips for KCB Banking"
-            ]);
+            try {
+                $payment = new PayrollPayment();
+                $payment->payroll_id = $payroll->id;
+                $payment->employees_detail_id = $salary->employee->id;
+                $payment->gross_salary = $salary->gross_salary;
+                $payment->nssf = $salary->nssf;
+                $payment->nhif = $salary->nhif;
+                $payment->paye = $salary->paye;
+                $payment->tax_rebate = $salary->rebate;
+                $payment->housing_levy = $salary->housing_levy;
+                $payment->total_fines = $salary->fines;
+                $payment->total_bonuses = $salary->bonuses;
+                $payment->total_advances = $salary->advances;
+                $payment->total_welfare_contributions = $salary->welfare_contributions;
+                $payment->attendance_penalty = $salary->attendance_penalty;
+                $payment->bank_id = $salary->employee->bankAccount->bank_id;
+                $payment->account_number = $salary->employee->bankAccount->account_number;
+                $payment->save();
+                $this->emit('done', [
+                    'success' => "Successfully Generated Payment Slips for KCB Banking"
+                ]);
+            } catch (\Throwable $th) {
+                $this->emit('done', [
+                    'warning' => $th->getMessage()
+                ]);
+            }
         }
     }
 
@@ -168,9 +175,9 @@ class Index extends Component
         $month = $payroll->month;
         $year = $payroll->year;
 
-        if (count($payroll->payment) > 0) {
+        if (count($payroll->payments) > 0) {
 
-            $payroll->payment()->delete();
+            $payroll->payments()->delete();
         }
         $payroll->monthlySalaries()->delete();
 
@@ -188,6 +195,7 @@ class Index extends Component
                 $salary->payroll_id = $payroll->id;
                 $salary->employees_detail_id = $employee->id;
                 $contract = $employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
+                $salary->basic_salary_kes = 0;
                 if ($contract) {
                     if ($contract->is_full_time()) {
                         $salary->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
@@ -209,9 +217,9 @@ class Index extends Component
             // dd($testarray);
         }
 
-        // if (count($payroll->payment) > 0) {
+        // if (count($payroll->payments) > 0) {
 
-        //     $payroll->payment()->delete();
+        //     $payroll->payments()->delete();
         // }
 
         $log = new Log();
@@ -228,7 +236,7 @@ class Index extends Component
     public function delete($id)
     {
         $payroll = Payroll::find($id);
-        if (count($payroll->payment) > 0) {
+        if (count($payroll->payments) > 0) {
             $this->emit('done', [
                 'warning' => 'Payment for this Payroll Has Already been Made'
             ]);

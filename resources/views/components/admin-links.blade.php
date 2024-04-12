@@ -85,5 +85,6 @@
     </x-new-nav-link-dropdown>
     <x-new-nav-link-dropdown title="Payroll" route="admin.payrolls*" fa_icon="fa-cash-register">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.payrolls.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Payments" route="admin.payroll_payments.index"></x-new-nav-link>
     </x-new-nav-link-dropdown>
 </ul>

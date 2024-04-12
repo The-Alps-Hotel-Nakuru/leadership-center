@@ -234,7 +234,7 @@
                                                     <i class="material-icons material-symbols-outlined">description</i>
                                                 </button>
                                             </div>
-                                            @if (!count($payroll->payment) > 0)
+                                            @if (!$payroll->payment)
                                                 <div class="flex-col m-3">
                                                     <button class="btn btn-dark" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Make Payments"
