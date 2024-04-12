@@ -38,6 +38,7 @@
                             <th scope="col">Month Issued</th>
                             <th scope="col">Amount <small>(KES)</small></th>
                             <th scope="col">Reason</th>
+                            <th scope="col">Transaction Reference</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -50,6 +51,7 @@
                                 </td>
                                 <td>KES {{ number_format($advance->amount_kes) }}</td>
                                 <td>{{ $advance->reason }}</td>
+                                <td>{{ $advance->transaction }}</td>
                                 <td class="d-flex flex-row justify-content-center">
                                     <div class="flex-col me-2">
                                         <a href="{{ route('admin.advances.edit', $advance->id) }}"

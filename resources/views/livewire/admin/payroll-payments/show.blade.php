@@ -29,13 +29,14 @@
                             <th scope="col">Bonuses</th>
                             <th scope="col">Welfare Contributions</th>
                             <th scope="col">Fines</th>
+                            <th scope="col" class="bg-dark">NET PAY</th>
                             <th scope="col">Bank Account</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($payments as $payment)
+                        @foreach ($payments as $key => $payment)
                             <tr class="">
-                                <td scope="row">{{ $payment->id }}</td>
+                                <td scope="row">{{ $key + 1 }}</td>
                                 <td>{{ $payment->employee->user->name }}</td>
                                 <td>{{ $payment->employee->user->email }}</td>
                                 <td>KES {{ number_format($payment->gross_salary) }}</td>
@@ -49,10 +50,11 @@
                                 <td>KES {{ number_format($payment->total_bonuses) }}</td>
                                 <td>KES {{ number_format($payment->total_welfare_contributions) }}</td>
                                 <td>KES {{ number_format($payment->total_fines) }}</td>
+                                <td>KES {{ number_format($payment->net_pay) }}</td>
                                 <td>
-                                    {{ $payment->bank->name}}
+                                    {{ $payment->bank->name }}
                                     <br>
-                                    {{ $payment->account_number}}
+                                    {{ $payment->account_number }}
 
                                 </td>
                             </tr>

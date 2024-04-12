@@ -11,14 +11,16 @@ class Show extends Component
     use WithPagination;
     public Payroll $payroll;
 
-    function mount($id) {
+    function mount($id)
+    {
         $this->payroll = Payroll::find($id);
     }
 
     public function render()
     {
-        return view('livewire.admin.payroll-payments.show',[
-            'payments'=>collect($this->payroll->payments)->sortByDesc('gross_salary')
+        $payments = $this->payroll->payments()->orderBy('gross_salary', 'DESC')->get();
+        return view('livewire.admin.payroll-payments.show', [
+            'payments' => $payments
         ]);
     }
 }
