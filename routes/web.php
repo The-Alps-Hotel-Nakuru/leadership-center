@@ -101,6 +101,19 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/{id}/edit', Admin\Fines\Edit::class)->name('admin.fines.edit');
             Route::get('/mass_addition', Admin\Fines\MassAddition::class)->name('admin.employee_fines.mass_addition');
         });
+        Route::prefix('loans')->group(function () {
+            Route::get('/', Admin\Loans\Index::class)->name('admin.loans.index');
+            Route::get('/create', Admin\Loans\Create::class)->name('admin.loans.create');
+            Route::get('/{id}/edit', Admin\Loans\Edit::class)->name('admin.loans.edit');
+            Route::get('/{id}/show', Admin\Loans\Show::class)->name('admin.loans.show');
+        });
+
+        Route::prefix('loan_deductions')->group(function () {
+            Route::get('/', Admin\LoanDeductions\Index::class)->name('admin.loan_deductions.index');
+            Route::get('/create', Admin\LoanDeductions\Create::class)->name('admin.loan_deductions.create');
+            Route::get('/{id}/edit', Admin\LoanDeductions\Edit::class)->name('admin.loan_deductions.edit');
+        });
+
         Route::prefix('bonuses')->group(function () {
             Route::get('/', Admin\Bonuses\Index::class)->name('admin.bonuses.index');
             Route::get('/create', Admin\Bonuses\Create::class)->name('admin.bonuses.create');

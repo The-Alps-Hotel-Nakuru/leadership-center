@@ -29,25 +29,31 @@
         $routeOne = ['admin.departments*', 'admin.designations*', 'admin.responsibilities*'];
 
     @endphp
-    <x-new-nav-link-dropdown active="{{ request()->routeIs($routeOne) ? true : false }}" route="" title="Departments" route="admin.departments*" fa_icon="fa-building">
+    <x-new-nav-link-dropdown active="{{ request()->routeIs($routeOne) ? true : false }}" route=""
+        title="Departments" route="admin.departments*" fa_icon="fa-building">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.departments.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create a Department" route="admin.departments.create"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Designations List" route="admin.designations.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create a Designation" route="admin.designations.create"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="List of Responsibilities" route="admin.responsibilities.index" active="{{ request()->routeIs('admin.responsibilities.create') ? true : false }}"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="List of Responsibilities" route="admin.responsibilities.index"
+            active="{{ request()->routeIs('admin.responsibilities.create') ? true : false }}"></x-new-nav-link>
     </x-new-nav-link-dropdown>
 
     @php
-        $routeTwo = ['admin.employees*', 'admin.employee_contracts*', 'admin.employee_accounts*','admin.bans*'];
+        $routeTwo = ['admin.employees*', 'admin.employee_contracts*', 'admin.employee_accounts*', 'admin.bans*'];
 
     @endphp
-    <x-new-nav-link-dropdown title="Employees" active="{{ request()->routeIs($routeTwo) ? true : false }}" route="" fa_icon="fa-user-md">
+    <x-new-nav-link-dropdown title="Employees" active="{{ request()->routeIs($routeTwo) ? true : false }}"
+        route="" fa_icon="fa-user-md">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.employees.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create an Employee" route="admin.employees.create"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="Create Multiple Employees" route="admin.employees.mass_addition"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Create Multiple Employees"
+            route="admin.employees.mass_addition"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Banned Employees" route="admin.bans.index"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="List of Contracts" route="admin.employee_contracts.index"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="Create a Contract" route="admin.employee_contracts.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="List of Contracts"
+            route="admin.employee_contracts.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Create a Contract"
+            route="admin.employee_contracts.create"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create Multiple Employee Contracts"
             route="admin.employee_contracts.mass_addition"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Bank Accounts" route="admin.employee_accounts.index"></x-new-nav-link>
@@ -58,15 +64,18 @@
     </x-new-nav-link-dropdown>
     <x-new-nav-link-dropdown title="Attendances" route="admin.attendances*" fa_icon="fa-calendar-check">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.attendances.index"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="Add an Attendance Record" route="admin.attendances.create"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="Create Multiple Attendances" route="admin.attendances.mass_addition"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Add an Attendance Record"
+            route="admin.attendances.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Create Multiple Attendances"
+            route="admin.attendances.mass_addition"></x-new-nav-link>
 
 
     </x-new-nav-link-dropdown>
     <x-new-nav-link-dropdown title="Leaves" route="admin.leaves*" fa_icon="fa-umbrella-beach">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.leaves.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Add a Leave Record" route="admin.leaves.create"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="Create Multiple Leaves" route="admin.leaves.mass_addition"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Create Multiple Leaves"
+            route="admin.leaves.mass_addition"></x-new-nav-link>
 
 
     </x-new-nav-link-dropdown>
@@ -79,8 +88,14 @@
         <x-new-nav-link fa_icon="" title="Fines" route="admin.fines.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Bonuses" route="admin.bonuses.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Salary Advances" route="admin.advances.index"></x-new-nav-link>
-        <x-new-nav-link fa_icon="" title="Welfare Contributions" route="admin.welfare_contributions.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Welfare Contributions"
+            route="admin.welfare_contributions.index"></x-new-nav-link>
 
+
+    </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Loan Management" route="admin.loans*" fa_icon="fa-coins">
+        <x-new-nav-link fa_icon="" title="List of Loans" route="admin.loans.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Create a new Loan " route="admin.loans.create"></x-new-nav-link>
 
     </x-new-nav-link-dropdown>
     <x-new-nav-link-dropdown title="Payroll" route="admin.payrolls*" fa_icon="fa-cash-register">

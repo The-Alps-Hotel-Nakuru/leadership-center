@@ -19,7 +19,7 @@ class EmployeesDetail extends Model
 
     function ban()
     {
-        return $this->hasOne(Ban::class, 'employees_detail_id', 'id' );
+        return $this->hasOne(Ban::class, 'employees_detail_id', 'id');
     }
 
     function getIsBannedAttribute()
@@ -304,8 +304,24 @@ class EmployeesDetail extends Model
     {
         return $this->hasMany(Fine::class);
     }
+
+    public function loans()
+    {
+        return $this->hasManyThrough(LoanDeduction::class, Loan::class, 'employees_detail_id', 'loan_id', 'id', 'id');
+    }
     public function bankAccount()
     {
         return $this->hasOne(EmployeeAccount::class, 'employees_detail_id', 'id');
+    }
+
+
+    public function netSalary($yearmonth)
+    {
+        $ym = Carbon::parse($yearmonth);
+        foreach ($this->monthlySalaries as $salary) {
+            if($salary->payroll->year== $ym->year && $salary->payroll->month == $ym->month){
+                return $salary->net_pay;
+            }
+        }
     }
 }

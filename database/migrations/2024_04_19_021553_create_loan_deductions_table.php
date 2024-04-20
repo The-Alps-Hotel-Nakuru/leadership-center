@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('loan_payments', function (Blueprint $table) {
+        Schema::create('loan_deductions', function (Blueprint $table) {
             $table->id();
+            $table->year('year');
+            $table->unsignedTinyInteger('month');
+            $table->index(['year', 'month'], 'period');
+            $table->foreignId('loan_id')->constrained()->cascadeOnDelete();
+            $table->decimal('amount', 10, 2);
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('loan_payments');
+        Schema::dropIfExists('loan_deductions');
     }
 };

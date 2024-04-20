@@ -4,7 +4,7 @@
 
 
     <div class="d-flex mb-3">
-        <button class="btn btn-dark ms-auto me-2" wire:loading.attr="disabled" wire:target="exportNssfData"
+        <button class="btn btn-dark ms-auto ml-2" wire:loading.attr="disabled" wire:target="exportNssfData"
             wire:click="exportNssfData">
             <span wire:loading.remove wire:target="exportNssfData">
                 Export NSSF Data
@@ -14,7 +14,7 @@
             </span>
         </button>
 
-        <button class="btn btn-success me-2" wire:loading.attr="disabled" wire:target="exportNhifData"
+        <button class="btn btn-success ml-2" wire:loading.attr="disabled" wire:target="exportNhifData"
             wire:click="exportNhifData">
             <span wire:loading.remove wire:target="exportNhifData">
                 Export NHIF Data
@@ -24,7 +24,7 @@
             </span>
         </button>
 
-        <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="exportKraData"
+        <button class="btn btn-primary ml-2" wire:loading.attr="disabled" wire:target="exportKraData"
             wire:click="exportKraData">
             <span wire:loading.remove wire:target="exportKraData">
                 Export KRA Data
@@ -34,8 +34,8 @@
             </span>
         </button>
 
-        {{-- <a href="" class="btn btn-dark ms-auto me-2" wire:click.prevent="exportNssfData">Export NSSF Data</a> --}}
-        {{-- <a href="" class="btn btn-success me-2" wire:click.prevent="exportNhifData">Export NHIF Data</a> --}}
+        {{-- <a href="" class="btn btn-dark ms-auto ml-2" wire:click.prevent="exportNssfData">Export NSSF Data</a> --}}
+        {{-- <a href="" class="btn btn-success ml-2" wire:click.prevent="exportNhifData">Export NHIF Data</a> --}}
         {{-- <a href="" class="btn btn-primary" wire:click.prevent="exportKraData">Export KRA Data</a> --}}
     </div>
     <div class=" mb-3">

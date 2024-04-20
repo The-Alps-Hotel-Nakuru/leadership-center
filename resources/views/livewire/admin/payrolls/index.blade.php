@@ -62,6 +62,7 @@
                             <th>Total Advances</th>
                             <th>Total Bonuses</th>
                             <th>Total Fines</th>
+                            <th>Total Loans</th>
                             <th>Staff Welfare Contributions</th>
                             <th>Total PAYE</th>
                             <th>Total NHIF</th>
@@ -73,6 +74,9 @@
                     <tbody class="table-group-divider">
                         @if (!$payrolls)
                             <tr>
+                                <th>
+                                    <div class="spinner-grow" role="status"></div>
+                                </th>
                                 <th>
                                     <div class="spinner-grow" role="status"></div>
                                 </th>
@@ -197,6 +201,11 @@
                                     <td>
                                         KES
                                         <span class="text-success">{{ number_format($payroll->fines_total, 2) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        KES
+                                        <span class="text-success">{{ number_format($payroll->loans_total, 2) }}
                                         </span>
                                     </td>
                                     <td>

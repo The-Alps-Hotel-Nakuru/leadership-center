@@ -118,6 +118,19 @@ class Payroll extends Model
 
         return $amount;
     }
+    public function getLoansTotalAttribute()
+    {
+        $amount = 0;
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)) {
+                    $amount += $salary->loans;
+                }
+            }
+        }
+
+        return $amount;
+    }
     public function getPenaltyTotalAttribute()
     {
         $amount = 0;

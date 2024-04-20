@@ -29,35 +29,40 @@
                             <th scope="col">Bonuses</th>
                             <th scope="col">Welfare Contributions</th>
                             <th scope="col">Fines</th>
+                            <th scope="col">Loans</th>
                             <th scope="col" class="bg-dark">NET PAY</th>
                             <th scope="col">Bank Account</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($payments as $key => $payment)
-                            <tr class="">
-                                <td scope="row">{{ $key + 1 }}</td>
-                                <td>{{ $payment->employee->user->name }}</td>
-                                <td>{{ $payment->employee->user->email }}</td>
-                                <td>KES {{ number_format($payment->gross_salary) }}</td>
-                                <td>KES {{ number_format($payment->nssf) }}</td>
-                                <td>KES {{ number_format($payment->nhif) }}</td>
-                                <td>KES {{ number_format($payment->housing_levy) }}</td>
-                                <td>KES {{ number_format($payment->paye) }}</td>
-                                <td>KES {{ number_format($payment->attendance_penalty) }}</td>
-                                <td>KES {{ number_format($payment->tax_rebate) }}</td>
-                                <td>KES {{ number_format($payment->total_advances) }}</td>
-                                <td>KES {{ number_format($payment->total_bonuses) }}</td>
-                                <td>KES {{ number_format($payment->total_welfare_contributions) }}</td>
-                                <td>KES {{ number_format($payment->total_fines) }}</td>
-                                <td>KES {{ number_format($payment->net_pay) }}</td>
-                                <td>
-                                    {{ $payment->bank->name }}
-                                    <br>
-                                    {{ $payment->account_number }}
+                            @if ($payment->net_pay > 0)
+                                <tr class="">
+                                    <td scope="row">{{ $key + 1 }}</td>
+                                    <td>{{ $payment->employee->user->name }}</td>
+                                    <td>{{ $payment->employee->user->email }}</td>
+                                    <td>KES {{ number_format($payment->gross_salary) }}</td>
+                                    <td>KES {{ number_format($payment->nssf) }}</td>
+                                    <td>KES {{ number_format($payment->nhif) }}</td>
+                                    <td>KES {{ number_format($payment->housing_levy) }}</td>
+                                    <td>KES {{ number_format($payment->paye) }}</td>
+                                    <td>KES {{ number_format($payment->attendance_penalty) }}</td>
+                                    <td>KES {{ number_format($payment->tax_rebate) }}</td>
+                                    <td>KES {{ number_format($payment->total_advances) }}</td>
+                                    <td>KES {{ number_format($payment->total_bonuses) }}</td>
+                                    <td>KES {{ number_format($payment->total_welfare_contributions) }}</td>
+                                    <td>KES {{ number_format($payment->total_fines) }}</td>
+                                    <td>KES {{ number_format($payment->total_loans) }}</td>
+                                    <td class="bg-secondary">KES
+                                        <strong>{{ number_format($payment->net_pay) }}</strong></td>
+                                    <td>
+                                        {{ $payment->bank->name }}
+                                        <br>
+                                        {{ $payment->account_number }}
 
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
 
                     </tbody>

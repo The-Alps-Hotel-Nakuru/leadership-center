@@ -352,6 +352,18 @@ class MonthlySalary extends Model
 
         return $f;
     }
+    public function getLoansAttribute()
+    {
+        $l = 0;
+        foreach ($this->employee->loans as $loan) {
+            if ($loan->year == $this->payroll->year && $loan->month == $this->payroll->month) {
+                $l += $loan->amount; //check the month
+            }
+        }
+
+
+        return $l;
+    }
 
 
 
@@ -391,7 +403,7 @@ class MonthlySalary extends Model
 
     public function getTotalDeductionsAttribute()
     {
-        return $this->nhif + $this->nssf + $this->housing_levy + $this->attendance_penalty + $this->paye + $this->fines + $this->advances + $this->welfare_contributions;
+        return $this->nhif + $this->nssf + $this->housing_levy + $this->attendance_penalty + $this->paye + $this->fines + $this->advances + $this->welfare_contributions + $this->loans;
     }
 
     public function getTotalAdditionsAttribute()

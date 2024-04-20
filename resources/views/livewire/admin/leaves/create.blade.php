@@ -38,7 +38,7 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="" class="form-label">City</label>
-                        <select wire:model='leave.leave_type_id' class="form-select form-select-lg" name=""
+                        <select wire:model='leave.leave_type_id' class="form-control" name=""
                             id="">
                             <option selected>Select one</option>
                             @foreach ($leave_types as $type)
