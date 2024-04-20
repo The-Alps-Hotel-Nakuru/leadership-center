@@ -52,7 +52,7 @@
                             <small id="account_number" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                    <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="saveAccountDetails"
+                    {{-- <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="saveAccountDetails"
                         wire:click="saveAccountDetails">
                         <span wire:loading.remove wire:target="saveAccountDetails">
                             Save Details
@@ -60,7 +60,7 @@
                         <span wire:loading wire:target="saveAccountDetails">
                             Saving...
                         </span>
-                    </button>
+                    </button> --}}
                 </div>
             </div>
         </div>
@@ -146,7 +146,7 @@
 
                         </div>
                     </div>
-                    <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="saveBasicDetails"
+                    {{-- <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="saveBasicDetails"
                         wire:click="saveBasicDetails">
                         <span wire:loading.remove wire:target="saveBasicDetails">
                             Save Details
@@ -154,7 +154,7 @@
                         <span wire:loading wire:target="saveBasicDetails">
                             Saving...
                         </span>
-                    </button>
+                    </button> --}}
                 </div>
             </div>
             <div class="card mb-4 shadow">
@@ -199,7 +199,7 @@
                         </div>
 
                     </div>
-                    <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="saveMoreDetails"
+                    {{-- <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="saveMoreDetails"
                         wire:click="saveMoreDetails">
                         <span wire:loading.remove wire:target="saveMoreDetails">
                             Save Details
@@ -207,7 +207,7 @@
                         <span wire:loading wire:target="saveMoreDetails">
                             Saving...
                         </span>
-                    </button>
+                    </button> --}}
                 </div>
             </div>
         </div>
