@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('amount', 8, 2);
             $table->year('year');
             $table->unsignedBigInteger('month');
-            $table->unique(['year', 'month'], 'first_payment_period');
+            $table->index(['year', 'month'], 'first_payment_period');
             $table->string('transaction');
             $table->timestamps();
         });
