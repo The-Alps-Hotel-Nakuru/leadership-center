@@ -108,6 +108,29 @@
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-8 col-12 ">
+                                <div class="card bg-gradient-black text-white h-100" style="min-height: 150px">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-baseline mb-3">
+                                            <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">Total
+                                                Loan Deductions</h6>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 col-xl-9">
+                                                <small>KES</small>
+                                                <div class="d-flex align-items-baseline ms-auto">
+                                                    <h4 class="mb-2"> {{ number_format($total_loans, 2) }}
+                                                    </h4>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-xl-9">
+                                                <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- <div class="col-md-3 col-sm-8 col-12 ">
                                 <div class="card h-100 @if ($attendance_percentage >= 85) bg-success @elseif ($attendance_percentage < 85 && $attendance_percentage >= 55) bg-warning @else  bg-danger @endif"
                                     style="min-height: 150px">
                                     <div class="card-body">
@@ -131,7 +154,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -168,9 +191,11 @@
                                     @endphp
                                 </div>
                             @endfor
+
                         </div>
                     </div>
                     <div class="card-footer">
+                        <h4 class="text-center font-weight-bold">{{ $attendance_percentage }}%</h4>
                         <h4 class="text-right font-weight-bold">{{ $count }} Days</h4>
                     </div>
                 </div>

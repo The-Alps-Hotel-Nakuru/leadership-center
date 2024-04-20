@@ -10,6 +10,7 @@ use Livewire\Component;
 class Dashboard extends Component
 {
     public $total_fines = 0;
+    public $total_loans = 0;
     public $total_bonuses = 0;
     public $total_advances = 0;
     public $attendance_percentage = 0;
@@ -106,6 +107,12 @@ class Dashboard extends Component
         foreach ($this->employee->fines as $fine) {
             if ($fine->year == $this->instance->format('Y') && $fine->month == $this->instance->format('m')) {
                 $this->total_fines += $fine->amount_kes;
+            }
+        }
+        $this->total_loans = 0;
+        foreach ($this->employee->loans as $loan) {
+            if ($loan->year == $this->instance->format('Y') && $loan->month == $this->instance->format('m')) {
+                $this->total_loans += $loan->amount;
             }
         }
         $this->total_advances = 0;
