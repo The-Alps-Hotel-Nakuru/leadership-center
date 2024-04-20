@@ -318,10 +318,19 @@ class EmployeesDetail extends Model
     public function netSalary($yearmonth)
     {
         $ym = Carbon::parse($yearmonth);
-        foreach ($this->monthlySalaries as $salary) {
-            if($salary->payroll->year== $ym->year && $salary->payroll->month == $ym->month){
-                return $salary->net_pay;
-            }
+
+        $daysWorked = $this->daysWorked($yearmonth);
+
+        $contract = $this->ActiveContractDuring($yearmonth);
+
+        $net = 0;
+        if ($contract->is_casual()) {
+            $net = $contract->salary_kes * $daysWorked;
+        } else {
+            $net = $contract->salary_kes - $contract->nssf($yearmonth) - $contract->nhif() - $contract->paye($yearmonth) + $contract->relief();
         }
+
+
+        return $net;
     }
 }

@@ -194,6 +194,25 @@
         </thead>
         <br>
         <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">
+                Loan Repayments
+                @if (count($salary->employee->loans) > 0)
+                    <br>
+                    <ul>
+                        @foreach ($salary->employee->loans as $loan)
+                            @if ($loan->year == $salary->payroll->year && $loan->month == $salary->payroll->month)
+                                <li style="font-size: 8">{{ $loan->reason }}: <br><br><strong>KES
+                                        {{ number_format($loan->amount, 2) }}</strong>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                @endif
+            </td>
+            <td colspan="1" style="text-align: right">({{ number_format($salary->loans, 2) }})</td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">Attendance Penalty</td>
             <td colspan="1" style="text-align: right">(<small>KES
                 </small>{{ number_format($salary->attendance_penalty, 2) }})</td>
