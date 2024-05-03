@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Employees;
 use App\Exports\EmployeeKRAExport;
 use App\Exports\EmployeeNHIFExport;
 use App\Exports\EmployeeNSSFExport;
+use App\Exports\EmployeesDataTemplateExport;
 use App\Jobs\PasswordResetMailJob;
 use App\Models\Ban;
 use App\Models\EmployeesDetail;
@@ -121,6 +122,14 @@ class Index extends Component
     public function exportNssfData()
     {
         return Excel::download(new EmployeeNSSFExport, 'employeesnssf.xlsx');
+
+        $this->emit('done', [
+            'success' => 'NSSF data exported successfully'
+        ]);
+    }
+    public function downloadEmployeesTemplate()
+    {
+        return Excel::download(new EmployeesDataTemplateExport, 'employees_data_template.xlsx');
 
         $this->emit('done', [
             'success' => 'NSSF data exported successfully'

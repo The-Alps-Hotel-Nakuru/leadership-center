@@ -27,7 +27,7 @@ class EmployeesDataExport implements FromCollection, WithHeadings, WithMapping, 
         return [
             "USERID",
             "Badgenumber",
-            "NATIONAL_ID",
+            "NATIONAL ID",
             "NAME",
             "EMAIL ADDRESS",
             "GENDER",
@@ -38,27 +38,31 @@ class EmployeesDataExport implements FromCollection, WithHeadings, WithMapping, 
             "NATIONALITY",
             "KRA PIN",
             "NSSF",
-            "NHIF"
+            "NHIF",
+            "BANK",
+            "ACCOUNT NUMBER",
         ];
     }
 
     public function map($row): array
     {
         return [
-            $row->id,
-            "",
-            $row->national_id ?? "",
-            $row->user->name,
-            $row->user->email,
-            $row->gender,
-            $row->designation->title,
-            $row->phone_number,
-            (Carbon::parse($row->birth_date)->getTimestamp() / 86400) + 25569,
-            (Carbon::parse($row->created_at)->getTimestamp() / 86400) + 25569,
-            "Kenyan",
-            $row->kra_pin ?? "",
-            $row->nssf ?? "",
-            $row->nhif ?? "",
+            $row->id,                   //A
+            "",                         //B
+            $row->national_id ?? "",    //C
+            $row->user->name,           //D
+            $row->user->email,          //E
+            $row->gender,               //F
+            $row->designation->title,   //G
+            $row->phone_number,         //H
+            (Carbon::parse($row->birth_date)->getTimestamp() / 86400) + 25569,  //I
+            (Carbon::parse($row->created_at)->getTimestamp() / 86400) + 25569,  //J
+            "Kenyan",                   //K
+            $row->kra_pin ?? "",        //L
+            $row->nssf ?? "",           //M
+            $row->nhif ?? "",           //N
+            $row->bankAccount->bank->short_name ?? "",    //O
+            $row->bankAccount->account_number ?? "",      //P
         ];
     }
 
@@ -71,12 +75,17 @@ class EmployeesDataExport implements FromCollection, WithHeadings, WithMapping, 
         ];
     }
 
+    // private $showDropDown = true;
+
     public function columnFormats(): array
     {
         return [
             'H' => NumberFormat::FORMAT_TEXT,
             'I' => NumberFormat::FORMAT_DATE_DMYMINUS,
             'J' => NumberFormat::FORMAT_DATE_DMYMINUS,
+            'O' => NumberFormat::FORMAT_TEXT,
+            'P' => NumberFormat::FORMAT_TEXT,
+
         ];
     }
 }

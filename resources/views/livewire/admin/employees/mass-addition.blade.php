@@ -191,9 +191,13 @@
                                                             ($key == 4 ? 'Email Address, ' :
                                                                 ($key == 5 ? 'Gender, ' :
                                                                     ($key == 6 ? 'Designation, ' :
-                                                                        ($key == 7 ? 'Phone Number (Invalid Format or Null), ' :
+                                                                        ($key == 7 ? 'Phone Number, ' :
                                                                             ($key == 8 ? 'Birthday, ' :
-                                                                                ($key == 10 ? 'Nationality, ' : '')
+                                                                                ($key == 10 ? 'Nationality, ' : 
+                                                                                    ($key == 14 ? 'Bank Name, ' :
+                                                                                        ($key == 15 ? 'Bank Acount Number, ' :'')
+                                                                                    )
+                                                                                )
                                                                             )
                                                                         )
                                                                     )

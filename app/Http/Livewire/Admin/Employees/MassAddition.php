@@ -5,7 +5,9 @@ namespace App\Http\Livewire\Admin\Employees;
 use App\Imports\EmployeesImport;
 use App\Jobs\SendWelcomeEmailJob;
 use App\Mail\AccountCreated;
+use App\Models\Bank;
 use App\Models\Designation;
+use App\Models\EmployeeAccount;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\User;
@@ -38,23 +40,39 @@ class MassAddition extends Component
     {
         $this->validate();
 
-        $this->reset(['readyUsers', 'existingUsers', 'invalidUsers']);
         // Store the uploaded file
         $filePath = $this->employeeFile->store('excel_files');
-
+        
         // Import and parse the Excel data
         $import = new EmployeesImport();
         Excel::import($import, $filePath);
-
+        
         // Access the parsed data
         $data = $import->getData();
-
+        
         // dd($data);
-
+        
         $values = [];
-
-        $fields = ["USERID", "Badgenumber", "NATIONAL_ID", "NAME", "EMAIL ADDRESS", "GENDER", "DESIGNATION", "PHONE NUMBER", "BIRTHDAY", "HIREDDAY", "NATIONALITY", "KRA PIN", "NSSF", "NHIF"];
-
+        
+        $fields = [
+            "USERID",
+            "Badgenumber",
+            "NATIONAL ID",
+            "NAME",
+            "EMAIL ADDRESS",
+            "GENDER",
+            "DESIGNATION",
+            "PHONE NUMBER",
+            "BIRTHDAY",
+            "HIREDDAY",
+            "NATIONALITY",
+            "KRA PIN",
+            "NSSF",
+            "NHIF",
+            "BANK",
+            "ACCOUNT NUMBER",
+        ];
+        
         for ($i = 0; $i < count($fields); $i++) {
             if ($data[0][$i] != $fields[$i]) {
                 throw ValidationException::withMessages([
@@ -62,39 +80,23 @@ class MassAddition extends Component
                 ]);
             }
         }
-
-        foreach ($data as $item) {
-            // if (count($item) != 14) {
-            //     throw ValidationException::withMessages([
-            //         'employeeFile' => ['This Document is not Valid']
-            //     ]);
-            // }
-
-            if ($item[0] != null) {
-                array_push($values, [$item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7], $item[8], $item[9], $item[10], $item[11], $item[12], $item[13]],);
-            }
+        
+        $this->reset(['readyUsers', 'existingUsers', 'invalidUsers']);
+        foreach ($data as $item) {           
+                    if ($item[0] != null) {
+                        array_push($values, [$item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7], $item[8], $item[9], $item[10], $item[11], $item[12], $item[13], $item[14], $item[15]],);
+                    }
+                }
+                
+                for ($i = 1; $i < count($values); $i++) {
+                    if (!$values[$i][2] || !$values[$i][3] || !$values[$i][4] || !$values[$i][5] || !$values[$i][6] || !$values[$i][7] || !$values[$i][8] || !$values[$i][10] || !$values[$i][14] || !$values[$i][15] || !preg_match('/^\d{10}$/', $values[$i][7]) || !Designation::where('title', 'LIKE', '%' . $values[$i][6] . '%')->exists() || !Bank::where('short_name', 'LIKE', '%' . $values[$i][14] . '%')->exists()) {
+                        array_push($this->invalidUsers, $values[$i]);
+                    } elseif (User::where('email', $values[$i][4])->exists() || EmployeesDetail::where('phone_number', $values[$i][7])->exists() || EmployeesDetail::where('national_id', $values[$i][2])->exists()) {
+                        array_push($this->existingUsers, $values[$i]);
+                    } else {
+                        array_push($this->readyUsers, $values[$i]);
+                    }
         }
-        // dd($values);
-
-        // dd($test);
-
-        for ($i = 1; $i < count($values); $i++) {
-            if (!$values[$i][2] || !$values[$i][3] || !$values[$i][4] || !$values[$i][5] || !$values[$i][6] || !$values[$i][7] || !$values[$i][8] || !$values[$i][10]  || !preg_match('/^\d{10}$/', $values[$i][7]) || !Designation::where('title', 'LIKE', '%' . $values[$i][6] . '%')->exists()) {
-                array_push($this->invalidUsers, $values[$i]);
-            } elseif (User::where('email', $values[$i][4])->exists()) {
-                array_push($this->existingUsers, $values[$i]);
-            } else {
-                array_push($this->readyUsers, $values[$i]);
-            }
-        }
-
-        // if (count($this->productsList) == 0) {
-        //     $this->emit('done', [
-        //         'info' => 'There were no items that matched the system database'
-        //     ]);
-        // }
-        // unlink($filePath);
-
     }
 
     function uploadUsers()
@@ -102,6 +104,7 @@ class MassAddition extends Component
         foreach ($this->readyUsers as $key => $readyUser) {
             $user = new User();
             $employee = new EmployeesDetail();
+            $bank = new EmployeeAccount();
             $password = Str::random(12);
             $name = explode(" ", $readyUser[3]);
             $user->last_name = array_pop($name);
@@ -124,6 +127,10 @@ class MassAddition extends Component
                 $employee->nhif = $readyUser[13];
             }
             $employee->save();
+            $bank->employees_detail_id = $employee->id;
+            $bank->bank_id = Bank::where('short_name', 'LIKE', '%' . $readyUser[14] . '%')->first()->id;
+            $bank->account_number = $readyUser[15];
+            $bank->save();
             $this->uploadingUsersCount++;
             // Mail::to($user->email)->send(new AccountCreated($user, $employee, $password));
             SendWelcomeEmailJob::dispatch($user, $employee, $password);
@@ -137,7 +144,7 @@ class MassAddition extends Component
         $log = new Log();
         $log->user_id = auth()->user()->id;
         $log->model = 'App\Models\EmployeesDetail';
-        $log->payload = "<strong>" . auth()->user()->name . "</strong> has created <strong> " . count($this->readyUsers). " employees</strong> in the system through mass addition";
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has created <strong> " . count($this->readyUsers) . " employees</strong> in the system through mass addition";
         $log->save();
     }
 

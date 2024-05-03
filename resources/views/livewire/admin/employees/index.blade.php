@@ -34,6 +34,17 @@
             </span>
         </button>
 
+        <button class="btn btn-primary ml-auto" wire:loading.attr="disabled" wire:target="downloadEmployeesTemplate"
+                wire:click="downloadEmployeesTemplate">
+                <span wire:loading.remove wire:target="downloadEmployeesTemplate">
+                    Download Employees Mass Addition Template
+                </span>
+                <span wire:loading wire:target="downloadEmployeesTemplate">
+                    Downloading...
+                </span>
+            </button>
+
+
         {{-- <a href="" class="btn btn-dark ms-auto ml-2" wire:click.prevent="exportNssfData">Export NSSF Data</a> --}}
         {{-- <a href="" class="btn btn-success ml-2" wire:click.prevent="exportNhifData">Export NHIF Data</a> --}}
         {{-- <a href="" class="btn btn-primary" wire:click.prevent="exportKraData">Export KRA Data</a> --}}
