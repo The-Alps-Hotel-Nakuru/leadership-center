@@ -16,8 +16,8 @@ class Holiday extends Model
             if (Carbon::parse($this->date)->isBetween(Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) && count($payroll->payments) > 0) {
                 return true;
             }
-
-            return false;
         }
+
+        return false;
     }
 }
