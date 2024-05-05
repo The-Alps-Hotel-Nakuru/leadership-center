@@ -33,7 +33,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.holidays.index', [
-            'holidays' => Holiday::orderBy('created_at', 'desc')->paginate(10),
+            'holidays' => Holiday::orderBy('date', 'desc')->paginate(10),
         ]);
     }
 }
