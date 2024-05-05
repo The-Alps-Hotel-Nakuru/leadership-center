@@ -84,7 +84,7 @@ class ExternalExport implements FromCollection, WithHeadings, WithMapping, WithC
             $row->advances,
             $row->bonuses,
             $row->fines,
-            0,
+            $row->loans,
             $row->welfare_contributions,
             $row->total_additions,
             $row->total_deductions,

@@ -86,7 +86,7 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
             $row->advances,
             $row->bonuses,
             $row->fines,
-            0,
+            $row->loans,
             $row->welfare_contributions,
             $row->total_additions,
             $row->total_deductions,
