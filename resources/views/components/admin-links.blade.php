@@ -59,26 +59,31 @@
         <x-new-nav-link fa_icon="" title="Bank Accounts" route="admin.employee_accounts.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create Multiple Employee Accounts"
             route="admin.employee_accounts.mass_addition"></x-new-nav-link>
-
-
     </x-new-nav-link-dropdown>
+
+
+    <li class="nav-header">Datings</li>
     <x-new-nav-link-dropdown title="Attendances" route="admin.attendances*" fa_icon="fa-calendar-check">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.attendances.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Add an Attendance Record"
             route="admin.attendances.create"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create Multiple Attendances"
             route="admin.attendances.mass_addition"></x-new-nav-link>
-
-
     </x-new-nav-link-dropdown>
     <x-new-nav-link-dropdown title="Leaves" route="admin.leaves*" fa_icon="fa-umbrella-beach">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.leaves.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Add a Leave Record" route="admin.leaves.create"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create Multiple Leaves"
             route="admin.leaves.mass_addition"></x-new-nav-link>
-
-
     </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Holidays" route="admin.holidays*" fa_icon="fa-snowflake">
+        <x-new-nav-link fa_icon="" title="Overview" route="admin.holidays.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Add a Holiday" route="admin.holidays.create"></x-new-nav-link>
+    </x-new-nav-link-dropdown>
+
+
+
+    <li class="nav-header">Accounting</li>
     @php
         $routeThree = ['admin.fines*', 'admin.bonuses*', 'admin.advances*', 'admin.welfare_contributions*'];
 

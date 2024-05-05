@@ -10,6 +10,25 @@ class Index extends Component
 {
     use WithPagination;
 
+    public function delete($id)
+    {
+        $holiday = Holiday::find($id);
+
+        if ($holiday->is_covered) {
+            $this->emit(
+                "done",
+                ["warning" => "Cannot delete this holiday as it has already been accounted for in a Payroll Payment"]
+            );
+
+            return;
+        }
+
+        $holiday->delete();
+        $this->emit(
+            "done",
+            ["success" => "Successfully Deleted the Holiday"]
+        );
+    }
 
     public function render()
     {
