@@ -23,8 +23,8 @@
                             <th scope="col">NHIF Premium</th>
                             <th scope="col">Housing Levy</th>
                             <th scope="col">PAYE</th>
-                            <th scope="col">Attendance Penalty</th>
-                            <th scope="col">Tax Rebates</th>
+                            <th scope="col">Attendance Bonuses/Penalty</th>
+                            <th scope="col">Tax Additions/Rebates</th>
                             <th scope="col">Advances</th>
                             <th scope="col">Bonuses</th>
                             <th scope="col">Welfare Contributions</th>

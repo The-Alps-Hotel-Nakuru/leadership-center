@@ -51,7 +51,16 @@
         </thead>
     </table>
     @php
-        $active_contract = $salary->employee->ActiveContractDuring(Carbon\Carbon::createFromFormat('Y-m', $salary->payroll->year . '-' . $salary->payroll->month)->firstOfMonth(), Carbon\Carbon::createFromFormat('Y-m', $salary->payroll->year . '-' . $salary->payroll->month)->lastOfMonth());
+        $active_contract = $salary->employee->ActiveContractDuring(
+            Carbon\Carbon::createFromFormat(
+                'Y-m',
+                $salary->payroll->year . '-' . $salary->payroll->month,
+            )->firstOfMonth(),
+            Carbon\Carbon::createFromFormat(
+                'Y-m',
+                $salary->payroll->year . '-' . $salary->payroll->month,
+            )->lastOfMonth(),
+        );
     @endphp
     <table>
         <thead>
@@ -212,32 +221,43 @@
             <td colspan="1" style="text-align: right">({{ number_format($salary->loans, 2) }})</td>
         </thead>
         <br>
-        <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">Attendance Penalty</td>
-            <td colspan="1" style="text-align: right">(<small>KES
-                </small>{{ number_format($salary->attendance_penalty, 2) }})</td>
-        </thead>
-        <br>
-        <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">
-                Staff Welfare Contribution
-                @if (count($salary->employee->welfareContributions) > 0)
-                    <br>
-                    <ul>
-                        @foreach ($salary->employee->welfareContributions as $welfare_contribution)
-                            @if ($welfare_contribution->year == $salary->payroll->year && $welfare_contribution->month == $salary->payroll->month)
-                                <li style="font-size: 8">{{ $welfare_contribution->reason }} <br><br><strong>KES
-                                        {{ number_format($welfare_contribution->amount_kes, 2) }}</strong>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
-                @endif
-            </td>
-            <td colspan="1" style="text-align: right">(<small>KES
-                </small>{{ number_format($salary->welfare_contributions, 2) }})</td>
-        </thead>
-        <br>
+        @if ($salary->attendance_penalty != 0)
+            <thead style="width: 100%;">
+                <td colspan="2" style="text-align: left">Attendance @if ($salary->attendance_penalty > 0)
+                        Penalty
+                    @else
+                        Bonus
+                    @endif
+                </td>
+                <td colspan="1" style="text-align: right">
+                    <small>KES
+                    </small>{{ number_format($salary->attendance_penalty, 2) }}
+                </td>
+            </thead>
+            <br>
+        @endif
+        @if ($salary->employee->welfareContributions != 0)
+            <thead style="width: 100%;">
+                <td colspan="2" style="text-align: left">
+                    Staff Welfare Contribution
+                    @if (count($salary->employee->welfareContributions) > 0)
+                        <br>
+                        <ul>
+                            @foreach ($salary->employee->welfareContributions as $welfare_contribution)
+                                @if ($welfare_contribution->year == $salary->payroll->year && $welfare_contribution->month == $salary->payroll->month)
+                                    <li style="font-size: 8">{{ $welfare_contribution->reason }} <br><br><strong>KES
+                                            {{ number_format($welfare_contribution->amount_kes, 2) }}</strong>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    @endif
+                </td>
+                <td colspan="1" style="text-align: right">(<small>KES
+                    </small>{{ number_format($salary->welfare_contributions, 2) }})</td>
+            </thead>
+            <br>
+        @endif
 
     </table>
     <table>

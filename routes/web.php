@@ -169,6 +169,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/{designation_id}/create', Admin\Responsibilities\Create::class)->name('admin.responsibilities.create');
             Route::get('/{id}/edit', Admin\Responsibilities\Edit::class)->name('admin.responsibilities.edit');
         });
+        Route::prefix('holidays')->group(function () {
+            Route::get('/', Admin\Holidays\Index::class)->name('admin.holidays.index');
+            Route::get('/create', Admin\Holidays\Create::class)->name('admin.holidays.create');
+            Route::get('/{id}/edit', Admin\Holidays\Edit::class)->name('admin.holidays.edit');
+        });
         Route::prefix('welfare_contributions')->group(function () {
             Route::get('/', Admin\WelfareContributions\Index::class)->name('admin.welfare_contributions.index');
             Route::get('/create', Admin\WelfareContributions\Create::class)->name('admin.welfare_contributions.create');
