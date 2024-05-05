@@ -13,7 +13,7 @@ class Holiday extends Model
     function getIsCoveredAttribute()
     {
         foreach (Payroll::all() as $key => $payroll) {
-            if (Carbon::parse($this->date)->isBetween(Carbon::parse($payroll->year.'-'.$payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) && $payroll->payments->count() > 0) {
+            if (Carbon::parse($this->date)->isBetween(Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) && count($payroll->payments) > 0) {
                 return true;
             }
 
