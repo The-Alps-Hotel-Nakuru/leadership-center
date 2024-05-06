@@ -30,7 +30,7 @@ class OtherExport implements FromCollection, WithMapping, WithTitle, WithHeading
 
         $casual = [];
 
-        foreach ($payroll->payment as $payment) {
+        foreach ($payroll->payments as $payment) {
             $employee = EmployeesDetail::find($payment->employees_detail_id);
             $first = Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth();
             $last = Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth();
