@@ -13,10 +13,14 @@ use App\Models\PayrollPayment;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
+
+    use WithPagination;
+    protected $paginationTheme = "bootstrap";
     public $yearmonth;
     public $readyToLoad = false;
 
@@ -265,7 +269,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.payrolls.index', [
-            'payrolls' => $this->readyToLoad ? Payroll::all() : []
+            'payrolls' => $this->readyToLoad ? Payroll::orderBy('year', 'DESC')->orderBy('month', 'DESC')->paginate(5) : []
         ]);
     }
 }

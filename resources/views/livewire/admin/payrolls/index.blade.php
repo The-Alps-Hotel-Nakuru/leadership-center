@@ -47,18 +47,11 @@
                             <th>ID</th>
                             <th>Period</th>
                             <th>This Payroll Total</th>
-                            <th>Total Gross Salary to Full Time Employees</th>
-                            <th>Total Gross Salary to Casual Employees</th>
-                            <th>Total Gross Salary to Internship Employees</th>
-                            <th>Total Gross Salary to External Employees</th>
-                            <th>Total Absence Penalty</th>
-                            <th class="bg-dark text-white">Full Time Net Salary</th>
-                            <th></th>
-                            <th class="bg-dark text-white">Casual Total Salary</th>
-                            <th></th>
-                            <th class="bg-dark text-white">Internship Salary</th>
-                            <th></th>
-                            <th class="bg-dark text-white">External Employee Salary</th>
+                            <th>Full Timers </th>
+                            <th>Casuals</th>
+                            <th>Interns</th>
+                            <th>External Employees</th>
+                            <th>Total Absence Penalty/Bonus</th>
                             <th>Total Advances</th>
                             <th>Total Bonuses</th>
                             <th>Total Fines</th>
@@ -83,27 +76,7 @@
                                 <th>
                                     <div class="spinner-grow" role="status"></div>
                                 </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
+
                                 <th>
                                     <div class="spinner-grow" role="status"></div>
                                 </th>
@@ -173,21 +146,7 @@
                                     <td>KES <span
                                             class="text-success">{{ number_format($payroll->penalty_total, 2) }}</span>
                                     </td>
-                                    <td class="text-white bg-secondary" style="font-size: 20px">KES
-                                        <strong>{{ number_format($payroll->full_time_net, 2) }}</strong>
-                                    </td>
-                                    <td></td>
-                                    <td class="text-white bg-secondary" style="font-size: 20px">KES
-                                        <strong>{{ number_format($payroll->casual_total, 2) }}</strong>
-                                    </td>
-                                    <td></td>
-                                    <td class="text-white bg-secondary" style="font-size: 20px">KES
-                                        <strong>{{ number_format($payroll->intern_net, 2) }}</strong>
-                                    </td>
-                                    <td></td>
-                                    <td class="text-white bg-secondary" style="font-size: 20px">KES
-                                        <strong>{{ number_format($payroll->external_net, 2) }}</strong>
-                                    </td>
+
                                     <td>
                                         KES
                                         <span class="text-success">{{ number_format($payroll->advances_total, 2) }}
@@ -300,6 +259,10 @@
                 </table>
             </div>
         </div>
+
+        @if ($payrolls)
+            {{ $payrolls->links() }}
+        @endif
 
 
 
