@@ -339,6 +339,10 @@ class MonthlySalary extends Model
             }
         }
 
+        if ($this->housing_levy && Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isAfter('2024-03-31')) {
+            $relief += (0.15* $this->housing_levy);
+        }
+
         return $relief;
     }
 
