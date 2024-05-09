@@ -225,14 +225,14 @@
                                                 <div class="flex-col m-3">
                                                     <a href="{{ route('admin.payrolls.upload_payment', $payroll->id) }}"
                                                         class="btn
-                                                    @if ($payroll->is_paid) btn-success
+                                                    @if ($payroll->is_paid) btn-success disabled
                                                     @else
                                                     btn-secondary @endif"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Upload Payment Slip">
                                                         <i class="material-icons material-symbols-outlined">
                                                             @if ($payroll->is_paid)
-                                                                upload_file
+                                                                file_download_done
                                                             @else
                                                                 upload_file
                                                             @endif
