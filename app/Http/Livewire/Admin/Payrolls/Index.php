@@ -178,6 +178,16 @@ class Index extends Component
     {
         $payroll = Payroll::find($id);
 
+        if ($payroll->is_paid) {
+            $this->emit(
+                'done',
+                [
+                    'warning' => "You can't update a Payroll that's already Paid"
+                ]
+            );
+            return;
+        }
+
         $month = $payroll->month;
         $year = $payroll->year;
 
@@ -249,6 +259,14 @@ class Index extends Component
 
             return;
         }
+
+        if ($payroll->is_paid) {
+            $this->emit('done', [
+                'warning' => "Payment for this Payroll Has Already been Made"
+            ]);
+            return;
+        }
+
         $payroll->delete();
 
         $log = new Log();

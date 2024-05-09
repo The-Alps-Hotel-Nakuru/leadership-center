@@ -183,6 +183,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         Route::prefix('payrolls')->group(function () {
             Route::get('/', Admin\Payrolls\Index::class)->name('admin.payrolls.index');
             Route::get('/{id}/show', Admin\Payrolls\Show::class)->name('admin.payrolls.show');
+            Route::get('/{id}/upload_payment', Admin\Payrolls\UploadPayment::class)->name('admin.payrolls.upload_payment');
         });
         Route::prefix('payroll_payments')->group(function () {
             Route::get('/', Admin\PayrollPayments\Index::class)->name('admin.payroll_payments.index');

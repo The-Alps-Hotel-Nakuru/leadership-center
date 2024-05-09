@@ -221,6 +221,25 @@
                                                     </button>
                                                 </div>
                                             @endif
+                                            @if (count($payroll->payments) > 0)
+                                                <div class="flex-col m-3">
+                                                    <a href="{{ route('admin.payrolls.upload_payment', $payroll->id) }}"
+                                                        class="btn
+                                                    @if ($payroll->is_paid) btn-success
+                                                    @else
+                                                    btn-secondary @endif"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Upload Payment Slip">
+                                                        <i class="material-icons material-symbols-outlined">
+                                                            @if ($payroll->is_paid)
+                                                                upload_file
+                                                            @else
+                                                                upload_file
+                                                            @endif
+                                                        </i>
+                                                    </a>
+                                                </div>
+                                            @endif
                                             <div class="flex-col m-3">
                                                 <a href="{{ route('admin.payrolls.show', $payroll->id) }}"
                                                     class="btn btn-primary" data-bs-toggle="tooltip"
@@ -228,15 +247,7 @@
                                                     <i class="material-icons material-symbols-outlined">list</i>
                                                 </a>
                                             </div>
-                                            <div class="flex-col m-3">
-                                                <button class="btn btn-warning" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Print Payslips"
-                                                    wire:click='sendPayslips({{ $payroll->id }})'
-                                                    wire:loading.class='disabled' wire:target='sendPayslips'>
-                                                    <i
-                                                        class="material-icons material-symbols-outlined">document_scanner</i>
-                                                </button>
-                                            </div>
+
                                             @if (file_exists('/' . $payroll->month_string . '.pdf'))
                                                 <a href="/{{ $payroll->month_string . '.pdf' }}">
                                                     <i class="material-icons material-symbols-outlined">download</i>

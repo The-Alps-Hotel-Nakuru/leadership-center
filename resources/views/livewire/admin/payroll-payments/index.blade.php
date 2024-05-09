@@ -19,6 +19,11 @@
                                     <p>
                                 </div>
                             </a>
+                            @if ($payroll->payment_slip_path)
+                                <a target="_blank" href="{{ asset($payroll->payment_slip_path) }}" class="btn btn-dark">
+                                    <i class="fas fa-file-pdf"></i>
+                                </a>
+                            @endif
                         </div>
                     @endif
                 @endforeach

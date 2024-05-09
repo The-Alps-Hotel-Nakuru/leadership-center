@@ -276,6 +276,13 @@ class Payroll extends Model
         return $this->hasMany(PayrollPayment::class);
     }
 
+    function getIsPaidAttribute(){
+        if ($this->payment_slip_path && file_exists($this->payment_slip_path)) {
+            return true;
+        }
+        return false;
+    }
+
     function getGrossPaymentsTotalAttribute()
     {
         $amount = 0;
