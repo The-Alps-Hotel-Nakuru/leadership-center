@@ -53,7 +53,7 @@ class Dashboard extends Component
 
     function downloadEmployeesData()
     {
-        return Excel::download(new EmployeesDataExport, 'employees data.xlsx');
+        Excel::download(new EmployeesDataExport, 'employees data.xlsx');
 
         $this->emit('done', [
             'success' => 'Employees data exported successfully'
@@ -87,7 +87,7 @@ class Dashboard extends Component
     function mount()
     {
         $this->instance = Carbon::now();
-        $employees = EmployeesDetail::all();
+        $this->employees = EmployeesDetail::all();
         $this->today = $this->instance->format('Y-m-d');
         $this->month = $this->instance->format('Y-m');
         // $this->estimated = $this->estimated_earnings();
