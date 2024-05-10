@@ -9,8 +9,8 @@
         <div class="card-body">
             <div class="form-group">
                 <label for="">Payment Slip</label>
-                <input type="file" wire:model='payment_slip' class="form-control" name="" id="" aria-describedby="helpId"
-                    placeholder="">
+                <input type="file" wire:model='payment_slip' class="form-control" name="" id=""
+                    aria-describedby="helpId" placeholder="">
                 @error('payment_slip')
                     <small id="helpId" class="form-text text-danger">{{ $message }}</small>
                 @enderror
@@ -18,5 +18,19 @@
 
             <button wire:click='upload' class="btn btn-primary">Save</button>
         </div>
+
     </div>
+
+    @if ($payroll->payment_slip_path)
+        <div class="card">
+            <div class="card-header">
+                <h5>Current Document</h5>
+            </div>
+            <div class="card-body" style="height: 500px">
+                <iframe src="{{ asset($payroll->payment_slip_path) }}" type="application/pdf"
+                    width="100%" height="100%" ></iframe>
+
+            </div>
+        </div>
+    @endif
 </div>
