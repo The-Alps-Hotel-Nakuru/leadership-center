@@ -225,7 +225,7 @@
                                                 <div class="flex-col m-3">
                                                     <a href="{{ route('admin.payrolls.upload_payment', $payroll->id) }}"
                                                         class="btn
-                                                    @if ($payroll->is_paid) btn-success disabled
+                                                    @if ($payroll->is_paid) btn-success
                                                     @else
                                                     btn-secondary @endif"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
