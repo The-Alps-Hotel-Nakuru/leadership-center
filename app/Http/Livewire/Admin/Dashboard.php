@@ -100,7 +100,7 @@ class Dashboard extends Component
 
         $employees = EmployeesDetail::where('kra_pin', null)->orWhere('nssf', null)->orWhere('nhif', null)->get();
         $collect = [];
-        foreach ($employees as $employee) {
+        foreach ($this->employees as $employee) {
             if ($employee->isFullTimeBetween('01/01/1970', 'now')) {
                 array_push($collect, $employee);
             }
@@ -111,7 +111,7 @@ class Dashboard extends Component
     function penalties()
     {
         $total_penalties = 0;
-        foreach ($employees as $key => $employee) {
+        foreach ($this->employees as $key => $employee) {
             $penalty = 0;
             $rate = 0;
             $days = $employee->daysWorked($this->instance->format('Y-m'));
