@@ -87,7 +87,7 @@ class Dashboard extends Component
     function mount()
     {
         $this->instance = Carbon::now();
-        $this->employees = EmployeesDetail::all();
+        $employees = EmployeesDetail::all();
         $this->today = $this->instance->format('Y-m-d');
         $this->month = $this->instance->format('Y-m');
         // $this->estimated = $this->estimated_earnings();
@@ -111,7 +111,7 @@ class Dashboard extends Component
     function penalties()
     {
         $total_penalties = 0;
-        foreach ($this->employees as $key => $employee) {
+        foreach ($employees as $key => $employee) {
             $penalty = 0;
             $rate = 0;
             $days = $employee->daysWorked($this->instance->format('Y-m'));
@@ -140,9 +140,108 @@ class Dashboard extends Component
 
         return $total_penalties;
     }
+
+    function getNssf($sal)
+    {
+        $nssf = 0;
+
+        if ($this->instance->isBefore('2024-01-31')) {
+            $nssf = 200;
+            if ($sal > (40000 / 12)) {
+                $nssf = 0.06 * $sal;
+                if ($nssf > 1080) {
+                    $nssf = 1080;
+                }
+            }
+        } else {
+            if ($this->instance->isBefore('2024-03-31')) {
+                $nssf = 420;
+                if ($sal > (7000)) {
+                    $nssf = 0.06 * $sal;
+                    if ($nssf > 1740) {
+                        $nssf = 1740;
+                    }
+                }
+            } else {
+                $nssf = 420;
+                if ($sal > (7000)) {
+                    $nssf = 0.06 * $sal;
+                    if ($nssf > 2160) {
+                        $nssf = 2160;
+                    }
+                }
+            }
+        }
+
+
+        return $nssf;
+    }
+
+    function getNhif($sal)
+    {
+        $nhif = 0;
+
+        if ($sal >= 0 && $sal < 6000) {
+            $nhif = 150;
+        } elseif ($sal >= 6000 && $sal < 8000) {
+            $nhif = 300;
+        } elseif ($sal >= 8000 && $sal < 12000) {
+            $nhif = 400;
+        } elseif ($sal >= 12000 && $sal < 15000) {
+            $nhif = 500;
+        } elseif ($sal >= 15000 && $sal < 20000) {
+            $nhif = 600;
+        } elseif ($sal >= 20000 && $sal < 25000) {
+            $nhif = 750;
+        } elseif ($sal >= 25000 && $sal < 30000) {
+            $nhif = 850;
+        } elseif ($sal >= 30000 && $sal < 35000) {
+            $nhif = 900;
+        } elseif ($sal >= 35000 && $sal < 40000) {
+            $nhif = 950;
+        } elseif ($sal >= 40000 && $sal < 45000) {
+            $nhif = 1000;
+        } elseif ($sal >= 45000 && $sal < 50000) {
+            $nhif = 1100;
+        } elseif ($sal >= 50000 && $sal < 60000) {
+            $nhif = 1200;
+        } elseif ($sal >= 60000 && $sal < 70000) {
+            $nhif = 1300;
+        } elseif ($sal >= 70000 && $sal < 80000) {
+            $nhif = 1400;
+        } elseif ($sal >= 80000 && $sal < 90000) {
+            $nhif = 1500;
+        } elseif ($sal >= 90000 && $sal < 100000) {
+            $nhif = 1600;
+        } elseif ($sal >= 100000) {
+            $nhif = 1700;
+        }
+
+
+        return $nhif;
+    }
+
+    function getAhl($sal)
+    {
+        $levy = 0;
+        if ($this->instance->isBefore('2024-01-31')) {
+            $levy = 0.015 * $sal;
+        } else {
+            if ($this->instance->isBefore('2024-02-29')) {
+                $levy = 0;
+            } else {
+                $levy = 0.015 * $sal;
+            }
+        }
+
+        return $levy;
+    }
     function estimated_earnings()
     {
         $earning = 0;
+        $nssf = 0;
+        $nhif = 0;
+        $ahl = 0;
         foreach ($this->employees as $key => $employee) {
             $days = $employee->daysWorked($this->instance->format('Y-m'));
             $basic_salary_kes = 0;
@@ -150,6 +249,9 @@ class Dashboard extends Component
             if ($contract) {
                 if ($contract->is_full_time()) {
                     $basic_salary_kes = $contract->salary_kes;
+                    $nhif += $this->getNhif($basic_salary_kes);
+                    $nssf += $this->getNssf($basic_salary_kes);
+                    $ahl += $this->getAhl($basic_salary_kes);
                 } else if ($contract->is_casual()) {
                     $basic_salary_kes = $contract->salary_kes * $days;
                 } else if ($contract->is_intern()) {
@@ -166,7 +268,7 @@ class Dashboard extends Component
             $earning += $gross;
         }
 
-        return $earning;
+        return $earning + $nssf + $nhif + $ahl + $this->penalties() + $this->total_bonuses - $this->total_fines - $this->total_advances;
     }
 
     public function render()
