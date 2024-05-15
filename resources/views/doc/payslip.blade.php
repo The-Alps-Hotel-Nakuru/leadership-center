@@ -236,7 +236,7 @@
             </thead>
             <br>
         @endif
-        @if ($salary->employee->welfareContributions != 0)
+        @if ($salary->employee->welfare_contributions != 0)
             <thead style="width: 100%;">
                 <td colspan="2" style="text-align: left">
                     Staff Welfare Contribution
