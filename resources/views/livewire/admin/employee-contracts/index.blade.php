@@ -32,6 +32,19 @@
                         <option value="inactive">Inactive</option>
                     </select>
                 </div>
+                <div class="flex-col mx-2">
+                    <div class="form-group">
+                        <input type="date" class="form-control" wire:model="date" name="" id=""
+                            aria-describedby="helpId" placeholder="">
+                        @error('date')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <x-jet-confirms-password wire:then="makeAllInactive">
+                        <x-jet-button type="button" wire:loading.attr="disabled" >Make All Active contracts
+                            Inactive</x-jet-button>
+                    </x-jet-confirms-password>
+                </div>
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-hover">
@@ -88,13 +101,13 @@
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button wire:click="makeInactive({{ $contract->id }})" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" title="Terminate Contract"
-                                            class="btn btn-dark m-1">
+                                            data-bs-placement="top" title="Terminate Contract" class="btn btn-dark m-1">
                                             <i class="fas fa-stop-circle"></i>
                                         </button>
-                                        <button onclick="confirm('Are you sure you want to Delete this contract?')||event.stopImmediatePropagation()" wire:click="delete({{ $contract->id }})" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" title="Delete Contract"
-                                            class="btn btn-danger m-1">
+                                        <button
+                                            onclick="confirm('Are you sure you want to Delete this contract?')||event.stopImmediatePropagation()"
+                                            wire:click="delete({{ $contract->id }})" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" title="Delete Contract" class="btn btn-danger m-1">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>

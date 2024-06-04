@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\EmployeeContracts;
 
 use App\Models\EmployeeContract;
 use Carbon\Carbon;
+use Laravel\Jetstream\ConfirmsPasswords;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,8 +12,11 @@ class Index extends Component
 {
 
     use WithPagination;
+    use ConfirmsPasswords;
 
     public $type = 'all';
+
+    public $date;
 
     public $searchEmployee = "";
 
@@ -43,6 +47,28 @@ class Index extends Component
 
         $this->emit('done', [
             'success' => 'Successfully terminated this Contract'
+        ]);
+    }
+
+    public function makeAllInactive()
+    {
+        $this->validate([
+            'date' => 'date'
+        ]);
+
+        $contracts = EmployeeContract::all();
+
+        foreach ($contracts as $key => $contract) {
+            if (Carbon::parse($this->date)->isBefore($contract->end_date)) {
+                $contract->end_date = Carbon::parse($this->date)->toDateString();
+                $contract->save();
+            } else {
+                continue;
+            }
+        }
+
+        $this->emit('done', [
+            'success' => 'All active contacts are now inactive'
         ]);
     }
 
