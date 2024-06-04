@@ -99,7 +99,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/', Admin\Fines\Index::class)->name('admin.fines.index');
             Route::get('/create', Admin\Fines\Create::class)->name('admin.fines.create');
             Route::get('/{id}/edit', Admin\Fines\Edit::class)->name('admin.fines.edit');
-            Route::get('/mass_addition', Admin\Fines\MassAddition::class)->name('admin.employee_fines.mass_addition');
+            Route::get('/mass_addition', Admin\Fines\MassAddition::class)->name('admin.fines.mass_addition');
         });
         Route::prefix('loans')->group(function () {
             Route::get('/', Admin\Loans\Index::class)->name('admin.loans.index');
