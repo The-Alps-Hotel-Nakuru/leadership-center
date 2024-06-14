@@ -41,20 +41,21 @@
                                     <td scope="row">{{ $key + 1 }}</td>
                                     <td>{{ $payment->employee->user->name }}</td>
                                     <td>{{ $payment->employee->user->email }}</td>
-                                    <td>KES {{ number_format($payment->gross_salary) }}</td>
-                                    <td>KES {{ number_format($payment->nssf) }}</td>
-                                    <td>KES {{ number_format($payment->nhif) }}</td>
-                                    <td>KES {{ number_format($payment->housing_levy) }}</td>
-                                    <td>KES {{ number_format($payment->paye) }}</td>
-                                    <td>KES {{ number_format($payment->attendance_penalty) }}</td>
-                                    <td>KES {{ number_format($payment->tax_rebate) }}</td>
-                                    <td>KES {{ number_format($payment->total_advances) }}</td>
-                                    <td>KES {{ number_format($payment->total_bonuses) }}</td>
-                                    <td>KES {{ number_format($payment->total_welfare_contributions) }}</td>
-                                    <td>KES {{ number_format($payment->total_fines) }}</td>
-                                    <td>KES {{ number_format($payment->total_loans) }}</td>
+                                    <td>KES {{ number_format($payment->gross_salary, 2) }}</td>
+                                    <td>KES {{ number_format($payment->nssf, 2) }}</td>
+                                    <td>KES {{ number_format($payment->nhif, 2) }}</td>
+                                    <td>KES {{ number_format($payment->housing_levy, 2) }}</td>
+                                    <td>KES {{ number_format($payment->paye, 2) }}</td>
+                                    <td>KES {{ number_format($payment->attendance_penalty, 2) }}</td>
+                                    <td>KES {{ number_format($payment->tax_rebate, 2) }}</td>
+                                    <td>KES {{ number_format($payment->total_advances, 2) }}</td>
+                                    <td>KES {{ number_format($payment->total_bonuses, 2) }}</td>
+                                    <td>KES {{ number_format($payment->total_welfare_contributions, 2) }}</td>
+                                    <td>KES {{ number_format($payment->total_fines, 2) }}</td>
+                                    <td>KES {{ number_format($payment->total_loans, 2) }}</td>
                                     <td class="bg-secondary">KES
-                                        <strong>{{ number_format($payment->net_pay) }}</strong></td>
+                                        <strong>{{ number_format($payment->net_pay, 2) }}</strong>
+                                    </td>
                                     <td>
                                         {{ $payment->bank->name }}
                                         <br>
