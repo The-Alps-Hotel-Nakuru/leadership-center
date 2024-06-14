@@ -42,13 +42,13 @@
                                     <td>{{ $payment->employee->user->name }}</td>
                                     <td>{{ $payment->employee->user->email }}</td>
                                     <td>KES {{ number_format($payment->gross_salary, 2) }}</td>
-                                    <td>KES {{ number_format($payment->nssf, 2) }}</td>
-                                    <td>KES {{ number_format($payment->nhif, 2) }}</td>
-                                    <td>KES {{ number_format($payment->housing_levy, 2) }}</td>
-                                    <td>KES {{ number_format($payment->paye, 2) }}</td>
+                                    <td>KES {{ number_format($payment->nssf) }}</td>
+                                    <td>KES {{ number_format($payment->nhif) }}</td>
+                                    <td>KES {{ number_format($payment->housing_levy, 4) }}</td>
+                                    <td>KES {{ number_format($payment->paye, 4) }}</td>
                                     <td>KES {{ number_format($payment->attendance_penalty, 2) }}</td>
-                                    <td>KES {{ number_format($payment->tax_rebate, 2) }}</td>
-                                    <td>KES {{ number_format($payment->total_advances, 2) }}</td>
+                                    <td>KES {{ number_format($payment->tax_rebate, 4) }}</td>
+                                    <td>KES {{ number_format($payment->total_advances) }}</td>
                                     <td>KES {{ number_format($payment->total_bonuses, 2) }}</td>
                                     <td>KES {{ number_format($payment->total_welfare_contributions, 2) }}</td>
                                     <td>KES {{ number_format($payment->total_fines, 2) }}</td>
