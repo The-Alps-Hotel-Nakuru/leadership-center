@@ -12,11 +12,18 @@ class Index extends Component
     protected $paginationTheme = 'bootstrap';
 
     function delete($id) {
-        Department::find($id)->delete();
+        if (count(Department::find($id)->designations) > 0) {
+            Department::find($id)->delete();
 
-        $this->emit('done', [
-            'success'=>"Successfully Deleted the Department"
-        ]);
+            $this->emit('done', [
+                'success' => "Successfully Deleted the Department"
+            ]);
+        }else {
+            $this->emit('done', [
+                'warning' => "Cannot delete a department with designations"
+            ]);
+
+        }
     }
     public function render()
     {
