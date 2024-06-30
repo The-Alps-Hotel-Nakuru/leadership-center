@@ -61,6 +61,7 @@ class User extends Authenticatable
         'name',
         'is_admin',
         'is_employee',
+        'is_security_guard',
     ];
 
 
@@ -73,9 +74,13 @@ class User extends Authenticatable
     {
         return $this->role_id == 1 || $this->role_id == 2;
     }
+    public function getIsSecurityGuardAttribute()
+    {
+        return $this->role_id == 4;
+    }
     public function getIsSuperAttribute()
     {
-        return $this->role_id == 1 ;
+        return $this->role_id == 1;
     }
 
     public function role()
@@ -92,6 +97,4 @@ class User extends Authenticatable
     {
         return $this->role_id == 3;
     }
-
-
 }

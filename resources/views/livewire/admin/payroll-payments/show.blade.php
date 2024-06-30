@@ -60,7 +60,6 @@
                                         {{ $payment->bank->name }}
                                         <br>
                                         {{ $payment->account_number }}
-
                                     </td>
                                 </tr>
                             @endif

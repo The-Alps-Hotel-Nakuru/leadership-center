@@ -11,6 +11,13 @@ class Index extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
+    function delete($id) {
+        Department::find($id)->delete();
+
+        $this->emit('done', [
+            'success'=>"Successfully Deleted the Department"
+        ]);
+    }
     public function render()
     {
         return view('livewire.admin.departments.index',[

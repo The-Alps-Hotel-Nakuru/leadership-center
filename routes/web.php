@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Admin;
 use App\Http\Livewire\Employee;
+use App\Http\Livewire\Security;
 use App\Models\EmployeeContract;
 use App\Models\Log;
 use App\Models\MonthlySalary;
@@ -301,6 +302,13 @@ Route::get('testPDF', function () {
 
     return $pdf->stream();
 });
+Route::get('testp9', function () {
+
+    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper('a4', 'landscape');
+
+    $pdf->loadView('doc.p9');
+    return $pdf->stream();
+});
 
 Route::get('/{id}/draft_contract', function ($id) {
 
@@ -382,3 +390,9 @@ Route::get('/casuals-contract', function () {
 // Test URLs
 
 // Route::get('/')
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'subscribed'])->group(function () {
+    Route::middleware('security_guard')->prefix('security')->name('security.')->group(function () {
+        Route::get('dashboard', Security\Dashboard::class)->name('dashboard');
+    });
+});

@@ -30,6 +30,9 @@ return new class extends Migration
             [
                 'title'=>'Employee'
             ],
+            [
+                'title'=>'Security'
+            ],
         ]);
     }
 
