@@ -213,7 +213,7 @@
                                                 if (!App\Models\Designation::where('title', 'LIKE', '%' . $invalidUser[6] . '%')->exists()) {
                                                     $reason .= ' + Designation has not been written correctly or doesn\'t exist';
                                                 }
-                                                if (!Bank::where('short_name', 'LIKE', '%' . $invalidUser[$i][14] . '%')->exists()) {
+                                                if (!App\Models\Bank::where('short_name', 'LIKE', '%' . $invalidUser[$i][14] . '%')->exists()) {
                                                     $reason .= ' + Bank Short Name has not been written correctly or doesn\'t exist';
                                                 }
                                             @endphp
