@@ -193,7 +193,7 @@
                                                                     ($key == 6 ? 'Designation, ' :
                                                                         ($key == 7 ? 'Phone Number, ' :
                                                                             ($key == 8 ? 'Birthday, ' :
-                                                                                ($key == 10 ? 'Nationality, ' : 
+                                                                                ($key == 10 ? 'Nationality, ' :
                                                                                     ($key == 14 ? 'Bank Name, ' :
                                                                                         ($key == 15 ? 'Bank Acount Number, ' :'')
                                                                                     )
@@ -211,7 +211,10 @@
                                                     $reason .= ' + Invalid phone number format';
                                                 }
                                                 if (!App\Models\Designation::where('title', 'LIKE', '%' . $invalidUser[6] . '%')->exists()) {
-                                                    $reason .= ' + Designation Has not been written correctly or doesn\'t exist';
+                                                    $reason .= ' + Designation has not been written correctly or doesn\'t exist';
+                                                }
+                                                if (!Bank::where('short_name', 'LIKE', '%' . $invalidUser[$i][14] . '%')->exists()) {
+                                                    $reason .= ' + Bank Short Name has not been written correctly or doesn\'t exist';
                                                 }
                                             @endphp
                                             <td class="text-danger">{{ $reason }}</td>
