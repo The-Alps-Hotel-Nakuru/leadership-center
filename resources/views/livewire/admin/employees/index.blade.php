@@ -104,14 +104,14 @@
                             @if ($employee->has_active_contract)
                                 @if ($employee->is_banned)
                                     <span
-                                        class="badge rounded-pill text-bg-danger  text-white text-uppercase">Banned</span>
+                                        class="badge rounded-pill bg-danger  text-white text-uppercase">Banned</span>
                                 @else
                                     <span
-                                        class="badge rounded-pill text-bg-success  text-white text-uppercase">Active</span>
+                                        class="badge rounded-pill bg-success  text-white text-uppercase">Active</span>
                                 @endif
                             @else
                                 <span
-                                    class="badge rounded-pill text-bg-warning text-white text-uppercase">Inactive</span>
+                                    class="badge rounded-pill bg-warning text-white text-uppercase">Inactive</span>
                             @endif
                         </td>
                         <td>
