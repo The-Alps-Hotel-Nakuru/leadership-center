@@ -131,10 +131,12 @@ class MassAddition extends Component
                 $employee->nhif = $readyUser[13];
             }
             $employee->save();
-            $bank->employees_detail_id = $employee->id;
-            $bank->bank_id = Bank::where('short_name', 'LIKE', '%' . $readyUser[14] . '%')->first()->id;
-            $bank->account_number = $readyUser[15];
-            $bank->save();
+            if ($readyUser[14] && $readyUser[15]) {
+                $bank->employees_detail_id = $employee->id;
+                $bank->bank_id = Bank::where('short_name', 'LIKE', '%' . $readyUser[14] . '%')->first()->id;
+                $bank->account_number = $readyUser[15];
+                $bank->save();
+            }
             $this->uploadingUsersCount++;
             // Mail::to($user->email)->send(new AccountCreated($user, $employee, $password));
             SendWelcomeEmailJob::dispatch($user, $employee, $password);
