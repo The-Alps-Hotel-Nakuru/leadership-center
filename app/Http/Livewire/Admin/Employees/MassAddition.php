@@ -94,7 +94,7 @@ class MassAddition extends Component
             } elseif (User::where('email', $values[$i][4])->exists() || EmployeesDetail::where('phone_number', $values[$i][7])->exists() || EmployeesDetail::where('national_id', $values[$i][2])->exists()) {
                 array_push($this->existingUsers, $values[$i]);
             } else {
-                if ($values[$i][14] && $values[$i][15] && !Bank::where('short_name', 'LIKE', '%' . $values[$i][14] . '%')->exists()) {
+                if ($values[$i][14] && !Bank::where('short_name', 'LIKE', '%' . $values[$i][14] . '%')->exists()) {
                     array_push($this->invalidUsers, $values[$i]);
                 } else {
                     array_push($this->readyUsers, $values[$i]);
