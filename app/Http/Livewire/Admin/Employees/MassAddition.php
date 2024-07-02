@@ -89,12 +89,16 @@ class MassAddition extends Component
         }
 
         for ($i = 1; $i < count($values); $i++) {
-            if (!$values[$i][2] || !$values[$i][3] || !$values[$i][4] || !$values[$i][5] || !$values[$i][6] || !$values[$i][7] || !$values[$i][8] || !$values[$i][10] || !preg_match('/^\d{10}$/', $values[$i][7]) || !Designation::where('title', 'LIKE', '%' . $values[$i][6] . '%')->exists() || ($values[$i][14] && $values[$i][15] ? !Bank::where('short_name', 'LIKE', '%' . $values[$i][14] . '%')->exists() : true)) {
+            if (!$values[$i][2] || !$values[$i][3] || !$values[$i][4] || !$values[$i][5] || !$values[$i][6] || !$values[$i][7] || !$values[$i][8] || !$values[$i][10] || !preg_match('/^\d{10}$/', $values[$i][7]) || !Designation::where('title', 'LIKE', '%' . $values[$i][6] . '%')->exists()) {
                 array_push($this->invalidUsers, $values[$i]);
             } elseif (User::where('email', $values[$i][4])->exists() || EmployeesDetail::where('phone_number', $values[$i][7])->exists() || EmployeesDetail::where('national_id', $values[$i][2])->exists()) {
                 array_push($this->existingUsers, $values[$i]);
             } else {
-                array_push($this->readyUsers, $values[$i]);
+                if ($values[$i][14] && $values[$i][15] && !Bank::where('short_name', 'LIKE', '%' . $values[$i][14] . '%')->exists()) {
+                    array_push($this->invalidUsers, $values[$i]);
+                } else {
+                    array_push($this->readyUsers, $values[$i]);
+                }
             }
         }
     }
