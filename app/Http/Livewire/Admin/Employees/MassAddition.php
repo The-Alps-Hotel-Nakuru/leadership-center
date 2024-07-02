@@ -42,18 +42,18 @@ class MassAddition extends Component
 
         // Store the uploaded file
         $filePath = $this->employeeFile->store('excel_files');
-        
+
         // Import and parse the Excel data
         $import = new EmployeesImport();
         Excel::import($import, $filePath);
-        
+
         // Access the parsed data
         $data = $import->getData();
-        
+
         // dd($data);
-        
+
         $values = [];
-        
+
         $fields = [
             "USERID",
             "Badgenumber",
@@ -72,7 +72,7 @@ class MassAddition extends Component
             "BANK",
             "ACCOUNT NUMBER",
         ];
-        
+
         for ($i = 0; $i < count($fields); $i++) {
             if ($data[0][$i] != $fields[$i]) {
                 throw ValidationException::withMessages([
@@ -80,22 +80,22 @@ class MassAddition extends Component
                 ]);
             }
         }
-        
+
         $this->reset(['readyUsers', 'existingUsers', 'invalidUsers']);
-        foreach ($data as $item) {           
-                    if ($item[0] != null) {
-                        array_push($values, [$item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7], $item[8], $item[9], $item[10], $item[11], $item[12], $item[13], $item[14], $item[15]],);
-                    }
-                }
-                
-                for ($i = 1; $i < count($values); $i++) {
-                    if (!$values[$i][2] || !$values[$i][3] || !$values[$i][4] || !$values[$i][5] || !$values[$i][6] || !$values[$i][7] || !$values[$i][8] || !$values[$i][10] || !$values[$i][14] || !$values[$i][15] || !preg_match('/^\d{10}$/', $values[$i][7]) || !Designation::where('title', 'LIKE', '%' . $values[$i][6] . '%')->exists() || !Bank::where('short_name', 'LIKE', '%' . $values[$i][14] . '%')->exists()) {
-                        array_push($this->invalidUsers, $values[$i]);
-                    } elseif (User::where('email', $values[$i][4])->exists() || EmployeesDetail::where('phone_number', $values[$i][7])->exists() || EmployeesDetail::where('national_id', $values[$i][2])->exists()) {
-                        array_push($this->existingUsers, $values[$i]);
-                    } else {
-                        array_push($this->readyUsers, $values[$i]);
-                    }
+        foreach ($data as $item) {
+            if ($item[0] != null) {
+                array_push($values, [$item[0], $item[1], $item[2], $item[3], $item[4], $item[5], $item[6], $item[7], $item[8], $item[9], $item[10], $item[11], $item[12], $item[13], $item[14], $item[15]],);
+            }
+        }
+
+        for ($i = 1; $i < count($values); $i++) {
+            if (!$values[$i][2] || !$values[$i][3] || !$values[$i][4] || !$values[$i][5] || !$values[$i][6] || !$values[$i][7] || !$values[$i][8] || !$values[$i][10] || !preg_match('/^\d{10}$/', $values[$i][7]) || !Designation::where('title', 'LIKE', '%' . $values[$i][6] . '%')->exists() || ($values[$i][14] && $values[$i][15] ? !Bank::where('short_name', 'LIKE', '%' . $values[$i][14] . '%')->exists() : true)) {
+                array_push($this->invalidUsers, $values[$i]);
+            } elseif (User::where('email', $values[$i][4])->exists() || EmployeesDetail::where('phone_number', $values[$i][7])->exists() || EmployeesDetail::where('national_id', $values[$i][2])->exists()) {
+                array_push($this->existingUsers, $values[$i]);
+            } else {
+                array_push($this->readyUsers, $values[$i]);
+            }
         }
     }
 
