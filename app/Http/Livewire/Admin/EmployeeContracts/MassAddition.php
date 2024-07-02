@@ -44,7 +44,7 @@ class MassAddition extends Component
 
         $values = [];
 
-        $fields = ["NAME", "TYPE ID", "START DATE", "END DATE", "SALARY"];
+        $fields = ["NAME", "NATIONAL ID", "TYPE ID", "START DATE", "END DATE", "SALARY"];
 
         for ($i = 0; $i < count($fields); $i++) {
             if ($data[0][$i] != $fields[$i]) {
@@ -57,10 +57,10 @@ class MassAddition extends Component
         foreach ($data as $key => $item) {
             if ($item[0] != null) {
                 if ($key == 0) {
-                    array_push($values, [$item[0], $item[1], $item[2], $item[3], $item[4]]);
+                    array_push($values, [$item[0], $item[1], $item[2], $item[3], $item[4], $item[5]]);
                     continue;
                 }
-                array_push($values, [$item[0], $item[1], Carbon::parse(($item[2] - 25569) * 86400)->getTimestamp(), Carbon::parse(($item[3] - 25569) * 86400)->getTimestamp(), $item[4]]);
+                array_push($values, [$item[0], $item[1], $item[2], Carbon::parse(($item[3] - 25569) * 86400)->getTimestamp(), Carbon::parse(($item[4] - 25569) * 86400)->getTimestamp(), $item[5]]);
 
                 // Name, TypeId, StartDate, EndDate, Salary
             }
@@ -69,18 +69,15 @@ class MassAddition extends Component
         // dd($values);
 
         for ($i = 1; $i < count($values); $i++) {
-            $name = explode(' ', $values[$i][0]);
-            $last_name = array_pop($name);
-            $first_name = implode(" ", $name);
-            if (User::where('first_name', 'LIKE', "%{$first_name}%")->where('last_name', 'LIKE', "%{$last_name}%")->exists()) {
-                $user = User::where('first_name', 'LIKE', "%{$first_name}%")->where('last_name', 'LIKE', "%{$last_name}%")->first();
-                if ($user->employee) {
-                    if ($user->employee->ActiveContractBetween($values[$i][2], $values[$i][3])) {
-                        array_push($this->alreadyExisting, [$user->id, $user->employee->designation_id, $values[$i][1], $values[$i][2], $values[$i][3], $values[$i][4], $user->employee->ActiveContractBetween($values[$i][2], $values[$i][3])]);
-                    } else {
-                        array_push($this->validContracts, [$user->id, $user->employee->designation_id, $values[$i][1], $values[$i][2], $values[$i][3], $values[$i][4],]);
-                        // user_id, designation_id, contract_type_id, start_date, end_date, salary
-                    }
+
+            $employee = EmployeesDetail::where('national_id', $values[$i][1])->first();
+
+            if ($employee) {
+                if ($employee->ActiveContractBetween($values[$i][3], $values[$i][4])) {
+                    array_push($this->alreadyExisting, [$employee->user_id, $employee->designation_id, $values[$i][2], $values[$i][3], $values[$i][4], $values[$i][5], $employee->ActiveContractBetween($values[$i][3], $values[$i][4])]);
+                } else {
+                    array_push($this->validContracts, [$employee->user_id, $employee->designation_id, $values[$i][2], $values[$i][3], $values[$i][4], $values[$i][5],]);
+                    // user_id, designation_id, contract_type_id, start_date, end_date, salary
                 }
             } else {
                 array_push($this->invalidContracts, $values[$i]);
