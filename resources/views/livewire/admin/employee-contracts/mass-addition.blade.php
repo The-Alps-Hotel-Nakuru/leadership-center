@@ -156,6 +156,7 @@
                                     <tr>
                                         {{-- <th scope="col">User ID</th> --}}
                                         <th scope="col">Name</th>
+                                        <th scope="col">National ID</th>
                                         <th scope="col">Contract Type</th>
                                         <th scope="col">Starting Date</th>
                                         <th scope="col">Ending Date</th>
@@ -168,16 +169,17 @@
                                         <tr class="">
                                             {{-- <td scope="row">{{ $contract[0] }}</td> --}}
                                             <td scope="row">{{ $contract[0] }}</td>
+                                            <td scope="row">{{ $contract[1] }}</td>
                                             <td scope="row">
-                                                {{ App\Models\EmploymentType::find($contract[1])->title }}
-                                            </td>
-                                            <td scope="row">
-                                                {{ Carbon\Carbon::parse($contract[2])->format('jS F,Y') }}
+                                                {{ App\Models\EmploymentType::find($contract[2])->title }}
                                             </td>
                                             <td scope="row">
                                                 {{ Carbon\Carbon::parse($contract[3])->format('jS F,Y') }}
                                             </td>
-                                            <td scope="row">{{ number_format($contract[4], 2) }}</td>
+                                            <td scope="row">
+                                                {{ Carbon\Carbon::parse($contract[4])->format('jS F,Y') }}
+                                            </td>
+                                            <td scope="row">{{ number_format($contract[5], 2) }}</td>
                                             <td scope="row" class="text-danger">Employee not Existing</td>
                                         </tr>
                                     @endforeach
