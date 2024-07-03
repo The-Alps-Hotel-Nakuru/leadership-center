@@ -103,8 +103,15 @@ class Create extends Component
         }
     }
 
-    function removeFromList($key) {
+    function removeFromList($key)
+    {
         array_splice($this->attendanceList, $key, 1);
+
+        foreach ($this->attendanceList as $key => $attendance) {
+            if (EmployeesDetail::find($attendance[0])->hasSignedOn($attendance[1])) {
+                array_splice($this->attendanceList, $key, 1);
+            }
+        }
     }
     public function render()
     {
