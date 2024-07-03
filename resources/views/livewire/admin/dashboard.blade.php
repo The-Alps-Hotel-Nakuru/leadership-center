@@ -13,7 +13,7 @@
                 </div>
                 <div class="d-flex h-100">
                     <div class=" ms-auto mt-auto text-success" style="font-size: xx-large">
-                        @if (!$estimated)
+                        @if ($estimated === null)
                             <span class="spinner-border text-right" role="status"></span>
                         @else
                             <sup>KES</sup>
