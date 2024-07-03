@@ -218,63 +218,65 @@
             </div>
 
         </div>
-        <div class="col-md-6 col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="text-center">Incomplete Full Time Employees</h5>
-                </div>
-                <div class="table-responsive card-body" style="max-height: 450px">
-                    <table class="table">
-                        @if (!$incompleteEmployees)
-                            <div class="card-body d-flex justify-content-center">
-                                <strong>Loading...</strong>
-                                <span class="spinner-border text-right ml-auto" role="status"></span>
-                            </div>
-                        @else
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Employee ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Missing Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($incompleteEmployees as $key => $employee)
-                                    <tr class="">
-                                        <td scope="row">{{ $key + 1 }}</td>
-                                        <td scope="row">{{ $employee->id }}</td>
-                                        <td>{{ $employee->user->name }}</td>
-                                        <td class="text-danger">
-                                            @if (!$employee->kra_pin)
-                                                KRA Pin
-                                                @if (!$employee->nssf || !$employee->nhif)
-                                                    ,
-                                                    @if ($employee->nhif)
-                                                        and
+        @if (count($incompleteEmployees) > 0)
+            <div class="col-md-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">Incomplete Full Time Employees</h5>
+                    </div>
+                    <div class="table-responsive card-body" style="max-height: 450px">
+                        <table class="table">
+                            @if ($incompleteEmployees === null)
+                                <div class="card-body d-flex justify-content-center">
+                                    <strong>Loading...</strong>
+                                    <span class="spinner-border text-right ml-auto" role="status"></span>
+                                </div>
+                            @else
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Employee ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Missing Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($incompleteEmployees as $key => $employee)
+                                        <tr class="">
+                                            <td scope="row">{{ $key + 1 }}</td>
+                                            <td scope="row">{{ $employee->id }}</td>
+                                            <td>{{ $employee->user->name }}</td>
+                                            <td class="text-danger">
+                                                @if (!$employee->kra_pin)
+                                                    KRA Pin
+                                                    @if (!$employee->nssf || !$employee->nhif)
+                                                        ,
+                                                        @if ($employee->nhif)
+                                                            and
+                                                        @endif
                                                     @endif
                                                 @endif
-                                            @endif
-                                            @if (!$employee->nssf)
-                                                NSSF
-                                                @if (!$employee->nhif)
-                                                    , and
+                                                @if (!$employee->nssf)
+                                                    NSSF
+                                                    @if (!$employee->nhif)
+                                                        , and
+                                                    @endif
                                                 @endif
-                                            @endif
-                                            @if (!$employee->nhif)
-                                                NHIF Pin
-                                            @endif
-                                            missing
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        @endif
-                    </table>
-                </div>
+                                                @if (!$employee->nhif)
+                                                    NHIF Pin
+                                                @endif
+                                                missing
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            @endif
+                        </table>
+                    </div>
 
+                </div>
             </div>
-        </div>
+        @endif
         <div class="card mt-3">
             <div class="card-body">
                 <div class="row">
