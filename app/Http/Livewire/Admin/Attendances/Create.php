@@ -53,11 +53,11 @@ class Create extends Component
 
 
 
-        // if (EmployeesDetail::find($this->employee_id)->hasSignedOn($this->date)) {
-        //     throw ValidationException::withMessages([
-        //         'employee_id' => "This Employee already signed in on this day"
-        //     ]);
-        // }
+        if (EmployeesDetail::find($this->employee_id)->hasSignedOn($this->date)) {
+            throw ValidationException::withMessages([
+                'employee_id' => "This Employee already signed in on this day"
+            ]);
+        }
 
 
 
