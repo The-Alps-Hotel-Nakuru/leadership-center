@@ -64,6 +64,8 @@ class Create extends Component
 
 
         array_push($this->attendanceList, [$this->employee_id, $this->date, $this->check_in, $this->check_out]);
+
+        $this->reset(['search', 'employee_id']);
     }
     public function save()
     {
