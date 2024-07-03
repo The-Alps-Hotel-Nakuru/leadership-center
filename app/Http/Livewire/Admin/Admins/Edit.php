@@ -18,6 +18,14 @@ class Edit extends Component
         'admin.role_id'=>'required',
     ];
 
+    protected $messages = [
+        'admin.first_name.required' => "The First Name is Required",
+        'admin.last_name.required' => "The Last Name is Required",
+        'admin.email.required' => "The Email Address is Required",
+        'admin.email.email' => "This Email Format is not Supported",
+        'admin.role_id.required' => "Please select a Role",
+    ];
+
     public function mount($id)
     {
         $this->admin = User::find($id);

@@ -1,99 +1,128 @@
 <div>
-    <x-slot name="header">
-        Attendance Register
-    </x-slot>
+    <x-slot:header>Attendance Register</x-slot:header>
 
     <div class="container-fluid">
-        <div class="card mb-3">
-            <div class="card-header d-flex flex-row">
-
-                <h5 >Sign In for {{ Carbon\Carbon::parse($attendance->date)->format('jS F, Y') }}</h5>
-                <h5 class="ml-auto">
-                    <input type="date" wire:model="attendance.date" class="form-control" name="date" id="date">
-                </h5>
-
-            </div>
-            <div class="card-body table-responsive">
-                <div class="row">
-                    <div class="col-md-6 col-12">
-                        <div class="mb-3">
-                            <label for="employees_detail_id" class="form-label">Employee's Name</label>
-                            <select wire:model="attendance.employees_detail_id" class="form-control form-control"
-                                name="employees_detail_id" id="employees_detail_id">
-                                <option selected>Select an Employee</option>
-
-                                @foreach ($employees as $employee)
-                                    <option @if ($employee->hasSignedOn($attendance->date)) disabled @endif
-                                        value="{{ $employee->id }}">{{ $employee->user->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('attendance.employees_detail_id')
-                                <small id="time" class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+        <div class="row">
+            <div class="col-md-4 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Attendance List Updator</h5>
                     </div>
-                    {{-- <div class="col-md-6 col-12">
-                        <div class="mb-3">
-                            <label for="sign_in" class="form-label">Sign In Time</label>
-                            <input wire:model="check_in" type="check_in" class="form-control" name="time"
-                                id="time" aria-describedby="time" placeholder="Enter the time signed in">
-                            @error('check_in')
-                                <small id="time" class="form-text text-danger">{{ $message }}</small>
-                            @enderror
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="text" class="form-control" wire:model="search"
+                                    placeholder="Search employees">
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <ul class="list-group mt-2 w-100">
+                                        @if ($search != '')
+                                            @foreach ($employees as $employee)
+                                                <li wire:click="selectEmployee({{ $employee->id }})"
+                                                    class="list-group-item {{ $employee_id == $employee->id ? 'active' : '' }}">
+                                                    {{ $employee->user->name }}
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                                    @error('employee_id')
+                                        <small id="time" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="date">Date</label>
+                                    <input type="date" wire:model='date' class="form-control" name="date"
+                                        id="date" aria-describedby="date" placeholder="Select the Date">
+                                    @error('date')
+                                        <small id="date" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="check_in">Check In</label>
+                                    <input type="time" wire:model="check_in" class="form-control" name="check_in"
+                                        id="check_in" aria-describedby="check_in"
+                                        placeholder="Enter the check in time">
+                                    @error('check_in')
+                                        <small id="date" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="check_out">Check Out</label>
+                                    <input type="time" wire:model="check_out" class="form-control" name="check_out"
+                                        id="check_out" aria-describedby="check_out"
+                                        placeholder="Enter the check out time">
+                                    @error('check_out')
+                                        <small id="date" class="form-text text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12"></div>
                         </div>
-                    </div> --}}
-                    <div class="col-md-6 col-12">
-                        <div class="mb-3">
-                            <label for="sign_in" class="form-label">Sign In Time</label>
-                            <input wire:model="check_in" type="time" class="form-control" name="time"
-                                id="time" aria-describedby="time" placeholder="Enter the time signed in">
-                            @error('check_in')
-                                <small id="time" class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                        <button wire:click="addToList" class="btn btn-dark text-uppercase">Add</button>
                     </div>
                 </div>
-                <button wire:click="save" class="btn btn-dark text-uppercase">Save</button>
             </div>
+            @if (count($attendanceList) > 0)
+                <div class="col-md-8 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Attendances to be uploaded</h5>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover ">
+                                <thead class="">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Employee Name</th>
+                                        <th>Date</th>
+                                        <th>Check In Time</th>
+                                        <th>Check Out Time</th>
+                                        <th class="text-center">Actions</th>
+                                        <th>Notifications</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($attendanceList as $key => $attendance)
+                                        <tr>
+                                            <td scope="row">{{ $key + 1 }}</td>
+                                            <td>{{ App\Models\EmployeesDetail::find($attendance[0])->user->name }}</td>
+                                            <td>{{ Carbon\Carbon::parse($attendance[1])->format('jS F, Y') }}</td>
+                                            <td>{{ Carbon\Carbon::parse($attendance[2])->format('h:i A') }}</td>
+                                            <td>{{ Carbon\Carbon::parse($attendance[3])->format('h:i A') }}</td>
+                                            <td class="d-flex flex-row justify-content-center">
+                                                <div class="flex-col ml-1">
+                                                    <button wire:click="removeFromList({{ $key }})" class="btn btn-xs btn-danger"><i class="fas fa-trash"></i></button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @error('list' . $key)
+                                                    <small id="date"
+                                                        class="form-text text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    <button wire:click="save" class="btn btn-dark text-uppercase">Save</button>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            @endif
         </div>
 
-        @if ($attendance->employee)
-            <div class="container">
-                <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                    <div class="card-body d-flex flex-column align-items-start">
-                        <strong
-                            class="d-inline-block mb-2 text-primary">ALPS/EMP/{{ sprintf('%04d', $attendance->employee->id) }}</strong>
-                        <h3 class="mb-0">
-                            <a class="text-dark" href="#">{{ $attendance->employee->title }}
-                                {{ $attendance->employee->user->name }}</a>
-                        </h3>
-                        <div class="mb-1 text-muted">{{ $attendance->employee->designation->title }}</div>
-                        <p class="card-text mb-auto">{{ $attendance->employee->designation->department->title }}
-                            Department <br><br>
-                            <b>Age:</b> {{ $attendance->employee->age }} years
-                            <br>
-                            <b>Phone Number:</b> {{ $attendance->employee->phone_number }}
-                            <br>
-                            <b>Email Address:</b> {{ $attendance->employee->user->email }}
-                        </p>
-                        <p>
-                            <h5>Attendance Record</h5>
-                            <div class="d-flex flex-row">
-                                @foreach ($attendance->employee->attendances as $record)
-                                <div class="flex-col m-1 bg-secondary">
 
-                                </div>
-                                @endforeach
-                            </div>
-                        </p>
-                    </div>
-                    <img class="card-img-right flex-auto d-none d-md-block"
-                        data-src="{{ $attendance->employee->user->profile_photo_url }}" alt="Thumbnail [200x250]"
-                        style="width: 500px; height: 100%;" src="{{ $attendance->employee->user->profile_photo_url }}"
-                        data-holder-rendered="true">
-                </div>
-            </div>
-        @endif
     </div>
 
 </div>
