@@ -100,7 +100,7 @@ class Dashboard extends Component
 
         $employees = EmployeesDetail::where('kra_pin', null)->orWhere('nssf', null)->orWhere('nhif', null)->get();
         $collect = [];
-        foreach ($this->employees as $employee) {
+        foreach ($employees as $employee) {
             if ($employee->isFullTimeBetween('01/01/1970', 'now')) {
                 array_push($collect, $employee);
             }
