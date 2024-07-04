@@ -18,6 +18,7 @@ class MonthlySalary extends Model
         'paye',
         'nhif',
         'nssf',
+        'nita',
         'total_deductions',
         'total_relief',
         'daily_rate',
@@ -112,7 +113,7 @@ class MonthlySalary extends Model
                             }
                         }
                     }
-                }else{
+                } else {
                     if (($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
                         $nssf = 420;
                         if ($this->gross_salary > (7000)) {
@@ -133,9 +134,15 @@ class MonthlySalary extends Model
     public function getNitaAttribute()
     {
         $nita = 0;
-        if (condition) {
-            # code...
+        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
+            $nita = 0;
+        } else {
+            if (($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+                $nita = 50;
+            }
         }
+
+        return $nita;
     }
 
     public function getTaxableIncomeAttribute()
@@ -287,8 +294,14 @@ class MonthlySalary extends Model
             if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-02-29')) {
                 $levy = 0;
             } else {
-                if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
-                    $levy = 0.015 * $this->gross_salary;
+                if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
+                    if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                        $levy = 0.015 * $this->gross_salary;
+                    }
+                } else {
+                    if (($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+                        $levy = 0.015 * $this->gross_salary;
+                    }
                 }
             }
         }
@@ -451,7 +464,7 @@ class MonthlySalary extends Model
 
     public function getTotalDeductionsAttribute()
     {
-        return $this->nhif + $this->nssf + $this->housing_levy + $this->attendance_penalty + $this->paye + $this->fines + $this->advances + $this->welfare_contributions + $this->loans;
+        return $this->nhif + $this->nssf + $this->housing_levy + $this->nita + $this->attendance_penalty + $this->paye + $this->fines + $this->advances + $this->welfare_contributions + $this->loans;
     }
 
     public function getTotalAdditionsAttribute()
