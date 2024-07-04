@@ -15,7 +15,8 @@ class Create extends Component
     protected $rules = [
         'designation.department_id' => 'required',
         'designation.title' => 'required|unique:designations,title',
-        'designation.is_penalizable' => 'required'
+        'designation.is_penalizable' => 'required',
+        'designation.off_days' => 'nullable'
     ];
 
     protected $messages = [
