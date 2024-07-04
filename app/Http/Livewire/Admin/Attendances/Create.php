@@ -16,7 +16,7 @@ class Create extends Component
     public $search = "";
     public $attendanceList = [];
     protected $listeners = [
-        'done' => 'mount'
+        'done' => 'render'
     ];
 
     protected $rules = [
