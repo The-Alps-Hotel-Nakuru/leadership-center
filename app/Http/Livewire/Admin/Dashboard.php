@@ -53,7 +53,7 @@ class Dashboard extends Component
 
     function downloadEmployeesData()
     {
-        Excel::download(new EmployeesDataExport, 'employees data.xlsx');
+        Excel::download(new EmployeesDataExport, 'employees data.xlsx')->deleteFileAfterSend();
 
         // $this->emit('done', [
         //     'success' => 'Employees data exported successfully'
