@@ -462,6 +462,12 @@ class MonthlySalary extends Model
         return $paye;
     }
 
+    public function getNetPayeAttribute(){
+        $net = $this->paye - $this->rebate;
+
+        return $net;
+    }
+
     public function getTotalDeductionsAttribute()
     {
         return $this->nhif + $this->nssf + $this->housing_levy + $this->nita + $this->attendance_penalty + $this->paye + $this->fines + $this->advances + $this->welfare_contributions + $this->loans;

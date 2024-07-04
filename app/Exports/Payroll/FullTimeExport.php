@@ -65,9 +65,10 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             "Income Tax",
             "Tax Relief",
             "Insurance Relief",
-            "PAYE",
+            "Gross PAYE",
             "Attendance Penalty",
             "PAYE Rebate",
+            "NET PAYE",
             "Housing Levy",
             "Advance",
             "Bonuses",
@@ -100,6 +101,7 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             $row->paye,
             $row->attendance_penalty,
             $row->rebate,
+            $row->net_paye,
             $row->housing_levy,
             $row->advances,
             $row->bonuses,
@@ -144,8 +146,9 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             'V' => $KES_FORMAT,
             'W' => $KES_FORMAT,
             'X' => $KES_FORMAT,
-            'Y' => NumberFormat::FORMAT_TEXT,
+            'Y' => $KES_FORMAT,
             'Z' => NumberFormat::FORMAT_TEXT,
+            'AA' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
