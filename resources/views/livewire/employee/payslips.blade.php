@@ -56,7 +56,7 @@
                                     <td class="text-black" style="font-weight:bold">KES
                                         {{ number_format($payslip->net_pay, 2) }}</td>
                                     <td class="d-flex flex-row">
-                                        @if ($payslip->payroll->payment)
+                                        @if ($payslip->payroll->payments)
                                             <div class="flex-col mx-2">
                                                 <a href="{{ route('employee.payslips.view', $payslip->id) }}"
                                                     target="_blank" class="btn btn-dark">
