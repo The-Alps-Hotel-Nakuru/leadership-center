@@ -16,7 +16,7 @@ class SecurityGuard
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->is_security_guard && !auth()->user()->employee->is_banned) {
+        if (auth()->user()->is_security_guard ) {
             return $next($request);
         } else {
             abort(403, "You are not part of the security team of this Organization currently");

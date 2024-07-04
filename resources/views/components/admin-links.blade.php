@@ -25,6 +25,10 @@
         <x-new-nav-link fa_icon="" title="Overview" route="admin.admins.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create an Admin" route="admin.admins.create"></x-new-nav-link>
     </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Security Guards" route="admin.security_guards*" fa_icon="fa-user-shield">
+        <x-new-nav-link fa_icon="" title="Overview" route="admin.security_guards.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Create a Security Guard" route="admin.security_guards.create"></x-new-nav-link>
+    </x-new-nav-link-dropdown>
     @php
         $routeOne = ['admin.departments*', 'admin.designations*', 'admin.responsibilities*'];
 
@@ -63,6 +67,10 @@
 
 
     <li class="nav-header">Datings</li>
+    <x-new-nav-link-dropdown title="Biometrics Users" route="admin.biometrics*" fa_icon="fa-fingerprint">
+        <x-new-nav-link fa_icon="" title="Overview" route="admin.biometrics.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Add Employee Record" route="admin.biometrics.create"></x-new-nav-link>
+    </x-new-nav-link-dropdown>
     <x-new-nav-link-dropdown title="Attendances" route="admin.attendances*" fa_icon="fa-calendar-check">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.attendances.index"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Add an Attendance Record"
