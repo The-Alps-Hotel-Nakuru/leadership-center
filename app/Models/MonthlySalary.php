@@ -102,23 +102,41 @@ class MonthlySalary extends Model
                     }
                 }
             } else {
-                if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
-                    $nssf = 420;
-                    if ($this->gross_salary > (7000)) {
-                        $nssf = 0.06 * $this->gross_salary;
-                        if ($nssf > 2160) {
-                            $nssf = 2160;
+                if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
+                    if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                        $nssf = 420;
+                        if ($this->gross_salary > (7000)) {
+                            $nssf = 0.06 * $this->gross_salary;
+                            if ($nssf > 2160) {
+                                $nssf = 2160;
+                            }
+                        }
+                    }
+                }else{
+                    if (($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+                        $nssf = 420;
+                        if ($this->gross_salary > (7000)) {
+                            $nssf = 0.06 * $this->gross_salary;
+                            if ($nssf > 2160) {
+                                $nssf = 2160;
+                            }
                         }
                     }
                 }
             }
-
         }
 
 
         return $nssf;
     }
 
+    public function getNitaAttribute()
+    {
+        $nita = 0;
+        if (condition) {
+            # code...
+        }
+    }
 
     public function getTaxableIncomeAttribute()
     {
@@ -340,7 +358,7 @@ class MonthlySalary extends Model
         }
 
         if ($this->housing_levy && Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isAfter('2024-03-31')) {
-            $relief += (0.15* $this->housing_levy);
+            $relief += (0.15 * $this->housing_levy);
         }
 
         return $relief;
