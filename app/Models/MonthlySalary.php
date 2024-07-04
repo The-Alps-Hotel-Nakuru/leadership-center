@@ -182,43 +182,85 @@ class MonthlySalary extends Model
     {
         $nhif = 0;
 
-        if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
-            if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
-                $nhif = 150;
-            } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
-                $nhif = 300;
-            } elseif ($this->gross_salary >= 8000 && $this->gross_salary < 12000) {
-                $nhif = 400;
-            } elseif ($this->gross_salary >= 12000 && $this->gross_salary < 15000) {
-                $nhif = 500;
-            } elseif ($this->gross_salary >= 15000 && $this->gross_salary < 20000) {
-                $nhif = 600;
-            } elseif ($this->gross_salary >= 20000 && $this->gross_salary < 25000) {
-                $nhif = 750;
-            } elseif ($this->gross_salary >= 25000 && $this->gross_salary < 30000) {
-                $nhif = 850;
-            } elseif ($this->gross_salary >= 30000 && $this->gross_salary < 35000) {
-                $nhif = 900;
-            } elseif ($this->gross_salary >= 35000 && $this->gross_salary < 40000) {
-                $nhif = 950;
-            } elseif ($this->gross_salary >= 40000 && $this->gross_salary < 45000) {
-                $nhif = 1000;
-            } elseif ($this->gross_salary >= 45000 && $this->gross_salary < 50000) {
-                $nhif = 1100;
-            } elseif ($this->gross_salary >= 50000 && $this->gross_salary < 60000) {
-                $nhif = 1200;
-            } elseif ($this->gross_salary >= 60000 && $this->gross_salary < 70000) {
-                $nhif = 1300;
-            } elseif ($this->gross_salary >= 70000 && $this->gross_salary < 80000) {
-                $nhif = 1400;
-            } elseif ($this->gross_salary >= 80000 && $this->gross_salary < 90000) {
-                $nhif = 1500;
-            } elseif ($this->gross_salary >= 90000 && $this->gross_salary < 100000) {
-                $nhif = 1600;
-            } elseif ($this->gross_salary >= 100000) {
-                $nhif = 1700;
+        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
+            if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
+                    $nhif = 150;
+                } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
+                    $nhif = 300;
+                } elseif ($this->gross_salary >= 8000 && $this->gross_salary < 12000) {
+                    $nhif = 400;
+                } elseif ($this->gross_salary >= 12000 && $this->gross_salary < 15000) {
+                    $nhif = 500;
+                } elseif ($this->gross_salary >= 15000 && $this->gross_salary < 20000) {
+                    $nhif = 600;
+                } elseif ($this->gross_salary >= 20000 && $this->gross_salary < 25000) {
+                    $nhif = 750;
+                } elseif ($this->gross_salary >= 25000 && $this->gross_salary < 30000) {
+                    $nhif = 850;
+                } elseif ($this->gross_salary >= 30000 && $this->gross_salary < 35000) {
+                    $nhif = 900;
+                } elseif ($this->gross_salary >= 35000 && $this->gross_salary < 40000) {
+                    $nhif = 950;
+                } elseif ($this->gross_salary >= 40000 && $this->gross_salary < 45000) {
+                    $nhif = 1000;
+                } elseif ($this->gross_salary >= 45000 && $this->gross_salary < 50000) {
+                    $nhif = 1100;
+                } elseif ($this->gross_salary >= 50000 && $this->gross_salary < 60000) {
+                    $nhif = 1200;
+                } elseif ($this->gross_salary >= 60000 && $this->gross_salary < 70000) {
+                    $nhif = 1300;
+                } elseif ($this->gross_salary >= 70000 && $this->gross_salary < 80000) {
+                    $nhif = 1400;
+                } elseif ($this->gross_salary >= 80000 && $this->gross_salary < 90000) {
+                    $nhif = 1500;
+                } elseif ($this->gross_salary >= 90000 && $this->gross_salary < 100000) {
+                    $nhif = 1600;
+                } elseif ($this->gross_salary >= 100000) {
+                    $nhif = 1700;
+                }
             }
+        }else{
+            if (($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+                if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
+                    $nhif = 150;
+                } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
+                    $nhif = 300;
+                } elseif ($this->gross_salary >= 8000 && $this->gross_salary < 12000) {
+                    $nhif = 400;
+                } elseif ($this->gross_salary >= 12000 && $this->gross_salary < 15000) {
+                    $nhif = 500;
+                } elseif ($this->gross_salary >= 15000 && $this->gross_salary < 20000) {
+                    $nhif = 600;
+                } elseif ($this->gross_salary >= 20000 && $this->gross_salary < 25000) {
+                    $nhif = 750;
+                } elseif ($this->gross_salary >= 25000 && $this->gross_salary < 30000) {
+                    $nhif = 850;
+                } elseif ($this->gross_salary >= 30000 && $this->gross_salary < 35000) {
+                    $nhif = 900;
+                } elseif ($this->gross_salary >= 35000 && $this->gross_salary < 40000) {
+                    $nhif = 950;
+                } elseif ($this->gross_salary >= 40000 && $this->gross_salary < 45000) {
+                    $nhif = 1000;
+                } elseif ($this->gross_salary >= 45000 && $this->gross_salary < 50000) {
+                    $nhif = 1100;
+                } elseif ($this->gross_salary >= 50000 && $this->gross_salary < 60000) {
+                    $nhif = 1200;
+                } elseif ($this->gross_salary >= 60000 && $this->gross_salary < 70000) {
+                    $nhif = 1300;
+                } elseif ($this->gross_salary >= 70000 && $this->gross_salary < 80000) {
+                    $nhif = 1400;
+                } elseif ($this->gross_salary >= 80000 && $this->gross_salary < 90000) {
+                    $nhif = 1500;
+                } elseif ($this->gross_salary >= 90000 && $this->gross_salary < 100000) {
+                    $nhif = 1600;
+                } elseif ($this->gross_salary >= 100000) {
+                    $nhif = 1700;
+                }
+            }
+
         }
+
 
         return $nhif;
     }
