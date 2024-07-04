@@ -46,6 +46,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('dashboard', function () {
         if (auth()->user()->is_admin) {
             return redirect()->route('admin.dashboard');
+        } elseif (auth()->user()->is_security_guard) {
+            return redirect()->route('security.dashboard');
         } elseif (auth()->user()->is_employee) {
             if (auth()->user()->first_login) {
                 $user = User::find(auth()->user()->id);
@@ -72,6 +74,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/', Admin\Admins\Index::class)->name('admin.admins.index');
             Route::get('/create', Admin\Admins\Create::class)->name('admin.admins.create');
             Route::get('/{id}/edit', Admin\Admins\Edit::class)->name('admin.admins.edit');
+        });
+        Route::prefix('security_guards')->group(function () {
+            Route::get('/', Admin\SecurityGuards\Index::class)->name('admin.security_guards.index');
+            Route::get('/create', Admin\SecurityGuards\Create::class)->name('admin.security_guards.create');
+            Route::get('/{id}/edit', Admin\SecurityGuards\Edit::class)->name('admin.security_guards.edit');
         });
         Route::prefix('bans')->group(function () {
             Route::get('/', Admin\Bans\Index::class)->name('admin.bans.index');
@@ -148,10 +155,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/mass_addition', Admin\EmployeeAccounts\MassAddition::class)->name('admin.employee_accounts.mass_addition');
         });
 
+        Route::prefix('biometrics')->group(function () {
+            Route::get('/', Admin\Biometrics\Index::class)->name('admin.biometrics.index');
+            Route::get('/create', Admin\Biometrics\Create::class)->name('admin.biometrics.create');
+            Route::get('/{id}/edit', Admin\Biometrics\Edit::class)->name('admin.biometrics.edit');
+            Route::get('/mass_addition', Admin\Biometrics\MassAddition::class)->name('admin.biometrics.mass_addition');
+        });
         Route::prefix('attendances')->group(function () {
             Route::get('/', Admin\Attendances\Index::class)->name('admin.attendances.index');
             Route::get('/create', Admin\Attendances\Create::class)->name('admin.attendances.create');
-            Route::get('/{id}/edit', Admin\Attendances\Edit::class)->name('admin.attendances.edit');
+            Route::get('/{id}/{instance}/edit', Admin\Attendances\Edit::class)->name('admin.attendances.edit');
             Route::get('/mass_addition', Admin\Attendances\MassAddition::class)->name('admin.attendances.mass_addition');
         });
         Route::prefix('leaves')->group(function () {
@@ -253,7 +266,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
 
             if (auth()->user()->employee->id == $salary->employees_detail_id) {
-                if ($salary->payroll->payment) {
+                if ($salary->payroll->payments) {
                     $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper(array(0, 0, 400, 1200), 'portrait');
 
                     $pdf->loadView('doc.payslip', [
@@ -278,6 +291,27 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             }
         })->name('employee.payslips.view');
     });
+
+
+
+
+    /**
+     * Security guards' Links
+     */
+    Route::middleware('security_guard')->prefix('security')->name('security.')->group(
+        function () {
+            Route::get('dashboard', Security\Dashboard::class)->name('dashboard');
+
+            Route::prefix('users')->group(function () {
+                Route::get('/', Security\Users\Index::class)->name('users.index');
+                Route::get('/create', Security\Users\Create::class)->name('users.create');
+            });
+
+            Route::prefix('attendances')->group(function () {
+                Route::get('/', Security\Attendance\Index::class)->name('attendances.index');
+            });
+        }
+    );
 });
 
 
@@ -390,9 +424,3 @@ Route::get('/casuals-contract', function () {
 // Test URLs
 
 // Route::get('/')
-
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'subscribed'])->group(function () {
-    Route::middleware('security_guard')->prefix('security')->name('security.')->group(function () {
-        Route::get('dashboard', Security\Dashboard::class)->name('dashboard');
-    });
-});

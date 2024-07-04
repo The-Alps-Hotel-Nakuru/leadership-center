@@ -130,6 +130,19 @@ class EmployeesDetail extends Model
 
         return $dates;
     }
+
+    function attendancesOfMonth($month) {
+        $initial = Carbon::parse($month);
+        $attendances = [];
+        foreach ($this->attendances as $item) {
+            if (Carbon::parse($item->date)->isBetween($initial->firstOfMonth(), $initial->lastOfMonth())) {
+                array_push($attendances, $item);
+            }
+        }
+
+        return $attendances;
+
+    }
     public function getLeaveDatesAttribute()
     {
         $dates = [];

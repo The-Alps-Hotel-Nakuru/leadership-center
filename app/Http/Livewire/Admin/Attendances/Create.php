@@ -26,9 +26,6 @@ class Create extends Component
         'check_out' => 'nullable',
     ];
 
-    public function mount()
-    {
-    }
 
     public function selectEmployee($id)
     {

@@ -7,7 +7,7 @@
         <div class="card mb-5">
             <div class="card-header d-flex flex-row">
                 <h3 class="text-success">
-                    {{ $instance->format('F, Y')}}
+                    {{ $instance->format('F, Y') }}
                 </h3>
                 <div class="ms-auto">
                     <input class="form-control" type="month" wire:model="month">
@@ -21,7 +21,6 @@
                             <tr>
                                 <th>Employee's Full Name</th>
                                 <th>Days</th>
-                                <th>Total Days Worked</th>
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
@@ -42,13 +41,21 @@
                                             @endphp
                                             @for ($i = 0; $i < $days; $i++)
                                                 @php
-                                                    $date = $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1);
-                                                    $curr = App\Models\Attendance::where('employees_detail_id', $employee->id)
+                                                    $date =
+                                                        $currentYear .
+                                                        '-' .
+                                                        $currentMonth .
+                                                        '-' .
+                                                        sprintf('%02d', $i + 1);
+                                                    $curr = App\Models\Attendance::where(
+                                                        'employees_detail_id',
+                                                        $employee->id,
+                                                    )
                                                         ->where('date', $date)
                                                         ->first();
                                                 @endphp
                                                 <div
-                                                    class="p-2 ms-1 {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1) ? 'bg-danger' : 'bg-secondary')) }}">
+                                                    class="p-2   {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1) ? 'bg-danger' : 'bg-secondary')) }}">
                                                     {{ sprintf('%02d', $i + 1) }}
                                                     @php
                                                         if (in_array($date, $employee->attended_dates)) {
@@ -58,7 +65,17 @@
                                                 </div>
                                             @endfor
                                         </td>
-                                        <td>{{ $count }}</td>
+                                        <td class="d-flex flex-row">
+                                            <div class="flex-col m-1">
+                                                <div class="btn btn-dark">
+                                                    {{ $count }} day{{ $count != 1 ? 's' : '' }}
+                                                </div>
+                                            </div>
+                                            <div class="flex-col m-1">
+                                                <a href="{{ route('admin.attendances.edit', [$employee->id, $instance->format('Y-m-d')]) }}"
+                                                    class="btn btn-secondary"><i class="fas fa-edit"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach
