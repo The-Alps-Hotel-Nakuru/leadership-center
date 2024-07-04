@@ -258,6 +258,18 @@ class Payroll extends Model
 
         return $amount;
     }
+    public function getNitaTotalAttribute()
+    {
+        $amount = 0;
+
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                $amount += $salary->nita;
+            }
+        }
+
+        return $amount;
+    }
     public function getHousingLevyTotalAttribute()
     {
         $amount = 0;

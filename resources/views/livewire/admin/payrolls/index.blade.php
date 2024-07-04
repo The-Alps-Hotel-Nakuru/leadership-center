@@ -60,6 +60,7 @@
                             <th>Total PAYE</th>
                             <th>Total NHIF</th>
                             <th>Total NSSF</th>
+                            <th>Total NITA</th>
                             <th>Total Housing Levy</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -181,6 +182,9 @@
                                     </td>
                                     <td>KES <span
                                             class="text-success">{{ number_format($payroll->nssf_total, 2) }}</span>
+                                    </td>
+                                    <td>KES <span
+                                            class="text-success">{{ number_format($payroll->nita_total, 2) }}</span>
                                     </td>
                                     <td>KES <span
                                             class="text-success">{{ number_format($payroll->housing_levy_total, 2) }}</span>
