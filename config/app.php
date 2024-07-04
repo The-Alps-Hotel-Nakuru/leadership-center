@@ -217,4 +217,11 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
+
+
+    /**
+     * The Variables of the Application
+     */
+
+     'off_days'=>env('OFF_DAYS', 4),
 ];

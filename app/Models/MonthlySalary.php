@@ -239,7 +239,7 @@ class MonthlySalary extends Model
     public function getAttendancePenaltyAttribute()
     {
         $penalty = 0;
-        $off = 4 + $this->holidays;
+        $off = ($this->employee->designation->off_days ?? config('app.off_days')) + $this->holidays;
         if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-02-29')) {
             if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
                 if ($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && $this->employee->designation->is_penalizable) {
@@ -462,7 +462,8 @@ class MonthlySalary extends Model
         return $paye;
     }
 
-    public function getNetPayeAttribute(){
+    public function getNetPayeAttribute()
+    {
         $net = $this->paye - $this->rebate;
 
         return $net;
