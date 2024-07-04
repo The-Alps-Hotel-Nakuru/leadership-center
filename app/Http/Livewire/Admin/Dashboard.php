@@ -55,9 +55,9 @@ class Dashboard extends Component
     {
         Excel::download(new EmployeesDataExport, 'employees data.xlsx');
 
-        $this->emit('done', [
-            'success' => 'Employees data exported successfully'
-        ]);
+        // $this->emit('done', [
+        //     'success' => 'Employees data exported successfully'
+        // ]);
     }
     function loadPayrollGraph()
     {
