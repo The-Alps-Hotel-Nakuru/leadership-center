@@ -47,10 +47,6 @@
                             <th>ID</th>
                             <th>Period</th>
                             <th>This Payroll Total</th>
-                            <th>Full Timers </th>
-                            <th>Casuals</th>
-                            <th>Interns</th>
-                            <th>External Employees</th>
                             <th>Total Absence Penalty/Bonus</th>
                             <th>Total Advances</th>
                             <th>Total Bonuses</th>
@@ -74,19 +70,7 @@
                                 <th>
                                     <div class="spinner-grow" role="status"></div>
                                 </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
 
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
                                 <th>
                                     <div class="spinner-grow" role="status"></div>
                                 </th>
@@ -131,18 +115,6 @@
                                     <td>{{ Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->format('F Y') }}
                                     </td>
                                     <td>KES <span class="text-primary">{{ number_format($payroll->total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->full_time_gross, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->casual_gross, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->intern_gross, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->external_gross, 2) }}</span>
                                     </td>
                                     <td>KES <span
                                             class="text-success">{{ number_format($payroll->penalty_total, 2) }}</span>
