@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -16,8 +15,9 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting, WithTitle, WithStyles, ShouldAutoSize
+class StudentAttacheeExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting, WithStyles, WithTitle, ShouldAutoSize
 {
+
     public $id;
 
     public function __construct($id)
@@ -31,61 +31,51 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
     {
         $payroll = Payroll::find($this->id);
 
-        $full_time = [];
+        $student = [];
 
         foreach ($payroll->monthlySalaries as $salary) {
             $employee = EmployeesDetail::find($salary->employees_detail_id);
-            if ($employee->isFullTimeBetween(Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())) {
-                array_push($full_time, $salary);
+            if ($employee->isStudentAttacheeBetween(Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) && $salary->basic_salary_kes > 0) {
+                array_push($student, $salary);
             }
         }
 
-        return collect($full_time)->sortByDesc('basic_salary_kes');
+        return collect($student)->sortByDesc('basic_salary_kes');
     }
-
-
-    public function title(): string
-    {
-        return "Full Time Payroll";
-    }
-
 
     public function headings(): array
     {
         return [
-            "#",
-            "ID No.",
-            "Full Name",
-            "Department",
-            "Designation",
-            "Number of Days Worked",
-            "Gross Salary",
-            "NSSF Contribution",
-            "Taxable Income",
-            "NHIF Premium",
-            "Income Tax",
-            "Tax Relief",
-            "Insurance Relief",
-            "Gross PAYE",
-            "Attendance Penalty",
-            "PAYE Rebate",
-            "NET PAYE",
-            "Housing Levy",
-            "Advance",
-            "Bonuses",
-            "Fines",
-            "Loan Payment",
-            "Staff Welfare",
-            "Total Additions",
-            "Total Deductions",
-            "Net Pay",
-            "Bank",
-            "A/c No."
+            "#",                            //A
+            "ID No.",                       //B
+            "Full Name",                       //C
+            "Department",                       //D
+            "Designation",                       //E
+            "No. of Days Worked",                       //F
+            "Advance",                       //G
+            "Bonuses",                       //H
+            "Fines",                       //I
+            "Loan Payment",                       //J
+            "Staff Welfare",                       //K
+            "Total Additions",                       //L
+            "Total Deductions",                       //L
+            "Net Pay",                       //M
+            "Bank",                       //N
+            "A/c No."                       //O
         ];
     }
 
+    function title(): string
+    {
+        return "Student Attachee Payroll";
+    }
+
+
+
     function map($row): array
     {
+
+
         return [
             $row->id,
             $row->employee->national_id,
@@ -93,18 +83,6 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             $row->employee->designation->department->title,
             $row->employee->designation->title,
             $row->employee->daysWorked($row->payroll->year . '-' . $row->payroll->month),
-            $row->gross_salary,
-            $row->nssf,
-            $row->taxable_income,
-            $row->nhif,
-            $row->income_tax,
-            $row->tax_relief,
-            $row->general_relief,
-            $row->paye,
-            $row->attendance_penalty,
-            $row->rebate,
-            $row->net_paye,
-            $row->housing_levy,
             $row->advances,
             $row->bonuses,
             $row->fines,
@@ -138,28 +116,16 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
             'L' => $KES_FORMAT,
             'M' => $KES_FORMAT,
             'N' => $KES_FORMAT,
-            'O' => $KES_FORMAT,
-            'P' => $KES_FORMAT,
-            'Q' => $KES_FORMAT,
-            'R' => $KES_FORMAT,
-            'S' => $KES_FORMAT,
-            'T' => $KES_FORMAT,
-            'U' => $KES_FORMAT,
-            'V' => $KES_FORMAT,
-            'W' => $KES_FORMAT,
-            'X' => $KES_FORMAT,
-            'Y' => $KES_FORMAT,
-            'Z' => $KES_FORMAT,
-            'AA' => NumberFormat::FORMAT_TEXT,
-            'AB' => NumberFormat::FORMAT_TEXT,
+            'O' => NumberFormat::FORMAT_TEXT,
+            'P' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
-    function styles(Worksheet $sheet)
+    public function styles(Worksheet $sheet)
     {
         return [
             1 => [
-                'font' => ['bold' => true, 'size' => 13],
+                'font' => ['bold' => true, 'size' => 12],
             ],
         ];
     }

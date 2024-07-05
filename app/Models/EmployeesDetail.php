@@ -281,10 +281,31 @@ class EmployeesDetail extends Model
         }
         return false;
     }
+    public function isStudentAttacheeBetween($date1, $date2)
+    {
+        foreach ($this->contracts as $contract) {
+            if ($contract->isActiveDuring(Carbon::parse($date1)->toDateString(), Carbon::parse($date2)->toDateString())) {
+                $contract = EmployeeContract::find($contract->id);
+                if ($contract->employment_type_id == 5) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public function getIsFullTimeAttribute()
     {
         if ($this->has_active_contract) {
             if ($this->active_contract->employment_type_id == 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public function getIsStudentAttacheeAttribute()
+    {
+        if ($this->has_active_contract) {
+            if ($this->active_contract->employment_type_id == 5) {
                 return true;
             }
         }
