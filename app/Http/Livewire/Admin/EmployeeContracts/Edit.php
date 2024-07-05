@@ -42,6 +42,12 @@ class Edit extends Component
     {
         $this->validate();
         // $this->contract->end_date = Carbon::parse($this->contract->start_date)->addMonths($this->months)->toDateString();
+        $employee = EmployeesDetail::find($this->contract->employees_detail_id);
+        foreach ($employee->contracts as $cont) {
+            if ($cont->isActiveDuring($this->contract->start_date, $this->contract->end_date) && $cont->id != $this->contract->id) {
+                $cont->terminateOn($this->contract->start_date);
+            }
+        }
         $this->contract->save();
 
         $log = new Log();
@@ -54,6 +60,7 @@ class Edit extends Component
     }
     public function render()
     {
+        $this->contract->designation_id = $this->contract->employee->designation_id ?? null;
         return view('livewire.admin.employee-contracts.edit');
     }
 }

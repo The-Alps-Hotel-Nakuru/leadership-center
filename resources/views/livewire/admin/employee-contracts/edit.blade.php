@@ -30,6 +30,21 @@
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
+                            <label for="designation_id" class="form-label">Designation</label>
+                            <select wire:model="contract.designation_id" class="form-control" name="designation_id"
+                                id="designation_id">
+                                <option>Select The Designation</option>
+                                @foreach (App\Models\Designation::all() as $designation)
+                                    <option value="{{ $designation->id }}">{{ $designation->title }}</option>
+                                @endforeach
+                            </select>
+                            @error('contract.designation_id')
+                                <small id="designation_id" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
                             <label for="employment_type_id" class="form-label">Employment Type</label>
                             <select wire:model="contract.employment_type_id" class="form-control"
                                 name="employment_type_id" id="employment_type_id">
