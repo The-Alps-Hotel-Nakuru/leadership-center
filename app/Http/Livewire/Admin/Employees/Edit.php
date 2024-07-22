@@ -49,6 +49,13 @@ class Edit extends Component
 
     ];
 
+    protected $messages = [
+        'photo.image' => "This file has to be in an image format",
+        'employee.email.required' => "The Employees Email is required",
+        'employee.email.email' => "The format is not an email format",
+        'detail.designation_id.required' => "The Designation is Required",
+    ];
+
 
     public function mount($id)
     {
