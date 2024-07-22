@@ -41,7 +41,7 @@ return new class extends Migration
                 'description'=> 'apply to employees who work on External assistance Basis. Mostly consist of accountants, auditors and IT Staff their agreed salaries are untaxed and no benefits are to be paid'
             ],
             [
-                'title'=>'Attachee',
+                'title'=>'Trainee / School Attachee',
                 'description'=> 'apply to employees who work on School Attachment Basis. Mostly consist of all Production and Service Staff who are only allocated for Transport Allowance'
             ],
         ]);

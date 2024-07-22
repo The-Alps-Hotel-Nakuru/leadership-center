@@ -75,7 +75,7 @@ return new class extends Migration
             ['name' => 'KWFT Bank', 'short_name' => 'KWFT', 'bank_code' => '78000'],
         ];
 
-        DB::table('banks')->insert($banks);
+        // DB::table('banks')->insert($banks);
     }
 
     /**

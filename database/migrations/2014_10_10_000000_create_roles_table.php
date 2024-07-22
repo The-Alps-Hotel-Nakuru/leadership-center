@@ -28,7 +28,7 @@ return new class extends Migration
                 'title'=>'Administrator'
             ],
             [
-                'title'=>'Employee'
+                'title'=>'Normal User'
             ],
             [
                 'title'=>'Security'

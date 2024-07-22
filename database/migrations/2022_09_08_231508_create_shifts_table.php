@@ -17,29 +17,12 @@ return new class extends Migration
     {
         Schema::create('shifts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained();
             $table->string('title');
             $table->time('start_time');
             $table->time('end_time');
             $table->timestamps();
         });
-
-        DB::table('shifts')->insert([
-            [
-                'title'=>'Morning Shift',
-                'start_time'=>Carbon::parse('07:00')->toTimeString(),
-                'end_time'=>Carbon::parse('15:00')->toTimeString()
-            ],
-            [
-                'title'=>'Evening Shift',
-                'start_time'=>Carbon::parse('15:00')->toTimeString(),
-                'end_time'=>Carbon::parse('23:00')->toTimeString()
-            ],
-            [
-                'title'=>'Midnight Shift',
-                'start_time'=>Carbon::parse('23:00')->toTimeString(),
-                'end_time'=>Carbon::parse('07:00')->toTimeString()
-            ],
-        ]);
     }
 
     /**
