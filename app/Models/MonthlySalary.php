@@ -42,7 +42,7 @@ class MonthlySalary extends Model
         $period = Carbon::parse($this->payroll->year . '-' . $this->payroll->month);
         $monthdays = $period->daysInMonth;
         if ($this->employee && $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)) {
-            if ($this->employee->isCasualBetween($period->firstOfMonth(), $period->lastOfMonth()) || $this->employee->isInternBetween($period->firstOfMonth(), $period->lastOfMonth())) {
+            if ($this->employee->isCasualBetween($period->firstOfMonth(), $period->lastOfMonth())) {
                 $rate = $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)->salary_kes;
             } else {
                 $rate = $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)->salary_kes / $monthdays;
@@ -220,7 +220,7 @@ class MonthlySalary extends Model
                     $nhif = 1700;
                 }
             }
-        }else{
+        } else {
             if (($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
                 if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
                     $nhif = 150;
@@ -258,7 +258,6 @@ class MonthlySalary extends Model
                     $nhif = 1700;
                 }
             }
-
         }
 
 
