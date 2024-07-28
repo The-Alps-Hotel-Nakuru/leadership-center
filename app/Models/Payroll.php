@@ -40,6 +40,11 @@ class Payroll extends Model
         return $this->casual_gross + $this->full_time_gross + $this->intern_gross + $this->external_gross;
     }
 
+    public function getFullGrossAttribute()
+    {
+        return $this->total + $this->nssf_total + $this->housing_levy_total;
+    }
+
     public function getCasualGrossAttribute()
     {
         $amount = 0;
@@ -288,7 +293,8 @@ class Payroll extends Model
         return $this->hasMany(PayrollPayment::class);
     }
 
-    function getIsPaidAttribute(){
+    function getIsPaidAttribute()
+    {
         if ($this->payment_slip_path && file_exists($this->payment_slip_path)) {
             return true;
         }
