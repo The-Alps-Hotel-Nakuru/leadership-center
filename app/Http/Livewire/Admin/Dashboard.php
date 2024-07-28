@@ -263,12 +263,12 @@ class Dashboard extends Component
                 $basic_salary_kes = 0;
             }
 
-            $gross = ($basic_salary_kes ?? 0);
+            $gross = $basic_salary_kes ?? 0;
 
             $earning += $gross;
         }
 
-        return $earning + $nssf + $nhif + $ahl + $this->penalties() + $this->total_bonuses - $this->total_fines - $this->total_advances;
+        return $earning + $nssf  + $ahl + $this->total_bonuses - $this->total_fines - $this->total_advances;
     }
 
     public function render()
