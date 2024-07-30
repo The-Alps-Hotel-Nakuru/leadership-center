@@ -6,6 +6,7 @@ use App\Models\Attendance;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
@@ -15,6 +16,8 @@ class Create extends Component
     public $employee_id, $date, $check_in, $check_out;
     public $search = "";
     public $attendanceList = [];
+
+    public $full = false;
     protected $listeners = [
         'done' => 'render'
     ];
@@ -61,6 +64,34 @@ class Create extends Component
 
 
         array_push($this->attendanceList, [$this->employee_id, $this->date, $this->check_in, $this->check_out]);
+
+        $this->reset(['search', 'employee_id']);
+    }
+
+    public function addFullMonth()
+    {
+
+        $this->validate();
+
+
+        $period = CarbonPeriod::between(Carbon::parse($this->date)->startOfMonth(), Carbon::parse($this->date)->endOfMonth());
+
+        foreach ($period as $date) {
+            if ($this->attendanceList) {
+                for ($i = 0; $i < count($this->attendanceList); $i++) {
+                    if (intval($this->attendanceList[$i][0]) == intval($this->employee_id) && $this->attendanceList[$i][1] == $date->format('Y-m-d')) {
+                        continue;
+                    }
+                }
+            }
+
+
+
+            if (EmployeesDetail::find($this->employee_id)->hasSignedOn($date->format('Y-m-d'))) {
+                continue;
+            }
+            array_push($this->attendanceList, [$this->employee_id, $date->format('Y-m-d'), $this->check_in, $this->check_out]);
+        }
 
         $this->reset(['search', 'employee_id']);
     }

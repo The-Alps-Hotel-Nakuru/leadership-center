@@ -42,6 +42,15 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <div class="form-check mb-3">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" wire:model='full' class="form-check-input" name=""
+                                            id="" value="checkedValue" checked>
+                                        Add Whole Month
+                                    </label>
+                                </div>
+                            </div>
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="check_in">Check In</label>
@@ -66,7 +75,11 @@
                             </div>
                             <div class="col-md-6 col-12"></div>
                         </div>
-                        <button wire:click="addToList" class="btn btn-dark text-uppercase">Add</button>
+                        <button
+                            @if ($full) wire:click="addFullMonth"
+                        @else
+                            wire:click="addToList" @endif
+                            class="btn btn-dark text-uppercase">Add</button>
                     </div>
                 </div>
             </div>
@@ -99,7 +112,9 @@
                                             <td>{{ Carbon\Carbon::parse($attendance[3])->format('h:i A') }}</td>
                                             <td class="d-flex flex-row justify-content-center">
                                                 <div class="flex-col ml-1">
-                                                    <button wire:click="removeFromList({{ $key }})" class="btn btn-xs btn-danger"><i class="fas fa-trash"></i></button>
+                                                    <button wire:click="removeFromList({{ $key }})"
+                                                        class="btn btn-xs btn-danger"><i
+                                                            class="fas fa-trash"></i></button>
                                                 </div>
                                             </td>
                                             <td>
