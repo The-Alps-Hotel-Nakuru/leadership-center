@@ -13,7 +13,7 @@ use Livewire\Component;
 class Create extends Component
 {
 
-    public $employee_id, $date, $check_in, $check_out;
+    public $employee_id, $date, $second_date, $check_in, $check_out;
     public $search = "";
     public $attendanceList = [];
 
@@ -25,6 +25,7 @@ class Create extends Component
     protected $rules = [
         'employee_id' => 'required',
         'date' => 'required',
+        'second_date'=>'nullable',
         'check_in' => 'required',
         'check_out' => 'nullable',
     ];
@@ -73,8 +74,21 @@ class Create extends Component
 
         $this->validate();
 
+        if (!$this->date) {
+            throw ValidationException::withMessages([
+                'date'=>"The Start Date is Required"
+            ]);
 
-        $period = CarbonPeriod::between(Carbon::parse($this->date)->startOfMonth(), Carbon::parse($this->date)->endOfMonth());
+        }
+        if (!$this->second_date) {
+            throw ValidationException::withMessages([
+                'second_date'=>"The End Date is Required"
+            ]);
+
+        }
+
+
+        $period = CarbonPeriod::between($this->date, $this->second_date);
 
         foreach ($period as $date) {
             if ($this->attendanceList) {

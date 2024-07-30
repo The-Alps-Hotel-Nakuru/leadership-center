@@ -31,26 +31,51 @@
                                     @enderror
                                 </div>
                             </div>
-
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="date">Date</label>
-                                    <input type="date" wire:model='date' class="form-control" name="date"
-                                        id="date" aria-describedby="date" placeholder="Select the Date">
-                                    @error('date')
-                                        <small id="date" class="form-text text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
                             <div class="col-12">
                                 <div class="form-check mb-3">
                                     <label class="form-check-label">
                                         <input type="checkbox" wire:model='full' class="form-check-input" name=""
-                                            id="" value="checkedValue" checked>
-                                        Add Whole Month
+                                            id="" checked>
+                                        Add Range of Days
                                     </label>
                                 </div>
                             </div>
+
+                            @if (!$full)
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="date">Date</label>
+                                        <input type="date" wire:model='date' class="form-control" name="date"
+                                            id="date" aria-describedby="date" placeholder="Select the Date">
+                                        @error('date')
+                                            <small id="date" class="form-text text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                            @else
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="date">Start Date</label>
+                                        <input type="date" wire:model='date' class="form-control" name="date"
+                                            id="date" aria-describedby="date" placeholder="Select the Start Date">
+                                        @error('date')
+                                            <small id="date" class="form-text text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="date">End Date</label>
+                                        <input type="date" wire:model='second_date' class="form-control"
+                                            name="date" id="date" aria-describedby="date"
+                                            placeholder="Select the End Date">
+                                        @error('second_date')
+                                            <small id="date" class="form-text text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                            @endif
+
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="check_in">Check In</label>
