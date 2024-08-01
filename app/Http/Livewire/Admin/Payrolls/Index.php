@@ -51,7 +51,7 @@ class Index extends Component
 
     function downloadBankSlip($id)
     {
-        return Excel::download(new BankingGuideExport($id), env('COMPANY_NAME') . "- Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx');
+        return Excel::download(new BankingGuideExport($id), env('COMPANY_NAME') . " - Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx');
         // dd(PayrollPayment::where('payroll_id', $id)->get());
     }
 
