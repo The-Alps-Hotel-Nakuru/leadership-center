@@ -50,7 +50,7 @@ class Payroll extends Model
         $amount = 0;
         if (count($this->monthlySalaries) > 0) {
             foreach ($this->monthlySalaries as $salary) {
-                if ($salary && $salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month) && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_casual()) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month) && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_casual()) {
                     $amount += $salary->gross_salary;
                 }
             }
@@ -63,7 +63,7 @@ class Payroll extends Model
         $amount = 0;
         if (count($this->monthlySalaries) > 0) {
             foreach ($this->monthlySalaries as $salary) {
-                if ($salary->employee && $salary->employee->isCasual($this->year . '-' . $this->month)->is_casual()) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_casual()) {
                     $amount += $salary->net_pay;
                 }
             }
@@ -76,7 +76,7 @@ class Payroll extends Model
         $amount = 0;
         if (count($this->monthlySalaries) > 0) {
             foreach ($this->monthlySalaries as $salary) {
-                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_full_time()) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month) && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_full_time()) {
                     $amount += $salary->gross_salary;
                 }
             }
