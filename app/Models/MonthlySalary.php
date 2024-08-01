@@ -82,7 +82,7 @@ class MonthlySalary extends Model
         $nssf = 0;
 
         if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-01-31')) {
-            if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+            if ($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
                 $nssf = 200;
                 if ($this->gross_salary > (40000 / 12)) {
                     $nssf = 0.06 * $this->gross_salary;
@@ -93,7 +93,7 @@ class MonthlySalary extends Model
             }
         } else {
             if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-03-31')) {
-                if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                if ($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
                     $nssf = 420;
                     if ($this->gross_salary > (7000)) {
                         $nssf = 0.06 * $this->gross_salary;
@@ -104,7 +104,7 @@ class MonthlySalary extends Model
                 }
             } else {
                 if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-                    if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                    if ($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
                         $nssf = 420;
                         if ($this->gross_salary > (7000)) {
                             $nssf = 0.06 * $this->gross_salary;
@@ -114,7 +114,7 @@ class MonthlySalary extends Model
                         }
                     }
                 } else {
-                    if (($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+                    if (($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
                         $nssf = 420;
                         if ($this->gross_salary > (7000)) {
                             $nssf = 0.06 * $this->gross_salary;
@@ -137,7 +137,7 @@ class MonthlySalary extends Model
         if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
             $nita = 0;
         } else {
-            if (($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+            if (($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
                 $nita = 50;
             }
         }
@@ -159,7 +159,7 @@ class MonthlySalary extends Model
         $level4 = (9600000 / 12);
 
 
-        if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+        if ($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
             if ($this->taxable_income <= $level1) {
                 $tax = $this->taxable_income * 0.1;
             } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
@@ -183,7 +183,7 @@ class MonthlySalary extends Model
         $nhif = 0;
 
         if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-            if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+            if ($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
                 if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
                     $nhif = 150;
                 } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
@@ -221,7 +221,7 @@ class MonthlySalary extends Model
                 }
             }
         } else {
-            if (($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+            if (($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
                 if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
                     $nhif = 150;
                 } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
@@ -282,8 +282,8 @@ class MonthlySalary extends Model
         $penalty = 0;
         $off = ($this->employee->designation->off_days ?? config('app.off_days')) + $this->holidays;
         if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-02-29')) {
-            if ($this->employee && ($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
-                if (($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) && $this->employee->designation->is_penalizable) {
+            if ($this->employee && ($this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+                if (($this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) && $this->employee->designation->is_penalizable) {
                     if ($this->days_missed > 6) {
                         $penalty = $this->daily_rate * ($this->days_missed - 6);
                     }
@@ -296,8 +296,8 @@ class MonthlySalary extends Model
                 /**
                  * As from 1st March - New Caluclation of Off Days to include Holidays and limit the off Days from 6 to 4
                  */
-                if ($this->employee && ($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
-                    if (($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) && $this->employee->designation->is_penalizable) {
+                if ($this->employee && ($this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+                    if (($this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) && $this->employee->designation->is_penalizable) {
                         if ($this->days_missed > $off) {
                             $penalty = $this->daily_rate * ($this->days_missed - $off);
                         }
@@ -311,8 +311,8 @@ class MonthlySalary extends Model
                  * As from 1st April - New Caluclation of Penalty makes it so that bonus on attenadance is issued to those who attend inclusive to off days and Attendance Penalty to Interns as well as Full Timers
                  */
 
-                if ($this->employee && ($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
-                    if (($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) && $this->employee->designation->is_penalizable) {
+                if ($this->employee && ($this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+                    if (($this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) && $this->employee->designation->is_penalizable) {
                         $penalty = $this->daily_rate * ($this->days_missed - $off);
                     } else {
                         $penalty = 0;
@@ -328,7 +328,7 @@ class MonthlySalary extends Model
     {
         $levy = 0;
         if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-01-31')) {
-            if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+            if ($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
                 $levy = 0.015 * $this->gross_salary;
             }
         } else {
@@ -336,11 +336,11 @@ class MonthlySalary extends Model
                 $levy = 0;
             } else {
                 if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-                    if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                    if ($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
                         $levy = 0.015 * $this->gross_salary;
                     }
                 } else {
-                    if (($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+                    if (($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
                         $levy = 0.015 * $this->gross_salary;
                     }
                 }
@@ -365,7 +365,7 @@ class MonthlySalary extends Model
         $level4 = (9600000 / 12);
 
         if ($this->attendance_penalty > 0 || $this->attendance_penalty < 0) {
-            if ($this->employee && $this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+            if ($this->employee && $this->employee->isActiveDuring(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
                 if ($actual_taxable <= $level1) {
                     $paye = $actual_taxable * 0.1;
                 } elseif ($actual_taxable > $level1 && $actual_taxable <= $level2) {
