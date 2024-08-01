@@ -51,7 +51,9 @@
                         @foreach ($payroll->monthlySalaries()->orderBy('basic_salary_kes', 'DESC')->get() as $salary)
                             @if (
                                 $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
-                                        Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())->is_full_time())
+                                    Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) &&
+                                    $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
+                                            Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())->is_full_time())
                                 <tr class="">
                                     <td scope="row">{{ $salary->id }}</td>
                                     <td>{{ $salary->employee->user->name }}</td>
@@ -67,7 +69,7 @@
                                     <td>KES {{ number_format($salary->attendance_penalty, 2) }}
                                         @if (
                                             $salary->employee->isFullTimeBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
-                                                    Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()))
+                                                Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()))
                                             <br><small class="text-muted"> for {{ $salary->days_missed }} Days
                                                 Missed</small>
                                         @endif
@@ -191,7 +193,9 @@
                         @foreach ($payroll->monthlySalaries()->orderBy('basic_salary_kes', 'DESC')->get() as $salary)
                             @if (
                                 $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
-                                        Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())->is_casual())
+                                    Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) &&
+                                    $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
+                                            Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())->is_casual())
                                 <tr class="">
                                     <td scope="row">{{ $salary->id }}</td>
                                     <td>{{ $salary->employee->user->name }}</td>
@@ -222,7 +226,8 @@
                                     </td>
                                     <td class="d-flex flex-row justify-content-center">
                                         <div class="flex-col m-2">
-                                            <a href="{{ route('doc.payslip', $salary->id) }}" class="btn btn-primary">
+                                            <a href="{{ route('doc.payslip', $salary->id) }}"
+                                                class="btn btn-primary">
                                                 <i class="material-icons material-symbols-outlined"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="View Payslip">
@@ -331,7 +336,9 @@
                         @foreach ($payroll->monthlySalaries()->orderBy('basic_salary_kes', 'DESC')->get() as $salary)
                             @if (
                                 $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
-                                        Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())->is_external())
+                                    Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) &&
+                                    $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
+                                            Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())->is_external())
                                 <tr class="">
                                     <td scope="row">{{ $salary->id }}</td>
                                     <td>{{ $salary->employee->user->name }}</td>
@@ -347,7 +354,7 @@
                                     <td>KES {{ number_format($salary->attendance_penalty, 2) }}
                                         @if (
                                             $salary->employee->isFullTimeBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
-                                                    Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()))
+                                                Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()))
                                             <br><small class="text-muted"> for {{ $salary->days_missed }} Days
                                                 Missed</small>
                                         @endif
@@ -364,7 +371,8 @@
                                     </td>
                                     <td class="d-flex flex-row justify-content-center">
                                         <div class="flex-col m-2">
-                                            <a href="{{ route('doc.payslip', $salary->id) }}" class="btn btn-primary">
+                                            <a href="{{ route('doc.payslip', $salary->id) }}"
+                                                class="btn btn-primary">
                                                 <i class="material-icons material-symbols-outlined"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="View Payslip">
@@ -411,10 +419,12 @@
                             <td class="text-danger"><strong>KES {{ number_format($total_fines, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_loans, 2) }}</strong></td>
                             <td class="text-success"><strong>KES {{ number_format($total_rebate, 2) }}</strong></td>
-                            <td class="text-success"><strong>KES {{ number_format($total_additions, 2) }}</strong></td>
+                            <td class="text-success"><strong>KES {{ number_format($total_additions, 2) }}</strong>
+                            </td>
                             <td class="text-success"><strong>KES {{ number_format($total_deductions, 2) }}</strong>
                             </td>
-                            <td class="bg-dark text-white"><strong>KES {{ number_format($total_net, 2) }}</strong></td>
+                            <td class="bg-dark text-white"><strong>KES {{ number_format($total_net, 2) }}</strong>
+                            </td>
                         </tr>
                     </tfoot>
                 </table>
@@ -471,7 +481,9 @@
                         @foreach ($payroll->monthlySalaries()->orderBy('basic_salary_kes', 'DESC')->get() as $salary)
                             @if (
                                 $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
-                                        Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())->is_intern())
+                                    Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) &&
+                                    $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
+                                            Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())->is_intern())
                                 <tr class="">
                                     <td scope="row">{{ $salary->id }}</td>
                                     <td>{{ $salary->employee->user->name }}</td>
@@ -502,7 +514,8 @@
                                     </td>
                                     <td class="d-flex flex-row justify-content-center">
                                         <div class="flex-col m-2">
-                                            <a href="{{ route('doc.payslip', $salary->id) }}" class="btn btn-primary">
+                                            <a href="{{ route('doc.payslip', $salary->id) }}"
+                                                class="btn btn-primary">
                                                 <i class="material-icons material-symbols-outlined"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="View Payslip">
