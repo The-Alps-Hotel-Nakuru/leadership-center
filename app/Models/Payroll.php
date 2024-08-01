@@ -50,7 +50,7 @@ class Payroll extends Model
         $amount = 0;
         if (count($this->monthlySalaries) > 0) {
             foreach ($this->monthlySalaries as $salary) {
-                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_casual()) {
+                if ($salary && $salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month) && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_casual()) {
                     $amount += $salary->gross_salary;
                 }
             }
@@ -312,7 +312,8 @@ class Payroll extends Model
         return $amount;
     }
 
-    function getNetPayTotalAttribute(){
+    function getNetPayTotalAttribute()
+    {
         $amount = 0;
 
         foreach ($this->payments as $key => $payment) {
