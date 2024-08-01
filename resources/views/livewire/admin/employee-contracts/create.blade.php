@@ -19,7 +19,7 @@
                                 name="employees_detail_id" id="employees_detail_id">
                                 <option>Select Which Employee to Give a Contract</option>
                                 @foreach (App\Models\EmployeesDetail::all() as $employee)
-                                    <option @if ($employee->has_active_contract) disabled @endif
+                                    <option @if ($employee->ActiveContractBetween($contract->start_date, $contract->end_date)) disabled @endif
                                         value="{{ $employee->id }}">
                                         {{ $employee->user->name }} - ({{ $employee->designation->title }})
                                     </option>
@@ -101,7 +101,8 @@
                                         per day
                                     @elseif ($contract->employment_type_id == 2)
                                         per month
-                                    @endif)</small></label>
+                                    @endif)
+                                </small></label>
                             <input wire:model="contract.salary_kes" type="number" class="form-control"
                                 name="salary_kes" id="salary_kes" aria-describedby="salary_kes"
                                 placeholder="Enter your Salary">
