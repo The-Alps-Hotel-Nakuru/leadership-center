@@ -311,4 +311,14 @@ class Payroll extends Model
 
         return $amount;
     }
+
+    function getNetPayTotalAttribute(){
+        $amount = 0;
+
+        foreach ($this->payments as $key => $payment) {
+            $amount += $payment->net_pay;
+        }
+
+        return $amount;
+    }
 }

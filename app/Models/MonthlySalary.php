@@ -134,11 +134,16 @@ class MonthlySalary extends Model
     public function getNitaAttribute()
     {
         $nita = 0;
-        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-            $nita = 0;
-        } else {
-            if (($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
-                $nita = 50;
+
+        $count = count(EmployeesDetail::all());
+
+        if ($count > 20 && config('app.nita')) {
+            if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
+                $nita = 0;
+            } else {
+                if (($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) || ($this->employee && $this->employee->isCasualBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
+                    $nita = 50;
+                }
             }
         }
 
