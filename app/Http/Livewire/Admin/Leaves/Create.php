@@ -44,9 +44,9 @@ class Create extends Component
                 'leave.start_date' => 'The Start Date is greater than The End Dates',
             ]);
         }
-        if (!$employee->isFullTimeBetween($this->leave->start_date, $this->leave->end_date)) {
+        if ($employee->isCasualBetween($this->leave->start_date, $this->leave->end_date)) {
             throw ValidationException::withMessages([
-                'leave.start_date' => 'This Employee is not a full time employee between the dates provided',
+                'leave.start_date' => 'This Employee is not legible to go on leave between the dates provided',
             ]);
         }
         if ($employee->onLeaveBetween($this->leave->start_date, $this->leave->end_date)) {

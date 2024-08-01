@@ -18,15 +18,10 @@
                         <ul class="list-group mt-2 w-100">
                             @if ($search != '')
                                 @foreach ($employees as $employee)
-                                    @if (
-                                        $employee->isFullTimeBetween(
-                                            $leave->start_date ?? Carbon\Carbon::now()->toDateString(),
-                                            $leave->end_date ?? Carbon\Carbon::now()->toDateString()))
-                                        <li wire:click="selectEmployee({{ $employee->id }})"
-                                            class="list-group-item {{ $selectedEmployee == $employee->id ? 'active' : '' }}">
-                                            {{ $employee->user->name }}
-                                        </li>
-                                    @endif
+                                    <li wire:click="selectEmployee({{ $employee->id }})"
+                                        class="list-group-item {{ $selectedEmployee == $employee->id ? 'active' : '' }}">
+                                        {{ $employee->user->name }}
+                                    </li>
                                 @endforeach
                             @endif
                         </ul>
@@ -38,8 +33,7 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="" class="form-label">City</label>
-                        <select wire:model='leave.leave_type_id' class="form-control" name=""
-                            id="">
+                        <select wire:model='leave.leave_type_id' class="form-control" name="" id="">
                             <option selected>Select one</option>
                             @foreach ($leave_types as $type)
                                 <option value="{{ $type->id }}">{{ $type->title }}</option>
