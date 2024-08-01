@@ -106,6 +106,7 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithCol
             $row->nhif,
             $row->nita,
             $row->housing_levy,
+            $row->advances,
             $row->bonuses,
             $row->fines,
             $row->loans,
