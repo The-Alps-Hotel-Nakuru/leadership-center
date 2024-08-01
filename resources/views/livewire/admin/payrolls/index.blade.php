@@ -161,6 +161,9 @@
                                     <td>KES <span
                                             class="text-success">{{ number_format($payroll->housing_levy_total, 2) }}</span>
                                     </td>
+                                    <td class="bg-dark text-white">KES <span
+                                            class="text-success">{{ number_format($payroll->net_pay, 2) }}</span>
+                                    </td>
                                     <td>
                                         <div class="d-flex flex-row my-1 justify-content-center">
 
