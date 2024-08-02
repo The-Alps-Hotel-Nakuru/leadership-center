@@ -35,7 +35,7 @@ class FullTimeExport implements FromCollection, WithHeadings, WithMapping, WithC
 
         foreach ($payroll->monthlySalaries as $salary) {
             $employee = EmployeesDetail::find($salary->employees_detail_id);
-            if ($employee->isFullTimeBetween(Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())) {
+            if ($employee->isFullTimeBetween(Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(), Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) && $salary->net_pay > 0) {
                 array_push($full_time, $salary);
             }
         }

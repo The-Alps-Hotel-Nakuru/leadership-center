@@ -272,6 +272,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
                     $pdf->loadView('doc.payslip', [
                         'salary' => $salary
                     ]);
+                    Log::create([
+                        'user_id' => auth()->user()->id,
+                        'payload' => "has Viewed their Payslip",
+                        'model' => 'App\Models\Payroll'
+                    ]);
                     return $pdf->stream();
                 } else {
                     Log::create([

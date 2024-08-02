@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Employee;
 
 use App\Models\Advance;
 use App\Models\EmployeesDetail;
+use App\Models\Log;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -129,6 +130,12 @@ class Dashboard extends Component
         }
 
         $this->estimated = $this->estimated_earnings() + ($this->total_bonuses - $this->total_fines);
+
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeesDetail';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Logged in";
+        $log->save();
 
         return view('livewire.employee.dashboard');
     }

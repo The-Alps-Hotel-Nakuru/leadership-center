@@ -77,7 +77,6 @@ class Profile extends Component
             'employee.kra_pin' => 'required',
             'employee.nssf' => 'required',
             'employee.nhif' => 'required',
-            'employee.nhif' => 'required',
         ]);
 
         $this->user->update();
@@ -117,6 +116,11 @@ class Profile extends Component
 
     public function render()
     {
+        $log = new Log();
+        $log->user_id = auth()->user()->id;
+        $log->model = 'App\Models\EmployeesDetail';
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> is viewing their profile";
+        $log->save();
         return view('livewire.employee.profile');
     }
 }
