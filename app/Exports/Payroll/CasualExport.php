@@ -61,6 +61,7 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithCol
             "Department",
             "Designation",
             "Number of Days Worked",
+            "Daily Rate",
             "Gross Salary",
             "NSSF Contribution",
             "Taxable Income",
