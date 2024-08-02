@@ -106,6 +106,7 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithCol
             $row->employee->designation->department->title,
             $row->employee->designation->title,
             $row->employee->daysWorked($row->payroll->year . '-' . $row->payroll->month),
+            $row->daily_rate,
             $row->gross_salary,
             $row->nssf,
             $row->taxable_income,
@@ -163,8 +164,9 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithCol
             'X' => $KES_FORMAT,
             'Y' => $KES_FORMAT,
             'Z' => $KES_FORMAT,
-            'AA' => NumberFormat::FORMAT_TEXT,
+            'AA' => $KES_FORMAT,
             'AB' => NumberFormat::FORMAT_TEXT,
+            'AC' => NumberFormat::FORMAT_TEXT,
         ];
     }
 }
