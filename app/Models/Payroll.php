@@ -316,8 +316,8 @@ class Payroll extends Model
     {
         $amount = 0;
 
-        foreach ($this->payments as $key => $payment) {
-            $amount += $payment->net_pay;
+        foreach ($this->monthlySalaries as $key => $salary) {
+            $amount += $salary->net_pay;
         }
 
         return $amount;
