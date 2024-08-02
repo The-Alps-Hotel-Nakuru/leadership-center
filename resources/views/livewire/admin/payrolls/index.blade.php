@@ -58,6 +58,7 @@
                             <th>Total NSSF</th>
                             <th>Total NITA</th>
                             <th>Total Housing Levy</th>
+                            <th>Total NET PAY</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -71,6 +72,9 @@
                                     <div class="spinner-grow" role="status"></div>
                                 </th>
 
+                                <th>
+                                    <div class="spinner-grow" role="status"></div>
+                                </th>
                                 <th>
                                     <div class="spinner-grow" role="status"></div>
                                 </th>
@@ -162,7 +166,7 @@
                                             class="text-success">{{ number_format($payroll->housing_levy_total, 2) }}</span>
                                     </td>
                                     <td class="bg-dark text-white">KES <span
-                                            class="text-success">{{ number_format($payroll->net_pay, 2) }}</span>
+                                            class="text-success">{{ number_format($payroll->net_pay_total, 2) }}</span>
                                     </td>
                                     <td>
                                         <div class="d-flex flex-row my-1 justify-content-center">
