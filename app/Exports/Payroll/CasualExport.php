@@ -144,8 +144,9 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithCol
             'Q' => $KES_FORMAT,
             'R' => $KES_FORMAT,
             'S' => $KES_FORMAT,
-            'T' => NumberFormat::FORMAT_TEXT,
+            'T' => $KES_FORMAT,
             'U' => NumberFormat::FORMAT_TEXT,
+            'V' => NumberFormat::FORMAT_TEXT,
         ];
     }
 }
