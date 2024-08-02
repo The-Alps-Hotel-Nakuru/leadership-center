@@ -13,14 +13,15 @@ class PayslipsReady extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $employee;
+    public $employee, $month;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($employee)
+    public function __construct($employee, $month)
     {
+        $this->employee = $employee;
         $this->employee = $employee;
     }
 

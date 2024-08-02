@@ -46,22 +46,34 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
     public function headings(): array
     {
         return [
-            "#",                            //A
-            "ID No.",                       //B
-            "Full Name",                       //C
-            "Department",                       //D
-            "Designation",                       //E
-            "No. of Days Worked",                       //F
-            "Advance",                       //G
-            "Bonuses",                       //H
-            "Fines",                       //I
-            "Loan Payment",                       //J
-            "Staff Welfare",                       //K
-            "Total Additions",                       //L
-            "Total Deductions",                       //L
-            "Net Pay",                       //M
-            "Bank",                       //N
-            "A/c No."                       //O
+            "#",
+            "ID No.",
+            "Full Name",
+            "Department",
+            "Designation",
+            "Number of Days Worked",
+            "Gross Salary",
+            "NSSF Contribution",
+            "Taxable Income",
+            "NHIF Premium",
+            "Income Tax",
+            "Tax Relief",
+            "Insurance Relief",
+            "Gross PAYE",
+            "Attendance Penalty",
+            "PAYE Rebate",
+            "NET PAYE",
+            "Housing Levy",
+            "Advance",
+            "Bonuses",
+            "Fines",
+            "Loan Payment",
+            "Staff Welfare",
+            "Total Additions",
+            "Total Deductions",
+            "Net Pay",
+            "Bank",
+            "A/c No."
         ];
     }
 
@@ -83,6 +95,18 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
             $row->employee->designation->department->title,
             $row->employee->designation->title,
             $row->employee->daysWorked($row->payroll->year . '-' . $row->payroll->month),
+            $row->gross_salary,
+            $row->nssf,
+            $row->taxable_income,
+            $row->nhif,
+            $row->income_tax,
+            $row->tax_relief,
+            $row->general_relief,
+            $row->paye,
+            $row->attendance_penalty,
+            $row->rebate,
+            $row->net_paye,
+            $row->housing_levy,
             $row->advances,
             $row->bonuses,
             $row->fines,
@@ -116,8 +140,20 @@ class InternExport implements FromCollection, WithHeadings, WithMapping, WithCol
             'L' => $KES_FORMAT,
             'M' => $KES_FORMAT,
             'N' => $KES_FORMAT,
-            'O' => NumberFormat::FORMAT_TEXT,
-            'P' => NumberFormat::FORMAT_TEXT,
+            'O' => $KES_FORMAT,
+            'P' => $KES_FORMAT,
+            'Q' => $KES_FORMAT,
+            'R' => $KES_FORMAT,
+            'S' => $KES_FORMAT,
+            'T' => $KES_FORMAT,
+            'U' => $KES_FORMAT,
+            'V' => $KES_FORMAT,
+            'W' => $KES_FORMAT,
+            'X' => $KES_FORMAT,
+            'Y' => $KES_FORMAT,
+            'Z' => $KES_FORMAT,
+            'AA' => NumberFormat::FORMAT_TEXT,
+            'AB' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
