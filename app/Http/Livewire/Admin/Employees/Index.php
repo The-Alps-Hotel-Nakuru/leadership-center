@@ -60,7 +60,7 @@ class Index extends Component
         PasswordResetMailJob::dispatch($user, $password);
 
         $this->emit('done', [
-            'success' => 'Successfully Reset this Employee\'s Password'
+            'success' => "Successfully Reset this Employee's Password"
         ]);
 
         $log = new Log();
@@ -141,8 +141,8 @@ class Index extends Component
         $ban = Ban::find($id);
         $ban->delete();
 
-        $this->emit('done',[
-            'success'=>'You have successfully Unbanned this User'
+        $this->emit('done', [
+            'success' => 'You have successfully Unbanned this User'
         ]);
     }
 
