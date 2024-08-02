@@ -20,7 +20,6 @@ class BankingGuideExport implements WithMultipleSheets
     public function sheets(): array
     {
         return [
-            new OtherExport($this->id),
             new CasualExport($this->id),
         ];
     }

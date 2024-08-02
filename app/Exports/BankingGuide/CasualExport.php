@@ -28,18 +28,18 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithTit
     {
         $payroll = Payroll::find($this->id);
 
-        $casual = [];
+        $employees = [];
 
         foreach ($payroll->payments as $payment) {
             $employee = EmployeesDetail::find($payment->employees_detail_id);
             $first = Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth();
             $last = Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth();
-            if ($employee->isCasualBetween($first, $last) && $payment->net_pay > 0) {
-                array_push($casual, $payment);
+            if ($employee->ActiveContractBetween($first, $last) && $payment->net_pay > 0) {
+                array_push($employees, $payment);
             }
         }
 
-        return collect($casual)->sortByDesc('gross_salary');
+        return collect($employees)->sortByDesc('net_pay');
     }
 
     public function headings(): array
@@ -58,7 +58,7 @@ class CasualExport implements FromCollection, WithHeadings, WithMapping, WithTit
 
     function title(): string
     {
-        return "Casual Employees";
+        return "employees Employees";
     }
 
 
