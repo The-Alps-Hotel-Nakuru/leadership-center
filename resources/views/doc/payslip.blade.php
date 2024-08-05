@@ -160,8 +160,13 @@
         </thead>
         <br>
         <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">Housing Levy</td>
+            <td colspan="2" style="text-align: left">Affordable Housing Levy</td>
             <td colspan="1" style="text-align: right">({{ number_format($salary->housing_levy, 2) }})</td>
+        </thead>
+        <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">NITA</td>
+            <td colspan="1" style="text-align: right">({{ number_format($salary->nita, 2) }})</td>
         </thead>
         <br>
         <thead style="width: 100%;">
