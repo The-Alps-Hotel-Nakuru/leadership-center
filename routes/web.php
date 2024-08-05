@@ -117,9 +117,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         });
 
         Route::prefix('loan_deductions')->group(function () {
-            Route::get('/', Admin\LoanDeductions\Index::class)->name('admin.loan_deductions.index');
-            Route::get('/create', Admin\LoanDeductions\Create::class)->name('admin.loan_deductions.create');
-            Route::get('/{id}/edit', Admin\LoanDeductions\Edit::class)->name('admin.loan_deductions.edit');
+            Route::get('/{loan_id}/create', Admin\LoanDeductions\Create::class)->name('admin.loan_deductions.create');
+            Route::get('/{loan_id}/{id}/edit', Admin\LoanDeductions\Edit::class)->name('admin.loan_deductions.edit');
         });
 
         Route::prefix('bonuses')->group(function () {

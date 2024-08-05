@@ -33,10 +33,23 @@ class Loan extends Model
     {
         $t = 0;
 
-        foreach ($this->loan_deductions as $key => $deductions) {
-            $t += $deductions;
+        foreach ($this->loan_deductions as $key => $deduction) {
+            $t += $deduction->amount;
         }
 
         return $t;
+    }
+
+    function getBalanceAttribute(){
+        $balance = $this->amount;
+
+        foreach ($this->loan_deductions as $key => $deduction) {
+            if ($deduction->is_settled) {
+                $balance -= $deduction->amount;
+            }
+        }
+
+        return $balance;
+
     }
 }

@@ -18,6 +18,8 @@
                                 <th scope="col">Amount</th>
                                 <th scope="col">First Repayment Month</th>
                                 <th scope="col">Number of Repayments</th>
+                                <th scope="col">Deductions Total</th>
+                                <th scope="col">Balance</th>
                                 <th scope="col">Date Issued</th>
                                 <th class="text-center" scope="col">Actions</th>
                             </tr>
@@ -31,6 +33,8 @@
                                     <td>{{ Carbon\Carbon::parse($loan->year . '-' . $loan->month)->format('F, Y') }}
                                     </td>
                                     <td>{{ count($loan->loan_deductions) }} months</td>
+                                    <td>KES {{ number_format($loan->total_amount, 2) }}</td>
+                                    <td>KES {{ number_format($loan->balance, 2) }}</td>
                                     <td>{{ Carbon\Carbon::parse($loan->created_at)->format('jS F, Y h:i A') }}</td>
                                     <td class="d-flex flex-row justify-content-center">
                                         <div class="flex-col mx-1">
