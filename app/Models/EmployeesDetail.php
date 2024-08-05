@@ -89,6 +89,18 @@ class EmployeesDetail extends Model
             }
         }
     }
+    public function ActiveContractsDuring($yearmonth)
+    {
+        $contracts = [];
+        foreach ($this->contracts as $contract) {
+            if ($contract->isActiveDuring(Carbon::parse($yearmonth)->firstOfMonth(), Carbon::parse($yearmonth)->lastOfMonth())) {
+                array_push($contracts, EmployeeContract::find($contract->id));
+            }
+        }
+
+        return $contracts;
+    }
+
     public function ActiveContractOn($date)
     {
         foreach ($this->contracts as $contract) {
@@ -116,6 +128,7 @@ class EmployeesDetail extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+
     public function leaves()
     {
         return $this->hasMany(Leave::class);
@@ -131,7 +144,8 @@ class EmployeesDetail extends Model
         return $dates;
     }
 
-    function attendancesOfMonth($month) {
+    function attendancesOfMonth($month)
+    {
         $initial = Carbon::parse($month);
         $attendances = [];
         foreach ($this->attendances as $item) {
@@ -141,7 +155,6 @@ class EmployeesDetail extends Model
         }
 
         return $attendances;
-
     }
     public function getLeaveDatesAttribute()
     {
