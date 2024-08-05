@@ -54,6 +54,10 @@ class EmployeeContract extends Model
     {
         return $this->employment_type->id == 4;
     }
+    public function is_student()
+    {
+        return $this->employment_type->id == 5;
+    }
 
     public function terminate()
     {

@@ -45,7 +45,7 @@ class Index extends Component
 
     function downloadPayrollBreakdown($id)
     {
-        return Excel::download(new PayrollExport($id), env('COMPANY_NAME')."- Payroll for " . Payroll::find($id)->yearmonth . '.xlsx');
+        return Excel::download(new PayrollExport($id), env('COMPANY_NAME') . "- Payroll for " . Payroll::find($id)->yearmonth . '.xlsx');
         // dd(Payroll::find($id));
     }
 
@@ -222,6 +222,8 @@ class Index extends Component
                     } else if ($contract->is_intern()) {
                         $salary->basic_salary_kes = $contract->salary_kes;
                     } else if ($contract->is_external()) {
+                        $salary->basic_salary_kes = $contract->salary_kes;
+                    } else if ($contract->is_student()) {
                         $salary->basic_salary_kes = $contract->salary_kes;
                     }
                 } else {

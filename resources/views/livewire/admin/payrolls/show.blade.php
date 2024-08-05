@@ -577,7 +577,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h5>Other Employees</h5>
+                <h5>Student Attachees</h5>
             </div>
             <div class="card-body table-responsive">
                 <table class="table ">
@@ -622,8 +622,10 @@
                         @endphp
                         @foreach ($payroll->monthlySalaries()->orderBy('basic_salary_kes', 'DESC')->get() as $salary)
                             @if (
-                                !$salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
-                                    Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()))
+                                $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
+                                    Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth()) &&
+                                    $salary->employee->ActiveContractBetween(Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth(),
+                                            Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth())->is_student())
                                 <tr class="">
                                     <td scope="row">{{ $salary->id }}</td>
                                     <td>{{ $salary->employee->user->name }}</td>
