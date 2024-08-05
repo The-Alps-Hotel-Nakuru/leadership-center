@@ -15,7 +15,7 @@
                                         {{ Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->format('F, Y') }}
                                     </h3>
                                     <p class="card-text">
-                                    <h5><small>KES </small>{{ number_format($payroll->gross_payments_total) }}</h5>
+                                    <h5><small>KES </small>{{ number_format($payroll->net_pay_total) }}</h5>
                                     <p>
                                 </div>
                             </a>

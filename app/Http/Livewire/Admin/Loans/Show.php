@@ -18,9 +18,16 @@ class Show extends Component
     public function delete($id)
     {
         $deduction = LoanDeduction::find($id);
-        if (!$deduction->is_settled) {
+        if (!$deduction->loan->hasBeganSettlement()) {
             $deduction->delete();
+            $this->emit('done', [
+                'success' => "Loan Deduction successfully Deleted"
+            ]);
         }
+        $this->emit('done', [
+            'warning' => "This Loan has already started the settlement process"
+        ]);
+
     }
 
 

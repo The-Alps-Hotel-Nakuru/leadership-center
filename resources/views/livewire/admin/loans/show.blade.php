@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="flex-col mx-1">
                                         <button
-                                            onclick="confirm('Are you sure you want to delete this Loan Record?')||event.stopImmediatePropagation()"
+                                            onclick="confirm('Are you sure you want to delete this Loan Deduction Record?')||event.stopImmediatePropagation()"
                                             wire:click='delete({{ $deduction->id }})' class="btn btn-danger">
                                             <i class="fas fa-trash"></i>
                                         </button>
