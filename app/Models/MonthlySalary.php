@@ -80,9 +80,10 @@ class MonthlySalary extends Model
     public function getNssfAttribute()
     {
         $nssf = 0;
+        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
 
         if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-01-31')) {
-            if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && !$this->employee->isExternalBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+            if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
                 $nssf = 200;
                 if ($this->gross_salary > (40000 / 12)) {
                     $nssf = 0.06 * $this->gross_salary;
@@ -93,7 +94,7 @@ class MonthlySalary extends Model
             }
         } else {
             if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-03-31')) {
-                if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && !$this->employee->isExternalBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
                     $nssf = 420;
                     if ($this->gross_salary > (7000)) {
                         $nssf = 0.06 * $this->gross_salary;
@@ -104,7 +105,7 @@ class MonthlySalary extends Model
                 }
             } else {
                 if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-                    if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && !$this->employee->isExternalBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                    if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
                         $nssf = 420;
                         if ($this->gross_salary > (7000)) {
                             $nssf = 0.06 * $this->gross_salary;
@@ -114,7 +115,7 @@ class MonthlySalary extends Model
                         }
                     }
                 } else {
-                    if (($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) && !$this->employee->isExternalBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                    if (($this->employee && $contract) && !$contract->is_external() && !$contract->is_student()) {
                         $nssf = 420;
                         if ($this->gross_salary > (7000)) {
                             $nssf = 0.06 * $this->gross_salary;
@@ -135,13 +136,14 @@ class MonthlySalary extends Model
     {
         $nita = 0;
 
+        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
         $count = count(EmployeesDetail::all());
 
         if ($count > 20 && config('app.nita')) {
             if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
                 $nita = 0;
             } else {
-                if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())  && !$this->employee->isExternalBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                if ($this->employee && $contract  && !$contract->is_external() && !$contract->is_student()) {
                     $nita = 50;
                 }
             }
@@ -163,8 +165,10 @@ class MonthlySalary extends Model
         $level3 = (6000000 / 12);
         $level4 = (9600000 / 12);
 
+        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
 
-        if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && !$this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())->is_external()) {
+
+        if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
             if ($this->taxable_income <= $level1) {
                 $tax = $this->taxable_income * 0.1;
             } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
@@ -186,9 +190,10 @@ class MonthlySalary extends Model
     public function getNhifAttribute()
     {
         $nhif = 0;
+        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
 
         if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-            if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && !$this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())->is_external()) {
+            if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
                 if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
                     $nhif = 150;
                 } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
@@ -226,7 +231,7 @@ class MonthlySalary extends Model
                 }
             }
         } else {
-            if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && !$this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())->is_external()) {
+            if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
                 if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
                     $nhif = 150;
                 } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
@@ -332,8 +337,9 @@ class MonthlySalary extends Model
     function getHousingLevyAttribute()
     {
         $levy = 0;
+        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
         if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-01-31')) {
-            if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && !$this->employee->isExternalBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+            if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
                 $levy = 0.015 * $this->gross_salary;
             }
         } else {
@@ -341,11 +347,11 @@ class MonthlySalary extends Model
                 $levy = 0;
             } else {
                 if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-                    if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && !$this->employee->isExternalBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                    if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
                         $levy = 0.015 * $this->gross_salary;
                     }
                 } else {
-                    if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && !$this->employee->isExternalBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+                    if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
                         $levy = 0.015 * $this->gross_salary;
                     }
                 }
@@ -362,6 +368,8 @@ class MonthlySalary extends Model
 
         $actual_taxable = $actual_gross - $this->nssf;
 
+        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
+
 
         $paye = 0;
         $level1 = (288000 / 12);
@@ -370,7 +378,7 @@ class MonthlySalary extends Model
         $level4 = (9600000 / 12);
 
         if ($this->attendance_penalty > 0 || $this->attendance_penalty < 0) {
-            if ($this->employee && $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) && !$this->employee->isExternalBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) {
+            if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
                 if ($actual_taxable <= $level1) {
                     $paye = $actual_taxable * 0.1;
                 } elseif ($actual_taxable > $level1 && $actual_taxable <= $level2) {
