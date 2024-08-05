@@ -57,6 +57,9 @@ class Create extends Component
         $this->loan->month = Carbon::parse($this->yearmonth)->month;
         $this->loan->save();
         $yearmonth = Carbon::parse($this->loan->year . '-' . $this->loan->month);
+        $amount = $this->loan->amount / $this->repaymentmonths;
+        $left = $this->loan->amount;
+        $yearmonth = Carbon::parse($this->loan->year . '-' . $this->loan->month);
         for ($i = 0; $i < $this->repaymentmonths; $i++) {
             $deduction = new LoanDeduction();
             if ($i > 0) {
@@ -65,8 +68,10 @@ class Create extends Component
             $deduction->loan_id = $this->loan->id;
             $deduction->year = $yearmonth->year;
             $deduction->month = $yearmonth->month;
-            $deduction->amount = $this->loan->amount / $this->repaymentmonths;
+            $deduction->amount = $amount < $left ? $amount : $left;
             $deduction->save();
+
+            $left = $left - $amount;
         }
 
         $this->emit('done', [
