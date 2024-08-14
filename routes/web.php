@@ -288,7 +288,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
             if (auth()->user()->employee->id == $salary->employees_detail_id) {
                 if ($salary->payroll->payments) {
-                    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper(array(0, 0, 400, 1350), 'portrait');
+                    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper(array(0, 0, 400, 1500), 'portrait');
 
                     $pdf->loadView('doc.payslip', [
                         'salary' => $salary
@@ -384,7 +384,7 @@ Route::get('/{id}/draft_contract', function ($id) {
 
 
 Route::get('/{id}/payslip', function ($id) {
-    $pdf = Pdf::setPaper(array(0, 0, 400, 1350), 'portrait')->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => false, 'debugPng' => true]);
+    $pdf = Pdf::setPaper(array(0, 0, 400, 1500), 'portrait')->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => false, 'debugPng' => true]);
 
     $pdf->loadView('doc.payslip', [
         'salary' => MonthlySalary::find($id)
