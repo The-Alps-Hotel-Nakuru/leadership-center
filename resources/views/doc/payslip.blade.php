@@ -51,6 +51,9 @@
         </thead>
     </table>
     @php
+        $active_contracts = $salary->employee->ActiveContractsDuring(
+            $salary->payroll->year . '-' . $salary->payroll->month,
+        );
         $active_contract = $salary->employee->ActiveContractDuring(
             Carbon\Carbon::createFromFormat(
                 'Y-m',
@@ -67,12 +70,38 @@
             <small>Name: </small><strong>{{ $salary->employee->user->name }}</strong><br><br>
             <small>Designation: </small><strong>{{ $salary->employee->designation->title }}</strong><br><br>
             <small>Employee No.: </small><strong>{{ $salary->employee->id }}</strong><br><br>
-            @if ($active_contract->is_full_time())
+            @if ($salary->employee->ActiveContractDuring($salary->getMonth()->format('Y-m'))->is_full_time())
                 <small>KRA PIN: </small><strong
                     style="text-transform: uppercase">{{ $salary->employee->kra_pin }}</strong><br><br>
                 <small>NSSF No.: </small><strong>{{ $salary->employee->nssf }}</strong><br><br>
                 <small>NHIF No.: </small><strong>{{ $salary->employee->nhif }}</strong><br><br>
             @endif
+
+        </thead>
+    </table>
+    <br>
+    <table>
+        <thead style="width: 100%">
+            <small>Days Worked: </small>
+            <strong>{{ $salary->days_worked }} days</strong>
+            <br><br>
+            <small>Days On Leave: </small><strong>{{ $salary->leave_days }} days</strong><br><br>
+            <small>Days Absent/Off: </small><strong>{{ $salary->days_missed }} days</strong><br><br>
+            <small>Off Days Earned: </small><strong>{{ $salary->earned_off_days }} days</strong><br><br><br>
+            <small style="text-decoration: underline">Contract Value: </small><br>
+            <ul>
+                @foreach ($salary->contracts() as $contract)
+                    <li style="font-size: 11px"> Cont. #{{ $contract->id }}
+                        Value: KES
+                        <strong>{{ number_format($contract->salary_kes) }}
+                            {{ $contract->is_casual() ? 'per day' : 'per month' }}</strong>
+                        <br><br>
+                        {{ $contract->netDaysWorked($salary->payroll->year . '-' . $salary->payroll->month) }}
+                        days worked
+                    </li>
+                @endforeach
+            </ul>
+            <br>
 
         </thead>
     </table>
@@ -83,36 +112,33 @@
         </thead>
 
     </table>
+
     <table>
         <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">Basic Salary</td>
-            <td colspan="1" style="text-align: right"><small>KES
-                </small>{{ number_format($salary->basic_salary_kes, 2) }}</td>
-        </thead>
-        <br>
-        <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">House Allowance</td>
-            <td colspan="1" style="text-align: right"><small>KES
-                </small>{{ number_format($salary->house_allowance_kes, 2) }}</td>
-        </thead>
-    </table>
-    <table>
-        <thead style="width: 100%;">
-            <th colspan="2" style="text-align: left">Gross Salary</th>
-            <th colspan="1" style="text-align: right"><small>KES
-                </small>{{ number_format($salary->gross_salary, 2) }}</th>
+            <th colspan="2" style="text-align: left">Gross Salary Earned <br><br><small style="font-size: 11px">KES
+                    {{ number_format($salary->daily_rate, 2) }} x
+                    ({{ $salary->days_worked }}+{{ $salary->earned_off_days }}+{{ $salary->leave_days }})</small>
+            </th>
+            <th colspan="1" style="text-align: right">
+                <small>KES</small>
+                {{ number_format($salary->gross_salary, 2) }}
+            </th>
         </thead>
     </table>
+    <br>
     <table>
         <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">NSSF Contribution</td>
+            <td colspan="2" style="text-align: left">NSSF Contribution <span style="font-size: 11px">( 6% of
+                    Gross)</span></td>
             <td colspan="1" style="text-align: right; text-underline:1px solid black">
                 (<small>KES </small>{{ number_format($salary->nssf, 2) }})</td>
         </thead>
     </table>
     <table>
         <thead style="width: 100%;">
-            <th colspan="2" style="text-align: left">Taxable Income</th>
+            <th colspan="2" style="text-align: left">Taxable Income <br><br><small style="font-size: 11px">KES
+                    {{ number_format($salary->gross_salary, 2) }} - KES {{ number_format($salary->nssf, 2) }}</small>
+            </th>
             <th colspan="1" style="text-align: right"><small>KES
                 </small>{{ number_format($salary->taxable_income, 2) }}</th>
         </thead>
@@ -128,12 +154,17 @@
         <br>
         <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">Tax Relief</td>
-            <td colspan="1" style="text-align: right"><small>KES </small>{{ number_format($salary->tax_relief, 2) }}
+            <td colspan="1" style="text-align: right"><small>KES
+                </small>{{ number_format($salary->tax_relief, 2) }}
             </td>
         </thead>
         <br>
         <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">Insurance Relief</td>
+            <td colspan="2" style="text-align: left">General Relief <br><br>
+                <small style="font-size: 11px">15% (NHIF) + 15% (Housing Levy) <br>
+                <br>
+                 + 15% (Insurance Premiums)</small>
+            </td>
             <td colspan="1" style="text-align: right"><small>KES
                 </small>{{ number_format($salary->general_relief, 2) }}
             </td>
@@ -141,7 +172,7 @@
     </table>
     <table>
         <thead style="width: 100%;">
-            <th colspan="2" style="text-align: left">Total PAYE</th>
+            <th colspan="2" style="text-align: left">Total PAYE </th>
             <th colspan="1" style="text-align: right"><small>KES
                 </small>({{ number_format($salary->paye, 2) }})</th>
         </thead>
@@ -168,6 +199,7 @@
             <td colspan="2" style="text-align: left">NITA</td>
             <td colspan="1" style="text-align: right">({{ number_format($salary->nita, 2) }})</td>
         </thead>
+
         <br>
         <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">
@@ -226,21 +258,7 @@
             <td colspan="1" style="text-align: right">({{ number_format($salary->loans, 2) }})</td>
         </thead>
         <br>
-        @if ($salary->attendance_penalty != 0)
-            <thead style="width: 100%;">
-                <td colspan="2" style="text-align: left">Attendance @if ($salary->attendance_penalty > 0)
-                        Penalty
-                    @else
-                        Bonus
-                    @endif
-                </td>
-                <td colspan="1" style="text-align: right">
-                    <small>KES
-                    </small>{{ number_format($salary->attendance_penalty, 2) }}
-                </td>
-            </thead>
-            <br>
-        @endif
+
         @if ($salary->employee->welfare_contributions != 0)
             <thead style="width: 100%;">
                 <td colspan="2" style="text-align: left">
@@ -268,12 +286,17 @@
     <table>
         <thead style="width: 100%;">
             <th colspan="2" style="text-align: left">Total Deductions <small style="font-size: 10px">(incl. NSSF
-                    Contribution)</small></th>
+                    Contribution)</small><br><br>
+                <small style="font-size: 10px">
+                    KES {{ number_format($salary->total_deductions - $salary->nssf, 2) }}+ KES
+                    {{ number_format($salary->nssf, 2) }}</small>
+            </th>
             <th colspan="1" style="text-align: right"><small>KES
                 </small>({{ number_format($salary->total_deductions, 2) }})</th>
         </thead>
     </table>
     <table>
+        <br>
         <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">Total Bonuses
                 @if (count($salary->employee->bonuses) > 0)
@@ -294,9 +317,9 @@
         </thead>
         <br>
         <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">Tax Rebates</td>
-            <td colspan="1" style="text-align: right"><small>KES
-                </small>{{ number_format($salary->rebate, 2) }}</td>
+            <td colspan="2" style="text-align: left">Extra Hours <br> <br><small style="font-size: 11px">
+                    (Overtimes, Double Shifts & Holidays)</small></td>
+            <td colspan="1" style="text-align: right">{{ number_format($salary->overtimes, 2) }}</td>
         </thead>
     </table>
     <table>

@@ -37,6 +37,10 @@ class EmployeeContract extends Model
     {
         return $this->belongsTo(EmploymentType::class);
     }
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class);
+    }
 
     public function is_casual()
     {
@@ -79,6 +83,19 @@ class EmployeeContract extends Model
         return 0;
     }
 
+    function DailyRate($yearmonth)
+    {
+        $daily_rate = 0;
+        $monthdays = Carbon::parse($yearmonth)->daysInMonth;
+
+        if ($this->employment_type->rate_type == 'daily') {
+            $daily_rate = $this->salary_kes;
+        } else {
+            $daily_rate = $this->salary_kes / $monthdays;
+        }
+
+        return $daily_rate;
+    }
     public function isActiveDuring($date1, $date2)
     {
         if (Carbon::parse($date1)->isBetween($this->start_date, $this->end_date)) {
@@ -113,6 +130,89 @@ class EmployeeContract extends Model
 
         return collect($in);
     }
+    function extra_works()
+    {
+        $extras = $this->employee->extra_works;
+
+        $in = [];
+
+        foreach ($extras as $key => $extra) {
+            if (Carbon::parse($extra->date)->isBetween($this->start_date, $this->end_date)) {
+                array_push($in, $extra);
+            }
+        }
+
+        return collect($in);
+    }
+
+    function netDaysWorked($yearmonth)
+    {
+
+        $month = Carbon::parse($yearmonth);
+        $periodStart = max(Carbon::parse($this->start_date)->format('Y-m-d'), $month->firstOfMonth()->toDateString());
+        $periodEnd = min(Carbon::parse($this->end_date)->format('Y-m-d'), $month->lastOfMonth()->toDateString());
+
+        $daysWorked = 0;
+
+        foreach ($this->attendances() as $key => $attendance) {
+            if (Carbon::parse($attendance->date)->isBetween($periodStart, $periodEnd)) {
+                $daysWorked++;
+            }
+        }
+
+        return $daysWorked;
+    }
+
+    function EarnedOffDays($yearmonth)
+    {
+        $offdays = 0;
+
+        if ($this->employment_type->is_penalizable && $this->designation->is_penalizable) {
+            $offdays = round($this->weekly_offs * ($this->netDaysWorked($yearmonth) + $this->employee->daysOnLeave($yearmonth)) / (7 - $this->weekly_offs + 1));
+        }
+
+        return $offdays;
+    }
+    function EarnedSalaryKes($yearmonth)
+    {
+        $salary = 0;
+        $offdays = 0;
+        $daysWorked = $this->netDaysWorked($yearmonth);
+        $daysOnLeave = $this->employee->daysOnLeave($yearmonth);
+        $month = Carbon::parse($yearmonth);
+        $monthdays = Carbon::parse($yearmonth)->daysInMonth;
+
+
+        if ($this->employment_type->is_penalizable && $this->designation->is_penalizable) {
+            $daily_rate = $this->DailyRate($yearmonth);
+            $offdays = $this->EarnedOffDays($yearmonth);
+
+            $salary = $daily_rate  * ($daysWorked + $daysOnLeave + $offdays);
+        } else {
+            if ($this->employment_type->rate_type == 'daily') {
+                $salary = $this->salary_kes * $this->netDaysWorked($yearmonth);
+            } else {
+                $salary = $this->salary_kes;
+            }
+        }
+
+        return $salary;
+    }
+    function EarnedOvertimeKes($yearmonth)
+    {
+        $extra_rate = 0;
+        $daily_rate = $this->DailyRate($yearmonth);
+
+        foreach ($this->extra_works() as $key => $extra) {
+            if ($extra->double_shift) {
+                $extra_rate += 1;
+            } else {
+                $extra_rate += 0.5;
+            }
+        }
+
+        return ($daily_rate * $extra_rate) + $this->getHolidayEarnings($yearmonth);
+    }
 
 
 
@@ -131,127 +231,44 @@ class EmployeeContract extends Model
         return $usedPayrolls;
     }
 
-    public function nhif()
+    function getHolidays($yearmonth)
     {
-        $nhif = 0;
+        $days = [];
+        $month = Carbon::parse($yearmonth);
 
-        if ($this->is_full_time()) {
-            if ($this->salary_kes >= 0 && $this->salary_kes < 6000) {
-                $nhif = 150;
-            } elseif ($this->salary_kes >= 6000 && $this->salary_kes < 8000) {
-                $nhif = 300;
-            } elseif ($this->salary_kes >= 8000 && $this->salary_kes < 12000) {
-                $nhif = 400;
-            } elseif ($this->salary_kes >= 12000 && $this->salary_kes < 15000) {
-                $nhif = 500;
-            } elseif ($this->salary_kes >= 15000 && $this->salary_kes < 20000) {
-                $nhif = 600;
-            } elseif ($this->salary_kes >= 20000 && $this->salary_kes < 25000) {
-                $nhif = 750;
-            } elseif ($this->salary_kes >= 25000 && $this->salary_kes < 30000) {
-                $nhif = 850;
-            } elseif ($this->salary_kes >= 30000 && $this->salary_kes < 35000) {
-                $nhif = 900;
-            } elseif ($this->salary_kes >= 35000 && $this->salary_kes < 40000) {
-                $nhif = 950;
-            } elseif ($this->salary_kes >= 40000 && $this->salary_kes < 45000) {
-                $nhif = 1000;
-            } elseif ($this->salary_kes >= 45000 && $this->salary_kes < 50000) {
-                $nhif = 1100;
-            } elseif ($this->salary_kes >= 50000 && $this->salary_kes < 60000) {
-                $nhif = 1200;
-            } elseif ($this->salary_kes >= 60000 && $this->salary_kes < 70000) {
-                $nhif = 1300;
-            } elseif ($this->salary_kes >= 70000 && $this->salary_kes < 80000) {
-                $nhif = 1400;
-            } elseif ($this->salary_kes >= 80000 && $this->salary_kes < 90000) {
-                $nhif = 1500;
-            } elseif ($this->salary_kes >= 90000 && $this->salary_kes < 100000) {
-                $nhif = 1600;
-            } elseif ($this->salary_kes >= 100000) {
-                $nhif = 1700;
+        foreach (Holiday::all() as $key => $holiday) {
+            if ($this->isActiveOn($holiday->date) && Carbon::parse($holiday->date)->isBetween($month->firstOfMonth()->toDateString(), $month->lastOfMonth()->toDateString())) {
+                array_push($days, $holiday);
             }
         }
 
-        return $nhif;
+        return $days;
+    }
+    function getAttendedHolidays($yearmonth)
+    {
+        $days = [];
+
+        foreach ($this->getHolidays($yearmonth) as $key => $holiday) {
+            if ($this->employee->hasSignedOn($holiday->date)) {
+                array_push($days, $holiday);
+            }
+        }
+
+        return $days;
     }
 
-    public function paye($yearmonth)
+    function getHolidayEarnings($yearmonth)
     {
-        $tax = 0;
-        $level1 = (288000 / 12);
-        $level2 = (388000 / 12);
-        $level3 = (6000000 / 12);
-        $level4 = (9600000 / 12);
 
-        $taxable_income = $this->salary_kes - $this->nssf($yearmonth);
+        $earning = 0;
 
-        if ($this->is_full_time()) {
-            if ($taxable_income <= $level1) {
-                $tax = $taxable_income * 0.1;
-            } elseif ($taxable_income > $level1 && $taxable_income <= $level2) {
-                $tax = (($taxable_income - $level1) * 0.25) + 2400;
-            } elseif ($taxable_income > $level2 && $taxable_income <= $level3) {
-                $tax = (($taxable_income - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
-            } elseif ($taxable_income > $level3 && $taxable_income <= $level4) {
-                $tax = (($taxable_income - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+        foreach ($this->getHolidays($yearmonth) as $key => $holiday) {
+            if ($this->employee->hasSignedOn($holiday->date)) {
+                $earning += ($this->employee->ActiveContractOn($holiday->date)->DailyRate(Carbon::parse($holiday->date)->format('Y-m')) * 2);
             } else {
-                $tax = (($taxable_income - $level4) * 0.35) + (($level4 - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+                $earning += $this->employee->ActiveContractOn($holiday->date)->DailyRate(Carbon::parse($holiday->date)->format('Y-m'));
             }
         }
-
-        $relief = 0;
-        if ($tax > 2400) {
-            $relief = 2400;
-        } else {
-            $relief = $tax;
-        }
-
-
-        return $tax - $relief;
+        return $this->employment_type->is_penalizable ? ($this->employee->designation->is_penalizable ? $earning : 0) : 0;
     }
-
-    public function nssf($yearmonth)
-    {
-        $nssf = 0;
-
-        if (Carbon::parse($yearmonth)->firstOfMonth()->isBefore('2024-01-31')) {
-            if ($this->is_full_time()) {
-                $nssf = 200;
-                if ($this->gross_salary > (40000 / 12)) {
-                    $nssf = 0.06 * $this->gross_salary;
-                    if ($nssf > 1080) {
-                        $nssf = 1080;
-                    }
-                }
-            }
-        } else {
-            if ($this->is_full_time()) {
-                $nssf = 420;
-                if ($this->gross_salary > (7000)) {
-                    $nssf = 0.06 * $this->gross_salary;
-                    if ($nssf > 1740) {
-                        $nssf = 1740;
-                    }
-                }
-            }
-        }
-
-
-        return $nssf;
-    }
-
-
-    public function relief()
-    {
-        $relief = 0;
-
-        if ($this->nhif()) {
-            $relief += (0.15 * $this->nhif());
-        }
-
-        return $relief;
-    }
-
-
 }

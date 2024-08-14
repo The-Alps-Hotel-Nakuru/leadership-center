@@ -47,17 +47,17 @@
                             <th>ID</th>
                             <th>Period</th>
                             <th>This Payroll Total</th>
-                            <th>Total Absence Penalty/Bonus</th>
+                            <th>Total PAYE</th>
+                            <th>Total NSSF</th>
+                            <th>Total NHIF</th>
+                            <th>Total NITA</th>
+                            <th>Total Housing Levy</th>
                             <th>Total Advances</th>
+                            <th>Total Overtimes</th>
                             <th>Total Bonuses</th>
                             <th>Total Fines</th>
                             <th>Total Loans</th>
                             <th>Staff Welfare Contributions</th>
-                            <th>Total PAYE</th>
-                            <th>Total NHIF</th>
-                            <th>Total NSSF</th>
-                            <th>Total NITA</th>
-                            <th>Total Housing Levy</th>
                             <th>Total NET PAY</th>
                             <th class="text-center">Actions</th>
                         </tr>
@@ -65,9 +65,6 @@
                     <tbody class="table-group-divider">
                         @if (!$payrolls)
                             <tr>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
                                 <th>
                                     <div class="spinner-grow" role="status"></div>
                                 </th>
@@ -121,12 +118,29 @@
                                     <td>KES <span class="text-primary">{{ number_format($payroll->total, 2) }}</span>
                                     </td>
                                     <td>KES <span
-                                            class="text-success">{{ number_format($payroll->penalty_total, 2) }}</span>
+                                            class="text-success">{{ number_format($payroll->paye_total, 2) }}</span>
+                                    </td>
+                                    <td>KES <span
+                                            class="text-success">{{ number_format($payroll->nssf_total, 2) }}</span>
+                                    </td>
+                                    <td>KES <span
+                                            class="text-success">{{ number_format($payroll->nhif_total, 2) }}</span>
+                                    </td>
+                                    <td>KES <span
+                                            class="text-success">{{ number_format($payroll->nita_total, 2) }}</span>
+                                    </td>
+                                    <td>KES <span
+                                            class="text-success">{{ number_format($payroll->housing_levy_total, 2) }}</span>
                                     </td>
 
                                     <td>
                                         KES
                                         <span class="text-success">{{ number_format($payroll->advances_total, 2) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        KES
+                                        <span class="text-success">{{ number_format($payroll->overtimes_total, 2) }}
                                         </span>
                                     </td>
                                     <td>
@@ -149,21 +163,6 @@
                                         <span
                                             class="text-success">{{ number_format($payroll->welfare_contributions_total, 2) }}
                                         </span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->paye_total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->nhif_total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->nssf_total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->nita_total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->housing_levy_total, 2) }}</span>
                                     </td>
                                     <td class="bg-dark text-white">KES <span
                                             class="text-success">{{ number_format($payroll->net_pay_total, 2) }}</span>

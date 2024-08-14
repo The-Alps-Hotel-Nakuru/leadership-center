@@ -16,7 +16,6 @@ class Edit extends Component
         'designation.department_id'=>'required',
         'designation.title'=>'required',
         'designation.is_penalizable' => 'required',
-        'designation.off_days' => 'nullable'
     ];
 
     public function mount($id)

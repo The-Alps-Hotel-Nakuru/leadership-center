@@ -10,6 +10,7 @@ use App\Models\EventOrder;
 use App\Models\Fine;
 use App\Models\Log;
 use App\Models\Payroll;
+use App\Services\PaymentsCalculationsService;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
 use Asantibanez\LivewireCharts\Models\LineChartModel;
 use Carbon\Carbon;
@@ -24,13 +25,13 @@ class Dashboard extends Component
 
     public $currentMonth, $currentMonthName, $currentYear, $today, $days, $instance, $employees;
     public $estimated = null;
-    public $total_penalties = null;
     public $month;
     protected $paginationTheme = 'bootstrap';
     public $total_fines = null;
     public $total_bonuses = null;
     public $total_advances = null;
     public $incompleteEmployees;
+    public $total_overtimes;
 
 
     // private $columnChartModel;
@@ -48,6 +49,16 @@ class Dashboard extends Component
     public function loadItems()
     {
         $this->readyToLoad = true;
+    }
+
+    function totalOvertime()
+    {
+        $total = 0;
+        foreach ($this->employees as $employee) {
+            $total += $employee->EarnedOvertimeKes($this->instance->format('Y-m'));
+        }
+
+        return $total;
     }
 
 
@@ -90,6 +101,7 @@ class Dashboard extends Component
         $this->employees = EmployeesDetail::all();
         $this->today = $this->instance->format('Y-m-d');
         $this->month = $this->instance->format('Y-m');
+        $this->total_overtimes = $this->totalOvertime();
         // $this->estimated = $this->estimated_earnings();
         // $this->loadPayrollGraph();
         // $this->incompleteEmployees = $this->incompleteEmployees();
@@ -108,134 +120,9 @@ class Dashboard extends Component
         return collect($collect);
     }
 
-    function penalties()
-    {
-        $total_penalties = 0;
-        foreach ($this->employees as $key => $employee) {
-            $penalty = 0;
-            $rate = 0;
-            $days = $employee->daysWorked($this->instance->format('Y-m'));
-            $leaveDays = $employee->daysOnLeave($this->instance->format('Y-m'));
-            $daysMissed = $this->instance->daysInMonth - $days - $leaveDays;
-            $contract = $employee->ActiveContractDuring($this->instance->format('Y-m'));
-
-            if ($contract) {
-                if ($employee->isCasualBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) || $employee->isInternBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
-                    $rate = $contract->salary_kes;
-                } else {
-                    $rate = $contract->salary_kes / $this->instance->daysInMonth;
-                }
-            }
-            if ($employee && $employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
-                if ($employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) && $employee->designation->is_penalizable) {
-                    if ($daysMissed > 6) {
-                        $penalty = $rate * ($daysMissed - 6);
-                    }
-                } else {
-                    $penalty = 0;
-                }
-            }
-            $total_penalties += $penalty;
-        }
-
-        return $total_penalties;
-    }
-
-    function getNssf($sal)
-    {
-        $nssf = 0;
-
-        if ($this->instance->isBefore('2024-01-31')) {
-            $nssf = 200;
-            if ($sal > (40000 / 12)) {
-                $nssf = 0.06 * $sal;
-                if ($nssf > 1080) {
-                    $nssf = 1080;
-                }
-            }
-        } else {
-            if ($this->instance->isBefore('2024-03-31')) {
-                $nssf = 420;
-                if ($sal > (7000)) {
-                    $nssf = 0.06 * $sal;
-                    if ($nssf > 1740) {
-                        $nssf = 1740;
-                    }
-                }
-            } else {
-                $nssf = 420;
-                if ($sal > (7000)) {
-                    $nssf = 0.06 * $sal;
-                    if ($nssf > 2160) {
-                        $nssf = 2160;
-                    }
-                }
-            }
-        }
 
 
-        return $nssf;
-    }
 
-    function getNhif($sal)
-    {
-        $nhif = 0;
-
-        if ($sal >= 0 && $sal < 6000) {
-            $nhif = 150;
-        } elseif ($sal >= 6000 && $sal < 8000) {
-            $nhif = 300;
-        } elseif ($sal >= 8000 && $sal < 12000) {
-            $nhif = 400;
-        } elseif ($sal >= 12000 && $sal < 15000) {
-            $nhif = 500;
-        } elseif ($sal >= 15000 && $sal < 20000) {
-            $nhif = 600;
-        } elseif ($sal >= 20000 && $sal < 25000) {
-            $nhif = 750;
-        } elseif ($sal >= 25000 && $sal < 30000) {
-            $nhif = 850;
-        } elseif ($sal >= 30000 && $sal < 35000) {
-            $nhif = 900;
-        } elseif ($sal >= 35000 && $sal < 40000) {
-            $nhif = 950;
-        } elseif ($sal >= 40000 && $sal < 45000) {
-            $nhif = 1000;
-        } elseif ($sal >= 45000 && $sal < 50000) {
-            $nhif = 1100;
-        } elseif ($sal >= 50000 && $sal < 60000) {
-            $nhif = 1200;
-        } elseif ($sal >= 60000 && $sal < 70000) {
-            $nhif = 1300;
-        } elseif ($sal >= 70000 && $sal < 80000) {
-            $nhif = 1400;
-        } elseif ($sal >= 80000 && $sal < 90000) {
-            $nhif = 1500;
-        } elseif ($sal >= 90000 && $sal < 100000) {
-            $nhif = 1600;
-        } elseif ($sal >= 100000) {
-            $nhif = 1700;
-        }
-
-
-        return $nhif;
-    }
-
-    function getAhl($sal)
-    {
-        $levy = 0;
-        if ($this->instance->isBefore('2024-01-31')) {
-            $levy = 0.015 * $sal;
-        } else {
-            if ($this->instance->isBefore('2024-02-29')) {
-                $levy = 0;
-            } else {
-                $levy = 0.015 * $sal;
-            }
-        }
-
-        return $levy;
-    }
     function estimated_earnings()
     {
         $earning = 0;
@@ -243,30 +130,14 @@ class Dashboard extends Component
         $nhif = 0;
         $ahl = 0;
         foreach ($this->employees as $key => $employee) {
-            $days = $employee->daysWorked($this->instance->format('Y-m'));
-            $basic_salary_kes = 0;
-            $contract = $employee->ActiveContractDuring($this->instance->format('Y-m'));
-            if ($contract) {
-                if ($contract->is_full_time()) {
-                    $basic_salary_kes = $contract->salary_kes;
-                    $nhif += $this->getNhif($basic_salary_kes);
-                    $nssf += $this->getNssf($basic_salary_kes);
-                    $ahl += $this->getAhl($basic_salary_kes);
-                } else if ($contract->is_casual()) {
-                    $basic_salary_kes = $contract->salary_kes * $days;
-                } else if ($contract->is_intern()) {
-                    $basic_salary_kes = $contract->salary_kes;
-                } else if ($contract->is_external()) {
-                    $basic_salary_kes = $contract->salary_kes;
-                }
-            } else {
-                $basic_salary_kes = 0;
-            }
-
-            $earning += $basic_salary_kes;
+            $calculations = new PaymentsCalculationsService($employee->EarnedSalaryKes($this->instance->format('Y-m')), $this->instance->toDateTimeString());
+            $earning += $employee->EarnedSalaryKes($this->instance->format('Y-m'));
+            $nssf += $employee->EarnedSalaryKes($this->instance->format('Y-m')) > 0 ? $calculations->nssf() : 0;
+            $nhif += $calculations->nhif();
+            $ahl += $calculations->ahl();
         }
 
-        return $earning + $nssf  + $ahl;
+        return $earning + $nssf + $ahl;
     }
 
     public function render()
@@ -303,7 +174,6 @@ class Dashboard extends Component
             }
 
             $this->estimated = $this->estimated_earnings();
-            $this->total_penalties = $this->penalties();
             $this->loadPayrollGraph();
             $this->incompleteEmployees = $this->incompleteEmployees();
 

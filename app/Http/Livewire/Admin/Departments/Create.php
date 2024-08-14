@@ -11,7 +11,14 @@ class Create extends Component
     public Department $department;
 
     protected $rules = [
-        'department.title'=>'required|unique:departments,title'
+        'department.title' => 'required|unique:departments,title'
+    ];
+
+    protected $messages = [
+        'department.title.unique'=>"This Title Already Exists"
+    ];
+    protected $listeners = [
+        'done' => "mount"
     ];
 
     public function mount()
@@ -30,8 +37,9 @@ class Create extends Component
         $log->payload = "<strong>" . auth()->user()->name . "</strong> has created a Department <strong>No. " . $this->department->id . "</strong> in the system";
         $log->save();
 
-        return redirect()->route('admin.departments.index');
-
+        $this->emit('done', [
+            'success' => "Successfully Created the Department"
+        ]);
     }
     public function render()
     {

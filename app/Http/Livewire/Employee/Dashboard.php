@@ -12,6 +12,7 @@ class Dashboard extends Component
 {
     public $total_fines = 0;
     public $total_loans = 0;
+    public $total_overtimes = 0;
     public $total_bonuses = 0;
     public $total_advances = 0;
     public $attendance_percentage = 0;
@@ -28,9 +29,15 @@ class Dashboard extends Component
         $this->instance = Carbon::now();
         $this->employee = EmployeesDetail::where('user_id', auth()->user()->id)->first();
         $this->today = $this->instance->format('Y-m-d');
+        $this->total_overtimes = $this->totalOvertime();
         $this->attendance_percentage = $this->attendance_percentage();
         $this->month = $this->instance->format('Y-m');
-        $this->estimated = $this->estimated_earnings();
+        $this->estimated = $this->employee->EarnedSalaryKes($this->instance->format('Y-m'));
+    }
+
+    public function totalOvertime()
+    {
+        return $this->employee->EarnedOvertimeKes($this->instance->format('Y-m'));
     }
 
     function attendance_percentage()
@@ -50,47 +57,7 @@ class Dashboard extends Component
 
     function estimated_earnings()
     {
-        $days = $this->employee->daysWorked($this->instance->format('Y-m'));
-        $leaveDays = $this->employee->daysOnLeave($this->instance->format('Y-m'));
-        $rate = 0;
-        $daysMissed = $this->instance->daysInMonth - $days - $leaveDays;
-        $basic_salary_kes = 0;
-
-        if ($this->employee->ActiveContractDuring($this->instance->format('Y-m'))) {
-            if ($this->employee->isCasualBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) || $this->employee->isInternBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
-                $rate = $this->employee->ActiveContractDuring($this->instance->format('Y-m'))->salary_kes;
-            } else {
-                $rate = $this->employee->ActiveContractDuring($this->instance->format('Y-m'))->salary_kes / $this->instance->daysInMonth;
-            }
-        }
-        $contract = $this->employee->ActiveContractDuring($this->instance->format('Y-m'));
-        if ($contract) {
-            if ($contract->is_full_time()) {
-                $basic_salary_kes = $contract->salary_kes;
-            } else if ($contract->is_casual()) {
-                $basic_salary_kes = $contract->salary_kes * $days;
-            } else if ($contract->is_intern()) {
-                $basic_salary_kes = $contract->salary_kes;
-            } else if ($contract->is_external()) {
-                $basic_salary_kes = $contract->salary_kes;
-            }
-        } else {
-            $basic_salary_kes = 0;
-        }
-
-        $gross = ($basic_salary_kes ?? 0);
-        $penalty = 0;
-        if ($this->employee && $this->employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth())) {
-            if ($this->employee->isFullTimeBetween($this->instance->firstOfMonth(), $this->instance->lastOfMonth()) && $this->employee->designation->is_penalizable) {
-                if ($daysMissed > 6) {
-                    $penalty = $rate * ($daysMissed - 6);
-                }
-            } else {
-                $penalty = 0;
-            }
-        }
-
-        return $gross - $penalty;
+        return $this->employee->EarnedSalaryKes($this->instance->format('Y-m'));
     }
 
 

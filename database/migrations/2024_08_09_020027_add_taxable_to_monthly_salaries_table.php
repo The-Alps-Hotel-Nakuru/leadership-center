@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -14,16 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('employment_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->longText('description');
-            $table->timestamps();
-
-
+        Schema::table('monthly_salaries', function (Blueprint $table) {
+            $table->boolean('is_taxable')->default(true);
         });
-
-
     }
 
     /**
@@ -33,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employment_types');
+        Schema::table('monthly_salaries', function (Blueprint $table) {
+            $table->dropColumn('is_taxable');
+        });
     }
 };

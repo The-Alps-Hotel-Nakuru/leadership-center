@@ -41,6 +41,16 @@ Route::redirect('/', '/dashboard');
 //     Route::redirect('/dashboard','/employee/dashboard');
 // }
 
+Route::get('/test-contract-earnings', function () {
+    $dd = [];
+
+    foreach (EmployeeContract::all() as $key => $contract) {
+        array_push($dd, $contract->employee->user->name ." earned: KES " . $contract->EarnedSalaryKes('2024-08')." across ".$contract->netDaysWorked('2024-08')." days");
+    }
+
+    dd($dd);
+});
+
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'subscribed'])->group(function () {
 
     Route::get('dashboard', function () {
@@ -140,6 +150,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/{id}/edit', Admin\Banks\Edit::class)->name('admin.banks.edit');
             Route::get('/mass_addition', Admin\Banks\MassAddition::class)->name('admin.banks.mass_addition');
         });
+        Route::prefix('employment_types')->group(function () {
+            Route::get('/', Admin\EmploymentTypes\Index::class)->name('admin.employment-types.index');
+            Route::get('/create', Admin\EmploymentTypes\Create::class)->name('admin.employment-types.create');
+            Route::get('/{id}/edit', Admin\EmploymentTypes\Edit::class)->name('admin.employment-types.edit');
+        });
         Route::prefix('employee_contracts')->group(function () {
             Route::get('/', Admin\EmployeeContracts\Index::class)->name('admin.employee_contracts.index');
             Route::get('/{id}/contract', Admin\EmployeeContracts\Show::class)->name('admin.employee_contracts.show');
@@ -165,6 +180,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/create', Admin\Attendances\Create::class)->name('admin.attendances.create');
             Route::get('/{id}/{instance}/edit', Admin\Attendances\Edit::class)->name('admin.attendances.edit');
             Route::get('/mass_addition', Admin\Attendances\MassAddition::class)->name('admin.attendances.mass_addition');
+        });
+        Route::prefix('extra-works')->group(function () {
+            Route::get('/', Admin\ExtraWorks\Index::class)->name('admin.extra-works.index');
+            Route::get('/create', Admin\ExtraWorks\Create::class)->name('admin.extra-works.create');
+            Route::get('/{id}/{instance}/edit', Admin\ExtraWorks\Edit::class)->name('admin.extra-works.edit');
+            Route::get('/mass_addition', Admin\ExtraWorks\MassAddition::class)->name('admin.extra-works.mass_addition');
         });
         Route::prefix('leaves')->group(function () {
             Route::get('/', Admin\Leaves\Index::class)->name('admin.leaves.index');
@@ -266,7 +287,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
             if (auth()->user()->employee->id == $salary->employees_detail_id) {
                 if ($salary->payroll->payments) {
-                    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper(array(0, 0, 400, 1200), 'portrait');
+                    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper(array(0, 0, 400, 1350), 'portrait');
 
                     $pdf->loadView('doc.payslip', [
                         'salary' => $salary
@@ -362,7 +383,7 @@ Route::get('/{id}/draft_contract', function ($id) {
 
 
 Route::get('/{id}/payslip', function ($id) {
-    $pdf = Pdf::setPaper(array(0, 0, 400, 1200), 'portrait')->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => false, 'debugPng' => true]);
+    $pdf = Pdf::setPaper(array(0, 0, 400, 1350), 'portrait')->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => false, 'debugPng' => true]);
 
     $pdf->loadView('doc.payslip', [
         'salary' => MonthlySalary::find($id)
@@ -385,25 +406,6 @@ function rrmdir($dir)
         rmdir($dir);
     }
 }
-// Route::get('/{id}/print_payslips', function ($id) {
-
-//     $payroll = Payroll::find($id);
-//     $pdfMerger = PdfMerger::init();
-//     foreach ($payroll->monthlySalaries as $key => $salary) {
-
-//         $pdf = Pdf::setPaper(array(0, 0, 400, 1250), 'portrait')->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => false, 'debugPng' => true]);
-//         $pdf->loadView('doc.payslip', [
-//             'salary' => $salary
-//         ]);
-//         $pdf->save('payslips/' . $salary->month_string . '/' . $key+1 . '.pdf', 'public');
-//         $pdfMerger->addPDF('payslips/' . $salary->month_string . '/' . $key . '.pdf');
-//     }
-//     $pdfMerger->merge();
-//     $pdfMerger->save(public_path(Carbon::parse($payroll->year . '-' . $payroll->month)->format('F-Y') . '.pdf'));
-//     // rrmdir(public_path('payslips'));
-//     Pdf::loadView('merged-payslips/' . Carbon::parse($payroll->year . '-' . $payroll->month)->format('F-Y') . '.pdf');
-//     return $pdf->stream();
-// })->name('doc.print-payslips');
 
 
 

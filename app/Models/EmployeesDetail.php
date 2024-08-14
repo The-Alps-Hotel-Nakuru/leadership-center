@@ -118,6 +118,30 @@ class EmployeesDetail extends Model
         }
     }
 
+    function EarnedSalaryKes($yearmonth)
+    {
+        $earnings = 0;
+        foreach ($this->ActiveContractsDuring($yearmonth) as $key => $contract) {
+            $earnings += $contract->EarnedSalaryKes($yearmonth);
+        }
+
+        return $earnings;
+    }
+    function EarnedOvertimeKes($yearmonth)
+    {
+        $earnings = 0;
+        foreach ($this->ActiveContractsDuring($yearmonth) as $key => $contract) {
+            $earnings += $contract->EarnedOvertimeKes($yearmonth);
+        }
+
+        return $earnings;
+    }
+    function getNssf($yearmonth)
+    {
+        $nssf = 0.06 * $this->EarnedSalaryKes($yearmonth);
+
+        return $nssf > 2160 ? 2160 : ($nssf < 420 ? 420 : $nssf);
+    }
     public function insurance()
     {
         return $this->hasMany(Insurance::class);
@@ -127,6 +151,10 @@ class EmployeesDetail extends Model
     public function attendances()
     {
         return $this->hasMany(Attendance::class);
+    }
+    public function extra_works()
+    {
+        return $this->hasMany(ExtraWork::class);
     }
 
     public function leaves()
@@ -138,6 +166,15 @@ class EmployeesDetail extends Model
     {
         $dates = [];
         foreach ($this->attendances as $item) {
+            array_push($dates, Carbon::parse($item->date)->format('Y-m-d'));
+        }
+
+        return $dates;
+    }
+    public function getExtraWorkDatesAttribute()
+    {
+        $dates = [];
+        foreach ($this->extra_works as $item) {
             array_push($dates, Carbon::parse($item->date)->format('Y-m-d'));
         }
 
@@ -155,6 +192,18 @@ class EmployeesDetail extends Model
         }
 
         return $attendances;
+    }
+    function ExtraWorksOfMonth($month)
+    {
+        $initial = Carbon::parse($month);
+        $extraWorks = [];
+        foreach ($this->extra_works as $item) {
+            if (Carbon::parse($item->date)->isBetween($initial->firstOfMonth(), $initial->lastOfMonth())) {
+                array_push($extraWorks, $item);
+            }
+        }
+
+        return $extraWorks;
     }
     public function getLeaveDatesAttribute()
     {
@@ -217,6 +266,10 @@ class EmployeesDetail extends Model
     public function hasSignedOn($date)
     {
         return in_array(Carbon::parse($date)->format('Y-m-d'), $this->attended_dates);
+    }
+    public function hasOvertimeOn($date)
+    {
+        return in_array(Carbon::parse($date)->format('Y-m-d'), $this->extra_work_dates);
     }
     public function onLeaveToday()
     {
@@ -359,25 +412,5 @@ class EmployeesDetail extends Model
     public function bankAccount()
     {
         return $this->hasOne(EmployeeAccount::class, 'employees_detail_id', 'id');
-    }
-
-
-    public function netSalary($yearmonth)
-    {
-        $ym = Carbon::parse($yearmonth);
-
-        $daysWorked = $this->daysWorked($yearmonth);
-
-        $contract = $this->ActiveContractDuring($yearmonth);
-
-        $net = 0;
-        if ($contract->is_casual()) {
-            $net = $contract->salary_kes * $daysWorked;
-        } else {
-            $net = $contract->salary_kes - $contract->nssf($yearmonth) - $contract->nhif() - $contract->paye($yearmonth) + $contract->relief();
-        }
-
-
-        return $net;
     }
 }

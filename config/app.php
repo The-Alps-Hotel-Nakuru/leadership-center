@@ -223,7 +223,6 @@ return [
      * The Variables of the Application
      */
 
-    'off_days' => env('OFF_DAYS', 4),
-
     'nita' => env('NITA', false),
+    'holidays'=>env('HOLIDAYS', true),
 ];

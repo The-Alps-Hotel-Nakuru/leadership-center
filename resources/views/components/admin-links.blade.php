@@ -19,6 +19,13 @@
 
 
     </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Employment Types" route="admin.employment-types*" fa_icon="fa-globe">
+        <x-new-nav-link fa_icon="" title="Overview" route="admin.employment-types.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Create an Employment Type" route="admin.employment-types.create"></x-new-nav-link>
+        {{-- <x-new-nav-link fa_icon="" title="Create Multiple Banks" route="admin.banks.mass_addition"></x-new-nav-link> --}}
+
+
+    </x-new-nav-link-dropdown>
 
     <li class="nav-header">Human Resource</li>
     <x-new-nav-link-dropdown title="Admins" route="admin.admins*" fa_icon="fa-user-cog">
@@ -77,6 +84,13 @@
             route="admin.attendances.create"></x-new-nav-link>
         <x-new-nav-link fa_icon="" title="Create Multiple Attendances"
             route="admin.attendances.mass_addition"></x-new-nav-link>
+    </x-new-nav-link-dropdown>
+    <x-new-nav-link-dropdown title="Extra Hours" route="admin.extra-works*" fa_icon="fa-calendar-check">
+        <x-new-nav-link fa_icon="" title="Overview" route="admin.extra-works.index"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Add an Overtime Record"
+            route="admin.extra-works.create"></x-new-nav-link>
+        <x-new-nav-link fa_icon="" title="Create Multiple Overtime Records"
+            route="admin.extra-works.mass_addition"></x-new-nav-link>
     </x-new-nav-link-dropdown>
     <x-new-nav-link-dropdown title="Leaves" route="admin.leaves*" fa_icon="fa-umbrella-beach">
         <x-new-nav-link fa_icon="" title="Overview" route="admin.leaves.index"></x-new-nav-link>

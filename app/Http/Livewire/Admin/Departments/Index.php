@@ -12,7 +12,7 @@ class Index extends Component
     protected $paginationTheme = 'bootstrap';
 
     function delete($id) {
-        if (count(Department::find($id)->designations) > 0) {
+        if (count(Department::find($id)->designations) <= 0) {
             Department::find($id)->delete();
 
             $this->emit('done', [

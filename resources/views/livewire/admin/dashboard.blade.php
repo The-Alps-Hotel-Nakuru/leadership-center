@@ -42,18 +42,18 @@
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-baseline mb-3">
                                         <h6 class="card-title mb-0" style="font-weight: 400; font-size:14px">Total
-                                            Penalties</h6>
+                                            Overtimes</h6>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-xl-9">
 
-                                            @if ($total_penalties === null)
+                                            @if ($total_overtimes === null)
                                                 <span class="spinner-border text-right" role="status"></span>
                                             @else
                                                 <small>KES</small>
                                                 <div class="d-flex align-items-baseline ms-auto">
                                                     <h4 class="mb-2">
-                                                        {{ number_format($total_penalties, 2) }}
+                                                        {{ number_format($total_overtimes, 2) }}
                                                     </h4>
                                                 </div>
                                             @endif

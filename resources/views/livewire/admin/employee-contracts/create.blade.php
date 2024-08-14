@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-header">
                 <h5>
-                    Create a new Contract
+                    Create a New Contract
                 </h5>
             </div>
             <div class="card-body">
@@ -19,10 +19,8 @@
                                 name="employees_detail_id" id="employees_detail_id">
                                 <option>Select Which Employee to Give a Contract</option>
                                 @foreach (App\Models\EmployeesDetail::all() as $employee)
-                                    <option @if ($employee->ActiveContractBetween($contract->start_date, $contract->end_date)) disabled @endif
-                                        value="{{ $employee->id }}">
-                                        {{ $employee->user->name }} - ({{ $employee->designation->title }})
-                                    </option>
+                                    <option @if ($employee->has_active_contract) disabled @endif
+                                        value="{{ $employee->id }}">{{ $employee->user->name }}</option>
                                 @endforeach
                             </select>
                             @error('contract.employees_detail_id')
@@ -62,12 +60,36 @@
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
+                            <label for="is_taxable" class="form-label">Taxable</label>
+                            <select wire:model="contract.is_taxable" class="form-control"
+                                name="is_taxable" id="is_taxable">
+                                <option value="1" selected>True</option>
+                                <option value="0">False</option>
+                            </select>
+                            @error('contract.is_taxable')
+                                <small id="is_taxable" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
+                            <label for="weekly_offs" class="form-label">Weekly Offs</label>
+                            <input wire:model="contract.weekly_offs" type="number" class="form-control"
+                                name="weekly_offs" id="weekly_offs" aria-describedby="weekly_offs"
+                                placeholder="Enter the Appointment Date">
+                            @error('contract.weekly_offs')
+                                <small id="weekly_offs" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="mb-3">
                             <label for="start_date" class="form-label">Appointment Date</label>
                             <input wire:model="contract.start_date" type="date" class="form-control"
                                 name="start_date" id="start_date" aria-describedby="start_date"
                                 placeholder="Enter the Appointment Date">
                             @error('contract.start_date')
-                                <small id="end_date" class="form-text text-danger">{{ $message }}</small>
+                                <small id="start_date" class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -80,8 +102,8 @@
                                 <small id="end_date" class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-
-                        {{-- <div class="mb-3">
+                        {{-- <div class="col-md-6 col-12">
+                        <div class="mb-3">
                             <label for="months" class="form-label">Duration</label>
                             <select wire:model="months" class="form-select form-select-sm" name="months" id="months">
                                 <option selected>Select Duration</option>
@@ -92,17 +114,12 @@
                             @error('months')
                                 <small id="end_date" class="form-text text-danger">{{ $message }}</small>
                             @enderror
-                        </div> --}}
+                        </div>
+                    </div> --}}
                     </div>
-                    <div class="col-md-6 col-12">
+                    <div class="col-md-4 col-6">
                         <div class="mb-3">
-                            <label for="salary_kes" class="form-label">Gross Salary <small class="text-muted">(KES
-                                    @if ($contract->employment_type_id == 1)
-                                        per day
-                                    @elseif ($contract->employment_type_id == 2)
-                                        per month
-                                    @endif)
-                                </small></label>
+                            <label for="salary_kes" class="form-label">Gross Salary <small class="text-muted text-capitalize">({{ $contract->employment_type?$contract->employment_type->rate_type:"per employment terms" }})</small></label>
                             <input wire:model="contract.salary_kes" type="number" class="form-control"
                                 name="salary_kes" id="salary_kes" aria-describedby="salary_kes"
                                 placeholder="Enter your Salary">

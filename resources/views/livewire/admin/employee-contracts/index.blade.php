@@ -41,7 +41,7 @@
                         @enderror
                     </div>
                     <x-jet-confirms-password wire:then="makeAllInactive">
-                        <x-jet-button type="button" wire:loading.attr="disabled" >Make All Active contracts
+                        <x-jet-button type="button" wire:loading.attr="disabled">Make All Active contracts
                             Inactive</x-jet-button>
                     </x-jet-confirms-password>
                 </div>
@@ -56,6 +56,8 @@
                             <th scope="col">Appointment Date</th>
                             <th scope="col">Expiry Date</th>
                             <th scope="col">Remuneration</th>
+                            <th scope="col">Weekly Off Days</th>
+                            <th scope="col">Taxable</th>
                             <th scope="col" class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -80,6 +82,8 @@
                                             per month
                                         @endif)</small></td>
 
+                                <td>{{ $contract->weekly_offs }} Day(s)</td>
+                                <td>{!!  $contract->is_taxable ? '<span class="text-success">True</span>' : '<span class="text-danger">False</span>' !!} </td>
                                 <td>
                                     <div class="d-flex flex-row justify-content-center">
                                         @if ($contract->contract_path)

@@ -46,7 +46,7 @@ return new class extends Migration
             ['name' => 'Bank of Africa', 'short_name' => 'BOA', 'bank_code' => '19000'],
             ['name' => 'Consolidated Bank', 'short_name' => 'CONSOLIDATED', 'bank_code' => '23000'],
             ['name' => 'Credit Bank', 'short_name' => 'CREDIT', 'bank_code' => '25000'],
-            ['name' => 'Transnational Bank', 'short_name' => 'TRANSNATIONAL', 'bank_code' => '26000'],
+            ['name' => 'Access Bank', 'short_name' => 'ACCESS', 'bank_code' => '26004'],
             ['name' => 'Chase Bank', 'short_name' => 'CHASE', 'bank_code' => '30000'],
             ['name' => 'Stanbic Bank', 'short_name' => 'STANBIC', 'bank_code' => '31000'],
             ['name' => 'ABC Bank', 'short_name' => 'ABC', 'bank_code' => '35000'],
@@ -61,7 +61,7 @@ return new class extends Migration
             ['name' => 'Development Bank', 'short_name' => 'DEVELOPMENT', 'bank_code' => '59000'],
             ['name' => 'Fidelity Bank', 'short_name' => 'FIDELITY', 'bank_code' => '60000'],
             ['name' => 'Housing Finance', 'short_name' => 'HFC', 'bank_code' => '61000'],
-            ['name' => 'Kenya Post Office Savings Bank', 'short_name' => 'POSTBANK', 'bank_code' => '62000'],
+            ['name' => 'Kenya Post Office Savings Bank', 'short_name' => 'POSTBANK', 'bank_code' => '62309'],
             ['name' => 'Diamond Trust Bank', 'short_name' => 'DTB', 'bank_code' => '63000'],
             ['name' => 'Mayfair Bank', 'short_name' => 'MAYFAIR', 'bank_code' => '65000'],
             ['name' => 'Sidian Bank', 'short_name' => 'SIDIAN', 'bank_code' => '66000'],
@@ -75,7 +75,7 @@ return new class extends Migration
             ['name' => 'KWFT Bank', 'short_name' => 'KWFT', 'bank_code' => '78000'],
         ];
 
-        // DB::table('banks')->insert($banks);
+        DB::table('banks')->insert($banks);
     }
 
     /**

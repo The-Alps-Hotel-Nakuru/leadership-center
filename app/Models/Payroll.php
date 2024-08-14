@@ -193,7 +193,7 @@ class Payroll extends Model
         $amount = 0;
         if (count($this->monthlySalaries) > 0) {
             foreach ($this->monthlySalaries as $salary) {
-                if ($salary->employee&& $salary->employee->ActiveContractDuring($this->year . '-' . $this->month) && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_external()) {
+                if ($salary->employee && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month) && $salary->employee->ActiveContractDuring($this->year . '-' . $this->month)->is_external()) {
                     $amount += $salary->gross_salary;
                 }
             }
@@ -300,6 +300,26 @@ class Payroll extends Model
         }
         return false;
     }
+
+    function getGrossSalaryTotalAttribute()
+    {
+        $total = 0;
+        foreach ($this->monthlySalaries as $key => $salary) {
+            $total += $salary->gross_salary;
+        }
+
+        return $total;
+    }
+    function getOvertimesTotalAttribute()
+    {
+        $total = 0;
+        foreach ($this->monthlySalaries as $key => $salary) {
+            $total += $salary->overtimes;
+        }
+
+        return $total;
+    }
+
 
     function getGrossPaymentsTotalAttribute()
     {

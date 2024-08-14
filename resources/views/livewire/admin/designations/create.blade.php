@@ -47,16 +47,6 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="off_days">Number of Monthly Off Days</label>
-                          <input type="number"
-                            class="form-control" wire:model="designation.off_days" name="off_days" id="off_days" aria-describedby="off_days" placeholder="Enter the number of Off Days in a month">
-                          @error('designation.off_days')
-                                <small id="title" class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                    </div>
                 </div>
                 <button class="btn btn-primary" wire:click="save">SAVE</button>
             </div>

@@ -127,51 +127,23 @@ class PaymentsCalculationsService
 
         // Tax Calculation based on brackets
         $tax = 0;
-        $remainingIncome = $taxableIncome;
 
-        // First bracket (10%)
-        $firstBracketLimit = 24000;
-        if ($remainingIncome > $firstBracketLimit) {
-            $tax += $firstBracketLimit * 0.10;
-            $remainingIncome -= $firstBracketLimit;
+
+        $level1 = (288000 / 12);
+        $level2 = (388000 / 12);
+        $level3 = (6000000 / 12);
+        $level4 = (9600000 / 12);
+
+        if ($taxableIncome <= $level1) {
+            $tax = $taxableIncome * 0.1;
+        } elseif ($taxableIncome > $level1 && $taxableIncome <= $level2) {
+            $tax = (($taxableIncome - $level1) * 0.25) + 2400;
+        } elseif ($taxableIncome > $level2 && $taxableIncome <= $level3) {
+            $tax = (($taxableIncome - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+        } elseif ($taxableIncome > $level3 && $taxableIncome <= $level4) {
+            $tax = (($taxableIncome - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
         } else {
-            $tax += $remainingIncome * 0.10;
-            $remainingIncome = 0;
-        }
-
-        // Second bracket (25%)
-        $secondBracketLimit = 8333.33;
-        if ($remainingIncome > $secondBracketLimit) {
-            $tax += $secondBracketLimit * 0.25;
-            $remainingIncome -= $secondBracketLimit;
-        } else {
-            $tax += $remainingIncome * 0.25;
-            $remainingIncome = 0;
-        }
-
-        // Third bracket (30%)
-        $thirdBracketLimit = 467666.67;
-        if ($remainingIncome > $thirdBracketLimit) {
-            $tax += $thirdBracketLimit * 0.30;
-            $remainingIncome -= $thirdBracketLimit;
-        } else {
-            $tax += $remainingIncome * 0.30;
-            $remainingIncome = 0;
-        }
-
-        // Fourth bracket (32.5%)
-        $fourthBracketLimit = 300000;
-        if ($remainingIncome > $fourthBracketLimit) {
-            $tax += $fourthBracketLimit * 0.325;
-            $remainingIncome -= $fourthBracketLimit;
-        } else {
-            $tax += $remainingIncome * 0.325;
-            $remainingIncome = 0;
-        }
-
-        // Fifth bracket (35%)
-        if ($remainingIncome > 0) {
-            $tax += $remainingIncome * 0.35;
+            $tax = (($taxableIncome - $level4) * 0.35) + (($level4 - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
         }
 
         // Insurance Relief
@@ -184,7 +156,8 @@ class PaymentsCalculationsService
         return max($paye, 0);
     }
 
-    function net_salary() {
+    function net_salary()
+    {
         return $this->gross_salary - ($this->paye() + $this->nssf() + $this->nhif() + $this->ahl());
     }
 }

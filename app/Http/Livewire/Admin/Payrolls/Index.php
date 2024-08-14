@@ -56,6 +56,7 @@ class Index extends Component
     }
 
 
+
     public function generate()
     {
         $this->validate();
@@ -78,26 +79,19 @@ class Index extends Component
             $payroll->month = $month;
             $payroll->save();
             foreach (EmployeesDetail::all() as $employee) {
-                if ($employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)) {
+                $contracts = $employee->ActiveContractsDuring($payroll->year . '-' . $payroll->month);
+                if (count($contracts) > 0) {
                     $salary = new MonthlySalary();
                     $salary->payroll_id = $payroll->id;
                     $salary->employees_detail_id = $employee->id;
-                    $contract = $employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
                     $salary->basic_salary_kes = 0;
-                    if ($contract) {
-                        if ($contract->is_full_time()) {
-                            $salary->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
-                            $salary->house_allowance_kes = $contract->house_allowance;
-                        } else if ($contract->is_casual()) {
-                            $salary->basic_salary_kes = $contract->salary_kes * $employee->daysWorked($payroll->year . '-' . $payroll->month);
-                        } else if ($contract->is_intern()) {
-                            $salary->basic_salary_kes = $contract->salary_kes;
-                        } else if ($contract->is_external()) {
-                            $salary->basic_salary_kes = $contract->salary_kes;
-                        }
-                    } else {
-                        $salary->basic_salary_kes = 0;
+
+                    foreach ($contracts as $contract) {
+                        $salary->basic_salary_kes += $contract->EarnedSalaryKes($payroll->year . '-' . $payroll->month);
+                        $salary->is_taxable = $contract->is_taxable;
                     }
+
+
 
                     $salary->save();
                     $count++;
@@ -152,15 +146,12 @@ class Index extends Component
                 $payment->nhif = $salary->nhif;
                 $payment->paye = $salary->paye;
                 $payment->nita = $salary->nita;
-                $payment->tax_rebate = $salary->rebate;
                 $payment->housing_levy = $salary->housing_levy;
                 $payment->total_fines = $salary->fines;
                 $payment->total_bonuses = $salary->bonuses;
                 $payment->total_advances = $salary->advances;
                 $payment->total_loans = $salary->loans;
                 $payment->total_welfare_contributions = $salary->welfare_contributions;
-                $payment->attendance_penalty = $salary->attendance_penalty;
-                $payment->total_loans = $salary->loans;
                 $payment->bank_id = $salary->employee->bankAccount->bank_id;
                 $payment->account_number = $salary->employee->bankAccount->account_number;
                 $payment->save();
@@ -206,34 +197,21 @@ class Index extends Component
         $payroll->save();
 
         foreach (EmployeesDetail::all() as $employee) {
-            if ($employee->ActiveContractDuring($payroll->year . '-' . $payroll->month)) {
-                // array_push($testarray, $employee);
+            $contracts = $employee->ActiveContractsDuring($payroll->year . '-' . $payroll->month);
+            if (count($contracts) > 0) {
                 $salary = new MonthlySalary();
                 $salary->payroll_id = $payroll->id;
                 $salary->employees_detail_id = $employee->id;
-                $contract = $employee->ActiveContractDuring($payroll->year . '-' . $payroll->month);
                 $salary->basic_salary_kes = 0;
-                if ($contract) {
-                    if ($contract->is_full_time()) {
-                        $salary->basic_salary_kes = $contract->salary_kes - $contract->house_allowance;
-                        $salary->house_allowance_kes = $contract->house_allowance;
-                    } else if ($contract->is_casual()) {
-                        $salary->basic_salary_kes = $contract->salary_kes * $employee->daysWorked($payroll->year . '-' . $payroll->month);
-                    } else if ($contract->is_intern()) {
-                        $salary->basic_salary_kes = $contract->salary_kes;
-                    } else if ($contract->is_external()) {
-                        $salary->basic_salary_kes = $contract->salary_kes;
-                    } else if ($contract->is_student()) {
-                        $salary->basic_salary_kes = $contract->salary_kes;
-                    }
-                } else {
-                    $salary->basic_salary_kes = 0;
+
+                foreach ($contracts as $contract) {
+                    $salary->basic_salary_kes += $contract->EarnedSalaryKes($payroll->year . '-' . $payroll->month);
+                    $salary->is_taxable = $contract->is_taxable;
                 }
+
 
                 $salary->save();
             }
-
-            // dd($testarray);
         }
 
         // if (count($payroll->payments) > 0) {

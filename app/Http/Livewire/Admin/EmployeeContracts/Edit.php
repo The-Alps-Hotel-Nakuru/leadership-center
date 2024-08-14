@@ -20,6 +20,8 @@ class Edit extends Component
         'contract.end_date' => 'required',
         'contract.employment_type_id' => 'required',
         'contract.salary_kes' => 'required',
+        'contract.is_taxable' => 'nullable',
+        'contract.weekly_offs' => 'nullable',
     ];
 
     protected $messages = [

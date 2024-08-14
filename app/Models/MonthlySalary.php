@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\PaymentsCalculationsService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +26,6 @@ class MonthlySalary extends Model
         'days_missed',
 
     ];
-
     public function employee()
     {
         return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
@@ -34,8 +34,10 @@ class MonthlySalary extends Model
     {
         return $this->hasOne(Payroll::class, 'id', 'payroll_id');
     }
-
-
+    function contracts()
+    {
+        return $this->employee->ActiveContractsDuring($this->getMonth()->format("Y-m"));
+    }
     public function getDailyRateAttribute()
     {
         $rate = 0;
@@ -51,87 +53,51 @@ class MonthlySalary extends Model
 
         return $rate;
     }
-
     public function welfareContributions()
     {
         $contributions = $this->employee->welfareContributions()->where('year', $this->payroll->year)->where('month', $this->payroll->month)->get();
 
         return $contributions;
     }
-
-
+    function getDaysWorkedAttribute()
+    {
+        return $this->employee->daysWorked($this->payroll->year . '-' . $this->payroll->month);
+    }
+    function getLeaveDaysAttribute()
+    {
+        return $this->employee->daysOnLeave($this->payroll->year . '-' . $this->payroll->month);
+    }
     public function getDaysMissedAttribute()
     {
-        $days = Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->daysInMonth - $this->employee->daysWorked($this->payroll->year . '-' . $this->payroll->month);
-        $leaveDays = $this->employee->daysOnLeave($this->payroll->year . '-' . $this->payroll->month);
-        if ($leaveDays >= $days) {
+        $days = $this->getMonth()->daysInMonth - $this->days_worked;
+
+        if ($this->leave_days >= $days) {
             return 0;
         } else {
-            return $days - $leaveDays;
+            return $days - $this->leave_days;
         }
     }
+    public function getEarnedOffDaysAttribute()
+    {
+        $offdays = 0;
 
+        foreach ($this->employee->ActiveContractsDuring($this->getMonth()->format("Y-m")) as $key => $contract) {
+            if ($contract->is_full_time() || $contract->is_intern() || $contract->is_student()) {
+                $offdays += $contract->EarnedOffDays($this->getMonth()->format("Y-m"));
+            }
+        }
 
+        return $offdays;
+    }
     public function getGrossSalaryAttribute()
     {
         return ($this->basic_salary_kes ?? 0) + ($this->house_allowance_kes ?? 0) + ($this->transport_allowance_kes ?? 0);
     }
-
     public function getNssfAttribute()
     {
-        $nssf = 0;
-        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
-
-        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-01-31')) {
-            if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
-                $nssf = 200;
-                if ($this->gross_salary > (40000 / 12)) {
-                    $nssf = 0.06 * $this->gross_salary;
-                    if ($nssf > 1080) {
-                        $nssf = 1080;
-                    }
-                }
-            }
-        } else {
-            if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-03-31')) {
-                if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
-                    $nssf = 420;
-                    if ($this->gross_salary > (7000)) {
-                        $nssf = 0.06 * $this->gross_salary;
-                        if ($nssf > 1740) {
-                            $nssf = 1740;
-                        }
-                    }
-                }
-            } else {
-                if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-                    if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
-                        $nssf = 420;
-                        if ($this->gross_salary > (7000)) {
-                            $nssf = 0.06 * $this->gross_salary;
-                            if ($nssf > 2160) {
-                                $nssf = 2160;
-                            }
-                        }
-                    }
-                } else {
-                    if (($this->employee && $contract) && !$contract->is_external() && !$contract->is_student()) {
-                        $nssf = 420;
-                        if ($this->gross_salary > (7000)) {
-                            $nssf = 0.06 * $this->gross_salary;
-                            if ($nssf > 2160) {
-                                $nssf = 2160;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
-        return $nssf;
+        $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
+        return $this->is_taxable && $this->gross_salary > 0 ? $calculations->nssf() : 0;
     }
-
     public function getNitaAttribute()
     {
         $nita = 0;
@@ -143,203 +109,93 @@ class MonthlySalary extends Model
             if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
                 $nita = 0;
             } else {
-                if ($this->employee && $contract  && !$contract->is_external() && !$contract->is_student()) {
+                if ($this->employee && $contract  && $contract->is_taxable) {
                     $nita = 50;
                 }
             }
         }
 
-        return $nita;
+        // return $nita;
+        return $this->is_taxable ? $nita : 0;
     }
-
     public function getTaxableIncomeAttribute()
     {
         return $this->gross_salary - $this->nssf;
     }
-
     public function getIncomeTaxAttribute()
     {
+
         $tax = 0;
         $level1 = (288000 / 12);
         $level2 = (388000 / 12);
         $level3 = (6000000 / 12);
         $level4 = (9600000 / 12);
 
-        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
-
-
-        if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
-            if ($this->taxable_income <= $level1) {
-                $tax = $this->taxable_income * 0.1;
-            } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
-                $tax = (($this->taxable_income - $level1) * 0.25) + 2400;
-            } elseif ($this->taxable_income > $level2 && $this->taxable_income <= $level3) {
-                $tax = (($this->taxable_income - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
-            } elseif ($this->taxable_income > $level3 && $this->taxable_income <= $level4) {
-                $tax = (($this->taxable_income - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
-            } else {
-                $tax = (($this->taxable_income - $level4) * 0.35) + (($level4 - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
-            }
+        if ($this->taxable_income <= $level1) {
+            $tax = $this->taxable_income * 0.1;
+        } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
+            $tax = (($this->taxable_income - $level1) * 0.25) + 2400;
+        } elseif ($this->taxable_income > $level2 && $this->taxable_income <= $level3) {
+            $tax = (($this->taxable_income - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+        } elseif ($this->taxable_income > $level3 && $this->taxable_income <= $level4) {
+            $tax = (($this->taxable_income - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
+        } else {
+            $tax = (($this->taxable_income - $level4) * 0.35) + (($level4 - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
         }
 
-        return $tax;
+        // return $tax;
+        return $this->is_taxable ? $tax : 0;
     }
-
-
-
     public function getNhifAttribute()
     {
         $nhif = 0;
-        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
-
-        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-            if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
-                if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
-                    $nhif = 150;
-                } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
-                    $nhif = 300;
-                } elseif ($this->gross_salary >= 8000 && $this->gross_salary < 12000) {
-                    $nhif = 400;
-                } elseif ($this->gross_salary >= 12000 && $this->gross_salary < 15000) {
-                    $nhif = 500;
-                } elseif ($this->gross_salary >= 15000 && $this->gross_salary < 20000) {
-                    $nhif = 600;
-                } elseif ($this->gross_salary >= 20000 && $this->gross_salary < 25000) {
-                    $nhif = 750;
-                } elseif ($this->gross_salary >= 25000 && $this->gross_salary < 30000) {
-                    $nhif = 850;
-                } elseif ($this->gross_salary >= 30000 && $this->gross_salary < 35000) {
-                    $nhif = 900;
-                } elseif ($this->gross_salary >= 35000 && $this->gross_salary < 40000) {
-                    $nhif = 950;
-                } elseif ($this->gross_salary >= 40000 && $this->gross_salary < 45000) {
-                    $nhif = 1000;
-                } elseif ($this->gross_salary >= 45000 && $this->gross_salary < 50000) {
-                    $nhif = 1100;
-                } elseif ($this->gross_salary >= 50000 && $this->gross_salary < 60000) {
-                    $nhif = 1200;
-                } elseif ($this->gross_salary >= 60000 && $this->gross_salary < 70000) {
-                    $nhif = 1300;
-                } elseif ($this->gross_salary >= 70000 && $this->gross_salary < 80000) {
-                    $nhif = 1400;
-                } elseif ($this->gross_salary >= 80000 && $this->gross_salary < 90000) {
-                    $nhif = 1500;
-                } elseif ($this->gross_salary >= 90000 && $this->gross_salary < 100000) {
-                    $nhif = 1600;
-                } elseif ($this->gross_salary >= 100000) {
-                    $nhif = 1700;
-                }
-            }
-        } else {
-            if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
-                if ($this->gross_salary >= 0 && $this->gross_salary < 6000) {
-                    $nhif = 150;
-                } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
-                    $nhif = 300;
-                } elseif ($this->gross_salary >= 8000 && $this->gross_salary < 12000) {
-                    $nhif = 400;
-                } elseif ($this->gross_salary >= 12000 && $this->gross_salary < 15000) {
-                    $nhif = 500;
-                } elseif ($this->gross_salary >= 15000 && $this->gross_salary < 20000) {
-                    $nhif = 600;
-                } elseif ($this->gross_salary >= 20000 && $this->gross_salary < 25000) {
-                    $nhif = 750;
-                } elseif ($this->gross_salary >= 25000 && $this->gross_salary < 30000) {
-                    $nhif = 850;
-                } elseif ($this->gross_salary >= 30000 && $this->gross_salary < 35000) {
-                    $nhif = 900;
-                } elseif ($this->gross_salary >= 35000 && $this->gross_salary < 40000) {
-                    $nhif = 950;
-                } elseif ($this->gross_salary >= 40000 && $this->gross_salary < 45000) {
-                    $nhif = 1000;
-                } elseif ($this->gross_salary >= 45000 && $this->gross_salary < 50000) {
-                    $nhif = 1100;
-                } elseif ($this->gross_salary >= 50000 && $this->gross_salary < 60000) {
-                    $nhif = 1200;
-                } elseif ($this->gross_salary >= 60000 && $this->gross_salary < 70000) {
-                    $nhif = 1300;
-                } elseif ($this->gross_salary >= 70000 && $this->gross_salary < 80000) {
-                    $nhif = 1400;
-                } elseif ($this->gross_salary >= 80000 && $this->gross_salary < 90000) {
-                    $nhif = 1500;
-                } elseif ($this->gross_salary >= 90000 && $this->gross_salary < 100000) {
-                    $nhif = 1600;
-                } elseif ($this->gross_salary >= 100000) {
-                    $nhif = 1700;
-                }
+        if ($this->is_taxable) {
+            if ($this->gross_salary >= 1000 && $this->gross_salary < 6000) {
+                $nhif = 150;
+            } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
+                $nhif = 300;
+            } elseif ($this->gross_salary >= 8000 && $this->gross_salary < 12000) {
+                $nhif = 400;
+            } elseif ($this->gross_salary >= 12000 && $this->gross_salary < 15000) {
+                $nhif = 500;
+            } elseif ($this->gross_salary >= 15000 && $this->gross_salary < 20000) {
+                $nhif = 600;
+            } elseif ($this->gross_salary >= 20000 && $this->gross_salary < 25000) {
+                $nhif = 750;
+            } elseif ($this->gross_salary >= 25000 && $this->gross_salary < 30000) {
+                $nhif = 850;
+            } elseif ($this->gross_salary >= 30000 && $this->gross_salary < 35000) {
+                $nhif = 900;
+            } elseif ($this->gross_salary >= 35000 && $this->gross_salary < 40000) {
+                $nhif = 950;
+            } elseif ($this->gross_salary >= 40000 && $this->gross_salary < 45000) {
+                $nhif = 1000;
+            } elseif ($this->gross_salary >= 45000 && $this->gross_salary < 50000) {
+                $nhif = 1100;
+            } elseif ($this->gross_salary >= 50000 && $this->gross_salary < 60000) {
+                $nhif = 1200;
+            } elseif ($this->gross_salary >= 60000 && $this->gross_salary < 70000) {
+                $nhif = 1300;
+            } elseif ($this->gross_salary >= 70000 && $this->gross_salary < 80000) {
+                $nhif = 1400;
+            } elseif ($this->gross_salary >= 80000 && $this->gross_salary < 90000) {
+                $nhif = 1500;
+            } elseif ($this->gross_salary >= 90000 && $this->gross_salary < 100000) {
+                $nhif = 1600;
+            } elseif ($this->gross_salary >= 100000) {
+                $nhif = 1700;
+            } else {
+                $nhif = 0;
             }
         }
-
-
         return $nhif;
     }
-
-    function getHolidaysAttribute()
-    {
-        $count = 0;
-
-        foreach (Holiday::all() as $key => $holiday) {
-            if (Carbon::parse($holiday->date)->isBetween($this->month->firstOfMonth(), $this->month->lastOfMonth())) {
-                $count++;
-            }
-        }
-
-        return $count;
-    }
-
-    public function getAttendancePenaltyAttribute()
-    {
-        $penalty = 0;
-        $off = ($this->employee->designation->off_days ?? config('app.off_days')) + $this->holidays;
-        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-02-29')) {
-            if ($this->employee && ($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
-                if (($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) && $this->employee->designation->is_penalizable) {
-                    if ($this->days_missed > 6) {
-                        $penalty = $this->daily_rate * ($this->days_missed - 6);
-                    }
-                } else {
-                    $penalty = 0;
-                }
-            }
-        } else {
-            if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-03-31')) {
-                /**
-                 * As from 1st March - New Caluclation of Off Days to include Holidays and limit the off Days from 6 to 4
-                 */
-                if ($this->employee && ($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
-                    if (($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) && $this->employee->designation->is_penalizable) {
-                        if ($this->days_missed > $off) {
-                            $penalty = $this->daily_rate * ($this->days_missed - $off);
-                        }
-                    } else {
-                        $penalty = 0;
-                    }
-                }
-            } else {
-
-                /**
-                 * As from 1st April - New Caluclation of Penalty makes it so that bonus on attenadance is issued to those who attend inclusive to off days and Attendance Penalty to Interns as well as Full Timers
-                 */
-
-                if ($this->employee && ($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()))) {
-                    if (($this->employee->isFullTimeBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth()) || $this->employee->isInternBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth())) && $this->employee->designation->is_penalizable) {
-                        $penalty = $this->daily_rate * ($this->days_missed - $off);
-                    } else {
-                        $penalty = 0;
-                    }
-                }
-            }
-        }
-
-        return $penalty;
-    }
-
     function getHousingLevyAttribute()
     {
         $levy = 0;
         $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
         if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-01-31')) {
-            if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
+            if ($this->employee && $contract && $contract->is_taxable) {
                 $levy = 0.015 * $this->gross_salary;
             }
         } else {
@@ -347,70 +203,20 @@ class MonthlySalary extends Model
                 $levy = 0;
             } else {
                 if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-                    if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
+                    if ($this->employee && $contract && $contract->is_taxable) {
                         $levy = 0.015 * $this->gross_salary;
                     }
                 } else {
-                    if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
+                    if ($this->employee && $contract && $contract->is_taxable) {
                         $levy = 0.015 * $this->gross_salary;
                     }
                 }
             }
         }
 
-        return $levy;
+        // return $levy;
+        return $this->is_taxable ? $levy : 0;
     }
-
-
-    public function getRebateAttribute()
-    {
-        $actual_gross = $this->gross_salary - $this->attendance_penalty;
-
-        $actual_taxable = $actual_gross - $this->nssf;
-
-        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
-
-
-        $paye = 0;
-        $level1 = (288000 / 12);
-        $level2 = (388000 / 12);
-        $level3 = (6000000 / 12);
-        $level4 = (9600000 / 12);
-
-        if ($this->attendance_penalty > 0 || $this->attendance_penalty < 0) {
-            if ($this->employee && $contract && !$contract->is_external() && !$contract->is_student()) {
-                if ($actual_taxable <= $level1) {
-                    $paye = $actual_taxable * 0.1;
-                } elseif ($actual_taxable > $level1 && $actual_taxable <= $level2) {
-                    $paye = (($actual_taxable - $level1) * 0.25) + 2400;
-                } elseif ($actual_taxable > $level2 && $actual_taxable <= $level3) {
-                    $paye = (($actual_taxable - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
-                } elseif ($actual_taxable > $level3 && $actual_taxable <= $level4) {
-                    $paye = (($actual_taxable - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
-                } else {
-                    $paye = (($actual_taxable - $level4) * 0.35) + (($level4 - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
-                }
-            }
-
-            $relief = 0;
-            if ($paye > 2400) {
-                $relief = 2400;
-            } else {
-                $relief = $paye;
-            }
-
-
-
-
-
-            return ($this->paye) - ($paye - $relief);
-        }
-
-        return 0;
-    }
-
-
-
     public function getGeneralReliefAttribute()
     {
         $relief = 0;
@@ -428,9 +234,9 @@ class MonthlySalary extends Model
             $relief += (0.15 * $this->housing_levy);
         }
 
-        return $relief;
+        // return $relief;
+        return $this->is_taxable ? $relief : 0;
     }
-
     public function getAdvancesAttribute()
     {
         $a = 0;
@@ -467,6 +273,16 @@ class MonthlySalary extends Model
 
         return $f;
     }
+    function getOvertimesAttribute()
+    {
+        $o = 0;
+
+        foreach ($this->employee->ActiveContractsDuring($this->getMonth()->format('Y-m')) as $contract) {
+            $o += $contract->EarnedOvertimeKes($this->getMonth()->format('Y-m'));
+        }
+
+        return $o;
+    }
     public function getLoansAttribute()
     {
         $l = 0;
@@ -479,26 +295,22 @@ class MonthlySalary extends Model
 
         return $l;
     }
-
-
-
     public function getTaxReliefAttribute()
     {
         $relief = 0;
-        if ($this->income_tax > 2400) {
+        if (($this->income_tax - $this->general_relief) > 2400) {
             $relief = 2400;
         } else {
-            $relief = $this->income_tax;
+            $relief = $this->income_tax - $this->general_relief;
         }
 
-        return $relief;
+        // return $relief;
+        return $this->is_taxable ? $relief : 0;
     }
-
     public function getTotalReliefAttribute()
     {
         return $this->tax_relief + $this->general_relief;
     }
-
     public function getWelfareContributionsAttribute()
     {
         $total = 0;
@@ -508,41 +320,29 @@ class MonthlySalary extends Model
 
         return $total;
     }
-
     public function getPayeAttribute()
     {
         $paye = $this->income_tax > $this->total_relief ? $this->income_tax - $this->total_relief : 0;
 
         return $paye;
     }
-
-    public function getNetPayeAttribute()
-    {
-        $net = $this->paye - $this->rebate;
-
-        return $net;
-    }
-
     public function getTotalDeductionsAttribute()
     {
-        return $this->nhif + $this->nssf + $this->housing_levy + $this->nita + $this->attendance_penalty + $this->paye + $this->fines + $this->advances + $this->welfare_contributions + $this->loans;
+        return $this->nhif + $this->nssf + $this->housing_levy + $this->nita + $this->paye + $this->fines + $this->advances + $this->welfare_contributions + $this->loans;
     }
-
     public function getTotalAdditionsAttribute()
     {
-        return $this->bonuses + $this->rebate;
+        return $this->bonuses + $this->overtimes;
     }
-
     public function getNetPayAttribute()
     {
-        return ($this->gross_salary + $this->total_additions) - $this->total_deductions;
+        return max(($this->gross_salary + $this->total_additions) - $this->total_deductions, 0);
     }
-
     public function getMonthStringAttribute()
     {
         return Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->format('F \of Y');
     }
-    public function getMonthAttribute()
+    public function getMonth()
     {
         return Carbon::parse($this->payroll->year . '-' . $this->payroll->month);
     }

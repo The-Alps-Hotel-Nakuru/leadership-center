@@ -9,6 +9,7 @@
         "asantibanez/livewire-charts": "^2.5",
         "daltcore/lara-pdf-merger": "^2.0",
         "deployer/deployer": "^7.0",
+        "doctrine/dbal": "^3.8",
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "laracasts/generators": "^2.0",
