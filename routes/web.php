@@ -11,6 +11,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Faker\Factory;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use LynX39\LaraPdfMerger\Facades\PdfMerger;
@@ -430,3 +431,16 @@ Route::get('/casuals-contract', function () {
 // Test URLs
 
 // Route::get('/')
+
+Route::get('/auto-update', function () {
+    // Change directory to the base path of the Laravel application
+    chdir(base_path());
+
+    // Run composer install or update
+    // exec('composer install');
+
+    // Run Laravel migrations
+    Artisan::call('migrate', ['--force' => true]);
+
+    return 'Application has been updated and migrations have been run!';
+});
