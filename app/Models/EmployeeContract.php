@@ -266,7 +266,7 @@ class EmployeeContract extends Model
             if ($this->employee->hasSignedOn($holiday->date)) {
                 $earning += ($this->employee->ActiveContractOn($holiday->date)->DailyRate(Carbon::parse($holiday->date)->format('Y-m')) * 2);
             } else {
-                $earning += $this->employee->ActiveContractOn($holiday->date)->DailyRate(Carbon::parse($holiday->date)->format('Y-m'));
+                $earning += $this->employee->ActiveContractOn($holiday->date)->employment_type->is_penalizable && $this->designation->is_penalizable ? $this->employee->ActiveContractOn($holiday->date)->DailyRate(Carbon::parse($holiday->date)->format('Y-m')) : 0;
             }
         }
         return $this->employment_type->is_penalizable ? ($this->employee->designation->is_penalizable ? $earning : 0) : 0;
