@@ -117,6 +117,18 @@ class EmployeesDetail extends Model
             }
         }
     }
+    public function ActiveContractsBetween($date1, $date2)
+    {
+        $contracts = [];
+
+        foreach ($this->contracts as $contract) {
+            if ($contract->isActiveDuring(Carbon::parse($date1)->toDateString(), Carbon::parse($date2)->toDateString())) {
+                array_push($contracts,  $contract);
+            }
+        }
+
+        return $contracts;
+    }
 
     function EarnedSalaryKes($yearmonth)
     {

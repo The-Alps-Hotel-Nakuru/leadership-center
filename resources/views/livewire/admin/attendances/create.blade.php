@@ -18,6 +18,10 @@
                                 <div class="mb-3">
                                     <ul class="list-group mt-2 w-100">
                                         @if ($search != '')
+                                            <li wire:click="selectEmployee('all')"
+                                                class="list-group-item {{ $employee_id == 'all' ? 'active' : '' }}">
+                                                <strong class="text-uppercase"> All Users</strong>
+                                            </li>
                                             @foreach ($employees as $employee)
                                                 <li wire:click="selectEmployee({{ $employee->id }})"
                                                     class="list-group-item {{ $employee_id == $employee->id ? 'active' : '' }}">
@@ -104,7 +108,25 @@
                             @if ($full) wire:click="addFullMonth"
                         @else
                             wire:click="addToList" @endif
-                            class="btn btn-dark text-uppercase">Add</button>
+                            class="btn btn-dark text-uppercase">
+                            @if ($full)
+                                <span wire:loading.remove wire:target='addFullMonth'>Add</span>
+                                <span wire:loading wire:target='addFullMonth'>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <div class="spinner-border text-secondary spinner-border-sm" role="status">
+                                        </div>
+                                    </div>
+                                </span>
+                            @else
+                                <span wire:loading.remove wire:target='addToList'>Add</span>
+                                <span wire:loading wire:target='addToList'>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <div class="spinner-border text-secondary spinner-border-sm" role="status">
+                                        </div>
+                                    </div>
+                                </span>
+                            @endif
+                        </button>
                     </div>
                 </div>
             </div>

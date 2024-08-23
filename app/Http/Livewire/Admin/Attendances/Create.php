@@ -25,7 +25,7 @@ class Create extends Component
     protected $rules = [
         'employee_id' => 'required',
         'date' => 'required',
-        'second_date'=>'nullable',
+        'second_date' => 'nullable',
         'check_in' => 'required',
         'check_out' => 'nullable',
     ];
@@ -41,30 +41,50 @@ class Create extends Component
     {
         $this->validate();
 
+        if ($this->employee_id == 'all') {
+            foreach (EmployeesDetail::all() as $key => $employee) {
+                if (count($employee->ActiveContractsBetween($this->date, $this->second_date)) > 0) {
+                    if ($this->attendanceList) {
+                        for ($i = 0; $i < count($this->attendanceList); $i++) {
+                            if (intval($this->attendanceList[$i][0]) == intval($employee->id) && $this->attendanceList[$i][1] == $this->date) {
+                                continue;
+                            }
+                        }
+                    }
 
-        if ($this->attendanceList) {
-            for ($i = 0; $i < count($this->attendanceList); $i++) {
-                if (intval($this->attendanceList[$i][0]) == intval($this->employee_id) && $this->attendanceList[$i][1] == $this->date) {
-                    throw ValidationException::withMessages([
-                        'employee_id' => "This Employee's attendance on this day is already in the List"
-                    ]);
+
+
+                    if ($employee->hasSignedOn($this->date)) {
+                        continue;
+                    }
+
+                    array_push($this->attendanceList, [$employee->id, $this->date, $this->check_in, $this->check_out]);
                 }
             }
+
+        } else {
+            if ($this->attendanceList) {
+                for ($i = 0; $i < count($this->attendanceList); $i++) {
+                    if (intval($this->attendanceList[$i][0]) == intval($this->employee_id) && $this->attendanceList[$i][1] == $this->date) {
+                        throw ValidationException::withMessages([
+                            'employee_id' => "This Employee's attendance on this day is already in the List"
+                        ]);
+                    }
+                }
+            }
+
+
+
+            if (EmployeesDetail::find($this->employee_id)->hasSignedOn($this->date)) {
+                throw ValidationException::withMessages([
+                    'employee_id' => "This Employee already signed in on this day"
+                ]);
+            }
+
+            array_push($this->attendanceList, [$this->employee_id, $this->date, $this->check_in, $this->check_out]);
         }
 
 
-
-        if (EmployeesDetail::find($this->employee_id)->hasSignedOn($this->date)) {
-            throw ValidationException::withMessages([
-                'employee_id' => "This Employee already signed in on this day"
-            ]);
-        }
-
-
-
-
-
-        array_push($this->attendanceList, [$this->employee_id, $this->date, $this->check_in, $this->check_out]);
 
         $this->reset(['search', 'employee_id']);
     }
@@ -76,35 +96,57 @@ class Create extends Component
 
         if (!$this->date) {
             throw ValidationException::withMessages([
-                'date'=>"The Start Date is Required"
+                'date' => "The Start Date is Required"
             ]);
-
         }
         if (!$this->second_date) {
             throw ValidationException::withMessages([
-                'second_date'=>"The End Date is Required"
+                'second_date' => "The End Date is Required"
             ]);
-
         }
 
+        if ($this->employee_id == 'all') {
+            foreach (EmployeesDetail::all() as $key => $employee) {
+                if (count($employee->ActiveContractsBetween($this->date, $this->second_date)) > 0) {
+                    $period = CarbonPeriod::between($this->date, $this->second_date);
 
-        $period = CarbonPeriod::between($this->date, $this->second_date);
+                    foreach ($period as $date) {
+                        if ($this->attendanceList) {
+                            for ($i = 0; $i < count($this->attendanceList); $i++) {
+                                if (intval($this->attendanceList[$i][0]) == intval($employee->id) && $this->attendanceList[$i][1] == $date->format('Y-m-d')) {
+                                    continue;
+                                }
+                            }
+                        }
 
-        foreach ($period as $date) {
-            if ($this->attendanceList) {
-                for ($i = 0; $i < count($this->attendanceList); $i++) {
-                    if (intval($this->attendanceList[$i][0]) == intval($this->employee_id) && $this->attendanceList[$i][1] == $date->format('Y-m-d')) {
-                        continue;
+
+
+                        if ($employee->hasSignedOn($date->format('Y-m-d'))) {
+                            continue;
+                        }
+                        array_push($this->attendanceList, [$employee->id, $date->format('Y-m-d'), $this->check_in, $this->check_out]);
                     }
                 }
             }
+        } else {
 
 
+            $period = CarbonPeriod::between($this->date, $this->second_date);
 
-            if (EmployeesDetail::find($this->employee_id)->hasSignedOn($date->format('Y-m-d'))) {
-                continue;
+            foreach ($period as $date) {
+                if ($this->attendanceList) {
+                    for ($i = 0; $i < count($this->attendanceList); $i++) {
+                        if (intval($this->attendanceList[$i][0]) == intval($this->employee_id) && $this->attendanceList[$i][1] == $date->format('Y-m-d')) {
+                            continue;
+                        }
+                    }
+                }
+
+                if (EmployeesDetail::find($this->employee_id)->hasSignedOn($date->format('Y-m-d'))) {
+                    continue;
+                }
+                array_push($this->attendanceList, [$this->employee_id, $date->format('Y-m-d'), $this->check_in, $this->check_out]);
             }
-            array_push($this->attendanceList, [$this->employee_id, $date->format('Y-m-d'), $this->check_in, $this->check_out]);
         }
 
         $this->reset(['search', 'employee_id']);
