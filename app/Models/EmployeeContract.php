@@ -13,7 +13,8 @@ class EmployeeContract extends Model
     use SoftDeletes;
 
     protected $appends = [
-        'is_active'
+        'is_active',
+        'duration',
     ];
 
 
@@ -26,6 +27,20 @@ class EmployeeContract extends Model
     public function employee()
     {
         return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
+    }
+
+    function getDurationAttribute()
+    {
+        $months = Carbon::parse($this->start_date)->diffInMonths($this->end_date);
+        $weeks = Carbon::parse($this->start_date)->diffInWeeks($this->end_date);
+        $days = Carbon::parse($this->start_date)->diffInDays($this->end_date);
+        $hours = Carbon::parse($this->start_date)->diffInHours($this->end_date);
+        $monthsString = Carbon::parse($this->start_date)->diffInMonths($this->end_date). " months";
+        $weeksString = Carbon::parse($this->start_date)->diffInWeeks($this->end_date). " weeks";
+        $daysString = Carbon::parse($this->start_date)->diffInDays($this->end_date). " days";
+        $hoursString = Carbon::parse($this->start_date)->diffInHours($this->end_date). " hours";
+
+        return $months > 0 ? $monthsString : ($weeks > 0 ? $weeksString : ($days > 0 ? $daysString : $hoursString));
     }
 
     public function user()
