@@ -57,7 +57,13 @@ class Mail extends Component
         $oldEnvContent = File::get($envFile);
 
         foreach ($envData as $key => $value) {
-            $oldEnvContent = preg_replace("/$key=.*$/m", "$key=$value", $oldEnvContent);
+            if (preg_match("/$key=.*$/m", $oldEnvContent)) {
+                // If the variable already exists, update it
+                $oldEnvContent = preg_replace("/$key=.*$/m", "$key=\"$value\"", $oldEnvContent);
+            } else {
+                // If the variable doesn't exist, add it
+                $oldEnvContent .= "\n$key=\"$value\"";
+            }
         }
 
         File::put($envFile, $oldEnvContent);

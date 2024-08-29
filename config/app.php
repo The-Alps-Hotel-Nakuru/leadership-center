@@ -224,5 +224,6 @@ return [
      */
 
     'nita' => env('NITA', false),
-    'holidays'=>env('HOLIDAYS', true),
+    'holidays' => env('HOLIDAYS', true),
+    'hr_email' => env('COMPANY_HR_EMAIL') ?? env('COMPANY_EMAIL'),
 ];

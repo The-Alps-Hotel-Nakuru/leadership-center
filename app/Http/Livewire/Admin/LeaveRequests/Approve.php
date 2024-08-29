@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\LeaveRequests;
 
+use App\Jobs\SendLeaveApprovalEmailJob;
 use App\Models\Leave;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
@@ -39,6 +40,7 @@ class Approve extends Component
             $this->leave->save();
             $this->leave_request->leaves()->attach($this->leave->id);
 
+            SendLeaveApprovalEmailJob::dispatch($this->leave_request);
             $this->emit('done', [
                 'success' => "Successfully Approved this Leave Request"
             ]);

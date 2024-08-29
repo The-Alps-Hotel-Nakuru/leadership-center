@@ -35,6 +35,6 @@ class SendEditedLeaveRequestEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to(env('COMPANY_EMAIL'))->send(new LeaveRequestEdited($this->leaveRequest));
+        Mail::to(config('app.hr_email'))->send(new LeaveRequestEdited($this->leaveRequest));
     }
 }

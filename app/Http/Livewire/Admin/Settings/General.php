@@ -16,6 +16,7 @@ class General extends Component
     public $sortCode;
     public $companyName;
     public $companyEmail;
+    public $companyHREmail;
     public $companyLogo;
     public $banks;
     public $bank;
@@ -29,6 +30,7 @@ class General extends Component
         'sortCode' => 'required',
         'companyName' => 'required',
         'companyEmail' => 'required',
+        'companyHREmail' => 'required',
         'companyLogo' => 'required',
     ];
 
@@ -38,12 +40,14 @@ class General extends Component
 
     function mount()
     {
+
         $this->attendanceDateFormat = env('ATTENDANCE_DATE_FORMAT');
         $this->bankName = env('BANK_NAME');
         $this->sortCode = env('BANK_SORT');
         $this->accountNumber = env('BANK_ACCOUNT_NUMBER');
         $this->companyName = env('COMPANY_NAME');
         $this->companyEmail = env('COMPANY_EMAIL');
+        $this->companyHREmail = env('COMPANY_EMAIL');
         $this->banks = Bank::all();
     }
 
@@ -60,7 +64,13 @@ class General extends Component
         $oldEnvContent = File::get($envFile);
 
         foreach ($envData as $key => $value) {
-            $oldEnvContent = preg_replace("/$key=.*$/m", "$key=\"$value\"", $oldEnvContent);
+            if (preg_match("/$key=.*$/m", $oldEnvContent)) {
+                // If the variable already exists, update it
+                $oldEnvContent = preg_replace("/$key=.*$/m", "$key=\"$value\"", $oldEnvContent);
+            } else {
+                // If the variable doesn't exist, add it
+                $oldEnvContent .= "\n$key=\"$value\"";
+            }
         }
 
         File::put($envFile, $oldEnvContent);
@@ -74,31 +84,42 @@ class General extends Component
         $this->validate([
             'companyName' => 'required',
             'companyEmail' => 'required',
-            'companyLogo' => 'required|mimes:png',
+            'companyHREmail' => 'required|email',
+            'companyLogo' => 'nullable|mimes:png',
         ]);
-
-
 
         $envData = [
             'COMPANY_NAME' => $this->companyName,
             'COMPANY_EMAIL' => $this->companyEmail,
+            'COMPANY_HR_EMAIL' => $this->companyHREmail,
         ];
 
         $envFile = base_path('.env');
         $oldEnvContent = File::get($envFile);
 
         foreach ($envData as $key => $value) {
-            $oldEnvContent = preg_replace("/$key=.*$/m", "$key=\"$value\"", $oldEnvContent);
+            if (preg_match("/$key=.*$/m", $oldEnvContent)) {
+                // If the variable already exists, update it
+                $oldEnvContent = preg_replace("/$key=.*$/m", "$key=\"$value\"", $oldEnvContent);
+            } else {
+                // If the variable doesn't exist, add it
+                $oldEnvContent .= "\n$key=\"$value\"";
+            }
         }
 
         File::put($envFile, $oldEnvContent);
 
-        $this->companyLogo->storeAs('/', 'company_logo.png', 'public');
+        if ($this->companyLogo) {
+            $this->companyLogo->storeAs('/', 'company_logo.png', 'public');
+        }
+
+
 
         $this->emit('done', [
             'success' => 'Successfully Saved the Company Details Settings'
         ]);
     }
+
 
     public function saveAccountDetails()
     {
@@ -120,10 +141,17 @@ class General extends Component
         $oldEnvContent = File::get($envFile);
 
         foreach ($envData as $key => $value) {
-            $oldEnvContent = preg_replace("/$key=.*$/m", "$key=\"$value\"", $oldEnvContent);
+            if (preg_match("/$key=.*$/m", $oldEnvContent)) {
+                // If the variable already exists, update it
+                $oldEnvContent = preg_replace("/$key=.*$/m", "$key=\"$value\"", $oldEnvContent);
+            } else {
+                // If the variable doesn't exist, add it
+                $oldEnvContent .= "\n$key=\"$value\"";
+            }
         }
 
         File::put($envFile, $oldEnvContent);
+
 
         $this->emit('done', [
             'success' => 'Successfully Saved the Company Account Details'

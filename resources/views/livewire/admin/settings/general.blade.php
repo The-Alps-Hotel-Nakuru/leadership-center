@@ -30,6 +30,16 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-12 mb-3">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Company HR Email</label>
+                                    <input type="text" class="form-control" name="" wire:model='companyHREmail'
+                                        id="" aria-describedby="helpId" placeholder="">
+                                    @error('companyHREmail')
+                                        <span class="form-text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class=" col-12 mb-3">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Company Logo</label>
@@ -100,10 +110,15 @@
                                 <div class="col-md-6 col-12">
                                     <div class="mb-3">
                                         <label for="bankName" class="form-label">Bank Short Name</label>
-                                        <input wire:model='bankName' type="text" class="form-control" name="bankName"
+                                        <select wire:model='bankName' type="text" class="form-control" name="bankName"
                                             id="bankName" aria-describedby="helpId"
                                             placeholder="Enter your Account Number">
-                                        <small id="helpId" class="form-text text-muted"></small>
+                                            <option selected value="">Please select your Bank</option>
+                                            <option value="KCB">KCB</option>
+                                        </select>
+                                        @error('bankName')
+                                            <small id="helpId" class="form-text text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\LeaveRequests;
 
+use App\Jobs\SendLeaveRejectionEmailJob;
 use App\Models\Leave;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
@@ -24,6 +25,8 @@ class Index extends Component
             $request->is_rejected = true;
 
             $request->update();
+
+            SendLeaveRejectionEmailJob::dispatch($request);
 
             $this->emit('done', [
                 'success' => "Successfully Rejected the Leave Request"

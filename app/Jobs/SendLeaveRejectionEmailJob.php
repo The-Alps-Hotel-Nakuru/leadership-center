@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\LeaveRequest;
+use App\Mail\LeaveRejectionEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class SendNewLeaveRequestEmailJob implements ShouldQueue
+class SendLeaveRejectionEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -35,6 +35,6 @@ class SendNewLeaveRequestEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to(config('app.hr_email'))->send(new LeaveRequest($this->leaveRequest));
+        Mail::to($this->leaveRequest->employee->user->email)->send(new LeaveRejectionEmail($this->leaveRequest));
     }
 }
