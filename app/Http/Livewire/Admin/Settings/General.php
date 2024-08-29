@@ -17,6 +17,7 @@ class General extends Component
     public $companyName;
     public $companyEmail;
     public $companyHREmail;
+    public $companyLocation;
     public $companyLogo;
     public $banks;
     public $bank;
@@ -31,6 +32,7 @@ class General extends Component
         'companyName' => 'required',
         'companyEmail' => 'required',
         'companyHREmail' => 'required',
+        'companyLocation' => 'required',
         'companyLogo' => 'required',
     ];
 
@@ -47,7 +49,8 @@ class General extends Component
         $this->accountNumber = env('BANK_ACCOUNT_NUMBER');
         $this->companyName = env('COMPANY_NAME');
         $this->companyEmail = env('COMPANY_EMAIL');
-        $this->companyHREmail = env('COMPANY_EMAIL');
+        $this->companyHREmail = env('COMPANY_HR_EMAIL');
+        $this->companyLocation = env('COMPANY_LOCATION');
         $this->banks = Bank::all();
     }
 
@@ -83,7 +86,8 @@ class General extends Component
     {
         $this->validate([
             'companyName' => 'required',
-            'companyEmail' => 'required',
+            'companyLocation' => 'required',
+            'companyEmail' => 'required|email',
             'companyHREmail' => 'required|email',
             'companyLogo' => 'nullable|mimes:png',
         ]);
@@ -91,6 +95,7 @@ class General extends Component
         $envData = [
             'COMPANY_NAME' => $this->companyName,
             'COMPANY_EMAIL' => $this->companyEmail,
+            'COMPANY_LOCATION' => $this->companyLocation,
             'COMPANY_HR_EMAIL' => $this->companyHREmail,
         ];
 

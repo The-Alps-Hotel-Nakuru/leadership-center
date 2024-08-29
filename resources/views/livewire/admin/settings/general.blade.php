@@ -22,6 +22,16 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="mb-3">
+                                    <label for="" class="form-label">Company Location</label>
+                                    <input type="text" class="form-control" name="" wire:model='companyLocation'
+                                        id="" aria-describedby="helpId" placeholder="">
+                                    @error('companyLocation')
+                                        <span class="form-text text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="mb-3">
                                     <label for="" class="form-label">Company Email</label>
                                     <input type="text" class="form-control" name="" wire:model='companyEmail'
                                         id="" aria-describedby="helpId" placeholder="">
