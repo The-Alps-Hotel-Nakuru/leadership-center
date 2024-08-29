@@ -24,7 +24,7 @@
             width: 100%;
             line-height: 0.5;
             padding: 10px;
-            font-size: 15px
+            font-size: 15px;
         }
     </style>
 </head>

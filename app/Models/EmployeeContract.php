@@ -35,10 +35,10 @@ class EmployeeContract extends Model
         $weeks = Carbon::parse($this->start_date)->diffInWeeks($this->end_date);
         $days = Carbon::parse($this->start_date)->diffInDays($this->end_date);
         $hours = Carbon::parse($this->start_date)->diffInHours($this->end_date);
-        $monthsString = Carbon::parse($this->start_date)->diffInMonths($this->end_date). " months";
-        $weeksString = Carbon::parse($this->start_date)->diffInWeeks($this->end_date). " weeks";
-        $daysString = Carbon::parse($this->start_date)->diffInDays($this->end_date). " days";
-        $hoursString = Carbon::parse($this->start_date)->diffInHours($this->end_date). " hours";
+        $monthsString = Carbon::parse($this->start_date)->diffInMonths($this->end_date) . " months";
+        $weeksString = Carbon::parse($this->start_date)->diffInWeeks($this->end_date) . " weeks";
+        $daysString = Carbon::parse($this->start_date)->diffInDays($this->end_date) . " days";
+        $hoursString = Carbon::parse($this->start_date)->diffInHours($this->end_date) . " hours";
 
         return $months > 0 ? $monthsString : ($weeks > 0 ? $weeksString : ($days > 0 ? $daysString : $hoursString));
     }
@@ -188,6 +188,28 @@ class EmployeeContract extends Model
 
         return $offdays;
     }
+
+    function daysActive($yearmonth)
+    {
+        // Parse the year and month
+        $month = Carbon::parse($yearmonth);
+        $startOfMonth = $month->startOfMonth()->toDateString();
+        $endOfMonth = $month->endOfMonth()->toDateString();
+
+
+        // Get the contract start and end dates
+        $contractStart = Carbon::parse($this->start_date)->toDateString();
+        $contractEnd = Carbon::parse($this->end_date)->toDateString(); // If no end date, assume it's still active
+
+        // Calculate the overlapping period
+        $activeStart = Carbon::parse($contractStart)->isAfter($startOfMonth) ? $contractStart : $startOfMonth;
+        $activeEnd = Carbon::parse($contractEnd)->isBefore($endOfMonth) ? $contractEnd : $endOfMonth;
+
+        // Calculate the number of active days
+        $activeDays = Carbon::parse($activeStart)->diffInDays($activeEnd) + 1;
+
+        return $activeDays;
+    }
     function EarnedSalaryKes($yearmonth)
     {
         $salary = 0;
@@ -196,18 +218,17 @@ class EmployeeContract extends Model
         $daysOnLeave = $this->employee->daysOnLeave($yearmonth);
         $month = Carbon::parse($yearmonth);
         $monthdays = Carbon::parse($yearmonth)->daysInMonth;
+        $daily_rate = $this->DailyRate($yearmonth);
 
 
         if ($this->employment_type->is_penalizable && $this->designation->is_penalizable) {
-            $daily_rate = $this->DailyRate($yearmonth);
             $offdays = $this->EarnedOffDays($yearmonth);
-
             $salary = $daily_rate  * ($daysWorked + $daysOnLeave + $offdays);
         } else {
             if ($this->employment_type->rate_type == 'daily') {
                 $salary = $this->salary_kes * $this->netDaysWorked($yearmonth);
             } else {
-                $salary = $this->salary_kes;
+                $salary = $daily_rate * $this->daysActive($yearmonth);
             }
         }
 

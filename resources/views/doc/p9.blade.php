@@ -1,142 +1,194 @@
-html
-Copy code
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRA P9 Form</title>
+    <title>{{ $p9Data['employee_pin'] }} - P9A Form - {{ $p9Data['year'] }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
     <style>
         body {
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            font-size: small;
+            font-family: "Lexend", sans-serif;
+            font-size: 8px;
+            margin: 0;
+            /* padding: 15px; */
         }
 
-        .row {
-            display: flex;
-            flex-wrap: nowrap;
-            background-color: DodgerBlue;
-
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            /* padding: 10px; */
+            /* border: 0.5px solid #000; */
         }
 
-        .row>.col {
-            background-color: #f1f1f1;
-            width: 100px;
-            margin: 10px;
+        .header,
+        .footer {
             text-align: center;
-            line-height: 75px;
-            font-size: 30px;
+            margin-bottom: 15px;
         }
 
+        .header h1 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
 
-        table,
-        th,
-        td {
-            border: 1px solid #000;
+        .header h2 {
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .table th,
+        .table td {
+            border: 0.5px solid #1f1f1f;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .info-table {
+            width: 100%;
             border-collapse: collapse;
         }
 
-        th,
-        td {
-            /* padding: 10px; */
-            text-align: center;
+        .info-table th {
+            padding: 5px;
+            text-align: left;
+            font-weight: 300;
         }
 
-        th {
+        .table th {
             background-color: #f0f0f0;
+        }
+
+        .info {
+            margin-bottom: 15px;
+        }
+
+        .info p {
+            margin: 5px 0;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 15px;
         }
     </style>
 </head>
 
 <body>
-    <div class="form-container">
-        <h2 style="text-align: center">Kenya Revenue Authority</h2>
-        <h2 style="text-align: center">Tax Deduction Card 2024</h2>
-        <div class="row">
-            <div class="col">
-                1
-            </div>
-            <div class="col">
-                2
-            </div>
+    <div class="container">
+        <div class="header">
+            <h1>P9A Form - {{ $p9Data['year'] }}</h1>
+            <h2>Kenya Revenue Authority</h2>
+            <p>DOMESTIC TAXES DEPARTMENT</p>
+            <p>INCOME TAX DEDUCTION CARD YEAR {{ $p9Data['year'] }}</p>
         </div>
 
-        <div class="form-group">
-            <label for="employer-pin">Employer's PIN</label>
-            <input type="text" id="employer-pin" name="employer_pin">
-        </div>
-        <div class="form-group">
-            <label for="employee-main-name">Employee's Main Name</label>
-            <input type="text" id="employee-main-name" name="employee_main_name">
-        </div>
-        <div class="form-group">
-            <label for="employee-other-names">Employee's Other Names</label>
-            <input type="text" id="employee-other-names" name="employee_other_names">
-        </div>
-        <div class="form-group">
-            <label for="employee-pin">Employee's PIN</label>
-            <input type="text" id="employee-pin" name="employee_pin">
-        </div>
-
-        <!-- Table Section -->
-        <table>
+        <table class="info-table">
             <thead>
                 <tr>
-                    <th>Month</th>
-                    <th>Basic Salary</th>
-                    <th>Benefits Non-Cash</th>
-                    <th>Value of Quarters</th>
-                    <th>Defined Contribution Retirement Scheme</th>
-                    <th>Owner Occupied Interest</th>
-                    <th>Chargeable Pay</th>
-                    <th>Tax Charged</th>
-                    <th>Personal Relief</th>
-                    <th>Insurance Relief</th>
-                    <th>PAYE Tax</th>
+                    <th>
+                        <p><strong>Employer's Name:</strong> {{ env('COMPANY_NAME') }}</p>
+
+                        <p><strong>Employer's P.I.N:</strong> {{ env('COMPANY_PIN', 'NOT SET') }}</p>
+                    </th>
+                    <th>
+                        <p><strong>Employee's Main Name:</strong> {{ $p9Data['employee_main_name'] }}</p>
+
+                        <p><strong>Employee's Other Names:</strong> {{ $p9Data['employee_other_names'] }}</p>
+                    </th>
+                    <th>
+                        <p><strong>Employee's P.I.N:</strong> {{ $p9Data['employee_pin'] }}</p>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+
+        {{-- <div class="info">
+            <p><strong>Employer's Name:</strong> {{ env('COMPANY_NAME') }}</p>
+            <p><strong>Employer's P.I.N:</strong> {{ env('COMPANY_PIN', 'NOT SET') }}</p>
+            <p><strong>Employee's Main Name:</strong> {{ $p9Data['employee_main_name'] }}</p>
+            <p><strong>Employee's Other Names:</strong> {{ $p9Data['employee_other_names'] }}</p>
+            <p><strong>Employee's P.I.N:</strong> {{ $p9Data['employee_pin'] }}</p>
+        </div> --}}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>MONTH</th>
+                    <th>BASIC SALARY</th>
+                    <th>BENEFITS NONCASH</th>
+                    <th>VALUE OF QUARTERS</th>
+                    <th>TOTAL GROSS PAY</th>
+                    <th>DEFINED CONTRIBUTION RETIREMENT SCHEME</th>
+                    <th>OWNER-OCCUPIED INTEREST / DISABILITY TAX EXEMPT</th>
+                    <th>RETIREMENT CONTR. & OWNER OCCUPIED INTEREST</th>
+                    <th>CHARGEABLE PAY KSHS.</th>
+                    <th>TAX ON H KSHS.</th>
+                    <th>RELIEF KSHS.</th>
+                    <th>P.A.Y.E TAX (J-K) K KSHS.</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>January</td>
-                    <td><input type="text" name="basic_salary_jan"></td>
-                    <td><input type="text" name="benefits_non_cash_jan"></td>
-                    <td><input type="text" name="value_of_quarters_jan"></td>
-                    <td><input type="text" name="defined_contribution_jan"></td>
-                    <td><input type="text" name="owner_occupied_interest_jan"></td>
-                    <td><input type="text" name="chargeable_pay_jan"></td>
-                    <td><input type="text" name="tax_charged_jan"></td>
-                    <td><input type="text" name="personal_relief_jan"></td>
-                    <td><input type="text" name="insurance_relief_jan"></td>
-                    <td><input type="text" name="paye_tax_jan"></td>
+                @foreach ($p9Data['monthly_data'] as $data)
+                    @if ($data['earnings'] > 0)
+                        <tr>
+                            <td>{{ $data['month'] }}</td>
+                            <td>{{ number_format($data['earnings'], 2) }}</td>
+                            <td>0.00</td>
+                            <td>0.00</td>
+                            <td>{{ number_format($data['earnings'], 2) }}</td>
+                            <td>{{ number_format($data['nssf'], 2) }}</td>
+                            <td>{{ number_format(0, 2) }}</td>
+                            <td>{{ number_format($data['nssf'], 2) }}</td>
+                            <td>{{ number_format($data['earnings'] - $data['nssf'], 2) }}</td>
+                            <td>{{ number_format($data['incomeTax'], 2) }}</td>
+                            <td>{{ number_format($data['personalRelief'] + $data['insuranceRelief'], 2) }}</td>
+                            <td>{{ number_format($data['paye'], 2) }}</td>
+                        </tr>
+                    @endif
+                @endforeach
+
+                <tr style="background-color: #f0f0f0">
+                    <td><strong>TOTALS</strong></td>
+                    <td><strong>{{ number_format($p9Data['total_earnings'], 2) }}</strong></td>
+                    <td><strong>0.00</strong></td>
+                    <td><strong>0.00</strong></td>
+                    <td><strong>{{ number_format($p9Data['total_earnings'], 2) }}</strong></td>
+                    <td><strong>{{ number_format($p9Data['total_nssf'], 2) }}</strong></td>
+                    <td><strong>{{ number_format(0, 2) }}</strong></td>
+                    <td><strong>{{ number_format($p9Data['total_nssf'], 2) }}</strong></td>
+                    <td><strong>{{ number_format($p9Data['total_earnings'] - $p9Data['total_nssf'], 2) }}</strong></td>
+                    <td><strong>{{ number_format($p9Data['total_income_tax'], 2) }}</strong></td>
+                    <td><strong>
+                            {{ number_format($p9Data['total_personal_relief'] + $p9Data['total_insurance_relief'], 2) }}</strong>
+                    </td>
+                    <td><strong>{{ number_format($p9Data['total_paye'], 2) }}</strong></td>
                 </tr>
-                <!-- Repeat for other months -->
-                <!-- ... -->
-                <tr>
-                    <td>December</td>
-                    <td><input type="text" name="basic_salary_dec"></td>
-                    <td><input type="text" name="benefits_non_cash_dec"></td>
-                    <td><input type="text" name="value_of_quarters_dec"></td>
-                    <td><input type="text" name="defined_contribution_dec"></td>
-                    <td><input type="text" name="owner_occupied_interest_dec"></td>
-                    <td><input type="text" name="chargeable_pay_dec"></td>
-                    <td><input type="text" name="tax_charged_dec"></td>
-                    <td><input type="text" name="personal_relief_dec"></td>
-                    <td><input type="text" name="insurance_relief_dec"></td>
-                    <td><input type="text" name="paye_tax_dec"></td>
-                </tr>
+                <!-- Additional rows as necessary -->
             </tbody>
         </table>
 
-        <div class="form-group">
-            <label for="total-chargeable-pay">Total Chargeable Pay (COL H)</label>
-            <input type="text" id="total-chargeable-pay" name="total_chargeable_pay">
-        </div>
-        <div class="form-group">
-            <label for="total-tax">Total Tax (COL L)</label>
-            <input type="text" id="total-tax" name="total_tax">
-        </div>
+        <p style="font-size: 12px"><strong>Total Chargeable Pay (Col. H) KSHS.:</strong>
+            {{ number_format($p9Data['total_earnings'] - $p9Data['total_nssf'], 2) }}</p>
+        <p style="font-size: 12px"><strong>Total Tax Pay (Col. L) KSHS.:</strong>
+            {{ number_format($p9Data['total_paye'], 2) }}</p>
 
+        <div class="footer">
+            <p>Important: Use P9A for all liable employees and where director/employee receives benefits in addition to
+                cash emoluments.</p>
+        </div>
     </div>
 </body>
 

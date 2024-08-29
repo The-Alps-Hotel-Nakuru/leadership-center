@@ -41,6 +41,10 @@ class EmployeesDetail extends Model
     {
         return $this->hasMany(EmployeeContract::class);
     }
+    public function leaveRequests()
+    {
+        return $this->hasMany(LeaveRequest::class);
+    }
 
     public function getAgeAttribute()
     {

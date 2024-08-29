@@ -10,7 +10,7 @@
                     <div class="d-flex">
                         <div class="align-self-center">
                             <h3 class="m-b-0">{{ $this->instance->format('F, Y') }}</h3><small>Total
-                                {{ App\Models\Payroll::where('month', $this->instance->format('m'))->where('year', $this->instance->format('Y'))->exists()? 'Gross': 'Estimated Gross' }}
+                                {{ App\Models\Payroll::where('month', $this->instance->format('m'))->where('year', $this->instance->format('Y'))->exists() ? 'Gross' : 'Estimated Gross' }}
                                 Earning</small>
                         </div>
                     </div>
@@ -195,30 +195,48 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <h4 class="text-center font-weight-bold">{{ $attendance_percentage }}%</h4>
+                        <h4 class="text-center font-weight-bold">{{ number_format($attendance_percentage, 2) }}%</h4>
                         <h4 class="text-right font-weight-bold">{{ $count }} Days</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 col-12 h-100">
+            <div class="col-md-6 col-12 h-100">
                 <div class="card shadow">
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-6 col-12">
-                                <button class="btn btn-primary m-1 btn-xs">Download Recent Payslip</button>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <button class="btn btn-primary m-1 btn-xs">Download Recent Payslip</button>
-                            </div>
-                            <div class="col-md-6 col-12 ">
-                                <button class="btn btn-primary m-1 btn-xs">Download Recent Payslip</button>
-                            </div>
-                            <div class="col-md-6 col-12">
-                                <button class="btn btn-primary m-1 btn-xs">Download Recent Payslip</button>
-                            </div>
+                    <div class="card-header">
+                        <h5 class="card-title">Last Active Contract</h5>
+                    </div>
+                    @php
+                        $lastContract = auth()->user()->employee->contracts->last();
+                    @endphp
+                    <div class="card-body row">
+                        <div class="list-group-item col-6"><strong>Contract ID:</strong> {{ $lastContract->id }}</div>
+                        <div class="list-group-item col-6"><strong>Employee ID:</strong>
+                            {{ $lastContract->employees_detail_id }}</div>
+                        <div class="list-group-item col-6"><strong>Designation:</strong>
+                            {{ $lastContract->designation->title }}</div>
+                        <div class="list-group-item col-6"><strong>Contract Status:</strong>
+                            {!! $lastContract->is_active
+                                ? '<strong class="text-success">Active</strong>'
+                                : '<strong class="text-danger">Inactive</strong>' !!}</div>
+                        <div class="list-group-item col-6"><strong>Start Date:</strong>
+                            {{ Carbon\Carbon::parse($lastContract->start_date)->format('jS F, Y') }}</div>
+                        <div class="list-group-item col-6"><strong>End Date:</strong>
+                            {{ Carbon\Carbon::parse($lastContract->end_date)->format('jS F, Y') }}</div>
+                        <div class="list-group-item col-4"><strong>Employment Type:</strong>
+                            {{ $lastContract->employment_type->title }}</div>
+                        <div class="list-group-item col-4"><strong>Weekly Offs:</strong>
+                            {{ $lastContract->weekly_offs }}
                         </div>
+                        <div class="list-group-item col-4"><strong>Is Taxable:</strong>
+                            {{ $lastContract->is_taxable ? 'Yes' : 'No' }}</div>
 
 
+                        <div class="list-group-item col-12 text-center text-white bg-dark"
+                            style="font-size:18px; font:black"><strong>Salary (KES):</strong>
+                            {{ number_format($lastContract->salary_kes) }}
+                            {{ $lastContract->employment_type->rate_type }}</div>
+
+                            <a class="btn btn-secondary mt-3" href="{{ route('employee.contracts') }}">See more...</a>
                     </div>
                 </div>
             </div>

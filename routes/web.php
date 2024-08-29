@@ -11,6 +11,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Faker\Factory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -46,7 +47,7 @@ Route::get('/test-contract-earnings', function () {
     $dd = [];
 
     foreach (EmployeeContract::all() as $key => $contract) {
-        array_push($dd, $contract->employee->user->name ." earned: KES " . $contract->EarnedSalaryKes('2024-08')." across ".$contract->netDaysWorked('2024-08')." days");
+        array_push($dd, $contract->employee->user->name . " earned: KES " . $contract->EarnedSalaryKes('2024-08') . " across " . $contract->netDaysWorked('2024-08') . " days");
     }
 
     dd($dd);
@@ -194,6 +195,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/{id}/edit', Admin\Leaves\Edit::class)->name('admin.leaves.edit');
             Route::get('/mass_addition', Admin\Leaves\MassAddition::class)->name('admin.leaves.mass_addition');
         });
+        Route::prefix('leave-requests')->group(function () {
+            Route::get('/', Admin\LeaveRequests\Index::class)->name('admin.leave-requests.index');
+            Route::get('/{id}/approve', Admin\LeaveRequests\Approve::class)->name('admin.leave-requests.approve');
+        });
         Route::prefix('product_categories')->group(function () {
             Route::get('/', Admin\ProductCategories\Index::class)->name('admin.product_categories.index');
             Route::get('/create', Admin\ProductCategories\Create::class)->name('admin.product_categories.create');
@@ -278,6 +283,25 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::middleware('employee')->prefix('employee')->group(function () {
         Route::get('dashboard', Employee\Dashboard::class)->name('employee.dashboard');
         Route::get('profile', Employee\Profile::class)->name('employee.profile');
+        Route::get('my-contracts', Employee\MyContracts::class)->name('employee.contracts');
+        Route::get('my-leaves', Employee\MyLeaves::class)->name('employee.leaves');
+        Route::get('p9-form-generator', Employee\P9Forms::class)->name('employee.p9forms');
+
+        Route::prefix('advance-requests')->name('employee.advance-requests')->group(function () {
+            Route::get('/', Employee\AdvanceRequests\Index::class)->name('.index');
+            Route::get('/create', Employee\AdvanceRequests\Create::class)->name('.create');
+            Route::get('/{id}/edit', Employee\AdvanceRequests\Edit::class)->name('.edit');
+        });
+        Route::prefix('leave-requests')->name('employee.leave-requests')->group(function () {
+            Route::get('/', Employee\LeaveRequests\Index::class)->name('.index');
+            Route::get('/create', Employee\LeaveRequests\Create::class)->name('.create');
+            Route::get('/{id}/edit', Employee\LeaveRequests\Edit::class)->name('.edit');
+        });
+        Route::prefix('loan-requests')->name('employee.loan-requests')->group(function () {
+            Route::get('/', Employee\LoanRequests\Index::class)->name('.index');
+            Route::get('/create', Employee\LoanRequests\Create::class)->name('.create');
+            Route::get('/{id}/edit', Employee\LoanRequests\Edit::class)->name('.edit');
+        });
 
         Route::get('payslips', Employee\Payslips::class)->name('employee.payslips');
         Route::get('/{id}/payslips', function ($id) {
@@ -380,6 +404,16 @@ Route::get('/{id}/draft_contract', function ($id) {
 
     return $pdf->stream();
 })->name('doc.contract');
+
+
+Route::get('/p9form', function (Request $request) {
+
+    $pdf = Pdf::setPaper('a4', 'landscape')->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => false, 'debugPng' => true]);
+
+    $pdf->loadView('doc.p9', ["p9Data" => $request->all()]);
+    return $pdf->stream();
+    // return $request->all();
+})->name('doc.p9');
 
 
 

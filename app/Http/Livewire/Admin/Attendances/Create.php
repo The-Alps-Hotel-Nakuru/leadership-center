@@ -46,7 +46,7 @@ class Create extends Component
                 if (count($employee->ActiveContractsBetween($this->date, $this->second_date)) > 0) {
                     if ($this->attendanceList) {
                         for ($i = 0; $i < count($this->attendanceList); $i++) {
-                            if (intval($this->attendanceList[$i][0]) == intval($employee->id) && $this->attendanceList[$i][1] == $this->date) {
+                            if ((intval($this->attendanceList[$i][0]) == intval($employee->id) && Carbon::parse($this->attendanceList[$i][1])->toDateString() == Carbon::parse($this->date)->toDateString()) || !$employee->ActiveContractOn($this->attendanceList[$i][1])) {
                                 continue;
                             }
                         }
@@ -61,11 +61,10 @@ class Create extends Component
                     array_push($this->attendanceList, [$employee->id, $this->date, $this->check_in, $this->check_out]);
                 }
             }
-
         } else {
             if ($this->attendanceList) {
                 for ($i = 0; $i < count($this->attendanceList); $i++) {
-                    if (intval($this->attendanceList[$i][0]) == intval($this->employee_id) && $this->attendanceList[$i][1] == $this->date) {
+                    if (intval($this->attendanceList[$i][0]) == intval($this->employee_id) && Carbon::parse($this->attendanceList[$i][1])->toDateString() == Carbon::parse($this->date)->toDateString()) {
                         throw ValidationException::withMessages([
                             'employee_id' => "This Employee's attendance on this day is already in the List"
                         ]);
@@ -113,7 +112,7 @@ class Create extends Component
                     foreach ($period as $date) {
                         if ($this->attendanceList) {
                             for ($i = 0; $i < count($this->attendanceList); $i++) {
-                                if (intval($this->attendanceList[$i][0]) == intval($employee->id) && $this->attendanceList[$i][1] == $date->format('Y-m-d')) {
+                                if ((intval($this->attendanceList[$i][0]) == intval($employee->id) && $this->attendanceList[$i][1] == $date->format('Y-m-d')) || !$employee->ActiveContractOn($this->attendanceList[$i][1])) {
                                     continue;
                                 }
                             }
@@ -136,7 +135,7 @@ class Create extends Component
             foreach ($period as $date) {
                 if ($this->attendanceList) {
                     for ($i = 0; $i < count($this->attendanceList); $i++) {
-                        if (intval($this->attendanceList[$i][0]) == intval($this->employee_id) && $this->attendanceList[$i][1] == $date->format('Y-m-d')) {
+                        if ((intval($this->attendanceList[$i][0]) == intval($this->employee_id) && $this->attendanceList[$i][1] == $date->format('Y-m-d')) || !EmployeesDetail::find($this->employee_id)->ActiveContractOn($this->attendanceList[$i][1])) {
                             continue;
                         }
                     }
