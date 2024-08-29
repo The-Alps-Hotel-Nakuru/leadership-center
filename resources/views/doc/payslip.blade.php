@@ -105,8 +105,8 @@
 
         </thead>
     </table>
-    <table style="margin-bottom: 20px; margin-top:20px; background-color:#1575bb">
-        <thead style="width: 100%; color:#fff; ">
+    <table style="margin-bottom: 20px; margin-top:20px; background-color:#f0f0f0">
+        <thead style="width: 100%; ">
             <th colspan="2" style="text-align: left; text-decoration: underline;">Description</th>
             <th colspan="1" style="text-align: right; text-decoration: underline;">Amount</th>
         </thead>
@@ -162,8 +162,8 @@
         <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">General Relief <br><br>
                 <small style="font-size: 11px">15% (NHIF) + 15% (Housing Levy) <br>
-                <br>
-                 + 15% (Insurance Premiums)</small>
+                    <br>
+                    + 15% (Insurance Premiums)</small>
             </td>
             <td colspan="1" style="text-align: right"><small>KES
                 </small>{{ number_format($salary->general_relief, 2) }}
@@ -350,10 +350,10 @@
         </thead>
         <br>
     </table>
-    <table>
+    <table style="background-color:#f0f0f0">
         <thead style="width: 100%;">
-            <th colspan="2" style="text-align: left; color:#1575bb">Net Pay</th>
-            <th colspan="1" style="text-align: right; color:black; font-size:24px"><small>KES
+            <th colspan="2" style="text-align: left; color:green">Net Pay</th>
+            <th colspan="1" style="text-align: right;  font-size:22px"><small>KES
                 </small>{{ number_format($salary->net_pay, 2) }}</th>
         </thead>
     </table>
