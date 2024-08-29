@@ -6,6 +6,7 @@ use App\Jobs\SendLeaveApprovalEmailJob;
 use App\Models\Leave;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class Approve extends Component
@@ -37,14 +38,17 @@ class Approve extends Component
             $this->validate();
 
             $this->leave->created_by = auth()->user()->id;
+
+            if ($this->leave->employee->onLeaveBetween($this->leave->start_date, $this->leave->end_date)) {
+                throw ValidationException::withMessages([
+                    "leave.employees_detail_id" => "This Employee is already on Leave during this time"
+                ]);
+            }
+
             $this->leave->save();
             $this->leave_request->leaves()->attach($this->leave->id);
 
             SendLeaveApprovalEmailJob::dispatch($this->leave_request);
-            $this->emit('done', [
-                'success' => "Successfully Approved this Leave Request"
-            ]);
-            sleep(5);
 
             return redirect()->route('admin.leave-requests.index');
         } catch (\Throwable $th) {

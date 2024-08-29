@@ -30,7 +30,7 @@
                                         $employee->designation->department_id == $department->id)
                                     <tr>
                                         <td class="">
-                                            <img src="{{ $employee->user->profile_photo_url }}" alt="">
+                                            <img class="img-thumb img-circle shadow" width="50px" src="{{ $employee->user->profile_photo_url }}" alt="">
                                             {{ $employee->user->name }} <br>
                                             <small>{{ $employee->designation->title }}</small>
                                         </td>

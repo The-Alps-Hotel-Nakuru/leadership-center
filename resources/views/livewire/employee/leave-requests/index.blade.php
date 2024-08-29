@@ -53,11 +53,11 @@
                                     <a href="{{ route('employee.leave-requests.edit', $request->id) }}"
                                         class="btn btn-secondary"><i class="fas fa-edit"></i></a>
                                 </div>
-                                <div class="flex-col mx-2">
+                                {{-- <div class="flex-col mx-2">
                                     <button class="btn btn-danger"
                                         onclick="confirm('Are you Sure You want to delete the Leave Request?')||event.stopImmediatePropagation()"
                                         wire:click="delete({{ $request->id }})"><i class="fas fa-trash"></i></button>
-                                </div>
+                                </div> --}}
                             </td>
                         </tr>
                     @endforeach

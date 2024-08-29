@@ -299,10 +299,16 @@ class EmployeesDetail extends Model
 
     public function onLeaveBetween($date1, $date2)
     {
-        return $this->leaves()
-            ->where('start_date', '<=', $date2)
-            ->where('end_date', '>=', $date1)
-            ->exists();
+        $startDate = Carbon::parse($date1);
+        $endDate = Carbon::parse($date2);
+
+        // Check if the employee has any leave records that overlap with the given date range
+        return $this->leaves()->where(function ($query) use ($startDate, $endDate) {
+            $query->where(function ($subQuery) use ($startDate, $endDate) {
+                $subQuery->where('start_date', '<=', $endDate)
+                    ->where('end_date', '>=', $startDate);
+            });
+        })->exists();
     }
 
     public function getIsCasualAttribute()
