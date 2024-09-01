@@ -183,7 +183,7 @@ class EmployeeContract extends Model
         $offdays = 0;
 
         if ($this->employment_type->is_penalizable && $this->designation->is_penalizable) {
-            $offdays = ceil($this->weekly_offs * ($this->netDaysWorked($yearmonth) + $this->employee->daysOnLeave($yearmonth)) / (7 - $this->weekly_offs + 1));
+            $offdays = ceil($this->weekly_offs * ($this->netDaysWorked($yearmonth) + $this->employee->daysOnLeave($yearmonth)) / (7 - $this->weekly_offs));
         }
 
         return $offdays;
