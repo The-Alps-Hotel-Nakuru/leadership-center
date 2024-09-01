@@ -1,6 +1,6 @@
 <div>
     <x-slot:header>
-        Create Leaves
+        Leaves
     </x-slot:header>
 
     <div class="card">

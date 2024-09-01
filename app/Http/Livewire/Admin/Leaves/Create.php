@@ -44,7 +44,7 @@ class Create extends Component
                 'leave.start_date' => 'The Start Date is greater than The End Dates',
             ]);
         }
-        if ($employee->isCasualBetween($this->leave->start_date, $this->leave->end_date)) {
+        if (!$employee->ActiveContractBetween($this->leave->start_date, $this->leave->end_date)->employment_type->is_penalizable) {
             throw ValidationException::withMessages([
                 'leave.start_date' => 'This Employee is not legible to go on leave between the dates provided',
             ]);
