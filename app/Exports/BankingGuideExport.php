@@ -36,7 +36,7 @@ class BankingGuideExport implements FromCollection, WithHeadings, WithMapping, W
             $employee = EmployeesDetail::find($payment->employees_detail_id);
             $first = Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth();
             $last = Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth();
-            if ($employee->ActiveContractBetween($first, $last) && $payment->net_pay > 0) {
+            if ($employee->ActiveContractBetween($first, $last) && $payment->net_pay > 0.1) {
                 array_push($employees, $payment);
             }
         }
