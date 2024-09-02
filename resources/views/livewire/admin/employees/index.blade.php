@@ -79,7 +79,7 @@
                         <td>
                             <div class="d-flex flex-row">
                                 <div class="flex-col">
-                                    <img src="{{ $employee->user->profile_photo_url }}" class="img-fluid rounded-circle"
+                                    <img src="{{ $employee->user->profile_photo_url }}" class="img-fluid rounded-circle" width="60px"
                                         alt="">
                                 </div>
                                 <div class=" flex-col mx-3">
