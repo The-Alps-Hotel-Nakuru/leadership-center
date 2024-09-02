@@ -319,14 +319,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
                     ]);
                     Log::create([
                         'user_id' => auth()->user()->id,
-                        'payload' => "has Viewed their Payslip",
+                        'payload' => auth()->user()->name . "has Viewed their Payslip for " . $salary->getMonth()->format('F, Y'),
                         'model' => 'App\Models\Payroll'
                     ]);
                     return $pdf->stream();
                 } else {
                     Log::create([
                         'user_id' => auth()->user()->id,
-                        'payload' => "tried to view the Payslip when not Ready",
+                        'payload' => auth()->user()->name . "tried to view the Payslip when not Ready",
                         'model' => 'App\Models\Payroll'
                     ]);
                     abort(403, "You Are Not Authorized to view this Payslip because it is not ready");
@@ -334,7 +334,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             } else {
                 Log::create([
                     'user_id' => auth()->user()->id,
-                    'payload' => "tried to view someone else's payslip",
+                    'payload' => auth()->user()->name . " tried to view someone else's payslip",
                     'model' => 'App\Models\Payroll'
                 ]);
                 abort(403, "You Are Not Authorized to view this Payslip because it doesn't belong to you");
