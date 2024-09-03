@@ -25,7 +25,7 @@ class Edit extends Component
 
     function save()
     {
-        $this->validate;
+        $this->validate();
         $this->bank->update();
 
         return redirect()->route('admin.banks.index');

@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-md-3 col-6">
                     <div class="mb-3">
-                        <label for="" class="form-label">Bank Code</label>
+                        <label for="" class="form-label">Maximum Transfer Amount</label>
                         <input type="number" step="0.01" min="0.01" class="form-control" name=""
                             id="" aria-describedby="helpId" wire:model='bank.max_transfer' />
                         @error('bank.max_transfer')
