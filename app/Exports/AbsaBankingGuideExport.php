@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class AbsaBankingGuideExport implements FromCollection, WithMapping, WithTitle, ShouldAutoSize, WithEvents, WithColumnFormatting
@@ -62,7 +63,7 @@ class AbsaBankingGuideExport implements FromCollection, WithMapping, WithTitle, 
             "",
             "",
             "KEN",
-            Carbon::parse($row->payroll->year . '-' . $row->payroll->month)->format("M y") . " SALARY",
+            strtoupper(Carbon::parse($row->payroll->year . '-' . $row->payroll->month)->format("M y") . " SALARY"),
             "",
             "",
             "",
@@ -152,7 +153,7 @@ class AbsaBankingGuideExport implements FromCollection, WithMapping, WithTitle, 
                 $secondPart = substr(env('BANK_SORT'), 2);
                 $sheet->setCellValue('D1', "" . $secondPart);
                 $sheet->setCellValue('E1', "KES");
-                $sheet->setCellValue('F1', Carbon::parse($payroll->year . '-' . $payroll->month)->format("F y") . " SALARY");
+                $sheet->setCellValue('F1', strtoupper(Carbon::parse($payroll->year . '-' . $payroll->month)->format("M y") . " SALARY"));
                 $sheet->setCellValue('G1', "SALARYPAYT");
                 $sheet->setCellValue('H1', "=SUM(G2:G{$totalRow})");
                 $sheet->setCellValue('J1', "KEN");
@@ -167,6 +168,8 @@ class AbsaBankingGuideExport implements FromCollection, WithMapping, WithTitle, 
                 $sheet->setCellValue('B1', Carbon::now()->format("dmY"));
                 $sheet->setCellValue('C1', Carbon::now()->format("His"));
                 $sheet->setCellValue('E1', "C");
+
+                $sheet->getStyle('A1:' . $highestColumn . $highestRow + 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
             }
         ];
     }
