@@ -56,7 +56,7 @@ class Index extends Component
             case 'KCB':
                 return Excel::download(new BankingGuideExport($id), env('COMPANY_NAME') . " - KCB Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx');
             case 'ABSA':
-                return Excel::download(new AbsaBankingGuideExport($id), env('COMPANY_NAME') . " - ABSA Banking Advice for " . Payroll::find($id)->yearmonth . '.csv');
+                return Excel::download(new AbsaBankingGuideExport($id), env('COMPANY_NAME') . " - ABSA Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx');
 
             default:
                 $this->emit('done', [
