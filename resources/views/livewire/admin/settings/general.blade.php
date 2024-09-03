@@ -125,6 +125,7 @@
                                             placeholder="Enter your Account Number">
                                             <option selected value="">Please select your Bank</option>
                                             <option value="KCB">KCB</option>
+                                            <option value="ABSA">ABSA</option>
                                         </select>
                                         @error('bankName')
                                             <small id="helpId" class="form-text text-danger">{{ $message }}</small>

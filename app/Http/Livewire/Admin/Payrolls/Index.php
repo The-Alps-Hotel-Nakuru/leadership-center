@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Payrolls;
 
+use App\Exports\AbsaBankingGuideExport;
 use App\Exports\BankingGuideExport;
 use App\Exports\PayrollExport;
 use App\Models\EmployeeContract;
@@ -51,8 +52,18 @@ class Index extends Component
 
     function downloadBankSlip($id)
     {
-        return Excel::download(new BankingGuideExport($id), env('COMPANY_NAME') . " - Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx');
-        // dd(PayrollPayment::where('payroll_id', $id)->get());
+        switch (env('BANK_NAME')) {
+            case 'KCB':
+                return Excel::download(new BankingGuideExport($id), env('COMPANY_NAME') . " - KCB Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx');
+            case 'ABSA':
+                return Excel::download(new AbsaBankingGuideExport($id), env('COMPANY_NAME') . " - ABSA Banking Advice for " . Payroll::find($id)->yearmonth . '.csv');
+
+            default:
+                $this->emit('done', [
+                    'warning' => "You need to set up a legible bank account"
+                ]);
+                break;
+        }
     }
 
 

@@ -60,7 +60,7 @@ class BankingGuideExport implements FromCollection, WithHeadings, WithMapping, W
 
     function title(): string
     {
-        return "employees Employees";
+        return "Employees - KCB";
     }
 
 
