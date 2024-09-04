@@ -327,7 +327,7 @@ class MonthlySalary extends Model
     }
     public function getTotalDeductionsAttribute()
     {
-        return $this->nhif + $this->nssf + $this->housing_levy + $this->nita + $this->paye + $this->fines + $this->advances + $this->welfare_contributions + $this->loans;
+        return $this->nhif + $this->nssf + $this->housing_levy + $this->paye + $this->fines + $this->advances + $this->welfare_contributions + $this->loans;
     }
     public function getTotalAdditionsAttribute()
     {
