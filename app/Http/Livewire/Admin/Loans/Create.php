@@ -45,13 +45,13 @@ class Create extends Component
 
         $this->loan->employees_detail_id = $employee->id;
 
-        if (!($this->loan->employee->netSalary($this->yearmonth) > ($this->loan->amount / $this->repaymentmonths))) {
-            $max = ($this->loan->employee->netSalary($this->yearmonth) * $this->repaymentmonths) - 0.001;
-            $this->emit('done', [
-                'warning' => "This Employee has not earned enough for a Loan this size. The Maximum allowed is KES " . \number_format($max, 2) . " for " . $this->repaymentmonths . " months"
-            ]);
-            return;
-        }
+        // if (!($this->loan->employee->netSalary($this->yearmonth) > ($this->loan->amount / $this->repaymentmonths))) {
+        //     $max = ($this->loan->employee->netSalary($this->yearmonth) * $this->repaymentmonths) - 0.001;
+        //     $this->emit('done', [
+        //         'warning' => "This Employee has not earned enough for a Loan this size. The Maximum allowed is KES " . \number_format($max, 2) . " for " . $this->repaymentmonths . " months"
+        //     ]);
+        //     return;
+        // }
 
         $this->loan->year = Carbon::parse($this->yearmonth)->year;
         $this->loan->month = Carbon::parse($this->yearmonth)->month;

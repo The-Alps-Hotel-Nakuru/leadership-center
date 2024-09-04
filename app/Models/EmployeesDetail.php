@@ -435,4 +435,11 @@ class EmployeesDetail extends Model
     {
         return $this->hasOne(EmployeeAccount::class, 'employees_detail_id', 'id');
     }
+
+    // public function netSalary($yearmonth)
+    // {
+    //     $month = Carbon::parse($yearmonth);
+
+
+    // }
 }
