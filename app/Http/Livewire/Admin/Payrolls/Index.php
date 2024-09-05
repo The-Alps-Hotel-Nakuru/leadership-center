@@ -102,6 +102,10 @@ class Index extends Component
                         $salary->is_taxable = $contract->is_taxable;
                     }
 
+                    if ($salary->basic_salary_kes <= 0.1) {
+                        continue;
+                    }
+
 
 
                     $salary->save();
@@ -220,6 +224,9 @@ class Index extends Component
                     $salary->is_taxable = $contract->is_taxable;
                 }
 
+                if ($salary->basic_salary_kes <= 0.1) {
+                    continue;
+                }
 
                 $salary->save();
             }

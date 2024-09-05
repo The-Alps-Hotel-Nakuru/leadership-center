@@ -115,10 +115,7 @@
 
     <table>
         <thead style="width: 100%;">
-            <th colspan="2" style="text-align: left">Gross Salary Earned <br><br><small style="font-size: 11px">KES
-                    {{ number_format($salary->daily_rate, 2) }} x
-                    ({{ $salary->days_worked }}+{{ $salary->earned_off_days }}+{{ $salary->leave_days }})</small>
-            </th>
+            <th colspan="2" style="text-align: left">Gross Salary Earned</th>
             <th colspan="1" style="text-align: right">
                 <small>KES</small>
                 {{ number_format($salary->gross_salary, 2) }}

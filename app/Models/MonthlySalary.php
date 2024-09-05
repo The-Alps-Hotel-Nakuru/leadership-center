@@ -52,7 +52,9 @@ class MonthlySalary extends Model
 
         // return $rate;
 
-        return $this->gross_salary / ($this->days_worked + $this->leave_days + $this->earned_off_days);
+        $multiplier = $this->days_worked + $this->leave_days + $this->earned_off_days;
+
+        return $multiplier ? ($this->gross_salary / $multiplier) : 0;
     }
     public function welfareContributions()
     {
