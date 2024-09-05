@@ -42,15 +42,17 @@ class MonthlySalary extends Model
         $rate = 0;
         $period = Carbon::parse($this->payroll->year . '-' . $this->payroll->month);
         $monthdays = $period->daysInMonth;
-        if ($this->employee && $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)) {
-            if ($this->employee->isCasualBetween($period->firstOfMonth(), $period->lastOfMonth())) {
-                $rate = $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)->salary_kes;
-            } else {
-                $rate = $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)->salary_kes / $monthdays;
-            }
-        }
+        // if ($this->employee && $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)) {
+        //     if ($this->employee->isCasualBetween($period->firstOfMonth(), $period->lastOfMonth())) {
+        //         $rate = $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)->salary_kes;
+        //     } else {
+        //         $rate = $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)->salary_kes / $monthdays;
+        //     }
+        // }
 
-        return $rate;
+        // return $rate;
+
+        return $this->gross_salary / ($this->days_worked + $this->leave_days + $this->earned_off_days);
     }
     public function welfareContributions()
     {
@@ -81,9 +83,7 @@ class MonthlySalary extends Model
         $offdays = 0;
 
         foreach ($this->employee->ActiveContractsDuring($this->getMonth()->format("Y-m")) as $key => $contract) {
-            if ($contract->is_full_time() || $contract->is_intern() || $contract->is_student()) {
-                $offdays += $contract->EarnedOffDays($this->getMonth()->format("Y-m"));
-            }
+            $offdays += $contract->EarnedOffDays($this->getMonth()->format("Y-m"));
         }
 
         return $offdays;
@@ -115,7 +115,7 @@ class MonthlySalary extends Model
         }
 
         // return $nita;
-        return $this->is_taxable ? $nita : 0;
+        return $nita;
     }
     public function getTaxableIncomeAttribute()
     {

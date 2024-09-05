@@ -92,7 +92,7 @@
             <ul>
                 @foreach ($salary->contracts() as $contract)
                     <li style="font-size: 11px"> Cont. #{{ $contract->id }}
-                        Value: KES
+                        Value: {{ $contract->is_net?"NET SALARY of ":"GROSS SALARY of " }}KES
                         <strong>{{ number_format($contract->salary_kes) }}
                             {{ $contract->is_casual() ? 'per day' : 'per month' }}</strong>
                         <br><br>

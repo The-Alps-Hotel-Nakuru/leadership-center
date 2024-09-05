@@ -108,16 +108,25 @@ class EmployeeContract extends Model
 
 
         if ($this->employment_type->rate_type == 'daily') {
-            $estimated_gross = $this->salary_kes * $monthdays;
+            $estimated_gross = $this->salary_kes * $this->netDaysWorked($yearmonth);
         } else {
             $estimated_gross = $this->salary_kes;
         }
+
         $gross_pay_calculations = new ReversePaymentsCalculationService($estimated_gross);
 
         if ($this->is_net) {
-            $daily_rate = $gross_pay_calculations->calculateGrossFromNet($yearmonth) / $monthdays;
+            if ($this->employment_type->rate_type == 'daily') {
+                $daily_rate = $this->netDaysWorked($yearmonth) ? $gross_pay_calculations->calculateGrossFromNet($yearmonth) / $this->netDaysWorked($yearmonth) : 0;
+            } else {
+                $daily_rate = $gross_pay_calculations->calculateGrossFromNet($yearmonth) / $monthdays;
+            }
         } else {
-            $daily_rate = $estimated_gross / $monthdays;
+            if ($this->employment_type->rate_type == 'daily') {
+                $daily_rate = $this->salary_kes;
+            } else {
+                $daily_rate = $this->salary_kes / $monthdays;
+            }
         }
 
         return $daily_rate;
