@@ -10,7 +10,7 @@ class ReversePaymentsCalculationService {
         $this->net_salary = $net_salary;
     }
 
-    function calculateGrossFromNet($datetime, $tolerance = 0.01, $maxIterations = 1000)
+    function calculateGrossFromNet($datetime, $tolerance = 0.001, $maxIterations = 1000)
     {
         // Constants
         $initialGrossEstimate = $this->net_salary / 0.7; // Initial estimate
