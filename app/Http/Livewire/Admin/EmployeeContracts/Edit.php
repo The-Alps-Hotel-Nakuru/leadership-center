@@ -22,6 +22,7 @@ class Edit extends Component
         'contract.salary_kes' => 'required',
         'contract.is_taxable' => 'nullable',
         'contract.weekly_offs' => 'nullable',
+        'contract.is_net' => 'nullable',
     ];
 
     protected $messages = [

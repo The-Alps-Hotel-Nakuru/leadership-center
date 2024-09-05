@@ -132,9 +132,9 @@ class Dashboard extends Component
         foreach ($this->employees as $key => $employee) {
             $calculations = new PaymentsCalculationsService($employee->EarnedSalaryKes($this->instance->format('Y-m')), $this->instance->toDateTimeString());
             $earning += $employee->EarnedSalaryKes($this->instance->format('Y-m'));
-            $nssf += $employee->EarnedSalaryKes($this->instance->format('Y-m')) > 0 ? $calculations->nssf() : 0;
-            $nhif += $calculations->nhif();
-            $ahl += $calculations->ahl();
+            $nssf += $employee->EarnedSalaryKes($this->instance->format('Y-m')) > 0 ? $calculations->getNssf() : 0;
+            $nhif += $calculations->getNhif();
+            $ahl += $calculations->getHousingLevy();
         }
 
         return $earning + $nssf + $ahl;

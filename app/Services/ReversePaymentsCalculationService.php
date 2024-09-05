@@ -5,7 +5,8 @@ namespace App\Services;
 class ReversePaymentsCalculationService {
     public $net_salary;
 
-    public function __construct($net_salary) {
+    public function __construct($net_salary)
+    {
         $this->net_salary = $net_salary;
     }
 
@@ -22,12 +23,12 @@ class ReversePaymentsCalculationService {
 
 
             // Check if the computed net pay is within the tolerance of the target net pay
-            if (abs($calculations->net_salary() - $this->net_salary) < $tolerance) {
+            if (abs($calculations->getNetSalary() - $this->net_salary) < $tolerance) {
                 return $grossPay;
             }
 
             // Adjust gross pay estimate
-            $grossPay += ($this->net_salary - $calculations->net_salary());
+            $grossPay += ($this->net_salary - $calculations->getNetSalary());
         }
 
         // If the loop finishes without finding an accurate result, return the last estimate

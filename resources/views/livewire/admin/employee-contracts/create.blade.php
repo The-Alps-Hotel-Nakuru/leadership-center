@@ -61,8 +61,8 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="is_taxable" class="form-label">Taxable</label>
-                            <select wire:model="contract.is_taxable" class="form-control"
-                                name="is_taxable" id="is_taxable">
+                            <select wire:model="contract.is_taxable" class="form-control" name="is_taxable"
+                                id="is_taxable">
                                 <option value="1" selected>True</option>
                                 <option value="0">False</option>
                             </select>
@@ -117,13 +117,28 @@
                         </div>
                     </div> --}}
                     </div>
-                    <div class="col-md-4 col-6">
+                    <div class="col-md-3 col-6">
                         <div class="mb-3">
-                            <label for="salary_kes" class="form-label">Gross Salary <small class="text-muted text-capitalize">({{ $contract->employment_type?$contract->employment_type->rate_type:"per employment terms" }})</small></label>
+                            <label for="salary_kes" class="form-label">Salary <small
+                                    class="text-muted text-capitalize">({{ $contract->employment_type->rate_type ?? 'per employment terms' }})</small></label>
                             <input wire:model="contract.salary_kes" type="number" class="form-control"
                                 name="salary_kes" id="salary_kes" aria-describedby="salary_kes"
                                 placeholder="Enter your Salary">
                             @error('contract.salary_kes')
+                                <small id="end_date" class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="form-group">
+                            <label for="">Treat Salary As</label>
+                            <select class="form-control" name="" id="" wire:model="contract.is_net">
+                                <option selected> Please Select how you would want this Salary to be</option>
+                                <option value="0">Gross Salary</option>
+                                <option value="1">Net Salary
+                                </option>
+                            </select>
+                            @error('contract.is_net')
                                 <small id="end_date" class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>

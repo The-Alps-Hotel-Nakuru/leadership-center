@@ -95,7 +95,7 @@ class MonthlySalary extends Model
     public function getNssfAttribute()
     {
         $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
-        return $this->is_taxable && $this->gross_salary > 0 ? $calculations->nssf() : 0;
+        return $this->is_taxable && $this->gross_salary > 0 ? $calculations->getNssf() : 0;
     }
     public function getNitaAttribute()
     {
@@ -124,117 +124,29 @@ class MonthlySalary extends Model
     public function getIncomeTaxAttribute()
     {
 
-        $tax = 0;
-        $level1 = (288000 / 12);
-        $level2 = (388000 / 12);
-        $level3 = (6000000 / 12);
-        $level4 = (9600000 / 12);
+        $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
 
-        if ($this->taxable_income <= $level1) {
-            $tax = $this->taxable_income * 0.1;
-        } elseif ($this->taxable_income > $level1 && $this->taxable_income <= $level2) {
-            $tax = (($this->taxable_income - $level1) * 0.25) + 2400;
-        } elseif ($this->taxable_income > $level2 && $this->taxable_income <= $level3) {
-            $tax = (($this->taxable_income - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
-        } elseif ($this->taxable_income > $level3 && $this->taxable_income <= $level4) {
-            $tax = (($this->taxable_income - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
-        } else {
-            $tax = (($this->taxable_income - $level4) * 0.35) + (($level4 - $level3) * 0.325) + (($level3 - $level2) * 0.3) + (($level2 - $level1) * 0.25) + 2400;
-        }
 
-        // return $tax;
-        return $this->is_taxable ? $tax : 0;
+        return $this->is_taxable ? $calculations->getIncomeTax() : 0;
     }
     public function getNhifAttribute()
     {
-        $nhif = 0;
-        if ($this->is_taxable) {
-            if ($this->gross_salary >= 1000 && $this->gross_salary < 6000) {
-                $nhif = 150;
-            } elseif ($this->gross_salary >= 6000 && $this->gross_salary < 8000) {
-                $nhif = 300;
-            } elseif ($this->gross_salary >= 8000 && $this->gross_salary < 12000) {
-                $nhif = 400;
-            } elseif ($this->gross_salary >= 12000 && $this->gross_salary < 15000) {
-                $nhif = 500;
-            } elseif ($this->gross_salary >= 15000 && $this->gross_salary < 20000) {
-                $nhif = 600;
-            } elseif ($this->gross_salary >= 20000 && $this->gross_salary < 25000) {
-                $nhif = 750;
-            } elseif ($this->gross_salary >= 25000 && $this->gross_salary < 30000) {
-                $nhif = 850;
-            } elseif ($this->gross_salary >= 30000 && $this->gross_salary < 35000) {
-                $nhif = 900;
-            } elseif ($this->gross_salary >= 35000 && $this->gross_salary < 40000) {
-                $nhif = 950;
-            } elseif ($this->gross_salary >= 40000 && $this->gross_salary < 45000) {
-                $nhif = 1000;
-            } elseif ($this->gross_salary >= 45000 && $this->gross_salary < 50000) {
-                $nhif = 1100;
-            } elseif ($this->gross_salary >= 50000 && $this->gross_salary < 60000) {
-                $nhif = 1200;
-            } elseif ($this->gross_salary >= 60000 && $this->gross_salary < 70000) {
-                $nhif = 1300;
-            } elseif ($this->gross_salary >= 70000 && $this->gross_salary < 80000) {
-                $nhif = 1400;
-            } elseif ($this->gross_salary >= 80000 && $this->gross_salary < 90000) {
-                $nhif = 1500;
-            } elseif ($this->gross_salary >= 90000 && $this->gross_salary < 100000) {
-                $nhif = 1600;
-            } elseif ($this->gross_salary >= 100000) {
-                $nhif = 1700;
-            } else {
-                $nhif = 0;
-            }
-        }
-        return $nhif;
+        $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
+
+
+        return $calculations->getNhif() ?? 0;
     }
     function getHousingLevyAttribute()
     {
-        $levy = 0;
-        $contract = $this->employee->ActiveContractBetween(Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->firstOfMonth(), Carbon::parse($this->payroll->year . '-' . $this->payroll->month)->lastOfMonth());
-        if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-01-31')) {
-            if ($this->employee && $contract && $contract->is_taxable) {
-                $levy = 0.015 * $this->gross_salary;
-            }
-        } else {
-            if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-02-29')) {
-                $levy = 0;
-            } else {
-                if (Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isBefore('2024-05-31')) {
-                    if ($this->employee && $contract && $contract->is_taxable) {
-                        $levy = 0.015 * $this->gross_salary;
-                    }
-                } else {
-                    if ($this->employee && $contract && $contract->is_taxable) {
-                        $levy = 0.015 * $this->gross_salary;
-                    }
-                }
-            }
-        }
+        $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
 
         // return $levy;
-        return $this->is_taxable ? $levy : 0;
+        return $this->is_taxable ? $calculations->getHousingLevy() : 0;
     }
     public function getGeneralReliefAttribute()
     {
-        $relief = 0;
-
-        if ($this->nhif) {
-            $relief += (0.15 * $this->nhif);
-        }
-        if ($this->insurance) {
-            foreach ($this->insurance as $insurance) {
-                $relief += (0.15 * $insurance->monthly_premium_kes);
-            }
-        }
-
-        if ($this->housing_levy && Carbon::parse($this->payroll->year . '-' . $this->payroll->month . '-01')->isAfter('2024-03-31')) {
-            $relief += (0.15 * $this->housing_levy);
-        }
-
-        // return $relief;
-        return $this->is_taxable ? $relief : 0;
+        $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
+        return $this->is_taxable ? $calculations->getGeneralRelief() : 0;
     }
     public function getAdvancesAttribute()
     {

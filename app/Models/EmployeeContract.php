@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ReversePaymentsCalculationService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -103,10 +104,20 @@ class EmployeeContract extends Model
         $daily_rate = 0;
         $monthdays = Carbon::parse($yearmonth)->daysInMonth;
 
+        $estimated_gross = 0;
+
+
         if ($this->employment_type->rate_type == 'daily') {
-            $daily_rate = $this->salary_kes;
+            $estimated_gross = $this->salary_kes * $monthdays;
         } else {
-            $daily_rate = $this->salary_kes / $monthdays;
+            $estimated_gross = $this->salary_kes;
+        }
+        $gross_pay_calculations = new ReversePaymentsCalculationService($estimated_gross);
+
+        if ($this->is_net) {
+            $daily_rate = $gross_pay_calculations->calculateGrossFromNet($yearmonth) / $monthdays;
+        } else {
+            $daily_rate = $estimated_gross / $monthdays;
         }
 
         return $daily_rate;
@@ -226,7 +237,7 @@ class EmployeeContract extends Model
             $salary = $daily_rate  * ($daysWorked + $daysOnLeave + $offdays);
         } else {
             if ($this->employment_type->rate_type == 'daily') {
-                $salary = $this->salary_kes * $this->netDaysWorked($yearmonth);
+                $salary = $daily_rate * $this->netDaysWorked($yearmonth);
             } else {
                 $salary = $daily_rate * $this->daysActive($yearmonth);
             }
