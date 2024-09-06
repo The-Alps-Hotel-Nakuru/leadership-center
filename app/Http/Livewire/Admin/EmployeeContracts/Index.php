@@ -97,21 +97,18 @@ class Index extends Component
         if ($this->type == 'active') {
             $contracts = EmployeeContract::orderBy('employees_detail_id', 'DESC')->where(function ($employee) {
                 $employee->where('end_date', '>=', Carbon::now()->toDateString())->whereHas('user', function ($query) {
-                    $query->where('first_name', 'like', '%' . $this->searchEmployee . '%')
-                        ->orWhere('last_name', 'like', '%' . $this->searchEmployee . '%');
+                    $query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $this->searchEmployee . '%']);
                 });
             });
         } elseif ($this->type == 'inactive') {
             $contracts = EmployeeContract::orderBy('employees_detail_id', 'DESC')->where(function ($employee) {
                 $employee->where('end_date', '<', Carbon::now()->toDateString())->whereHas('user', function ($query) {
-                    $query->where('first_name', 'like', '%' . $this->searchEmployee . '%')
-                        ->orWhere('last_name', 'like', '%' . $this->searchEmployee . '%');
+                    $query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $this->searchEmployee . '%']);
                 });
             });
         } else {
             $contracts = EmployeeContract::orderBy('employees_detail_id', 'DESC')->whereHas('user', function ($query) {
-                $query->where('first_name', 'like', '%' . $this->searchEmployee . '%')
-                    ->orWhere('last_name', 'like', '%' . $this->searchEmployee . '%');
+                $query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $this->searchEmployee . '%']);
             });
         }
         return view('livewire.admin.employee-contracts.index', [

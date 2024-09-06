@@ -149,8 +149,7 @@ class Index extends Component
     public function render()
     {
         $employees = EmployeesDetail::whereHas('user', function ($query) {
-            $query->where('first_name', 'like', '%' . $this->search . '%')
-                ->orWhere('last_name', 'like', '%' . $this->search . '%');
+            $query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $this->searchEmployee . '%']);
         });
 
         return view('livewire.admin.employees.index', [
