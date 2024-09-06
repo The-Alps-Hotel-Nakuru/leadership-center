@@ -64,13 +64,14 @@
                                     <br>
                                     <small>({{ $salary->is_taxable ? 'Is Taxable' : 'Is Not Taxable' }})</small>
                                 </td>
-                                <td width="45px" colspan="2">
+                                <td width="60px" colspan="2">
                                     <small>
                                         @foreach ($salary->employee->ActiveContractsDuring($salary->payroll->year . '-' . $salary->payroll->month) as $key => $contract)
                                             <li style="list-style-type: circle"> #{{ $contract->id }} <br>
-                                                Value: KES
-                                                <strong>{{ number_format($contract->salary_kes) }}
-                                                    {{ $contract->is_casual() ? 'per day' : 'per month' }}</strong>
+                                                Value:
+                                                <strong><small>KES </small>{{ number_format($contract->salary_kes) }}
+                                                    {{ $contract->is_net ? 'Net ' : 'Gross ' }}
+                                                    {{ $contract->is_casual() ? 'per day ' : 'per month ' }}</strong>
                                                 with
                                                 {{ $contract->netDaysWorked($salary->payroll->year . '-' . $salary->payroll->month) }}
                                                 days worked
