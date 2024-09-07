@@ -123,17 +123,17 @@ class Index extends Component
     {
         return Excel::download(new EmployeeNSSFExport, 'employeesnssf.xlsx');
 
-        $this->emit('done', [
-            'success' => 'NSSF data exported successfully'
-        ]);
+        // $this->emit('done', [
+        //     'success' => 'NSSF data exported successfully'
+        // ]);
     }
     public function downloadEmployeesTemplate()
     {
         return Excel::download(new EmployeesDataTemplateExport, 'employees_data_template.xlsx');
 
-        $this->emit('done', [
-            'success' => 'NSSF data exported successfully'
-        ]);
+        // $this->emit('done', [
+        //     'success' => 'NSSF data exported successfully'
+        // ]);
     }
 
     public function unban($id)
@@ -149,7 +149,7 @@ class Index extends Component
     public function render()
     {
         $employees = EmployeesDetail::whereHas('user', function ($query) {
-            $query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $this->searchEmployee . '%']);
+            $query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $this->search . '%']);
         });
 
         return view('livewire.admin.employees.index', [

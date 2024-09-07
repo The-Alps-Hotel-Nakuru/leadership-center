@@ -93,7 +93,7 @@ class Create extends Component
     public function render()
     {
         $employees = EmployeesDetail::whereHas('user', function ($query) {
-            $query->whereraw("concat(first_name, ' ', last_name) like ?", ['%' . $this->searchemployee . '%']);
+            $query->whereraw("concat(first_name, ' ', last_name) like ?", ['%' . $this->search . '%']);
         })->get();
 
         return view('livewire.admin.loans.create', [

@@ -77,7 +77,7 @@ class Create extends Component
     public function render()
     {
         $employees = EmployeesDetail::whereHas('user', function ($query) {
-            $query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $this->searchEmployee . '%']);
+            $query->whereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $this->search . '%']);
         })->get();
 
         return view(
