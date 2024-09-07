@@ -105,18 +105,18 @@ class Index extends Component
     {
         return Excel::download(new EmployeeKRAExport, 'employeeskra.xlsx');
 
-        $this->emit('done', [
-            'success' => 'KRA data exported successfully'
-        ]);
+        // $this->emit('done', [
+        //     'success' => 'KRA data exported successfully'
+        // ]);
     }
 
     public function exportNhifData()
     {
         return Excel::download(new EmployeeNHIFExport, 'employeesnhif.xlsx');
 
-        $this->emit('done', [
-            'success' => 'NHIF data exported successfully'
-        ]);
+        // $this->emit('done', [
+        //     'success' => 'NHIF data exported successfully'
+        // ]);
     }
 
     public function exportNssfData()
