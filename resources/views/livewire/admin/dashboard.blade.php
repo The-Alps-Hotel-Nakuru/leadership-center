@@ -201,7 +201,7 @@
                                         <td scope="row">{{ $log->id }}</td>
                                         <td colspan="1">{!! $log->payload !!}</td>
                                         <td>
-                                            {{ Carbon\Carbon::parse($log->created_at)->toDateTimeString() }}
+                                            {{ Carbon\Carbon::parse($log->created_at)->format('jS F, Y h:i:sA ') }}
                                         </td>
                                     </tr>
                                 @endforeach
