@@ -26,6 +26,7 @@ class Edit extends Component
         'admin.last_name.required' => "The Last Name is Required",
         'admin.email.required' => "The Email Address is Required",
         'admin.email.email' => "This Email Format is not Supported",
+        'admin.email.unique' => "This Email Address has already been used",
         'admin.role_id.required' => "Please select a Role",
     ];
 
