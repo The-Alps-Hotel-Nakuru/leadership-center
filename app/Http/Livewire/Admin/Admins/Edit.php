@@ -11,12 +11,15 @@ class Edit extends Component
 {
     public User $admin;
 
-    protected $rules = [
-        'admin.first_name'=>'required',
-        'admin.last_name'=>'required',
-        'admin.email'=>'required|email|unique:users,email',
-        'admin.role_id'=>'required',
-    ];
+    public function rules()
+    {
+        return [
+            'admin.first_name' => 'required',
+            'admin.last_name' => 'required',
+            'admin.email' => 'required|email|unique:users,email,' . ($this->admin->id ?? 'NULL'),
+            'admin.role_id' => 'required',
+        ];
+    }
 
     protected $messages = [
         'admin.first_name.required' => "The First Name is Required",
