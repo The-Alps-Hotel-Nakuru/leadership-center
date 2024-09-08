@@ -36,7 +36,7 @@ class Edit extends Component
     {
         $this->validate();
         $this->admin->password = Hash::make(env('DEFAULT_PASSWORD'));
-        $this->admin->save();
+        $this->admin->update();
 
         $log = new Log();
         $log->user_id = auth()->user()->id;
