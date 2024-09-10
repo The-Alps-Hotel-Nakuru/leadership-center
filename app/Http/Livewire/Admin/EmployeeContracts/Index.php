@@ -50,27 +50,27 @@ class Index extends Component
         ]);
     }
 
-    public function makeAllInactive()
-    {
-        $this->validate([
-            'date' => 'date'
-        ]);
+    // public function makeAllInactive()
+    // {
+    //     $this->validate([
+    //         'date' => 'date'
+    //     ]);
 
-        $contracts = EmployeeContract::all();
+    //     $contracts = EmployeeContract::all();
 
-        foreach ($contracts as $key => $contract) {
-            if (Carbon::parse($this->date)->isBefore($contract->end_date)) {
-                $contract->end_date = Carbon::parse($this->date)->toDateString();
-                $contract->save();
-            } else {
-                continue;
-            }
-        }
+    //     foreach ($contracts as $key => $contract) {
+    //         if (Carbon::parse($this->date)->isBefore($contract->end_date)) {
+    //             $contract->end_date = Carbon::parse($this->date)->toDateString();
+    //             $contract->save();
+    //         } else {
+    //             continue;
+    //         }
+    //     }
 
-        $this->emit('done', [
-            'success' => 'All active contacts are now inactive'
-        ]);
-    }
+    //     $this->emit('done', [
+    //         'success' => 'All active contacts are now inactive'
+    //     ]);
+    // }
 
     public function delete($id)
     {

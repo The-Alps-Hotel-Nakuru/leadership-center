@@ -32,7 +32,7 @@
                         <option value="inactive">Inactive</option>
                     </select>
                 </div>
-                <div class="flex-col mx-2">
+                {{-- <div class="flex-col mx-2">
                     <div class="form-group">
                         <input type="date" class="form-control" wire:model="date" name="" id=""
                             aria-describedby="helpId" placeholder="">
@@ -44,7 +44,7 @@
                         <x-jet-button type="button" wire:loading.attr="disabled">Make All Active contracts
                             Inactive</x-jet-button>
                     </x-jet-confirms-password>
-                </div>
+                </div> --}}
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-hover">
