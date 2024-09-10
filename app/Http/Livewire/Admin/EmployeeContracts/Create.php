@@ -6,6 +6,7 @@ use App\Models\EmployeeContract;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use Carbon\Carbon;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class Create extends Component
@@ -31,7 +32,7 @@ class Create extends Component
         'contract.designation_id.required' => 'Please select the Designation',
         'contract.start_date.required' => 'The Start Date is Required',
         'contract.end_date.required' => 'The End Date is Required',
-        'contract.end_date.after_or_equal'=>"The End Date cannot be before the Start Date",
+        'contract.end_date.after_or_equal' => "The End Date cannot be before the Start Date",
         'contract.employment_type_id.required' => 'Please select the Employment Type',
         'contract.salary_kes.required' => 'Please enter the Salary (KES)',
     ];
@@ -52,6 +53,11 @@ class Create extends Component
             if ($cont->isActiveDuring($this->contract->start_date, $this->contract->end_date)) {
                 $cont->terminateOn($this->contract->start_date);
             }
+        }
+        if ($employee->has_left) {
+            throw ValidationException::withMessages([
+                'contract.employees_detail_id' => "This Employee Has Already Left the Company"
+            ]);
         }
         $this->contract->save();
 

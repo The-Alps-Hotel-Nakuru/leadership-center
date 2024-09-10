@@ -6,12 +6,15 @@ use App\Models\EmployeeContract;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\URL;
 use Livewire\Component;
 
 class Edit extends Component
 {
     public EmployeeContract $contract;
     public $months;
+
+    public $previous;
 
     protected $rules = [
         'contract.employees_detail_id' => 'required',
@@ -39,6 +42,7 @@ class Edit extends Component
     {
         $this->contract = EmployeeContract::find($id);
         $this->months = Carbon::parse($this->contract->start_date)->diffInMonths($this->contract->end_date);
+        $this->previous = URL::previous();
     }
 
 
@@ -60,7 +64,7 @@ class Edit extends Component
         $log->payload = "<strong>" . auth()->user()->name . "</strong> has Edited Employee's Contract No." . $this->contract->id .  "for <strong> " . $this->contract->employee->user->name . "</strong> in the system";
         $log->save();
 
-        return redirect()->route('admin.employee_contracts.index');
+        return redirect($this->previous);
     }
     public function render()
     {

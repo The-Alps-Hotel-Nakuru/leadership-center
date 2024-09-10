@@ -12,6 +12,13 @@ class EmployeesDetail extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $appends = [
+        'title',
+        'is_banned',
+        'has_left',
+        'age',
+    ];
+
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
@@ -25,6 +32,10 @@ class EmployeesDetail extends Model
     function getIsBannedAttribute()
     {
         return $this->ban != null;
+    }
+    function getHasLeftAttribute()
+    {
+        return $this->exit_date != null;
     }
 
     public function designation()
@@ -127,6 +138,18 @@ class EmployeesDetail extends Model
 
         foreach ($this->contracts as $contract) {
             if ($contract->isActiveDuring(Carbon::parse($date1)->toDateString(), Carbon::parse($date2)->toDateString())) {
+                array_push($contracts,  $contract);
+            }
+        }
+
+        return $contracts;
+    }
+    public function ActiveContractsAfter($date)
+    {
+        $contracts = [];
+
+        foreach ($this->contracts as $contract) {
+            if ($contract->isActiveAfter(Carbon::parse($date)->toDateString())) {
                 array_push($contracts,  $contract);
             }
         }
@@ -311,103 +334,6 @@ class EmployeesDetail extends Model
         })->exists();
     }
 
-    public function getIsCasualAttribute()
-    {
-        if ($this->has_active_contract) {
-            if ($this->active_contract->employment_type_id == 1) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function isCasualBetween($date1, $date2)
-    {
-        foreach ($this->contracts as $contract) {
-            if ($contract->isActiveDuring(Carbon::parse($date1)->toDateString(), Carbon::parse($date2)->toDateString())) {
-                $contract = EmployeeContract::find($contract->id);
-                if ($contract->employment_type_id == 1) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public function isFullTimeBetween($date1, $date2)
-    {
-        foreach ($this->contracts as $contract) {
-            if ($contract->isActiveDuring(Carbon::parse($date1)->toDateString(), Carbon::parse($date2)->toDateString())) {
-                $contract = EmployeeContract::find($contract->id);
-                if ($contract->employment_type_id == 2) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public function isInternBetween($date1, $date2)
-    {
-        foreach ($this->contracts as $contract) {
-            if ($contract->isActiveDuring(Carbon::parse($date1)->toDateString(), Carbon::parse($date2)->toDateString())) {
-                $contract = EmployeeContract::find($contract->id);
-                if ($contract->employment_type_id == 3) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public function isExternalBetween($date1, $date2)
-    {
-        foreach ($this->contracts as $contract) {
-            if ($contract->isActiveDuring(Carbon::parse($date1)->toDateString(), Carbon::parse($date2)->toDateString())) {
-                $contract = EmployeeContract::find($contract->id);
-                if ($contract->employment_type_id == 4) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public function isStudentAttacheeBetween($date1, $date2)
-    {
-        foreach ($this->contracts as $contract) {
-            if ($contract->isActiveDuring(Carbon::parse($date1)->toDateString(), Carbon::parse($date2)->toDateString())) {
-                $contract = EmployeeContract::find($contract->id);
-                if ($contract->employment_type_id == 5) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public function getIsFullTimeAttribute()
-    {
-        if ($this->has_active_contract) {
-            if ($this->active_contract->employment_type_id == 2) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public function getIsStudentAttacheeAttribute()
-    {
-        if ($this->has_active_contract) {
-            if ($this->active_contract->employment_type_id == 5) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public function getIsInternAttribute()
-    {
-        if ($this->has_active_contract) {
-            if ($this->active_contract->employment_type_id == 3) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public function monthlySalaries()
     {

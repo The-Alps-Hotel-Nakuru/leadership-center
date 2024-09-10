@@ -19,7 +19,7 @@ class EmployeesDataExport implements FromCollection, WithHeadings, WithMapping, 
      */
     public function collection()
     {
-        return EmployeesDetail::all();
+        return EmployeesDetail::where('exit_date', '=', null)->get();
     }
 
     public function headings(): array

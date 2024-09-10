@@ -54,9 +54,9 @@ class Index extends Component
     {
         switch (env('BANK_NAME')) {
             case 'KCB':
-                return Excel::download(new BankingGuideExport($id), env('COMPANY_NAME') . " - KCB Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx');
+                return Excel::download(new BankingGuideExport($id), env('COMPANY_NAME') . " - KCB Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx')->deleteFileAfterSend();
             case 'ABSA':
-                return Excel::download(new AbsaBankingGuideExport($id), env('COMPANY_NAME') . " - ABSA Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx');
+                return Excel::download(new AbsaBankingGuideExport($id), env('COMPANY_NAME') . " - ABSA Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx')->deleteFileAfterSend();
 
             default:
                 $this->emit('done', [

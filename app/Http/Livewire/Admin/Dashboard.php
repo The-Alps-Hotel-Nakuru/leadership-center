@@ -68,7 +68,7 @@ class Dashboard extends Component
         $this->emit('done', [
             'success' => 'Employees data exported successfully'
         ]);
-        return Excel::download(new EmployeesDataExport, 'employees data.xlsx')->deleteFileAfterSend();
+        return Excel::download(new EmployeesDataExport, env('COMPANY_NAME').' - Employees Data - '.Carbon::now()->getTimestamp().'.xlsx')->deleteFileAfterSend();
     }
     function loadPayrollGraph()
     {
@@ -113,7 +113,7 @@ class Dashboard extends Component
         $employees = EmployeesDetail::where('kra_pin', null)->orWhere('nssf', null)->orWhere('nhif', null)->get();
         $collect = [];
         foreach ($employees as $employee) {
-            if ($employee->isFullTimeBetween('01/01/1970', 'now')) {
+            if ($employee->ActiveContractBetween('01/01/1970', 'now')) {
                 array_push($collect, $employee);
             }
         }

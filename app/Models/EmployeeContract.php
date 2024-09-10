@@ -150,6 +150,10 @@ class EmployeeContract extends Model
     {
         return Carbon::parse($date)->isBetween($this->start_date, $this->end_date);
     }
+    public function isActiveAfter($date)
+    {
+        return Carbon::parse($date)->isBefore($this->start_date) || Carbon::parse($date)->isBefore($this->end_date);
+    }
 
     function attendances()
     {

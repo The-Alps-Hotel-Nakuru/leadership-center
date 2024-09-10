@@ -142,6 +142,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         Route::prefix('employees')->group(function () {
             Route::get('/', Admin\Employees\Index::class)->name('admin.employees.index');
             Route::get('/{id}/profile', Admin\Employees\Show::class)->name('admin.employees.show');
+            Route::get('/{id}/mark-exit', Admin\Employees\MarkExit::class)->name('admin.employees.mark-exit');
             Route::get('/create', Admin\Employees\Create::class)->name('admin.employees.create');
             Route::get('/{id}/edit', Admin\Employees\Edit::class)->name('admin.employees.edit');
             Route::get('/mass_addition', Admin\Employees\MassAddition::class)->name('admin.employees.mass_addition');

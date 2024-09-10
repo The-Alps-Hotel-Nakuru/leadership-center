@@ -11,6 +11,7 @@ use App\Models\Ban;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -33,22 +34,23 @@ class Index extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public function delete($id)
-    {
-        $det = EmployeesDetail::find($id);
+    // public function delete($id)
+    // {
+    //     $det = EmployeesDetail::find($id);
 
-        $det->delete();
+    //     $det->delete();
 
 
-        $this->emit('done', [
-            'success' => 'You are trying to delete Employee No.' . $id
-        ]);
-        $log = new Log();
-        $log->user_id = auth()->user()->id;
-        $log->model = 'App\Models\EmployeesDetail';
-        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Deleted <strong> " . $this->detail->user->name . "</strong> from the system";
-        $log->save();
-    }
+    //     $this->emit('done', [
+    //         'success' => 'You are trying to delete Employee No.' . $id
+    //     ]);
+    //     $log = new Log();
+    //     $log->user_id = auth()->user()->id;
+    //     $log->model = 'App\Models\EmployeesDetail';
+    //     $log->payload = "<strong>" . auth()->user()->name . "</strong> has Deleted <strong> " . $this->detail->user->name . "</strong> from the system";
+    //     $log->save();
+    // }
+
 
     function resetPassword($user_id)
     {
@@ -70,6 +72,17 @@ class Index extends Component
         $log->save();
     }
 
+    function restoreEmployee($id)
+    {
+        $employee = EmployeesDetail::find($id);
+
+        $employee->exit_date = null;
+        $employee->update();
+
+        $this->emit('done', [
+            "success" => "Success! Employee Restored."
+        ]);
+    }
     function banEmployee($employee_id)
     {
 

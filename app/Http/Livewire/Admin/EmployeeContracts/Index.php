@@ -72,24 +72,24 @@ class Index extends Component
     //     ]);
     // }
 
-    public function delete($id)
-    {
-        $contract = EmployeeContract::find($id);
+    // public function delete($id)
+    // {
+    //     $contract = EmployeeContract::find($id);
 
-        if (count($contract->payrolls()) > 0) {
-            $this->emit('done', [
-                'warning' => "You Cannot Delete this Contract since it has already been used for Payroll Payments"
-            ]);
-            return;
-        } else {
+    //     if (count($contract->payrolls()) > 0) {
+    //         $this->emit('done', [
+    //             'warning' => "You Cannot Delete this Contract since it has already been used for Payroll Payments"
+    //         ]);
+    //         return;
+    //     } else {
 
-            $contract->delete();
+    //         $contract->delete();
 
-            $this->emit('done', [
-                'success' => 'Successfully Deleted this Contract from the System'
-            ]);
-        }
-    }
+    //         $this->emit('done', [
+    //             'success' => 'Successfully Deleted this Contract from the System'
+    //         ]);
+    //     }
+    // }
 
 
     public function render()

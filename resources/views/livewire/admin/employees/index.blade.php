@@ -35,14 +35,14 @@
         </button>
 
         <button class="btn btn-primary ml-auto" wire:loading.attr="disabled" wire:target="downloadEmployeesTemplate"
-                wire:click="downloadEmployeesTemplate">
-                <span wire:loading.remove wire:target="downloadEmployeesTemplate">
-                    Download Employees Mass Addition Template
-                </span>
-                <span wire:loading wire:target="downloadEmployeesTemplate">
-                    Downloading...
-                </span>
-            </button>
+            wire:click="downloadEmployeesTemplate">
+            <span wire:loading.remove wire:target="downloadEmployeesTemplate">
+                Download Employees Mass Addition Template
+            </span>
+            <span wire:loading wire:target="downloadEmployeesTemplate">
+                Downloading...
+            </span>
+        </button>
 
 
         {{-- <a href="" class="btn btn-dark ms-auto ml-2" wire:click.prevent="exportNssfData">Export NSSF Data</a> --}}
@@ -79,8 +79,8 @@
                         <td>
                             <div class="d-flex flex-row">
                                 <div class="flex-col">
-                                    <img src="{{ $employee->user->profile_photo_url }}" class="img-fluid rounded-circle" width="60px"
-                                        alt="">
+                                    <img src="{{ $employee->user->profile_photo_url }}" class="img-fluid rounded-circle"
+                                        width="60px" alt="">
                                 </div>
                                 <div class=" flex-col mx-3">
                                     <h5>{{ $employee->user->name }}</h5>
@@ -101,17 +101,22 @@
 
                         </td>
                         <td class="text-center">
-                            @if ($employee->has_active_contract)
-                                @if ($employee->is_banned)
-                                    <span
-                                        class="badge rounded-pill bg-danger  text-white text-uppercase">Banned</span>
+                            @if ($employee->has_left)
+                                <span class="badge rounded-pill bg-danger p-1 text-white text-uppercase">HAS
+                                    LEFT</span>
+                            @else
+                                @if ($employee->has_active_contract)
+                                    @if ($employee->is_banned)
+                                        <span
+                                            class="badge rounded-pill bg-danger p-1 text-white text-uppercase">Banned</span>
+                                    @else
+                                        <span
+                                            class="badge rounded-pill bg-success p-1 text-white text-uppercase">Active</span>
+                                    @endif
                                 @else
                                     <span
-                                        class="badge rounded-pill bg-success  text-white text-uppercase">Active</span>
+                                        class="badge rounded-pill bg-warning p-1 text-white text-uppercase">Inactive</span>
                                 @endif
-                            @else
-                                <span
-                                    class="badge rounded-pill bg-warning text-white text-uppercase">Inactive</span>
                             @endif
                         </td>
                         <td>
@@ -154,8 +159,8 @@
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="modalTitleId">Ban
                                                             {{ $employee->user->name }}</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="mb-3">
@@ -174,21 +179,34 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @push('scripts')
+                                        {{-- @push('scripts')
                                             <script>
                                                 Livewire.on('done', (e) => {
-                                                    let modal = bootstrap.Modal.getOrCreateInstance(document.querySelector(
-                                                        '#banEmployee{{ $employee->id }}'));
-                                                    modal.hide();
-                                                })
+                                                    let modalElement = document.querySelector('#banEmployee{{ $employee->id }}');
+                                                    $(modalElement).modal('hide');
+                                                });
                                             </script>
-                                        @endpush
+                                        @endpush --}}
                                     @else
                                         <button
                                             onclick="confirm('Are you sure you want to unban this Employee\'s Login?')||event.stopImmediatePropagation()"
                                             wire:click="unban({{ $employee->ban->id }})" class="btn btn-secondary"><i
                                                 class="fas fa-unlock"></i>{{ $employee->ban->id }}
                                         </button>
+                                    @endif
+
+
+                                </div>
+                                <div class="flex-col mx-1">
+                                    @if (!$employee->has_left)
+                                        <a href="{{ route('admin.employees.mark-exit', $employee->id) }}"
+                                            class="btn btn-dark text-danger"><i class="fas fa-sign-out-alt"></i></a>
+                                    @else
+                                        <button
+                                            onclick="confirm('Are you sure you want to restore this employee?')||event.stopImmediatePropagation()"
+                                            wire:click="restoreEmployee({{ $employee->id }})"
+                                            class="btn btn-dark text-success"><i
+                                                class="fas fa-sign-in-alt"></i></button>
                                     @endif
                                 </div>
                             </div>
