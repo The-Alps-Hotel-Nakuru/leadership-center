@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h5>Choose the Date of Exit</h5>
+            <h5>Choose the Date of Exit for {{ $employee->user->name }}</h5>
         </div>
         <div class="card-body">
             <div class="form-group">
