@@ -55,6 +55,7 @@ class Index extends Component
                 }
             ]
         )
+            ->where('exit_date', '=', null)
             ->orderBy('extra_works_count', 'desc') // Order by the count of attendances
             ->get();
 
