@@ -34,7 +34,18 @@ class Index extends Component
         $this->currentMonth = $this->instance->format('m');
         $this->days = $this->instance->daysInMonth;
         $this->currentYear = $this->instance->format('Y');
-        $this->employees = EmployeesDetail::all();
+        // $this->employees = EmployeesDetail::all();
+        $initial = $this->instance;
+        $this->employees = EmployeesDetail::withCount(
+            [
+                'attendances' => function ($query) use ($initial) {
+                    $query->where('date',">=", $initial->firstOfMonth()->toDateString())
+                        ->where('date','<=', $initial->lastOfMonth()->toDateString());
+                }
+            ]
+        )
+        ->orderBy('attendances_count', 'desc') // Order by the count of attendances
+        ->get();
         $this->shifts = Shift::all();
     }
 
