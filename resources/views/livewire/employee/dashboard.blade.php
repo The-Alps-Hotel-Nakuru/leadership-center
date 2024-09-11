@@ -208,36 +208,40 @@
                     @php
                         $lastContract = auth()->user()->employee->contracts->last();
                     @endphp
-                    <div class="card-body row">
-                        <div class="list-group-item col-6"><strong>Contract ID:</strong> {{ $lastContract->id }}</div>
-                        <div class="list-group-item col-6"><strong>Employee ID:</strong>
-                            {{ $lastContract->employees_detail_id }}</div>
-                        <div class="list-group-item col-6"><strong>Designation:</strong>
-                            {{ $lastContract->designation->title }}</div>
-                        <div class="list-group-item col-6"><strong>Contract Status:</strong>
-                            {!! $lastContract->is_active
-                                ? '<strong class="text-success">Active</strong>'
-                                : '<strong class="text-danger">Inactive</strong>' !!}</div>
-                        <div class="list-group-item col-6"><strong>Start Date:</strong>
-                            {{ Carbon\Carbon::parse($lastContract->start_date)->format('jS F, Y') }}</div>
-                        <div class="list-group-item col-6"><strong>End Date:</strong>
-                            {{ Carbon\Carbon::parse($lastContract->end_date)->format('jS F, Y') }}</div>
-                        <div class="list-group-item col-4"><strong>Employment Type:</strong>
-                            {{ $lastContract->employment_type->title }}</div>
-                        <div class="list-group-item col-4"><strong>Weekly Offs:</strong>
-                            {{ $lastContract->weekly_offs }}
+                    @if ($lastContract)
+                        <div class="card-body row">
+                            <div class="list-group-item col-6"><strong>Contract ID:</strong> {{ $lastContract->id }}
+                            </div>
+                            <div class="list-group-item col-6"><strong>Employee ID:</strong>
+                                {{ $lastContract->employees_detail_id }}</div>
+                            <div class="list-group-item col-6"><strong>Designation:</strong>
+                                {{ $lastContract->designation->title }}</div>
+                            <div class="list-group-item col-6"><strong>Contract Status:</strong>
+                                {!! $lastContract->is_active
+                                    ? '<strong class="text-success">Active</strong>'
+                                    : '<strong class="text-danger">Inactive</strong>' !!}</div>
+                            <div class="list-group-item col-6"><strong>Start Date:</strong>
+                                {{ Carbon\Carbon::parse($lastContract->start_date)->format('jS F, Y') }}</div>
+                            <div class="list-group-item col-6"><strong>End Date:</strong>
+                                {{ Carbon\Carbon::parse($lastContract->end_date)->format('jS F, Y') }}</div>
+                            <div class="list-group-item col-4"><strong>Employment Type:</strong>
+                                {{ $lastContract->employment_type->title }}</div>
+                            <div class="list-group-item col-4"><strong>Weekly Offs:</strong>
+                                {{ $lastContract->weekly_offs }}
+                            </div>
+                            <div class="list-group-item col-4"><strong>Is Taxable:</strong>
+                                {{ $lastContract->is_taxable ? 'Yes' : 'No' }}</div>
+
+
+                            <div class="list-group-item col-12 text-center text-white bg-dark"
+                                style="font-size:18px; font:black"><strong>Salary (KES):</strong>
+                                {{ number_format($lastContract->salary_kes) }}
+                                {{ $lastContract->employment_type->rate_type }}</div>
+
+                            <a class="btn btn-secondary mt-3" href="{{ route('employee.contracts') }}">See
+                                more...</a>
                         </div>
-                        <div class="list-group-item col-4"><strong>Is Taxable:</strong>
-                            {{ $lastContract->is_taxable ? 'Yes' : 'No' }}</div>
-
-
-                        <div class="list-group-item col-12 text-center text-white bg-dark"
-                            style="font-size:18px; font:black"><strong>Salary (KES):</strong>
-                            {{ number_format($lastContract->salary_kes) }}
-                            {{ $lastContract->employment_type->rate_type }}</div>
-
-                            <a class="btn btn-secondary mt-3" href="{{ route('employee.contracts') }}">See more...</a>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
