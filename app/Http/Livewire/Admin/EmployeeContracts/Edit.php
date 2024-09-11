@@ -58,11 +58,17 @@ class Edit extends Component
         }
         $this->contract->save();
 
-        $log = new Log();
-        $log->user_id = auth()->user()->id;
-        $log->model = 'App\Models\EmployeeContract';
-        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Edited Employee's Contract No." . $this->contract->id .  "for <strong> " . $this->contract->employee->user->name . "</strong> in the system";
-        $log->save();
+        // $log = new Log();
+        // $log->user_id = auth()->user()->id;
+        // $log->model = 'App\Models\EmployeeContract';
+        // $log->payload = "<strong>" . auth()->user()->name . "</strong> has Edited Employee's Contract No." . $this->contract->id .  "for <strong> " . $this->contract->employee->user->name . "</strong> in the system";
+        // $log->save();
+
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'model' => 'App\Models\EmployeeContract',
+            'payload' => "<strong>" . auth()->user()->name . "</strong> has Edited Employee's Contract No." . $this->contract->id .  "for <strong> " . $this->contract->employee->user->name . "</strong> in the system",
+        ]);
 
         return redirect($this->previous);
     }
