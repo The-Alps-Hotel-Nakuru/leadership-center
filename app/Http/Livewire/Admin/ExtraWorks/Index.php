@@ -34,19 +34,29 @@ class Index extends Component
         $initial = $this->instance;
         $this->employees = EmployeesDetail::withCount(
             [
-                'extra_works' => function ($query) use ($initial) {
-                    $query->where('date', ">=", $initial->firstOfMonth()->toDateString())
-                        ->where('date', '<=', $initial->lastOfMonth()->toDateString());
+                'extra_works' => function ($query) {
+                    $query->where('date', ">=", $this->instance->firstOfMonth()->toDateString())
+                        ->where('date', '<=', $this->instance->lastOfMonth()->toDateString());
                 }
             ]
         )
-        ->orderBy('extra_works_count', 'desc') // Order by the count of attendances
-        ->get();
+            ->orderBy('extra_works_count', 'desc') // Order by the count of attendances
+            ->get();
         $this->shifts = Shift::all();
     }
     public function render()
     {
         $this->instance = Carbon::parse($this->month);
+        $this->employees = EmployeesDetail::withCount(
+            [
+                'extra_works' => function ($query) {
+                    $query->where('date', ">=", $this->instance->firstOfMonth()->toDateString())
+                        ->where('date', '<=', $this->instance->lastOfMonth()->toDateString());
+                }
+            ]
+        )
+            ->orderBy('extra_works_count', 'desc') // Order by the count of attendances
+            ->get();
 
         $this->days = $this->instance->daysInMonth;
         $this->currentMonthName = $this->instance->format('F');

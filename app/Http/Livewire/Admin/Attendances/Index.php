@@ -35,17 +35,17 @@ class Index extends Component
         $this->days = $this->instance->daysInMonth;
         $this->currentYear = $this->instance->format('Y');
         // $this->employees = EmployeesDetail::all();
-        $initial = $this->instance;
+
         $this->employees = EmployeesDetail::withCount(
             [
-                'attendances' => function ($query) use ($initial) {
-                    $query->where('date',">=", $initial->firstOfMonth()->toDateString())
-                        ->where('date','<=', $initial->lastOfMonth()->toDateString());
+                'attendances' => function ($query) {
+                    $query->where('date', ">=", $this->instance->firstOfMonth()->toDateString())
+                        ->where('date', '<=', $this->instance->lastOfMonth()->toDateString());
                 }
             ]
         )
-        ->orderBy('attendances_count', 'desc') // Order by the count of attendances
-        ->get();
+            ->orderBy('attendances_count', 'desc') // Order by the count of attendances
+            ->get();
         $this->shifts = Shift::all();
     }
 
@@ -53,6 +53,16 @@ class Index extends Component
     public function render()
     {
         $this->instance = Carbon::parse($this->month);
+        $this->employees = EmployeesDetail::withCount(
+            [
+                'attendances' => function ($query) {
+                    $query->where('date', ">=", $this->instance->firstOfMonth()->toDateString())
+                        ->where('date', '<=', $this->instance->lastOfMonth()->toDateString());
+                }
+            ]
+        )
+            ->orderBy('attendances_count', 'desc') // Order by the count of attendances
+            ->get();
 
         $this->days = $this->instance->daysInMonth;
         $this->currentMonthName = $this->instance->format('F');

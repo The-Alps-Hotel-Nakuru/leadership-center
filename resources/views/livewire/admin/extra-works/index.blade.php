@@ -29,6 +29,12 @@
                                         src="{{ $employee->user->profile_photo_url }}" alt="">
                                     {{ $employee->user->name }} <br>
                                     <small>{{ $employee->designation->title }}</small>
+                                    <br>
+                                    @if ($employee->ActiveContractDuring($currentYear . '-' . $currentMonthName))
+                                        <small class="text-success">Has Contract</small>
+                                    @else
+                                        <small class="text-danger">No Active Contract</small>
+                                    @endif
                                 </td>
                                 <td class="d-flex flex-row">
                                     @php
@@ -59,10 +65,10 @@
                                             {{ $count }} day{{ $count != 1 ? 's' : '' }}
                                         </div>
                                     </div>
-                                    <div class="flex-col m-1">
+                                    {{-- <div class="flex-col m-1">
                                         <a href="{{ route('admin.extra-works.edit', [$employee->id, $instance->format('Y-m-d')]) }}"
                                             class="btn btn-secondary"><i class="fas fa-edit"></i></a>
-                                    </div>
+                                    </div> --}}
                                 </td>
                             </tr>
                         @endforeach
