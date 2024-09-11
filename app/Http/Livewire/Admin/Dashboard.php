@@ -31,7 +31,7 @@ class Dashboard extends Component
     public $total_bonuses = null;
     public $total_advances = null;
     public $incompleteEmployees;
-    public $total_overtimes;
+    public $total_overtimes = null;
 
 
     // private $columnChartModel;
@@ -101,7 +101,7 @@ class Dashboard extends Component
         $this->employees = EmployeesDetail::all();
         $this->today = $this->instance->format('Y-m-d');
         $this->month = $this->instance->format('Y-m');
-        $this->total_overtimes = $this->totalOvertime();
+        // $this->total_overtimes = $this->totalOvertime();
         // $this->estimated = $this->estimated_earnings();
         // $this->loadPayrollGraph();
         // $this->incompleteEmployees = $this->incompleteEmployees();
@@ -171,6 +171,11 @@ class Dashboard extends Component
                 if ($bonus->year == $this->instance->format('Y') && $bonus->month == $this->instance->format('m')) {
                     $this->total_bonuses += $bonus->amount_kes;
                 }
+            }
+
+            $this->total_overtimes = 0;
+            foreach ($this->employees as $employee) {
+                $this->total_overtimes += $employee->EarnedOvertimeKes($this->instance->format('Y-m'));
             }
 
             $this->estimated = $this->estimated_earnings();

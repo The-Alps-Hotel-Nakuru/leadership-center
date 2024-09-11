@@ -57,10 +57,6 @@
                                                     </h4>
                                                 </div>
                                             @endif
-                                            {{-- <p class="text-success">
-                                        <span>+3.3%</span>
-                                        <i data-feather="arrow-up" class="icon-sm mb-1"></i>
-                                    </p> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -114,10 +110,6 @@
                                                     </h4>
                                                 </div>
                                             @endif
-                                            {{-- <p class="text-success">
-                                        <span>+3.3%</span>
-                                        <i data-feather="arrow-up" class="icon-sm mb-1"></i>
-                                    </p> --}}
                                         </div>
                                     </div>
                                 </div>
