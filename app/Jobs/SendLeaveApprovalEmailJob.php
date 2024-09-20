@@ -35,6 +35,6 @@ class SendLeaveApprovalEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->leave->employee->user->email)->send(new LeaveApprovalEmail($this->leaveRequest));
+        Mail::to($this->leave->employee->user->email)->send(new LeaveApprovalEmail($this->leave));
     }
 }
