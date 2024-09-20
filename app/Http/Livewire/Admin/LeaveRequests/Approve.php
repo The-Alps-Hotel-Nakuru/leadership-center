@@ -48,7 +48,7 @@ class Approve extends Component
             $this->leave->save();
             $this->leave_request->leaves()->attach($this->leave->id);
 
-            SendLeaveApprovalEmailJob::dispatch($this->leave_request);
+            SendLeaveApprovalEmailJob::dispatch($this->leave);
 
             return redirect()->route('admin.leave-requests.index');
         } catch (\Throwable $th) {

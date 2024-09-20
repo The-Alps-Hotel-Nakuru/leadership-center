@@ -46,29 +46,25 @@
 <body>
     <div class="container">
         <h1>Leave Request Approval</h1>
-        <p>Dear {{ $leaveRequest->employee->user->name }},</p>
+        <p>Dear {{ $leave->employee->user->name }},</p>
         <p>We are pleased to inform you that your leave request has been approved. Below are the details of your approved leave:</p>
 
         <table class="leave-table">
             <tr>
                 <th>Leave Type:</th>
-                <td>{{ $leaveRequest->leave_type->title }}</td>
+                <td>{{ $leave->leave_type->title }}</td>
             </tr>
             <tr>
-                <th>Start Date:</th>
-                <td>{{ Carbon\Carbon::parse($leaveRequest->start_date)->format('jS F, Y') }}</td>
+                <th>Approved Start Date:</th>
+                <td>{{ Carbon\Carbon::parse($leave->start_date)->format('jS F, Y') }}</td>
             </tr>
             <tr>
-                <th>End Date:</th>
-                <td>{{ Carbon\Carbon::parse($leaveRequest->end_date)->format('jS F, Y') }}</td>
+                <th>Approved End Date:</th>
+                <td>{{ Carbon\Carbon::parse($leave->end_date)->format('jS F, Y') }}</td>
             </tr>
             <tr>
                 <th>Reporting Back:</th>
-                <td>{{ Carbon\Carbon::parse($leaveRequest->end_date)->addDay()->format('jS F, Y') }}</td>
-            </tr>
-            <tr>
-                <th>Reason:</th>
-                <td>{{ $leaveRequest->reason }}</td>
+                <td>{{ Carbon\Carbon::parse($leave->end_date)->addDay()->format('jS F, Y') }}</td>
             </tr>
         </table>
 

@@ -15,7 +15,7 @@ class SendLeaveApprovalEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $leaveRequest;
+    public $leave;
     public $tries = 3;
     public $retryAfter = 60;
     /**
@@ -23,9 +23,9 @@ class SendLeaveApprovalEmailJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($leaveRequest)
+    public function __construct($leave)
     {
-        $this->leaveRequest = $leaveRequest;
+        $this->leave = $leave;
     }
 
     /**
@@ -35,6 +35,6 @@ class SendLeaveApprovalEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->leaveRequest->employee->user->email)->send(new LeaveApprovalEmail($this->leaveRequest));
+        Mail::to($this->leave->employee->user->email)->send(new LeaveApprovalEmail($this->leaveRequest));
     }
 }

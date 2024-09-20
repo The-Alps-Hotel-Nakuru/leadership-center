@@ -13,15 +13,15 @@ class LeaveApprovalEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $leaveRequest;
+    public $leave;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($leaveRequest)
+    public function __construct($leave)
     {
-        $this->leaveRequest = $leaveRequest;
+        $this->leave = $leave;
     }
 
     /**
@@ -32,7 +32,7 @@ class LeaveApprovalEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Leave Request #' . $this->leaveRequest->id . ' Approved',
+            subject: 'Leave Request #' . $this->leave->id . ' Approved',
         );
     }
 
