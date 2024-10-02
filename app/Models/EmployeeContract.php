@@ -205,12 +205,13 @@ class EmployeeContract extends Model
     function EarnedOffDays($yearmonth)
     {
         $offdays = 0;
+        $days = Carbon::parse($yearmonth)->daysInMonth;
 
         if ($this->employment_type->is_penalizable && $this->designation->is_penalizable) {
             $offdays = ceil($this->weekly_offs * ($this->netDaysWorked($yearmonth) + $this->employee->daysOnLeave($yearmonth)) / (7 - $this->weekly_offs));
         }
 
-        return $offdays;
+        return $days == 31 ? $offdays : $offdays - 1;
     }
 
     function daysActive($yearmonth)
