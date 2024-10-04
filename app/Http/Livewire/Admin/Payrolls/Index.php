@@ -165,6 +165,7 @@ class Index extends Component
                 $payment->total_fines = $salary->fines;
                 $payment->total_bonuses = $salary->bonuses;
                 $payment->total_advances = $salary->advances;
+                $payment->total_overtimes = $salary->overtimes;
                 $payment->total_loans = $salary->loans;
                 $payment->total_welfare_contributions = $salary->welfare_contributions;
                 $payment->bank_id = $salary->employee->bankAccount->bank_id;

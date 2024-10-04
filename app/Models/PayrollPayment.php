@@ -32,12 +32,12 @@ class PayrollPayment extends Model
 
     function getDeductionsAttribute()
     {
-        return $this->nssf + $this->nhif + $this->nita + $this->paye + $this->housing_levy + $this->total_fines + $this->total_loans + $this->total_advances + $this->total_welfare_contributions + $this->attendance_penalty;
+        return $this->nssf + $this->nhif + $this->paye + $this->housing_levy + $this->total_fines + $this->total_loans + $this->total_advances + $this->total_welfare_contributions + $this->attendance_penalty;
     }
 
     function getAdditionsAttribute()
     {
-        return $this->tax_rebate + $this->total_bonuses;
+        return $this->total_bonuses + $this->total_overtimes;
     }
 
     public function getNetPayAttribute()
