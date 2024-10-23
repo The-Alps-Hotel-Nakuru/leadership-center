@@ -100,6 +100,10 @@ class PaymentsCalculationsService
             $shif = 0.0275 * $this->gross_salary;
         }
 
+        if ($shif < 300) {
+            $shif = 300;
+        }
+
         return $shif;
     }
 
