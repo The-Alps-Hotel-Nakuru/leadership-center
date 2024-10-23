@@ -159,6 +159,7 @@ class Index extends Component
                 $payment->gross_salary = $salary->gross_salary;
                 $payment->nssf = $salary->nssf;
                 $payment->nhif = $salary->nhif;
+                $payment->shif = $salary->shif;
                 $payment->paye = $salary->paye;
                 $payment->nita = $salary->nita;
                 $payment->housing_levy = $salary->housing_levy;

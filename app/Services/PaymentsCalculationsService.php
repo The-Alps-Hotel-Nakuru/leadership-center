@@ -71,6 +71,10 @@ class PaymentsCalculationsService
 
         $nhif = 0;
 
+        if (Carbon::parse($this->date)->isAfter("2024-09-30")) {
+            return 0;
+        }
+
         if ($this->gross_salary > 99999) {
             return 1700;
         } elseif ($this->gross_salary < 1000) {
@@ -83,7 +87,20 @@ class PaymentsCalculationsService
             }
         }
 
+
         return $nhif;
+    }
+
+    public function getShif()
+    {
+
+        $shif = 0;
+
+        if (Carbon::parse($this->date)->isAfter("2024-09-30")) {
+            $shif = 0.0275 * $this->gross_salary;
+        }
+
+        return $shif;
     }
 
     public function getHousingLevy()
@@ -128,6 +145,6 @@ class PaymentsCalculationsService
 
     public function getNetSalary()
     {
-        return $this->gross_salary - $this->getPaye() - $this->getNssf() - $this->getNhif() - $this->getHousingLevy();
+        return $this->gross_salary - $this->getPaye() - $this->getNssf() - $this->getNhif() - $this->getShif() - $this->getHousingLevy();
     }
 }

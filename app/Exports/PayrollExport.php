@@ -56,6 +56,7 @@ class PayrollExport implements FromCollection, WithHeadings, WithMapping, WithCo
             "",
             "",
             $payroll->nhif_total,
+            $payroll->shif_total,
             "",
             "",
             "",
@@ -101,6 +102,7 @@ class PayrollExport implements FromCollection, WithHeadings, WithMapping, WithCo
             "NSSF Contribution",
             "Taxable Income (J-K)",
             "NHIF Premium",
+            "SHIF Premium",
             "Income Tax",
             "Insurance Relief (0.15*M)",
             "Tax Relief",
@@ -137,6 +139,7 @@ class PayrollExport implements FromCollection, WithHeadings, WithMapping, WithCo
             $row->nssf,
             $row->taxable_income,
             $row->nhif,
+            $row->shif,
             $row->income_tax,
             $row->general_relief,
             $row->tax_relief,
@@ -187,11 +190,12 @@ class PayrollExport implements FromCollection, WithHeadings, WithMapping, WithCo
                 $sheet->setCellValue("A" . ($highestRow + 1), 'Total');
                 $sheet->setCellValue("J" . ($highestRow + 1), '=SUM(J2:J' . $highestRow . ')');
                 $sheet->setCellValue("M" . ($highestRow + 1), '=SUM(M2:M' . $highestRow . ')');
-                $sheet->setCellValue("Q" . ($highestRow + 1), '=SUM(Q2:Q' . $highestRow . ')');
+                $sheet->setCellValue("N" . ($highestRow + 1), '=SUM(N2:N' . $highestRow . ')');
                 $sheet->setCellValue("R" . ($highestRow + 1), '=SUM(R2:R' . $highestRow . ')');
                 $sheet->setCellValue("S" . ($highestRow + 1), '=SUM(S2:S' . $highestRow . ')');
-                $sheet->setCellValue("Y" . ($highestRow + 1), '=SUM(Y2:Y' . $highestRow . ')');
-                $sheet->setCellValue("AB" . ($highestRow + 1), '=SUM(AB2:AB' . $highestRow . ')');
+                $sheet->setCellValue("T" . ($highestRow + 1), '=SUM(T2:T' . $highestRow . ')');
+                $sheet->setCellValue("Z" . ($highestRow + 1), '=SUM(Z2:Z' . $highestRow . ')');
+                $sheet->setCellValue("AC" . ($highestRow + 1), '=SUM(AC2:AC' . $highestRow . ')');
                 // Repeat for other columns as needed
 
                 // Apply styling (optional)
@@ -252,8 +256,9 @@ class PayrollExport implements FromCollection, WithHeadings, WithMapping, WithCo
             'Z' => $KES_FORMAT,
             'AA' => $KES_FORMAT,
             'AB' => $KES_FORMAT,
-            'AC' => NumberFormat::FORMAT_TEXT,
+            'AC' => $KES_FORMAT,
             'AD' => NumberFormat::FORMAT_TEXT,
+            'AE' => NumberFormat::FORMAT_TEXT,
         ];
     }
 }

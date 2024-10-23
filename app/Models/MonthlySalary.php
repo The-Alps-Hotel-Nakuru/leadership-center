@@ -17,6 +17,7 @@ class MonthlySalary extends Model
         'gross_salary',
         'paye',
         'nhif',
+        'shif',
         'nssf',
         'nita',
         'total_deductions',
@@ -138,6 +139,13 @@ class MonthlySalary extends Model
 
         return $calculations->getNhif() ?? 0;
     }
+    public function getShifAttribute()
+    {
+        $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
+
+
+        return $calculations->getShif() ?? 0;
+    }
     function getHousingLevyAttribute()
     {
         $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
@@ -241,7 +249,7 @@ class MonthlySalary extends Model
     }
     public function getTotalDeductionsAttribute()
     {
-        return $this->nhif + $this->nssf + $this->housing_levy + $this->paye + $this->fines + $this->advances + $this->welfare_contributions + $this->loans;
+        return $this->nhif + $this->shif + $this->nssf + $this->housing_levy + $this->paye + $this->fines + $this->advances + $this->welfare_contributions + $this->loans;
     }
     public function getTotalAdditionsAttribute()
     {

@@ -92,7 +92,7 @@
             <ul>
                 @foreach ($salary->contracts() as $contract)
                     <li style="font-size: 11px"> Cont. #{{ $contract->id }}
-                        Value: {{ $contract->is_net?"NET SALARY of ":"GROSS SALARY of " }}KES
+                        Value: {{ $contract->is_net ? 'NET SALARY of ' : 'GROSS SALARY of ' }}KES
                         <strong>{{ number_format($contract->salary_kes) }}
                             {{ $contract->is_casual() ? 'per day' : 'per month' }}</strong>
                         <br><br>
@@ -158,9 +158,7 @@
         <br>
         <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">General Relief <br><br>
-                <small style="font-size: 11px">15% (NHIF) + 15% (Housing Levy) <br>
-                    <br>
-                    + 15% (Insurance Premiums)</small>
+
             </td>
             <td colspan="1" style="text-align: right"><small>KES
                 </small>{{ number_format($salary->general_relief, 2) }}
@@ -181,12 +179,23 @@
             </td>
         </thead>
         <br>
-        <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">NHIF Premium</td>
-            <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format($salary->nhif, 2) }})
-            </td>
-        </thead>
-        <br>
+        @if ($salary->nhif)
+            <thead style="width: 100%;">
+                <td colspan="2" style="text-align: left">NHIF Premium</td>
+                <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format($salary->nhif, 2) }})
+                </td>
+            </thead>
+            <br>
+        @endif
+        @if ($salary->shif)
+            <thead style="width: 100%;">
+                <td colspan="2" style="text-align: left">SHA Premium <br><br><small style="font-size: 11px">(2.75% of Gross)</small></td>
+                <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format($salary->shif, 2) }})
+                </td>
+            </thead>
+            <br>
+        @endif
+
         <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">Affordable Housing Levy</td>
             <td colspan="1" style="text-align: right">({{ number_format($salary->housing_levy, 2) }})</td>

@@ -251,6 +251,18 @@ class Payroll extends Model
 
         return $amount;
     }
+    public function getShifTotalAttribute()
+    {
+        $amount = 0;
+
+        if (count($this->monthlySalaries) > 0) {
+            foreach ($this->monthlySalaries as $salary) {
+                $amount += $salary->shif;
+            }
+        }
+
+        return $amount;
+    }
     public function getNssfTotalAttribute()
     {
         $amount = 0;

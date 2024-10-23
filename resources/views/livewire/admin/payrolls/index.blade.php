@@ -50,6 +50,7 @@
                             <th>Total PAYE</th>
                             <th>Total NSSF</th>
                             <th>Total NHIF</th>
+                            <th>Total SHIF</th>
                             <th>Total NITA</th>
                             <th>Total Housing Levy</th>
                             <th>Total Advances</th>
@@ -108,6 +109,9 @@
                                 <th>
                                     <div class="spinner-grow" role="status"></div>
                                 </th>
+                                <th>
+                                    <div class="spinner-grow" role="status"></div>
+                                </th>
                             </tr>
                         @else
                             @foreach ($payrolls as $payroll)
@@ -125,6 +129,9 @@
                                     </td>
                                     <td>KES <span
                                             class="text-success">{{ number_format($payroll->nhif_total, 2) }}</span>
+                                    </td>
+                                    <td>KES <span
+                                            class="text-success">{{ number_format($payroll->shif_total, 2) }}</span>
                                     </td>
                                     <td>KES <span
                                             class="text-success">{{ number_format($payroll->nita_total, 2) }}</span>

@@ -22,7 +22,11 @@
                             <th scope="col">Total Gross Pay</th>
                             <th scope="col">NSSF Contribution <span class="text-danger">(-)</span></th>
                             <th scope="col">PAYE <span class="text-danger">(-)</span></th>
+                            @if ($payroll->monthlySalaries)
+                                
+                            @endif
                             <th scope="col">NHIF Premium <span class="text-danger">(-)</span></th>
+                            <th scope="col">SHA Premium <span class="text-danger">(-)</span></th>
                             <th scope="col">NITA <span class="text-danger">(-)</span></th>
                             <th scope="col">Housing Levy<span class="text-danger">(-)</span></th>
                             <th scope="col">Overtimes<span class="text-success">(+)</span></th>
@@ -40,6 +44,7 @@
                             $count = 0;
                             $total_gross = 0;
                             $total_nhif = 0;
+                            $total_shif = 0;
                             $total_paye = 0;
                             $total_nssf = 0;
                             $total_nita = 0;
@@ -86,7 +91,12 @@
                                         KES{{ number_format($salary->daily_rate, 2) }})</small></td>
                                 <td>KES {{ number_format($salary->nssf, 2) }}</td>
                                 <td>KES {{ number_format($salary->paye, 2) }}</td>
-                                <td>KES {{ number_format($salary->nhif, 2) }}</td>
+                                @if ($salary->nhif)
+                                    <td>KES {{ number_format($salary->nhif, 2) }}</td>
+                                @endif
+                                @if ($salary->shif)
+                                    <td>KES {{ number_format($salary->shif, 2) }}</td>
+                                @endif
                                 <td>KES {{ number_format($salary->nita, 2) }}</td>
                                 <td>KES {{ number_format($salary->housing_levy, 2) }}</td>
                                 <td>KES {{ number_format($salary->overtimes, 2) }}</td>
@@ -113,6 +123,7 @@
                                     $count++;
                                     $total_gross += $salary->gross_salary;
                                     $total_nhif += $salary->nhif;
+                                    $total_shif += $salary->shif;
                                     $total_paye += $salary->paye;
                                     $total_nssf += $salary->nssf;
                                     $total_nita += $salary->nita;
@@ -142,7 +153,12 @@
                             <td class="text-primary"><strong>KES {{ number_format($total_gross, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_nssf, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_paye, 2) }}</strong></td>
-                            <td class="text-danger"><strong>KES {{ number_format($total_nhif, 2) }}</strong></td>
+                            @if ($total_nhif)
+                                <td class="text-danger"><strong>KES {{ number_format($total_nhif, 2) }}</strong></td>
+                            @endif
+                            @if ($total_shif)
+                                <td class="text-danger"><strong>KES {{ number_format($total_shif, 2) }}</strong></td>
+                            @endif
                             <td class="text-danger"><strong>KES {{ number_format($total_nita, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_housing_levy, 2) }}</strong>
                             </td>
