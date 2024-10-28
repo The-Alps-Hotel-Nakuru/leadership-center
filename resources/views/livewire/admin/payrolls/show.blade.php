@@ -23,7 +23,6 @@
                             <th scope="col">NSSF Contribution <span class="text-danger">(-)</span></th>
                             <th scope="col">PAYE <span class="text-danger">(-)</span></th>
                             @if ($payroll->monthlySalaries)
-
                             @endif
                             <th scope="col">NHIF Premium <span class="text-danger">(-)</span></th>
                             <th scope="col">SHA Premium <span class="text-danger">(-)</span></th>
@@ -91,8 +90,8 @@
                                         KES{{ number_format($salary->daily_rate, 2) }})</small></td>
                                 <td>KES {{ number_format($salary->nssf, 2) }}</td>
                                 <td>KES {{ number_format($salary->paye, 2) }}</td>
-                                    <td>KES {{ number_format($salary->nhif, 2) }}</td>
-                                    <td>KES {{ number_format($salary->shif, 2) }}</td>
+                                <td>KES {{ number_format($salary->nhif, 2) }}</td>
+                                <td>KES {{ number_format($salary->shif, 2) }}</td>
                                 <td>KES {{ number_format($salary->nita, 2) }}</td>
                                 <td>KES {{ number_format($salary->housing_levy, 2) }}</td>
                                 <td>KES {{ number_format($salary->overtimes, 2) }}</td>

@@ -23,6 +23,7 @@
                                     <th scope="col">NSSF Contribution <span class="text-danger">(-)</span></th>
                                     <th scope="col">PAYE <span class="text-danger">(-)</span></th>
                                     <th scope="col">NHIF Premium <span class="text-danger">(-)</span></th>
+                                    <th scope="col">SHA Premium <span class="text-danger">(-)</span></th>
                                     <th scope="col">NITA <span class="text-danger">(-)</span></th>
                                     <th scope="col">Housing Levy<span class="text-danger">(-)</span></th>
                                     <th scope="col">Overtimes<span class="text-success">(+)</span></th>
@@ -68,6 +69,7 @@
                                         <td>KES {{ number_format($payslip->nssf, 2) }}</td>
                                         <td>KES {{ number_format($payslip->paye, 2) }}</td>
                                         <td>KES {{ number_format($payslip->nhif, 2) }}</td>
+                                        <td>KES {{ number_format($payslip->shif, 2) }}</td>
                                         <td>KES {{ number_format($payslip->nita, 2) }}</td>
                                         <td>KES {{ number_format($payslip->housing_levy, 2) }}</td>
                                         <td>KES {{ number_format($payslip->overtimes, 2) }}</td>
