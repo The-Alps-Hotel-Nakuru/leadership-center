@@ -95,13 +95,14 @@ class PaymentsCalculationsService
     {
 
         $shif = 0;
+        if ($shif < 300) {
+            $shif = 300;
+        }
 
         if (Carbon::parse($this->date)->isAfter("2024-09-30")) {
             $shif = 0.0275 * $this->gross_salary;
-        }
-
-        if ($shif < 300) {
-            $shif = 300;
+        } else {
+            return 0;
         }
 
         return $shif;
