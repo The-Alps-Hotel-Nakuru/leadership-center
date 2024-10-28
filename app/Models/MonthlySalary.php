@@ -34,6 +34,15 @@ class MonthlySalary extends Model
     {
         return $this->hasOne(Payroll::class, 'id', 'payroll_id');
     }
+
+    public function getYearAttribute()
+    {
+        return $this->payroll->year;
+    }
+    public function getMonthAttribute()
+    {
+        return $this->payroll->month;
+    }
     function contracts()
     {
         return $this->employee->ActiveContractsDuring($this->getMonth()->format("Y-m"));
