@@ -52,15 +52,7 @@ class MonthlySalary extends Model
         $rate = 0;
         $period = Carbon::parse($this->payroll->year . '-' . $this->payroll->month);
         $monthdays = $period->daysInMonth;
-        // if ($this->employee && $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)) {
-        //     if ($this->employee->isCasualBetween($period->firstOfMonth(), $period->lastOfMonth())) {
-        //         $rate = $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)->salary_kes;
-        //     } else {
-        //         $rate = $this->employee->ActiveContractDuring($this->payroll->year . '-' . $this->payroll->month)->salary_kes / $monthdays;
-        //     }
-        // }
 
-        // return $rate;
 
         $multiplier = $this->days_worked + $this->leave_days + $this->earned_off_days;
 
@@ -146,14 +138,14 @@ class MonthlySalary extends Model
         $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
 
 
-        return $calculations->getNhif() ?? 0;
+        return $this->is_taxable ? $calculations->getNhif() : 0;
     }
     public function getShifAttribute()
     {
         $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
 
 
-        return $calculations->getShif() ?? 0;
+        return $this->is_taxable ? $calculations->getShif() : 0;
     }
     function getHousingLevyAttribute()
     {
