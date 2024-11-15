@@ -126,7 +126,16 @@ class PaymentsCalculationsService
 
     function getInsuranceRelief()
     {
-        return 0.15 * $this->getNhif();
+        $insurance = 0;
+
+        $insurance += $this->getNhif();
+
+        if (Carbon::parse($this->date)->isAfter("2024-10-31")) {
+            $insurance += $this->getShif();
+        }
+
+        return 0.15 * $insurance;
+
     }
 
     function getHousingLevyRelief()
