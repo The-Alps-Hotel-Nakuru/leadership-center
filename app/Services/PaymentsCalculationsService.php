@@ -95,12 +95,12 @@ class PaymentsCalculationsService
     {
 
         $shif = 0;
-        if ($shif < 300) {
-            $shif = 300;
-        }
 
         if (Carbon::parse($this->date)->isAfter("2024-09-30")) {
             $shif = 0.0275 * $this->gross_salary;
+            if ($shif < 300) {
+                $shif = 300;
+            }
         } else {
             return 0;
         }
@@ -126,16 +126,15 @@ class PaymentsCalculationsService
 
     function getInsuranceRelief()
     {
-        $insurance = 0;
+        $relief = 0;
 
-        $insurance += $this->getNhif();
+        $relief += ($this->getNhif() * 0.15);
 
         if (Carbon::parse($this->date)->isAfter("2024-10-31")) {
-            $insurance += $this->getShif();
+            $relief += ($this->getShif() * 0.15) > 5000 ? 5000 : ($this->getShif() * 0.15);
         }
 
-        return 0.15 * $insurance;
-
+        return $relief;
     }
 
     function getHousingLevyRelief()
