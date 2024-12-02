@@ -44,17 +44,17 @@
                                 <td>KES {{ number_format($bonus->amount_kes) }}</td>
                                 <td>{{ $bonus->reason }}</td>
                                 <td class="text-center">
-                                    <div class="flex-col me-2">
-                                        <a href="{{ route('admin.bonuses.edit', $bonus->id) }}"
-                                            class="btn btn-secondary">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </div>
-                                    <div class="flex-col">
-                                        <button onclick="confirm('Are you sure you wish to delete this Bonus record?')||event.stopImmediatePropagation()" class="btn btn-danger" wire:click='delete({{ $bonus->id }})'>
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
+
+                                    <a href="{{ route('admin.bonuses.edit', $bonus->id) }}" class="btn btn-secondary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+
+                                    <button
+                                        onclick="confirm('Are you sure you wish to delete this Bonus record?')||event.stopImmediatePropagation()"
+                                        class="btn btn-danger" wire:click='delete({{ $bonus->id }})'>
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+
                                 </td>
                             </tr>
                         @endforeach
