@@ -264,17 +264,20 @@ class EmployeeContract extends Model
     function EarnedOvertimeKes($yearmonth)
     {
         $extra_rate = 0;
+        $now = Carbon::parse($yearmonth);
         $daily_rate = $this->DailyRate($yearmonth);
 
         foreach ($this->extra_works() as $key => $extra) {
-            if ($extra->double_shift) {
-                $extra_rate += 1;
-            } else {
-                $extra_rate += 0.5;
+            if (Carbon::parse($extra->date)->isBetween($now->firstOfMonth(), $now->lastOfMonth())) {
+                if ($extra->double_shift) {
+                    $extra_rate += 1;
+                } else {
+                    $extra_rate += 0.5;
+                }
             }
         }
 
-        return ($extra_rate ) + $this->getHolidayEarnings($yearmonth);
+        return ($extra_rate) + $this->getHolidayEarnings($yearmonth);
     }
 
 
