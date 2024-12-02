@@ -46,23 +46,36 @@ class Index extends Component
 
     function downloadPayrollBreakdown($id)
     {
-        return Excel::download(new PayrollExport($id), env('COMPANY_NAME') . "- Payroll for " . Payroll::find($id)->yearmonth . '.xlsx');
+        try {
+            return Excel::download(new PayrollExport($id), env('COMPANY_NAME') . "- Payroll for " . Payroll::find($id)->yearmonth . '.xlsx');
+        } catch (\Throwable $th) {
+            //throw $th;
+            $this->emit('done', [
+                'error' => "Something went wrong: " . $th->getMessage()
+            ]);
+        }
         // dd(Payroll::find($id));
     }
 
     function downloadBankSlip($id)
     {
-        switch (env('BANK_NAME')) {
-            case 'KCB':
-                return Excel::download(new BankingGuideExport($id), env('COMPANY_NAME') . " - KCB Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx')->deleteFileAfterSend();
-            case 'ABSA':
-                return Excel::download(new AbsaBankingGuideExport($id), env('COMPANY_NAME') . " - ABSA Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx')->deleteFileAfterSend();
+        try {
+            switch (env('BANK_NAME')) {
+                case 'KCB':
+                    return Excel::download(new BankingGuideExport($id), env('COMPANY_NAME') . " - KCB Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx')->deleteFileAfterSend();
+                case 'ABSA':
+                    return Excel::download(new AbsaBankingGuideExport($id), env('COMPANY_NAME') . " - ABSA Banking Advice for " . Payroll::find($id)->yearmonth . '.xlsx')->deleteFileAfterSend();
 
-            default:
-                $this->emit('done', [
-                    'warning' => "You need to set up a legible bank account"
-                ]);
-                break;
+                default:
+                    $this->emit('done', [
+                        'warning' => "You need to set up a legible bank account"
+                    ]);
+                    break;
+            }
+        } catch (\Throwable $th) {
+            $this->emit('done', [
+                'error' => "Something went wrong: " . $th->getMessage()
+            ]);
         }
     }
 
@@ -105,9 +118,6 @@ class Index extends Component
                     if ($salary->basic_salary_kes <= 0.1) {
                         continue;
                     }
-
-
-
                     $salary->save();
                     $count++;
                 }
