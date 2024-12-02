@@ -43,7 +43,7 @@
                                 <td>{{ Carbon\Carbon::parse($bonus->year . '-' . $bonus->month)->format('F, Y') }}</td>
                                 <td>KES {{ number_format($bonus->amount_kes) }}</td>
                                 <td>{{ $bonus->reason }}</td>
-                                <td class="d-flex flex-row justify-content-center">
+                                <td class="text-center">
                                     <div class="flex-col me-2">
                                         <a href="{{ route('admin.bonuses.edit', $bonus->id) }}"
                                             class="btn btn-secondary">
