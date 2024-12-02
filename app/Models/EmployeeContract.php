@@ -268,7 +268,7 @@ class EmployeeContract extends Model
         $daily_rate = $this->DailyRate($yearmonth);
 
         foreach ($this->extra_works() as $key => $extra) {
-            if (Carbon::parse($extra->date)->isBetween($now->firstOfMonth(), $now->lastOfMonth())) {
+            if (Carbon::parse($extra->date)->isBetween($now->firstOfMonth()->toDateString(), $now->lastOfMonth()->toDateString())) {
                 if ($extra->double_shift) {
                     $extra_rate += 1;
                 } else {
