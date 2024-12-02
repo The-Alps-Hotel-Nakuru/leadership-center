@@ -277,7 +277,7 @@ class EmployeeContract extends Model
             }
         }
 
-        return ($extra_rate) + $this->getHolidayEarnings($yearmonth);
+        return ($daily_rate * $extra_rate) + $this->getHolidayEarnings($yearmonth);
     }
 
 
