@@ -51,7 +51,7 @@
                                         </a>
                                     </div>
                                     <div class="flex-col">
-                                        <button class="btn btn-danger">
+                                        <button onclick="confirm('Are you sure you wish to delete this Bonus record?')||event.stopImmediatePropagation()" class="btn btn-danger" wire:click='delete({{ $bonus->id }})'>
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
