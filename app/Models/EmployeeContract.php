@@ -109,22 +109,24 @@ class EmployeeContract extends Model
 
         if ($this->employment_type->rate_type == 'daily') {
             $estimated_gross = $this->salary_kes * $this->netDaysWorked($yearmonth);
-        } else {
+        } elseif ($this->employment_type->rate_type == 'monthly') {
             $estimated_gross = $this->salary_kes;
+        } else {
+            return 0;
         }
 
         $gross_pay_calculations = new ReversePaymentsCalculationService($estimated_gross);
 
         if ($this->is_net) {
             if ($this->employment_type->rate_type == 'daily') {
-                $daily_rate = $this->netDaysWorked($yearmonth) ? $gross_pay_calculations->calculateGrossFromNet($yearmonth) / $this->netDaysWorked($yearmonth) : 0;
-            } else {
+                $daily_rate = $this->netDaysWorked($yearmonth) ? ($gross_pay_calculations->calculateGrossFromNet($yearmonth) / $this->netDaysWorked($yearmonth)) : 0;
+            } elseif ($this->employment_type->rate_type == 'monthly') {
                 $daily_rate = $gross_pay_calculations->calculateGrossFromNet($yearmonth) / $monthdays;
             }
         } else {
             if ($this->employment_type->rate_type == 'daily') {
                 $daily_rate = $this->salary_kes;
-            } else {
+            } elseif ($this->employment_type->rate_type == 'monthly') {
                 $daily_rate = $this->salary_kes / $monthdays;
             }
         }
@@ -272,7 +274,7 @@ class EmployeeContract extends Model
             }
         }
 
-        return ($daily_rate * $extra_rate) + $this->getHolidayEarnings($yearmonth);
+        return ($daily_rate ) + $this->getHolidayEarnings($yearmonth);
     }
 
 
