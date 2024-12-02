@@ -17,9 +17,9 @@
                                     </h3>
                                     <p class="card-text">
                                     <h6 style="text-decoration: underline">Actual:</h6>
-                                    <h5><small>KES </small>{{ number_format($payroll->net_pay_total) }}</h5>
+                                    <h5><small>KES </small>{{ number_format($payroll->net_pay_total, 2) }}</h5>
                                     <h6 style="text-decoration: underline">Paid</h6>
-                                    <h5><small>KES </small>{{ number_format($payroll->payments_total) }}</h5>
+                                    <h5><small>KES </small>{{ number_format($payroll->payments_total, 2) }}</h5>
                                     <p>
                                 </div>
                             </a>
