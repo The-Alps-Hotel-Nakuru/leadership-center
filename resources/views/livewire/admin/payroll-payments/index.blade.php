@@ -16,19 +16,19 @@
                                         {{ Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->format('F, Y') }}
                                     </h3>
                                     <p class="card-text">
+                                    <h6 style="text-decoration: underline">Actual:</h6>
+                                    <h5><small>KES </small>{{ number_format($payroll->net_pay_total) }}</h5>
+                                    <h6 style="text-decoration: underline">Paid</h6>
                                     <h5><small>KES </small>{{ number_format($payroll->payments_total) }}</h5>
                                     <p>
                                 </div>
                             </a>
 
                             @if ($payroll->payment_slip_path)
-                                <div class="row mb-0">
-
-                                    <a target="_blank" href="{{ asset($payroll->payment_slip_path) }}"
-                                        class="btn btn-primary">
-                                        <i class="fas fa-file-pdf"></i>
-                                    </a>
-                                </div>
+                                <a target="_blank" href="{{ asset($payroll->payment_slip_path) }}"
+                                    class="btn btn-primary">
+                                    <i class="fas fa-file-pdf"></i>
+                                </a>
                             @endif
                         </div>
                     @endif
