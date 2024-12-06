@@ -30,6 +30,10 @@ class PayrollPayment extends Model
         return $this->hasOne(Payroll::class, 'id', 'payroll_id');
     }
 
+    function monthlySalary()
+    {
+        return $this->payroll->monthlySalaries()->where('payroll_id', $this->payroll_id)->where('employees_detail_id', $this->employees_detail_id)->first();
+    }
     function getTaxReliefAttribute()
     {
         return $this->payroll->monthlySalaries()->where('payroll_id', $this->payroll_id)->where('employees_detail_id', $this->employees_detail_id)->first()->tax_relief;

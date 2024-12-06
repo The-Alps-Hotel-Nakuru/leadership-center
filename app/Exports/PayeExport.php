@@ -29,7 +29,7 @@ class PayeExport implements FromCollection, WithMapping, WithTitle, WithColumnFo
         $paymentsArray = [];
 
         foreach ($payroll->payments as $payment) {
-            if ($payment->gross_salary > 0) {
+            if ($payment->gross_salary > 0 && $payment->monthlySalary()->is_taxable) {
                 array_push($paymentsArray, $payment);
             }
         }

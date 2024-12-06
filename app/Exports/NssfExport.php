@@ -14,7 +14,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 // use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\NumberFormat;
 
-class NssfExport implements FromCollection, WithHeadings,WithMapping,WithTitle,ShouldAutoSize,WithColumnFormatting
+class NssfExport implements FromCollection, WithHeadings, WithMapping, WithTitle, ShouldAutoSize, WithColumnFormatting
 {
 
     public $id;
@@ -33,7 +33,7 @@ class NssfExport implements FromCollection, WithHeadings,WithMapping,WithTitle,S
         $paymentsArray = [];
 
         foreach ($payroll->payments as $payment) {
-            if ($payment->gross_salary > 0) {
+            if ($payment->gross_salary > 0 && $payment->monthlySalary()->is_taxable) {
                 array_push($paymentsArray, $payment);
             }
         }
@@ -72,7 +72,8 @@ class NssfExport implements FromCollection, WithHeadings,WithMapping,WithTitle,S
         ];
     }
 
-    function title(): string {
+    function title(): string
+    {
         return "NSSF Payment";
     }
 
