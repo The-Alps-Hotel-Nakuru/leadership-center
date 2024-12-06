@@ -202,6 +202,14 @@
                                                 </div>
                                             @else
                                                 <div class="flex-col m-3">
+                                                    <button class="btn btn-primary" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Download NSSF Breakdown"
+                                                        wire:click="downloadStatutoriesBreakdown({{ $payroll->id }})">
+                                                        <i
+                                                            class="material-icons material-symbols-outlined">fact_check</i>
+                                                    </button>
+                                                </div>
+                                                <div class="flex-col m-3">
                                                     <button class="btn btn-success" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Download Banking Guide"
                                                         wire:click="downloadBankSlip({{ $payroll->id }})">

@@ -4,7 +4,12 @@ namespace App\Http\Livewire\Admin\Payrolls;
 
 use App\Exports\AbsaBankingGuideExport;
 use App\Exports\BankingGuideExport;
+use App\Exports\HousingLevyExport;
+use App\Exports\NssfExport;
+use App\Exports\PayeExport;
 use App\Exports\PayrollExport;
+use App\Exports\ShifExport;
+use App\Exports\StatutoriesExport;
 use App\Models\EmployeeContract;
 use App\Models\EmployeesDetail;
 use App\Models\Log;
@@ -55,6 +60,18 @@ class Index extends Component
             ]);
         }
         // dd(Payroll::find($id));
+    }
+
+    function downloadStatutoriesBreakdown($id)
+    {
+        try {
+            return Excel::download(new StatutoriesExport($id), env('COMPANY_NAME') . "- Statutories for " . Payroll::find($id)->yearmonth . '.xlsx');
+        } catch (\Throwable $th) {
+            //throw $th;
+            $this->emit('done', [
+                'error' => "Something went wrong: " . $th->getMessage()
+            ]);
+        }
     }
 
     function downloadBankSlip($id)

@@ -30,6 +30,11 @@ class PayrollPayment extends Model
         return $this->hasOne(Payroll::class, 'id', 'payroll_id');
     }
 
+    function getTaxReliefAttribute()
+    {
+        return $this->payroll->monthlySalaries()->where('payroll_id', $this->payroll_id)->where('employees_detail_id', $this->employees_detail_id)->first()->tax_relief;
+    }
+
     function getDeductionsAttribute()
     {
         return $this->nssf + $this-> nhif + $this->shif + $this->paye + $this->housing_levy + $this->total_fines + $this->total_loans + $this->total_advances + $this->total_welfare_contributions + $this->attendance_penalty;
