@@ -85,7 +85,7 @@
                                         <td class="d-flex flex-row">
                                             @if ($payslip->payroll->payments)
                                                 <div class="flex-col mx-2">
-                                                    <a href="{{ route('employee.payslips.view', $payslip->id) }}"
+                                                    <a href="{{ route('employee.payslips.view', $payslip->payroll_id) }}"
                                                         target="_blank" class="btn btn-dark">
                                                         <i class="material-icons material-symbols-outlined">
                                                             receipt_long

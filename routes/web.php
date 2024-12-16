@@ -307,38 +307,30 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
         Route::get('payslips', Employee\Payslips::class)->name('employee.payslips');
         Route::get('/{id}/payslips', function ($id) {
 
-            $salary = MonthlySalary::find($id);
+            $salary = MonthlySalary::where('payroll_id', $id)->where('employees_detail_id', auth()->user()->employee->id)->first();
 
 
 
-            if (auth()->user()->employee->id == $salary->employees_detail_id) {
-                if ($salary->payroll->payments) {
-                    $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper(array(0, 0, 400, 1500), 'portrait');
+            // if (auth()->user()->employee->id == $salary->employees_detail_id) {
+            if ($salary->payroll->payments) {
+                $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper(array(0, 0, 400, 1500), 'portrait');
 
-                    $pdf->loadView('doc.payslip', [
-                        'salary' => $salary
-                    ]);
-                    Log::create([
-                        'user_id' => auth()->user()->id,
-                        'payload' => auth()->user()->name . "has Viewed their Payslip for " . $salary->getMonth()->format('F, Y'),
-                        'model' => 'App\Models\Payroll'
-                    ]);
-                    return $pdf->stream();
-                } else {
-                    Log::create([
-                        'user_id' => auth()->user()->id,
-                        'payload' => auth()->user()->name . "tried to view the Payslip when not Ready",
-                        'model' => 'App\Models\Payroll'
-                    ]);
-                    abort(403, "You Are Not Authorized to view this Payslip because it is not ready");
-                }
+                $pdf->loadView('doc.payslip', [
+                    'salary' => $salary
+                ]);
+                Log::create([
+                    'user_id' => auth()->user()->id,
+                    'payload' => auth()->user()->name . "has Viewed their Payslip for " . $salary->getMonth()->format('F, Y'),
+                    'model' => 'App\Models\Payroll'
+                ]);
+                return $pdf->stream();
             } else {
                 Log::create([
                     'user_id' => auth()->user()->id,
-                    'payload' => auth()->user()->name . " tried to view someone else's payslip",
+                    'payload' => auth()->user()->name . "tried to view the Payslip when not Ready",
                     'model' => 'App\Models\Payroll'
                 ]);
-                abort(403, "You Are Not Authorized to view this Payslip because it doesn't belong to you");
+                abort(403, "You Are Not Authorized to view this Payslip because it is not ready");
             }
         })->name('employee.payslips.view');
     });

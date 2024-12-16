@@ -46,8 +46,8 @@
     </table>
     <table style="border:0">
         <thead>
-            <h1 style="text-transform:uppercase; text-align:center">Payslip for
-                {{ Carbon\Carbon::parse($salary->payroll->year . '-' . $salary->payroll->month)->format('F, Y') }}</h1>
+            <h2 style="text-transform:uppercase; text-align:center">Payslip for
+                {{ Carbon\Carbon::parse($salary->payroll->year . '-' . $salary->payroll->month)->format('F, Y') }}</h2>
         </thead>
     </table>
     @php
