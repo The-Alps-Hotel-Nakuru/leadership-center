@@ -142,9 +142,11 @@ class Dashboard extends Component
 
     public function render()
     {
-        $columnChartModel =
-            (new ColumnChartModel())
-            ->setTitle("Payroll Graph");
+        $columnChartModel = new ColumnChartModel();
+            $columnChartModel->setTitle("Payroll Graph");
+
+        $columnChartModel->setAnimated('ease-in');
+        $columnChartModel->setDataLabelsEnabled(true);
         if ($this->readyToLoad) {
             # code...
             $this->instance = Carbon::parse($this->month);
@@ -185,6 +187,12 @@ class Dashboard extends Component
             foreach ($this->labels as $key => $label) {
                 $columnChartModel->addColumn($label, $this->data[$key], "#242464");
             }
+
+            // $columnChartModel->setJsonConfig([
+            //     'tooltip.y.formatter' => '(val) => `KES ${val.toLocaleString()}`',
+            //     'dataLabels.formatter' => '(val) => `KES ${val.toLocaleString()}`',
+            //     // 'chart'=>"area"
+            // ]);
         }
 
         // $this->emit('loadedAll');
