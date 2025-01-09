@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <input type="text" class="form-control" wire:model="search" placeholder="Search employees">
+                        <input type="text" class="form-control" wire:model.live="search" placeholder="Search employees">
                     </div>
                     <div class="col-12">
                         <div class="mb-3">
@@ -32,7 +32,7 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="biometric.biometric_id" class="form-label">Biometric ID</label>
-                            <input type="number" wire:model="biometric.biometric_id" class="form-control" />
+                            <input type="number" wire:model.live="biometric.biometric_id" class="form-control" />
                             @error('biometric.biometric_id')
                                 <small id="helpId" class="form-text text-danger">{{ $message }}</small>
                             @enderror

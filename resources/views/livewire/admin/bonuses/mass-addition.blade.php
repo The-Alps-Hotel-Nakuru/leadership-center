@@ -22,7 +22,7 @@
             <div class="mb-3">
                 <label for="" class="form-label">File Upload</label>
                 <input type="file" name="employee_bonuses_file" class="form-control"
-                    wire:model='employee_bonuses_file'>
+                    wire:model.live='employee_bonuses_file'>
                 @error('employee_bonuses_file')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror

@@ -9,7 +9,7 @@
         <div class="card-body">
             <div class="form-group">
                 <label for="">Payment Slip</label>
-                <input type="file" wire:model='payment_slip' class="form-control" name="" id=""
+                <input type="file" wire:model.live='payment_slip' class="form-control" name="" id=""
                     aria-describedby="helpId" placeholder="">
                 @error('payment_slip')
                     <small id="helpId" class="form-text text-danger">{{ $message }}</small>

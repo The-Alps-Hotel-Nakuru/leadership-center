@@ -4,8 +4,8 @@
     </x-slot>
 
     <div class="container-fluid">
-        <div class="card-header d-flex">
-            {{-- <button class="btn btn-secondary ms-auto me-2" wire:loading.attr="disabled" wire:target="downloadTemplate"
+        <div class="my-3 d-flex">
+            <button class="btn btn-secondary ms-auto me-2" wire:loading.attr="disabled" wire:target="downloadTemplate"
                 wire:click="downloadTemplate">
                 <span wire:loading.remove wire:target="downloadTemplate">
                     Download Advances Template
@@ -14,20 +14,14 @@
                     Downloading...
                 </span>
             </button>
-            <button class="btn btn-warning" wire:loading.attr="disabled" wire:target="downloadAdvancesData"
-                wire:click="downloadAdvancesData">
-                <span wire:loading.remove wire:target="downloadAdvancesData">
-                    Download Advances Data
-                </span>
-                <span wire:loading wire:target="downloadAdvancesData">
-                    Downloading...
-                </span>
-            </button> --}}
+
         </div>
         <div class="card">
             <div class="card-header d-flex">
                 <h5>List of Issued Advances</h5>
-                <a href="{{ route('admin.advances.create') }}" class="btn btn-primary ml-auto">Create New</a>
+                <div class="ms-auto">
+                    <a href="{{ route('admin.advances.create') }}" class="btn btn-primary ml-auto">Create New</a>
+                </div>
             </div>
             <div class="card-body table-responsive">
                 <table class="table">
@@ -56,12 +50,12 @@
                                     <div class="flex-col me-2">
                                         <a href="{{ route('admin.advances.edit', $advance->id) }}"
                                             class="btn btn-secondary">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="bi bi-pencil"></i>
                                         </a>
                                     </div>
                                     <div class="flex-col">
-                                        <button class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
+                                        <button class="btn btn-danger" onclick="confirm('Are you sure you wish to delete this Advance?')||event.stopImmediatePropagation()" wire:click='delete({{ $advance->id }})'>
+                                            <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
                                 </td>

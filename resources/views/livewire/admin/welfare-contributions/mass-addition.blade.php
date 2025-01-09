@@ -10,7 +10,7 @@
         <div class="card-body">
             <div class="mb-3">
                 <label for="" class="form-label">Mass Welfare Contributions Upload</label>
-                <input type="file" wire:model='welfarecontributionFile' class="form-control" name=""
+                <input type="file" wire:model.live='welfarecontributionFile' class="form-control" name=""
                     id="" aria-describedby="helpId" placeholder="">
                 @error('welfarecontributionFile')
                     <small id="helpId" class="form-text text-danger">{{ $message }}</small>
@@ -19,7 +19,7 @@
 
             <div class="mb-3">
                 <label for="" class="form-label">Month and Year</label>
-                <input type="month" wire:model='yearmonth' class="form-control" name="" id=""
+                <input type="month" wire:model.live='yearmonth' class="form-control" name="" id=""
                     aria-describedby="helpId" placeholder="">
                 @error('yearmonth')
                     <small id="helpId" class="form-text text-danger">{{ $message }}</small>

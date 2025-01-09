@@ -25,21 +25,23 @@
                                 <td>{{ Carbon\Carbon::parse($deduction->year . '-' . $deduction->month)->format('F, Y') }}
                                 </td>
                                 <td class="@if ($deduction->is_settled) text-success @endif"><small>KES </small>
-                                    <strong>{{ number_format($deduction->amount, 2) }}</strong> <br>@if ($deduction->is_settled) <small>SETTLED</small>  @endif</td>
-                                <td class="d-flex flex-row justify-content-center">
-                                    <div class="flex-col mx-1">
+                                    <strong>{{ number_format($deduction->amount, 2) }}</strong> <br>
+                                    @if ($deduction->is_settled)
+                                        <small>SETTLED</small>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if (!$deduction->is_settled)
                                         <a href="{{ route('admin.loan_deductions.edit', [$loan->id, $deduction->id]) }}"
                                             class="btn btn-secondary">
-                                            <i class="fas fa-list"></i>
+                                            <i class="bi bi-list"></i>
                                         </a>
-                                    </div>
-                                    <div class="flex-col mx-1">
                                         <button
                                             onclick="confirm('Are you sure you want to delete this Loan Deduction Record?')||event.stopImmediatePropagation()"
                                             wire:click='delete({{ $deduction->id }})' class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="bi bi-trash"></i>
                                         </button>
-                                    </div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

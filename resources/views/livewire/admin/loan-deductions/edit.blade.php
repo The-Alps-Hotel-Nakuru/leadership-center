@@ -8,7 +8,7 @@
         <div class="card-body">
             <div class="form-group">
               <label for="">Amount</label>
-              <input wire:model='loanDeduction.amount' type="number"
+              <input wire:model.live='loanDeduction.amount' type="number"
                 class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
               @error('loanDeduction.amount')
                   <small id="helpId" class="form-text text-danger">{{ $message }}</small>

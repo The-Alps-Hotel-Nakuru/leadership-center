@@ -10,7 +10,7 @@
                 <div class="col-12">
                     <div class="form-group">
                       <label for="leave_type">Leave Type</label>
-                      <select class="form-control" wire:model='leave.leave_type_id' name="leave_type" id="leave_type">
+                      <select class="form-control" wire:model.live='leave.leave_type_id' name="leave_type" id="leave_type">
                         <option selected> Please choose the leave Type you wish to allocate</option>
                         @foreach ($leave_types as $type)
                             <option value="{{ $type->id }}">{{ $type->title }}</option>
@@ -25,7 +25,7 @@
                     <div class="form-group">
                       <label for="start_date">Starting Date</label>
                       <input type="date"
-                        class="form-control" name="start_date" id="start_date" wire:model='leave.start_date' aria-describedby="helpId">
+                        class="form-control" name="start_date" id="start_date" wire:model.live='leave.start_date' aria-describedby="helpId">
                       @error('leave.start_date')
                           <small id="helpId" class="form-text text-danger">{{ $message }}</small>
                       @enderror
@@ -34,7 +34,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                       <label for="end_date">Ending Date</label>
-                      <input type="date" wire:model='leave.end_date'
+                      <input type="date" wire:model.live='leave.end_date'
                         class="form-control" name="end_date" id="end_date" aria-describedby="helpId">
                       @error('leave.end_date')
                           <small id="helpId" class="form-text text-danger">{{ $message }}</small>

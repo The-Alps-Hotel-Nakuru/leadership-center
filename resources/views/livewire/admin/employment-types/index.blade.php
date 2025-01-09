@@ -28,14 +28,14 @@
                             <td class="d-flex flex-row justify-content-center">
                                 <a href="{{ route('admin.employment-types.edit', $type->id) }}"
                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Employment Type"
-                                    class="btn btn-warning m-1">
-                                    <i class="fas fa-edit"></i>
+                                    class="btn btn-secondary m-1">
+                                    <i class="bi bi-pencil"></i>
                                 </a>
                                 <button
                                     onclick="confirm('Are you sure you want to Delete this Employment Type?')||event.stopImmediatePropagation()"
                                     wire:click="delete({{ $type->id }})" data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Delete Employment Type" class="btn btn-danger m-1">
-                                    <i class="fas fa-trash"></i>
+                                    <i class="bi bi-trash"></i>
                                 </button>
                             </td>
                         </tr>

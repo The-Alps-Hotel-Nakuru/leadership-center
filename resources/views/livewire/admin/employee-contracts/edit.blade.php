@@ -15,7 +15,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="employees_detail_id" class="form-label">Employee</label>
-                            <select disabled wire:model="contract.employees_detail_id" class="form-control"
+                            <select disabled wire:model.live="contract.employees_detail_id" class="form-control"
                                 name="employees_detail_id" id="employees_detail_id">
                                 <option>Select Which Employee to Give a Contract</option>
                                 @foreach (App\Models\EmployeesDetail::all() as $employee)
@@ -31,7 +31,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="designation_id" class="form-label">Designation</label>
-                            <select wire:model="contract.designation_id" class="form-control" name="designation_id"
+                            <select wire:model.live="contract.designation_id" class="form-control" name="designation_id"
                                 id="designation_id">
                                 <option>Select The Designation</option>
                                 @foreach (App\Models\Designation::all() as $designation)
@@ -46,7 +46,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="employment_type_id" class="form-label">Employment Type</label>
-                            <select wire:model="contract.employment_type_id" class="form-control"
+                            <select wire:model.live="contract.employment_type_id" class="form-control"
                                 name="employment_type_id" id="employment_type_id">
                                 <option>Choose how their Employment will Be</option>
                                 @foreach (App\Models\EmploymentType::all() as $type)
@@ -61,7 +61,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="is_taxable" class="form-label">Taxable</label>
-                            <select wire:model="contract.is_taxable" class="form-control"
+                            <select wire:model.live="contract.is_taxable" class="form-control"
                                 name="is_taxable" id="is_taxable">
                                 <option value="1" selected>True</option>
                                 <option value="0">False</option>
@@ -74,7 +74,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="weekly_offs" class="form-label">Weekly Offs</label>
-                            <input wire:model="contract.weekly_offs" type="number" class="form-control"
+                            <input wire:model.live="contract.weekly_offs" type="number" class="form-control"
                                 name="weekly_offs" id="weekly_offs" aria-describedby="weekly_offs"
                                 placeholder="Enter the Appointment Date">
                             @error('contract.weekly_offs')
@@ -85,7 +85,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="start_date" class="form-label">Appointment Date</label>
-                            <input wire:model="contract.start_date" type="date" class="form-control"
+                            <input wire:model.live="contract.start_date" type="date" class="form-control"
                                 name="start_date" id="start_date" aria-describedby="start_date"
                                 placeholder="Enter the Appointment Date">
                             @error('contract.start_date')
@@ -96,7 +96,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="end_date" class="form-label">Expiry Date</label>
-                            <input wire:model="contract.end_date" type="date" class="form-control" name="end_date"
+                            <input wire:model.live="contract.end_date" type="date" class="form-control" name="end_date"
                                 id="end_date" aria-describedby="end_date" placeholder="Enter the Appointment Date">
                             @error('contract.end_date')
                                 <small id="end_date" class="form-text text-danger">{{ $message }}</small>
@@ -105,7 +105,7 @@
                         {{-- <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="months" class="form-label">Duration</label>
-                            <select wire:model="months" class="form-select form-select-sm" name="months" id="months">
+                            <select wire:model.live="months" class="form-select form-select-sm" name="months" id="months">
                                 <option selected>Select Duration</option>
                                 <option value="6">6 Months</option>
                                 <option value="12">1 year</option>
@@ -120,7 +120,7 @@
                     <div class="col-md-3 col-6">
                         <div class="mb-3">
                             <label for="salary_kes" class="form-label">Salary <small class="text-muted text-capitalize">({{ $contract->employment_type?$contract->employment_type->rate_type:"per employment terms" }})</small></label>
-                            <input wire:model="contract.salary_kes" type="number" class="form-control"
+                            <input wire:model.live="contract.salary_kes" type="number" class="form-control"
                                 name="salary_kes" id="salary_kes" aria-describedby="salary_kes"
                                 placeholder="Enter your Salary">
                             @error('contract.salary_kes')
@@ -131,7 +131,7 @@
                     <div class="col-md-3 col-6">
                         <div class="form-group">
                             <label for="">Treat Salary As</label>
-                            <select class="form-control" name="" id="" wire:model="contract.is_net">
+                            <select class="form-control" name="" id="" wire:model.live="contract.is_net">
                                 <option selected> Please Select how you would want this Salary to be</option>
                                 <option value="0">Gross Salary</option>
                                 <option value="1">Net Salary

@@ -10,7 +10,7 @@
                             ? '<strong class="text-success">Active</strong>'
                             : '<strong class="text-danger">Inactive</strong>' !!}</h5>
                     </div>
-                    <div class="card-body row">
+                    <div class="card-body row m-3">
                         <div class="list-group-item col-6"><strong>Contract ID:</strong> {{ $contract->id }}</div>
                         <div class="list-group-item col-6"><strong>Employee ID:</strong>
                             {{ $contract->employees_detail_id }}</div>

@@ -10,7 +10,7 @@
                     <label for="" class="form-label">
                         <h4>Search an Employee </h4>
                     </label>
-                    <input wire:model="searchEmployee" type="text" class="form-control" name="" id=""
+                    <input wire:model.live="searchEmployee" type="text" class="form-control" name="" id=""
                         aria-describedby="helpId" placeholder="Search By Name">
 
                 </div>
@@ -19,14 +19,14 @@
         <div class="card">
             <div class="card-header d-flex bg-transparent border-0">
                 <h5>List of Employees Active Contracts</h5>
-                <div class="flex-col ml-auto">
+                <div class="flex-col ms-auto">
                     <a wire:ignore href="{{ route('admin.employee_contracts.create') }}" class="btn btn-primary">
-                        <i class="fas fa-file-pdf"></i>
+                        <i class="bi bi-file-pdf"></i>
                     </a>
 
                 </div>
                 <div class="flex-col mx-2">
-                    <select class="form-control" wire:model='type' name="" id="">
+                    <select class="form-control" wire:model.live='type' name="" id="">
                         <option value="all">All</option>
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
@@ -34,7 +34,7 @@
                 </div>
                 {{-- <div class="flex-col mx-2">
                     <div class="form-group">
-                        <input type="date" class="form-control" wire:model="date" name="" id=""
+                        <input type="date" class="form-control" wire:model.live="date" name="" id=""
                             aria-describedby="helpId" placeholder="">
                         @error('date')
                             <small class="form-text text-danger">{{ $message }}</small>
@@ -90,29 +90,29 @@
                                             <a target="_blank" href="javascript:;" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="View Unsigned Contract"
                                                 class="btn btn-success m-1">
-                                                <i class="fas fa-file-contract"></i>
+                                                <i class="bi bi-file-contract"></i>
                                             </a>
                                         @else
                                             <a target="_blank" href="{{ route('doc.contract', $contract->id) }}"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="View Signed Contract" class="btn btn-light shadow-sm m-1">
-                                                <i class="fas fa-file-pdf"></i>
+                                                <i class="bi bi-file-pdf"></i>
                                             </a>
                                         @endif
                                         <a href="{{ route('admin.employee_contracts.edit', $contract->id) }}"
                                             data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Contract"
-                                            class="btn btn-warning m-1">
-                                            <i class="fas fa-edit"></i>
+                                            class="btn btn-secondary m-1">
+                                            <i class="bi bi-pencil"></i>
                                         </a>
                                         <button wire:click="makeInactive({{ $contract->id }})" data-bs-toggle="tooltip"
                                             data-bs-placement="top" title="Terminate Contract" class="btn btn-dark m-1">
-                                            <i class="fas fa-stop-circle"></i>
+                                            <i class="bi bi-stop-circle"></i>
                                         </button>
                                         <button
                                             onclick="confirm('Are you sure you want to Delete this contract?')||event.stopImmediatePropagation()"
                                             wire:click="delete({{ $contract->id }})" data-bs-toggle="tooltip"
                                             data-bs-placement="top" title="Delete Contract" class="btn btn-danger m-1">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
                                 </td>

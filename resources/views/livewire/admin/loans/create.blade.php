@@ -14,7 +14,7 @@
                     {{-- Selected Employee --}}
                     <div class="col-12">
                         <label for="month">Search an Employee</label>
-                        <input type="text" class="form-control" wire:model="search" placeholder="Search employees">
+                        <input type="text" class="form-control" wire:model.live="search" placeholder="Search employees">
                     </div>
                     <div class="col-12">
                         <div class="mb-3">
@@ -39,7 +39,7 @@
                     <div class="col-md-4 col-6">
                         <div class="form-group">
                             <label for="amount">Amount (KES)</label>
-                            <input type="number" wire:model='loan.amount' class="form-control" name="amount"
+                            <input type="number" wire:model.live='loan.amount' class="form-control" name="amount"
                                 id="amount" aria-describedby="amount" placeholder="Enter the loan amount">
                             @error('loan.amount')
                                 <small id="amount" class="form-text text-danger">{{ $message }}</small>
@@ -52,7 +52,7 @@
                     <div class="col-md-4 col-6">
                         <div class="form-group">
                             <label for="month">First Repayment Month</label>
-                            <input type="month" wire:model='yearmonth' class="form-control" name="month"
+                            <input type="month" wire:model.live='yearmonth' class="form-control" name="month"
                                 id="month" aria-describedby="month"
                                 placeholder="Enter the First Month of Repayment">
                             @error('yearmonth')
@@ -65,7 +65,7 @@
                     <div class="col-md-4 col-12">
                         <div class="form-group">
                             <label for="repaymentmonths">Number of Months to Repay</label>
-                            <input type="number" wire:model='repaymentmonths' class="form-control"
+                            <input type="number" wire:model.live='repaymentmonths' class="form-control"
                                 name="repaymentmonths" id="repaymentmonths" aria-describedby="repaymentmonths"
                                 placeholder="Enter the number of Repayment Months">
                             @error('repaymentmonths')
@@ -77,7 +77,7 @@
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="transaction">Transaction Code</label>
-                            <input type="text" wire:model='loan.transaction' class="form-control" name="transaction"
+                            <input type="text" wire:model.live='loan.transaction' class="form-control" name="transaction"
                                 id="transaction" aria-describedby="transaction"
                                 placeholder="Enter the Transaction Reference Code">
                             @error('loan.transaction')
@@ -90,7 +90,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label for="reason">Reason for Loan</label>
-                            <textarea class="form-control" wire:model='loan.reason' name="reason" id="reason" rows="3"></textarea>
+                            <textarea class="form-control" wire:model.live='loan.reason' name="reason" id="reason" rows="3"></textarea>
                             @error('loan.reason')
                                 <small id="transaction" class="form-text text-danger">{{ $message }}</small>
                             @enderror

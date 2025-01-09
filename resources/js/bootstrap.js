@@ -11,13 +11,9 @@ window.$ = jQuery
  */
 import '@popperjs/core'
 
-import * as bootstrap from 'bootstrap'
-window.bootstrap = bootstrap
-
-
-import PerfectScrollbar from 'perfect-scrollbar';
-window.PerfectScrollbar = PerfectScrollbar;
-
+// import * as bootstrap from 'bootstrap'
+// // import 'bootstrap-icons'
+// window.bootstrap = bootstrap
 
 import axios from 'axios';
 window.axios = axios;

@@ -10,7 +10,7 @@
         <div class="card-body">
             <div class="mb-3">
                 <label for="" class="form-label">Mass Attendances Upload</label>
-                <input type="file" wire:model='attendanceFile' class="form-control" name="" id=""
+                <input type="file" wire:model.live='attendanceFile' class="form-control" name="" id=""
                     aria-describedby="helpId" placeholder="">
                 @error('attendanceFile')
                     <small id="helpId" class="form-text text-danger">{{ $message }}</small>

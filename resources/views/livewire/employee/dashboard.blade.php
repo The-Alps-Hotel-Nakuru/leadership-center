@@ -29,7 +29,7 @@
                 <div class="card mb-3 shadow">
                     <div class="card-header bg-transparent border-0  ">
                         <div class="d-flex flex-row justify-content-center align-items-center">
-                            <input class="form-control" type="month" wire:model="month">
+                            <input class="form-control" type="month" wire:model.live="month">
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-5">
             <div class="col-md-12 col-12 h-100">
                 <div class="card shadow">
                     <div class="card-header bg-transparent border-0">
@@ -200,6 +200,9 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+        <div class="row mb-5">
             <div class="col-md-6 col-12 h-100">
                 <div class="card shadow">
                     <div class="card-header">
@@ -209,7 +212,7 @@
                         $lastContract = auth()->user()->employee->contracts->last();
                     @endphp
                     @if ($lastContract)
-                        <div class="card-body row">
+                        <div class="card-body row m-3">
                             <div class="list-group-item col-6"><strong>Contract ID:</strong> {{ $lastContract->id }}
                             </div>
                             <div class="list-group-item col-6"><strong>Employee ID:</strong>

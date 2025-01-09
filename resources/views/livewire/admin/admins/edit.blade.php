@@ -11,7 +11,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="first_name" class="form-label">First Name</label>
-                            <input type="text" wire:model='admin.first_name' class="form-control" name=""
+                            <input type="text" wire:model.live='admin.first_name' class="form-control" name=""
                                 id="" aria-describedby="name" placeholder="Enter the First Name">
                             @error('admin.first_name')
                                 <small id="name" class="form-text text-danger">{{ $message }}</small>
@@ -21,7 +21,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="last_name" class="form-label">Last Name</label>
-                            <input type="text" wire:model='admin.last_name' class="form-control" name=""
+                            <input type="text" wire:model.live='admin.last_name' class="form-control" name=""
                                 id="" aria-describedby="name" placeholder="Enter the Last Name">
                             @error('admin.last_name')
                                 <small id="name" class="form-text text-danger">{{ $message }}</small>
@@ -31,7 +31,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email Address</label>
-                            <input type="email" wire:model='admin.email' class="form-control" name=""
+                            <input type="email" wire:model.live='admin.email' class="form-control" name=""
                                 id="" aria-describedby="email" placeholder="Enter the Email Address">
                             @error('admin.email')
                                 <small id="name" class="form-text text-danger">{{ $message }}</small>
@@ -41,7 +41,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="admin.role_id" class="form-label">Administrator Type</label>
-                            <select class="form-control" wire:model="admin.role_id" name="admin.role_id" id="admin.role_id">
+                            <select class="form-control" wire:model.live="admin.role_id" name="admin.role_id" id="admin.role_id">
                                 <option selected>Select the Type of Administrator</option>
                                 @if (auth()->user()->is_super)
                                     <option value="1">Super Administrator</option>

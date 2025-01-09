@@ -1,23 +1,18 @@
 <?php
 
-use App\Http\Livewire\Admin;
-use App\Http\Livewire\Employee;
-use App\Http\Livewire\Security;
+use App\Livewire\Admin;
+use App\Livewire\Employee;
+use App\Livewire\Security;
 use App\Models\EmployeeContract;
 use App\Models\Log;
 use App\Models\MonthlySalary;
-use App\Models\Payroll;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
-use LynX39\LaraPdfMerger\Facades\PdfMerger;
-
-use function Deployer\download;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,19 +25,8 @@ use function Deployer\download;
 |
 */
 
-//first commit
-//second commit
 
 Route::redirect('/', '/dashboard');
-
-
-// if (auth()->user()->is_admin) {
-//     Route::redirect('/dashboard','/admin/dashboard');
-// }
-// else if (auth()->user()->is_employee) {
-//     Route::redirect('/dashboard','/employee/dashboard');
-// }
-
 Route::get('/test-contract-earnings', function () {
     $dd = [];
 
@@ -53,7 +37,7 @@ Route::get('/test-contract-earnings', function () {
     dd($dd);
 });
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'subscribed'])->group(function () {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 
     Route::get('dashboard', function () {
         if (auth()->user()->is_admin) {
@@ -230,49 +214,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
             Route::get('/', Admin\PayrollPayments\Index::class)->name('admin.payroll_payments.index');
             Route::get('/{id}/show', Admin\PayrollPayments\Show::class)->name('admin.payroll_payments.show');
         });
-        // Route::prefix('products')->group(function () {
-        //     Route::get('/', Admin\Products\Index::class)->name('admin.products.index');
-        //     Route::get('/create', Admin\Products\Create::class)->name('admin.products.create');
-        //     Route::get('/{id}/edit', Admin\Products\Edit::class)->name('admin.products.edit');
-        // });
-        // Route::prefix('asset_categories')->group(function () {
-        //     Route::get('/', Admin\AssetCategories\Index::class)->name('admin.asset_categories.index');
-        //     Route::get('/create', Admin\AssetCategories\Create::class)->name('admin.asset_categories.create');
-        //     Route::get('/{id}/edit', Admin\AssetCategories\Edit::class)->name('admin.asset_categories.edit');
-        // });
-        // Route::prefix('asset_subcategories')->group(function () {
-        //     Route::get('/', function () {
-        //         return redirect()->route('admin.asset_categories.index');
-        //     })->name('admin.asset_subcategories.index');
-        //     Route::get('/create', Admin\AssetSubcategories\Create::class)->name('admin.asset_subcategories.create');
-        //     Route::get('/{id}/edit', Admin\AssetSubcategories\Edit::class)->name('admin.asset_subcategories.edit');
-        // });
-        // Route::prefix('assets')->group(function () {
-        //     Route::get('/', Admin\Assets\Index::class)->name('admin.assets.index');
-        //     Route::get('/create', Admin\Assets\Create::class)->name('admin.assets.create');
-        //     Route::get('/{id}/edit', Admin\Assets\Edit::class)->name('admin.assets.edit');
-        // });
-        // Route::prefix('conference-halls')->group(function () {
-        //     Route::get('/', Admin\ConferenceHalls\Index::class)->name('admin.conference-halls.index');
-        //     Route::get('/create', Admin\ConferenceHalls\Create::class)->name('admin.conference-halls.create');
-        //     Route::get('/{id}/edit', Admin\ConferenceHalls\Edit::class)->name('admin.conference-halls.edit');
-        // });
-        // Route::prefix('event-orders')->group(function () {
-        //     Route::get('/', Admin\EventOrders\Index::class)->name('admin.event-orders.index');
-        //     Route::get('/create', Admin\EventOrders\Create::class)->name('admin.event-orders.create');
-        //     Route::get('/{id}/edit', Admin\EventOrders\Edit::class)->name('admin.event-orders.edit');
-        // });
-
-        // Route::prefix('uniforms')->group(function () {
-        //     Route::get('/', Admin\Uniforms\Index::class)->name('admin.uniforms.index');
-        //     Route::get('/create', Admin\Uniforms\Create::class)->name('admin.uniforms.create');
-        //     Route::get('/{id}/edit', Admin\Uniforms\Edit::class)->name('admin.uniforms.edit');
-        // });
-        // Route::prefix('uniform-items')->group(function () {
-        //     Route::get('/', Admin\UniformItems\Index::class)->name('admin.uniform-items.index');
-        //     Route::get('/create', Admin\UniformItems\Create::class)->name('admin.uniform-items.create');
-        //     Route::get('/{id}/edit', Admin\UniformItems\Edit::class)->name('admin.uniform-items.edit');
-        // });
     });
 
 
@@ -306,12 +247,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
         Route::get('payslips', Employee\Payslips::class)->name('employee.payslips');
         Route::get('/{id}/payslips', function ($id) {
-
             $salary = MonthlySalary::where('payroll_id', $id)->where('employees_detail_id', auth()->user()->employee->id)->first();
-
-
-
-            // if (auth()->user()->employee->id == $salary->employees_detail_id) {
             if ($salary->payroll->payments) {
                 $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper(array(0, 0, 400, 1500), 'portrait');
 
@@ -362,7 +298,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 Route::get('testPDF', function () {
 
     $faker = Factory::create();
-
     $pdf = Pdf::loadView('test_pdf', [
         'title' => 'Test PDF',
         'document' => 'Contract',
@@ -376,21 +311,15 @@ Route::get('testPDF', function () {
         'amount' => rand(3, 50) * 1000,
         'bo'
     ]);
-
     return $pdf->stream();
 });
 Route::get('testp9', function () {
-
     $pdf = Pdf::setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => true, 'debugPng' => true])->setPaper('a4', 'landscape');
-
     $pdf->loadView('doc.p9');
     return $pdf->stream();
 });
 
 Route::get('/{id}/draft_contract', function ($id) {
-
-    $faker = Factory::create();
-
     $pdf = Pdf::loadView('doc.contract', [
         'contract' => EmployeeContract::find($id)
     ])->setOptions(['defaultFont' => 'sans-serif']);
@@ -400,19 +329,15 @@ Route::get('/{id}/draft_contract', function ($id) {
 
 
 Route::get('/p9form', function (Request $request) {
-
     $pdf = Pdf::setPaper('a4', 'landscape')->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => false, 'debugPng' => true]);
-
     $pdf->loadView('doc.p9', ["p9Data" => $request->all()]);
     return $pdf->stream();
-    // return $request->all();
 })->name('doc.p9');
 
 
 
 Route::get('/{id}/payslip', function ($id) {
     $pdf = Pdf::setPaper(array(0, 0, 400, 1500), 'portrait')->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true, 'isHTML5ParserEnabled' => false, 'debugPng' => true]);
-
     $pdf->loadView('doc.payslip', [
         'salary' => MonthlySalary::find($id)
     ]);
@@ -438,36 +363,22 @@ function rrmdir($dir)
 
 
 Route::get('/event-summary-today', function () {
-
     $pdf = Pdf::loadView('doc.summary', [
         'date' => Carbon::now()->today()->toDateString()
     ])->setOptions(['defaultFont' => 'sans-serif']);
-
     return $pdf->stream();
 })->name('today-event-summary');
 
 
 
 Route::get('/casuals-contract', function () {
-
     $pdf = Pdf::loadView('doc.casual')->setOptions(['DOMPDF_ENABLE_REMOTE' => true]);
     return $pdf->stream();
 });
 
 
-// Test URLs
-
-// Route::get('/')
-
 Route::get('/auto-update', function () {
-    // Change directory to the base path of the Laravel application
     chdir(base_path());
-
-    // Run composer install or update
-    // exec('composer install');
-
-    // Run Laravel migrations
     Artisan::call('migrate', ['--force' => true]);
-
     return 'Application has been updated and migrations have been run!';
 });

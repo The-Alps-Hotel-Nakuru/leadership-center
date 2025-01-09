@@ -28,7 +28,7 @@
             <div class="card-body">
                 <div class="mb-3">
                     <label for="responsibility" class="form-label">Responsibility Definition</label>
-                    <textarea wire:model="responsibility.responsibility" class="form-control" name="responsibility" id="responsibility"
+                    <textarea wire:model.live="responsibility.responsibility" class="form-control" name="responsibility" id="responsibility"
                         rows="3"></textarea>
                     @error('responsibility.responsibility')
                         <small class="form-text text-danger">{{ $message }}</small>

@@ -2,22 +2,20 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-// @import "variables";
+@import "variables";
 
 // Bootstrap
-// @import "node_modules/bootstrap/scss/bootstrap";
+@import "/node_modules/bootstrap/scss/bootstrap";
 
 // Custom
-// @import "custom";
-
-// Custom stuff
+@import "custom";
 
 .link-title {
     margin-left: 10px !important;
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap");
-body {
+* {
     font-family: "Lexend", sans-serif;
     font-size: 13px;
 }
@@ -99,17 +97,18 @@ p {
 
 .bg-gradient-black {
     background: darken($color: #bbbbcb, $amount: 60) !important;
+
 }
 .bg-gradient-maroon {
     background: darken($color: #bbbbcd, $amount: 60) !important;
 }
 
 .main-header {
-    background-color:#dddddd !important;
+    background-color: #dddddd !important;
     border-bottom: 0;
 }
 .content-wrapper {
-    background-color:#dddddd !important;
+    background-color: #dddddd !important;
 }
 .content {
     background-color: #dddddd !important;

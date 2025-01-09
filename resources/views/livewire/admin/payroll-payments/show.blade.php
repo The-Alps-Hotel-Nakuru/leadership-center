@@ -30,7 +30,7 @@
                             <th scope="col">Welfare Contributions</th>
                             <th scope="col">Fines</th>
                             <th scope="col">Loans</th>
-                            <th scope="col" class="bg-dark">NET PAY</th>
+                            <th scope="col" class="bg-dark text-white">NET PAY</th>
                             <th scope="col">Bank Account</th>
                         </tr>
                     </thead>
@@ -53,7 +53,7 @@
                                     <td>KES {{ number_format($payment->total_welfare_contributions, 2) }}</td>
                                     <td>KES {{ number_format($payment->total_fines, 2) }}</td>
                                     <td>KES {{ number_format($payment->total_loans, 2) }}</td>
-                                    <td class="bg-secondary">KES
+                                    <td class="bg-success text-white">KES
                                         <strong>{{ number_format($payment->net_pay, 2) }}</strong>
                                     </td>
                                     <td>

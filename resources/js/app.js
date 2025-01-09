@@ -1,15 +1,5 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
-
-// import { Chart } from 'chart.js';
-window.Alpine = Alpine;
-
-Alpine.start();
-
-// import '@fortawesome/fontawesome-free/css/all.min.css'
-
-
 import Swal from 'sweetalert2';
 
 const Toast = Swal.mixin({
@@ -19,12 +9,4 @@ const Toast = Swal.mixin({
     timerProgressBar: true
 })
 
-
-
-
 window.Toast = Toast
-
-
-
-
-// window.Chart = Chart;

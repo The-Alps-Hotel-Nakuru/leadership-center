@@ -10,7 +10,7 @@
             <div class="card-body">
                 <div class="mb-3">
                     <label for="" class="form-label">File Upload</label>
-                    <input type="file" name="employeeFile" id="" class="form-control" wire:model='employeeFile'>
+                    <input type="file" name="employeeFile" id="" class="form-control" wire:model.live='employeeFile'>
                     @error('employeeFile')
                         <small id="helpId" class="text-danger">{{ $message }}</small>
                     @enderror

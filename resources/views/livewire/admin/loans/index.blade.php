@@ -36,17 +36,15 @@
                                     <td>KES {{ number_format($loan->total_amount, 2) }}</td>
                                     <td>KES {{ number_format($loan->balance, 2) }}</td>
                                     <td>{{ Carbon\Carbon::parse($loan->created_at)->format('jS F, Y h:i A') }}</td>
-                                    <td class="d-flex flex-row justify-content-center">
-                                        <div class="flex-col mx-1">
-                                            <a href="{{ route('admin.loans.show',$loan->id) }}" class="btn btn-secondary">
-                                                <i class="fas fa-list"></i>
-                                            </a>
-                                        </div>
-                                        <div class="flex-col mx-1">
-                                            <button onclick="confirm('Are you sure you want to delete this Loan Record?')||event.stopImmediatePropagation()" wire:click='delete({{ $loan->id }})' class="btn btn-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
+                                    <td class="text-center">
+                                        <a href="{{ route('admin.loans.show', $loan->id) }}" class="btn btn-secondary">
+                                            <i class="bi bi-list"></i>
+                                        </a>
+                                        <button
+                                            onclick="confirm('Are you sure you want to delete this Loan Record?')||event.stopImmediatePropagation()"
+                                            wire:click='delete({{ $loan->id }})' class="btn btn-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach

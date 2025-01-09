@@ -5,10 +5,10 @@
         <div class="card">
             <div class="card-header d-flex bg-transparent border-0">
                 <h4>List of Administrators</h4>
-                <div class="flex-col ml-auto">
+                <div class="flex-col ms-auto">
                     <a wire:ignore data-bs-toggle="tooltip" data-bs-placement="left" title="Add a new Administrator"
-                        href="{{ route('admin.admins.create') }}" class="btn btn-primary">
-                        <i class="fas fa-user-plus"></i>
+                        href="{{ route('admin.admins.create') }}" class="btn btn-lg btn-primary">
+                        <i class="bi bi-person-add"></i>
                     </a>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                                         <div class="flex-col m-2">
                                             <a wire:ignore href="{{ route('admin.admins.edit', $admin->id) }}"
                                                 class="btn btn-secondary">
-                                                <i class="fa fa-edit"></i>
+                                                <i class="bi bi-pencil"></i>
                                             </a>
                                         </div>
                                         @if (auth()->user()->id != $admin->id)
@@ -50,7 +50,7 @@
                                                 <button wire:ignore class="btn btn-danger"
                                                     onclick="confirm('Are you sure you want to Delete this Administrator?')||event.stopImmediatePropagation()"
                                                     wire:click='delete({{ $admin->id }})'>
-                                                    <i class="fa fa-trash"></i>
+                                                    <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
                                         @endif

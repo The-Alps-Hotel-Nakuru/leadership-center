@@ -33,13 +33,13 @@
                             <div class="d-flex flex-row justify-content-center">
                                 <div class="flex-col mx-1">
                                     <a href="{{ route('admin.banks.edit', $bank->id) }}"
-                                        class="btn btn-secondary"><i class="fas fa-edit"></i></a>
+                                        class="btn btn-secondary"><i class="bi bi-pencil"></i></a>
                                 </div>
                                 <div class="flex-col mx-1">
                                     <button
                                         onclick="confirm('Are you sure you want to delete this Bank?')||event.stopImmediatePropagation()"
                                         wire:click="delete({{ $bank->id }})" class="btn btn-danger">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
                             </div>

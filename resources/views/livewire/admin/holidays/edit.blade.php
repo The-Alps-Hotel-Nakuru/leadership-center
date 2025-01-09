@@ -10,7 +10,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                       <label for="name">Name of Holiday</label>
-                      <input wire:model='holiday.name' type="text"
+                      <input wire:model.live='holiday.name' type="text"
                         class="form-control" name="name" id="name" aria-describedby="name" placeholder="Enter the name of the holiday">
                       @error('holiday.name')
                           <small id="name" class="form-text text-danger">{{ $message }}</small>
@@ -20,7 +20,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                       <label for="date">Date of Holiday</label>
-                      <input wire:model='holiday.date' type="date"
+                      <input wire:model.live='holiday.date' type="date"
                         class="form-control" name="date" id="date" aria-describedby="date" placeholder="Enter the date of the holiday">
                       @error('holiday.date')
                           <small id="date" class="form-text text-danger">{{ $message }}</small>

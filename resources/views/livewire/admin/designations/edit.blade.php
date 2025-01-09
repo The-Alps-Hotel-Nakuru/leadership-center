@@ -11,7 +11,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="" class="form-label">Department</label>
-                            <select wire:model="designation.department_id" class="form-control " name=""
+                            <select wire:model.live="designation.department_id" class="form-control " name=""
                                 id="">
                                 <option selected>Select a Department</option>
                                 @foreach ($departments as $department)
@@ -26,7 +26,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" wire:model="designation.title" class="form-control" name="title"
+                            <input type="text" wire:model.live="designation.title" class="form-control" name="title"
                                 id="title" aria-describedby="title" placeholder="Enter your Designation Title">
                             @error('designation.title')
                                 <small id="title" class="form-text text-danger">{{ $message }}</small>
@@ -36,7 +36,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="" class="form-label">Legible for Attendance Penalty</label>
-                            <select wire:model='designation.is_penalizable' class="form-control" name=""
+                            <select wire:model.live='designation.is_penalizable' class="form-control" name=""
                                 id="">
                                 <option selected>Select one</option>
                                 <option value="1">True</option>

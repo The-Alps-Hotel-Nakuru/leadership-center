@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header d-flex">
                 <h5>List of Issued Biometrics</h5>
-                <div class="flex-row ml-auto">
+                <div class="flex-row ms-auto">
                     <a href="{{ route('admin.biometrics.create') }}" class="btn btn-primary">Create New</a>
                     <a href="{{ route('admin.biometrics.mass_addition') }}" class="btn btn-secondary ">Create Many</a>
                 </div>
@@ -33,12 +33,12 @@
                                     <div class="flex-col me-2">
                                         <a href="{{ route('admin.biometrics.edit', $biometric->id) }}"
                                             class="btn btn-secondary">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="bi bi-pencil"></i>
                                         </a>
                                     </div>
                                     <div class="flex-col">
                                         <button wire:click='delete({{ $biometric->id }})' class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
                                 </td>

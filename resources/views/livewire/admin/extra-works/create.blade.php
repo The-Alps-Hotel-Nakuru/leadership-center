@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <input type="text" class="form-control" wire:model="search"
+                                <input type="text" class="form-control" wire:model.live="search"
                                     placeholder="Search employees">
                             </div>
                             <div class="col-12">
@@ -34,7 +34,7 @@
                             <div class="col-12">
                                 <div class="form-check mb-3">
                                     <label class="form-check-label">
-                                        <input type="checkbox" wire:model='full' class="form-check-input" name=""
+                                        <input type="checkbox" wire:model.live='full' class="form-check-input" name=""
                                             id="" checked>
                                         Add Range of Days
                                     </label>
@@ -45,7 +45,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="date">Date</label>
-                                        <input type="date" wire:model='date' class="form-control" name="date"
+                                        <input type="date" wire:model.live='date' class="form-control" name="date"
                                             id="date" aria-describedby="date" placeholder="Select the Date">
                                         @error('date')
                                             <small id="date" class="form-text text-danger">{{ $message }}</small>
@@ -56,7 +56,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="date">Start Date</label>
-                                        <input type="date" wire:model='date' class="form-control" name="date"
+                                        <input type="date" wire:model.live='date' class="form-control" name="date"
                                             id="date" aria-describedby="date" placeholder="Select the Start Date">
                                         @error('date')
                                             <small id="date" class="form-text text-danger">{{ $message }}</small>
@@ -66,7 +66,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="date">End Date</label>
-                                        <input type="date" wire:model='second_date' class="form-control"
+                                        <input type="date" wire:model.live='second_date' class="form-control"
                                             name="date" id="date" aria-describedby="date"
                                             placeholder="Select the End Date">
                                         @error('second_date')
@@ -80,7 +80,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="">Double Shift</label>
-                                    <select wire:model="double_shift" class="form-control" name=""
+                                    <select wire:model.live="double_shift" class="form-control" name=""
                                         id="">
                                         <option selected disabled>Is this Extra Hour Record a Double Shift Record?
                                         </option>

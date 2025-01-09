@@ -12,7 +12,7 @@
                             <button class="btn accordion-button" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapse{{ $designation->id }}" aria-expanded="false"
                                 aria-controls="collapse{{ $designation->id }}">
-                                <i class="fas fa-arrow-right"></i>{{ $designation->title }}
+                                <i class="bi bi-arrow-right"></i>{{ $designation->title }}
                             </button>
                         </h2>
                         <div id="collapse{{ $designation->id }}" class="accordion-collapse collapse"
@@ -23,11 +23,11 @@
                                         <li class="my-1">{{ $responsibility->responsibility }}</li>
                                         <div class="ms-auto">
                                             <a href="{{ route('admin.responsibilities.edit', $responsibility->id) }}"
-                                                class="m-2 btn btn-xs btn-secondary"><i class="fas fa-edit"></i></a>
+                                                class="m-2 btn btn-xs btn-secondary"><i class="bi bi-pencil"></i></a>
                                             <button
                                                 onclick="confirm('Are You Sure you want to delete this responsibility? {{ $responsibility->responsibility }}')|| event.stopImmediatePropagation()"
                                                 wire:click="delete({{ $responsibility->id }})"
-                                                class="m-2 btn btn-xs btn-danger"><i class="fas fa-trash"></i></button>
+                                                class="m-2 btn btn-xs btn-danger"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </div>
                                 @endforeach

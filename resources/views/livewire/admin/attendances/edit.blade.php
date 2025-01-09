@@ -15,7 +15,7 @@
                                 <input type="date"
                                     min="{{ Carbon\Carbon::parse($instance)->firstOfMonth()->format('Y-m-d') }}"
                                     max="{{ Carbon\Carbon::parse($instance)->lastOfMonth()->format('Y-m-d') }}"
-                                    wire:model='date' class="form-control" name="date" id="date"
+                                    wire:model.live='date' class="form-control" name="date" id="date"
                                     aria-describedby="date" placeholder="Select the Date">
                                 @error('date')
                                     <small id="date" class="form-text text-danger">{{ $message }}</small>
@@ -25,7 +25,7 @@
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="check_in">Check In</label>
-                                <input type="time" wire:model="check_in" class="form-control" name="check_in"
+                                <input type="time" wire:model.live="check_in" class="form-control" name="check_in"
                                     id="check_in" aria-describedby="check_in" placeholder="Enter the check in time">
                                 @error('check_in')
                                     <small id="date" class="form-text text-danger">{{ $message }}</small>
@@ -35,7 +35,7 @@
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="check_out">Check Out</label>
-                                <input type="time" wire:model="check_out" class="form-control" name="check_out"
+                                <input type="time" wire:model.live="check_out" class="form-control" name="check_out"
                                     id="check_out" aria-describedby="check_out" placeholder="Enter the check out time">
                                 @error('check_out')
                                     <small id="date" class="form-text text-danger">{{ $message }}</small>
@@ -106,7 +106,7 @@
                                         <td class="d-flex flex-row justify-content-center">
                                             <div class="flex-col ml-1">
                                                 <button wire:click="removeFromList({{ $key }})"
-                                                    class="btn btn-xs btn-danger"><i class="fas fa-trash"></i></button>
+                                                    class="btn btn-xs btn-danger"><i class="bi bi-trash"></i></button>
                                             </div>
                                         </td>
                                         <td>

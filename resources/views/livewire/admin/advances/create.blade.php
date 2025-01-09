@@ -11,7 +11,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-12">
-                    <input type="text" class="form-control" wire:model="search" placeholder="Search employees">
+                    <input type="text" class="form-control" wire:model.live="search" placeholder="Search employees">
                 </div>
                 <div class="col-12">
                     <div class="mb-3">
@@ -34,7 +34,7 @@
                 <div class="col-md-6 col-12">
                     <div class="mb-3">
                         <label for="start_date" class="form-label">Month</label>
-                        <input wire:model="yearmonth" type="month" class="form-control" name="time"
+                        <input wire:model.live="yearmonth" type="month" class="form-control" name="time"
                             id="time" aria-describedby="time" placeholder="Enter the Month Advanced For">
                         @error('yearmonth')
                             <small id="time" class="form-text text-danger">{{ $message }}</small>
@@ -44,7 +44,7 @@
                 <div class="col-md-6 col-12">
                     <div class="mb-3">
                         <label for="amount_kes" class="form-label">Amount</label>
-                        <input wire:model="advance.amount_kes" type="number" min="1" step="0.05" class="form-control" name="time"
+                        <input wire:model.live="advance.amount_kes" type="number" min="1" step="0.05" class="form-control" name="time"
                             id="time" aria-describedby="time" placeholder="Enter the Amount Applied For in KES">
                         @error('advance.amount_kes')
                             <small id="time" class="form-text text-danger">{{ $message }}</small>
@@ -54,7 +54,7 @@
                 <div class="col-md-6 col-12">
                     <div class="mb-3">
                         <label for="transaction" class="form-label">Transaction Code</label>
-                        <input wire:model="advance.transaction" type="text"  class="form-control" name="transaction"
+                        <input wire:model.live="advance.transaction" type="text"  class="form-control" name="transaction"
                             id="time" aria-describedby="time" placeholder="Enter the Transaction Code">
                         @error('advance.transaction')
                             <small id="time" class="form-text text-danger">{{ $message }}</small>
@@ -64,7 +64,7 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="reason" class="form-label">Reason</label>
-                        <textarea wire:model="advance.reason"   class="form-control" name="reason"
+                        <textarea wire:model.live="advance.reason"   class="form-control" name="reason"
                             id="time" aria-describedby="time" placeholder="Enter the reason"></textarea>
                         @error('advance.reason')
                             <small id="time" class="form-text text-danger">{{ $message }}</small>

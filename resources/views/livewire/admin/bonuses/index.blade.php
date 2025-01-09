@@ -5,7 +5,7 @@
 
     <div class="container-fluid">
         <div class="my-3 d-flex">
-            <button class="btn btn-primary ml-auto" wire:loading.attr="disabled" wire:target="downloadBonusesTemplate"
+            <button class="btn btn-secondary ms-auto" wire:loading.attr="disabled" wire:target="downloadBonusesTemplate"
                 wire:click="downloadBonusesTemplate">
                 <span wire:loading.remove wire:target="downloadBonusesTemplate">
                     Download Bonuses Mass Addition Template
@@ -18,7 +18,7 @@
         <div class="card">
             <div class="card-header d-flex">
                 <h5>List of Issued Bonuses</h5>
-                <div class="flex-row ml-auto">
+                <div class="flex-row ms-auto">
                     <a href="{{ route('admin.bonuses.create') }}" class="btn btn-primary">Create New</a>
                     <a href="{{ route('admin.bonuses.mass_addition') }}" class="btn btn-secondary ">Create Many</a>
                 </div>
@@ -46,13 +46,13 @@
                                 <td class="text-center">
 
                                     <a href="{{ route('admin.bonuses.edit', $bonus->id) }}" class="btn btn-secondary">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="bi bi-pencil"></i>
                                     </a>
 
                                     <button
                                         onclick="confirm('Are you sure you wish to delete this Bonus record?')||event.stopImmediatePropagation()"
                                         class="btn btn-danger" wire:click='delete({{ $bonus->id }})'>
-                                        <i class="fas fa-trash"></i>
+                                        <i class="bi bi-trash"></i>
                                     </button>
 
                                 </td>

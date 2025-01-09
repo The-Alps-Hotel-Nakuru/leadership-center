@@ -11,7 +11,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" wire:model="department.title" class="form-control" name="title" id="title"
+                            <input type="text" wire:model.live="department.title" class="form-control" name="title" id="title"
                                 aria-describedby="title" placeholder="Enter your Department Title">
                             @error('department.title')
                                 <small id="title" class="form-text text-danger">{{ $message }}</small>

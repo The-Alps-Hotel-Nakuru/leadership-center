@@ -21,7 +21,7 @@
                     <!-- Profile picture upload button-->
                     <button class="btn btn-primary" onclick="$('#profilePhotoInput').click()" type="button">Upload
                         new image</button>
-                    <input type="file" hidden id="profilePhotoInput" wire:model="profile_photo" x-ref="profilePhoto">
+                    <input type="file" hidden id="profilePhotoInput" wire:model.live="profile_photo" x-ref="profilePhoto">
 
                     @if ($profile_photo)
                         <button class="btn btn-primary" wire:click='saveProfilePhoto' type="button">Save</button>
@@ -37,7 +37,7 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="bank_id" class="form-label">Bank</label>
-                        <select wire:model="account.bank_id" class="form-control" name="bank_id" id="bank_id">
+                        <select wire:model.live="account.bank_id" class="form-control" name="bank_id" id="bank_id">
                             <option selected>Select one</option>
                             @foreach (App\Models\Bank::all() as $bank)
                                 <option value="{{ $bank->id }}">{{ $bank->name }}</option>
@@ -49,7 +49,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="account_number" class="form-label">Account Number</label>
-                        <input wire:model='account.account_number' type="text" class="form-control"
+                        <input wire:model.live='account.account_number' type="text" class="form-control"
                             name="account_number" id="account_number" aria-describedby="account_number"
                             placeholder="Enter your Account Number">
                         @error('account.account_number')
@@ -78,7 +78,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputUsername">First Name(s) </label>
-                            <input wire:model='user.first_name' class="form-control" id="inputUsername" type="text"
+                            <input wire:model.live='user.first_name' class="form-control" id="inputUsername" type="text"
                                 placeholder="Enter your First Name">
                             @error('user.first_name')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -86,7 +86,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputUsername">Surname </label>
-                            <input wire:model='user.last_name' class="form-control" id="inputUsername" type="text"
+                            <input wire:model.live='user.last_name' class="form-control" id="inputUsername" type="text"
                                 placeholder="Enter your Last Name">
                             @error('user.last_name')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -96,7 +96,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputOrgName">Email Address</label>
-                            <input class="form-control" wire:model='user.email' id="inputOrgName" type="email"
+                            <input class="form-control" wire:model.live='user.email' id="inputOrgName" type="email"
                                 placeholder="Enter your Email Address">
                             @error('user.email')
                                 <small class="form-text text-danger">{{ $message }}</small>
@@ -105,7 +105,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="small mb-1" for="inputUsername">Gender </label>
-                                <select wire:model='employee.gender' class="form-control" name="" id="">
+                                <select wire:model.live='employee.gender' class="form-control" name="" id="">
                                     <option selected>Select one</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -119,7 +119,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="small mb-1" for="birth_date">Date of Birth</label>
-                                <input class="form-control" wire:model='employee.birth_date' id="birth_date"
+                                <input class="form-control" wire:model.live='employee.birth_date' id="birth_date"
                                     type="date" placeholder="Enter your Phone Number">
                                 @error('employee.birth_date')
                                     <small class="form-text text-danger">{{ $message }}</small>
@@ -130,7 +130,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="small mb-1" for="national_id">National ID Number</label>
-                                <input class="form-control" wire:model='employee.national_id' id="national_id"
+                                <input class="form-control" wire:model.live='employee.national_id' id="national_id"
                                     type="number" placeholder="Enter your Phone Number">
                                 @error('employee.national_id')
                                     <small class="form-text text-danger">{{ $message }}</small>
@@ -141,7 +141,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="small mb-1" for="phone_number">Phone Number</label>
-                                <input class="form-control" wire:model='employee.phone_number' id="phone_number"
+                                <input class="form-control" wire:model.live='employee.phone_number' id="phone_number"
                                     type="text" placeholder="Enter your Phone Number">
                                 @error('employee.phone_number')
                                     <small class="form-text text-danger">{{ $message }}</small>
@@ -170,7 +170,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="" class="form-label">KRA PIN</label>
-                                <input type="text" wire:model='employee.kra_pin' class="form-control"
+                                <input type="text" wire:model.live='employee.kra_pin' class="form-control"
                                     name="" id="" aria-describedby="helpId"
                                     placeholder="Enter Your KRA PIN">
                                 @error('employee.kra_pin')
@@ -182,7 +182,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="" class="form-label">NSSF PIN</label>
-                                <input type="text" wire:model='employee.nssf' class="form-control" name=""
+                                <input type="text" wire:model.live='employee.nssf' class="form-control" name=""
                                     id="" aria-describedby="helpId" placeholder="Enter Your NSSF PIN">
                                 @error('employee.nssf')
                                     <small class="form-text text-danger">{{ $message }}</small>
@@ -193,7 +193,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="" class="form-label">NHIF PIN</label>
-                                <input type="text" wire:model='employee.nhif' class="form-control" name=""
+                                <input type="text" wire:model.live='employee.nhif' class="form-control" name=""
                                     id="" aria-describedby="helpId" placeholder="Enter Your NHIF PIN">
                                 @error('employee.nhif')
                                     <small class="form-text text-danger">{{ $message }}</small>

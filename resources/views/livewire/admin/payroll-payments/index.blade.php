@@ -9,8 +9,8 @@
                 @foreach ($payrolls as $payroll)
                     @if ($payroll->payments->count() > 0)
                         <div class="col-2">
-                            <a href="{{ route('admin.payroll_payments.show', $payroll->id) }}"
-                                class="btn btn-secondary card bg-dark">
+                            <a href="{{ route('admin.payroll_payments.show', $payroll->id) }}" data-bs-toggle='tooltip' title="View Payments"
+                                class="btn btn-secondary card">
                                 <div class="card-body">
                                     <h3 class="card-title">
                                         {{ Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->format('F, Y') }}

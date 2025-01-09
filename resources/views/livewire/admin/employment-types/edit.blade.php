@@ -12,7 +12,7 @@
                     <div class="form-group">
                       <label for="title">Title</label>
                       <input type="text"
-                        class="form-control" wire:model='type.title' name="title" id="title" aria-describedby="title" placeholder="Enter your Title">
+                        class="form-control" wire:model.live='type.title' name="title" id="title" aria-describedby="title" placeholder="Enter your Title">
                       @error('type.title')
                           <small id="title" class="form-text text-muted">{{ $message }}</small>
                       @enderror
@@ -21,7 +21,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                       <label for="">Rate Type</label>
-                      <select wire:model='type.rate_type' class="form-control" name="rate_type" id="">
+                      <select wire:model.live='type.rate_type' class="form-control" name="rate_type" id="">
                         <option>Select a Compensation Accumulative Rate Type</option>
                         <option value="daily">Daily</option>
                         <option value="monthly">Monthly</option>
@@ -31,7 +31,7 @@
                 <div class="col-12">
                     <div class="form-group">
                       <label for="">Penalizable on Attendance</label>
-                      <select wire:model='type.is_penalizable' class="form-control" name="rate_type" id="">
+                      <select wire:model.live='type.is_penalizable' class="form-control" name="rate_type" id="">
                         <option>Is your Salary penalizable on Attendance Absence?</option>
                         <option value="1">True</option>
                         <option value="0">False</option>
@@ -41,7 +41,7 @@
                 <div class="col-12">
                     <div class="form-group">
                       <label for="description">Description</label>
-                      <textarea wire:model='type.description' class="form-control" name="description" id="description" rows="3"></textarea>
+                      <textarea wire:model.live='type.description' class="form-control" name="description" id="description" rows="3"></textarea>
                     </div>
                 </div>
             </div>

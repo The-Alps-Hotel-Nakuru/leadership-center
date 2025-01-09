@@ -10,7 +10,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="employees_detail_id" class="form-label">Employee</label>
-                            <select wire:model="bonus.employees_detail_id" disabled class="form-select form-select-lg"
+                            <select wire:model.live="bonus.employees_detail_id" disabled class="form-select form-select-lg"
                                 name="employees_detail_id" id="employees_detail_id">
                                 <option selected>Select one</option>
                                 @foreach (App\Models\EmployeesDetail::all() as $employee)
@@ -26,7 +26,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="month" class="form-label">Month and Year</label>
-                            <input type="month" wire:model="yearmonth" class="form-control" name="month"
+                            <input type="month" wire:model.live="yearmonth" class="form-control" name="month"
                                 id="month" aria-describedby="helpId" placeholder="Enter your month and year">
                             @error('yearmonth')
                                 <small id="helpId" class="form-text text-danger">{{ $message }}</small>
@@ -37,7 +37,7 @@
                     <div class="col-md-6 col-12">
                         <div class="mb-3">
                             <label for="Amount" class="form-label">Amount (KES)</label>
-                            <input wire:model="bonus.amount_kes" type="number" class="form-control" name="Amount" id="Amount"
+                            <input wire:model.live="bonus.amount_kes" type="number" class="form-control" name="Amount" id="Amount"
                                 aria-describedby="helpId" placeholder="Enter the amount of Money">
                             @error('bonus.amount_kes')
                                 <small id="helpId" class="form-text text-danger">{{ $message }}</small>
@@ -47,7 +47,7 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="bonus.reason" class="form-label">Reason for Bonus</label>
-                            <textarea wire:model="bonus.reason" class="form-control" name="bonus.reason" id="bonus.reason" rows="3"></textarea>
+                            <textarea wire:model.live="bonus.reason" class="form-control" name="bonus.reason" id="bonus.reason" rows="3"></textarea>
                             @error('bonus.reason')
                                 <small id="helpId" class="form-text text-danger">{{ $message }}</small>
                             @enderror

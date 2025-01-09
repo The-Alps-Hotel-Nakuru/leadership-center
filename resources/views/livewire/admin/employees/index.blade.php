@@ -4,7 +4,7 @@
 
 
     <div class="d-flex mb-3">
-        <button class="btn btn-dark ms-auto ml-2" wire:loading.attr="disabled" wire:target="exportNssfData"
+        <button class="btn btn-dark" wire:loading.attr="disabled" wire:target="exportNssfData"
             wire:click="exportNssfData">
             <span wire:loading.remove wire:target="exportNssfData">
                 Export NSSF Data
@@ -14,7 +14,7 @@
             </span>
         </button>
 
-        <button class="btn btn-success ml-2" wire:loading.attr="disabled" wire:target="exportNhifData"
+        <button class="btn btn-success ms-2" wire:loading.attr="disabled" wire:target="exportNhifData"
             wire:click="exportNhifData">
             <span wire:loading.remove wire:target="exportNhifData">
                 Export NHIF Data
@@ -24,7 +24,7 @@
             </span>
         </button>
 
-        <button class="btn btn-primary ml-2" wire:loading.attr="disabled" wire:target="exportKraData"
+        <button class="btn btn-primary ms-2" wire:loading.attr="disabled" wire:target="exportKraData"
             wire:click="exportKraData">
             <span wire:loading.remove wire:target="exportKraData">
                 Export KRA Data
@@ -34,7 +34,7 @@
             </span>
         </button>
 
-        <button class="btn btn-primary ml-auto" wire:loading.attr="disabled" wire:target="downloadEmployeesTemplate"
+        <button class="btn btn-primary ms-auto" wire:loading.attr="disabled" wire:target="downloadEmployeesTemplate"
             wire:click="downloadEmployeesTemplate">
             <span wire:loading.remove wire:target="downloadEmployeesTemplate">
                 Download Employees Mass Addition Template
@@ -43,11 +43,6 @@
                 Downloading...
             </span>
         </button>
-
-
-        {{-- <a href="" class="btn btn-dark ms-auto ml-2" wire:click.prevent="exportNssfData">Export NSSF Data</a> --}}
-        {{-- <a href="" class="btn btn-success ml-2" wire:click.prevent="exportNhifData">Export NHIF Data</a> --}}
-        {{-- <a href="" class="btn btn-primary" wire:click.prevent="exportKraData">Export KRA Data</a> --}}
     </div>
     <div class=" mb-3">
         <div class="card-body">
@@ -55,7 +50,7 @@
                 <label for="" class="form-label">
                     <h4>Search an Employee </h4>
                 </label>
-                <input wire:model="search" type="text" class="form-control" name="" id=""
+                <input wire:model.live="search" type="text" class="form-control" name="" id=""
                     aria-describedby="helpId" placeholder="Search By Name">
 
             </div>
@@ -126,19 +121,19 @@
                                         @if ($contract->is_active)
                                             <a href="{{ route('admin.employee_contracts.edit', $contract->id) }}"
                                                 class="btn btn-light shadow-sm"><i
-                                                    class="fas fa-file-signature"></i></a>
+                                                    class="bi bi-file-earmark-medical"></i></a>
                                         @endif
                                     @endforeach
                                 </div>
                                 <div class="flex-col mx-1"><a href="{{ route('admin.employees.show', $employee->id) }}"
-                                        class="btn btn-dark"><i class="fas fa-address-card"></i></a></div>
+                                        class="btn btn-dark"><i class="bi bi-person-vcard"></i></a></div>
                                 <div class="flex-col mx-1"><a href="{{ route('admin.employees.edit', $employee->id) }}"
-                                        class="btn btn-secondary"><i class="fas fa-edit"></i></a></div>
+                                        class="btn btn-secondary"><i class="bi bi-pencil"></i></a></div>
                                 <div class="flex-col mx-1">
                                     <button
                                         onclick="confirm('Are you sure you want to Reset this Employee\'s Password?')||event.stopImmediatePropagation()"
                                         wire:click="resetPassword({{ $employee->user_id }})" class="btn btn-warning"><i
-                                            class="fas fa-unlock"></i>
+                                            class="bi bi-unlock"></i>
                                     </button>
                                 </div>
                                 <div class="flex-col mx-1">
@@ -146,7 +141,7 @@
                                         <!-- Modal trigger button -->
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#banEmployee{{ $employee->id }}">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="bi bi-trash"></i>
                                         </button>
 
                                         <!-- Modal Body -->
@@ -165,7 +160,7 @@
                                                     <div class="modal-body">
                                                         <div class="mb-3">
                                                             <label for="reason" class="form-label">Reason</label>
-                                                            <textarea placeholder="Enter your Reason" wire:model='reason' class="form-control" name="reason" id="reason"
+                                                            <textarea placeholder="Enter your Reason" wire:model.live='reason' class="form-control" name="reason" id="reason"
                                                                 rows="3"></textarea>
                                                         </div>
                                                     </div>
@@ -179,19 +174,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- @push('scripts')
-                                            <script>
-                                                Livewire.on('done', (e) => {
-                                                    let modalElement = document.querySelector('#banEmployee{{ $employee->id }}');
-                                                    $(modalElement).modal('hide');
-                                                });
-                                            </script>
-                                        @endpush --}}
                                     @else
                                         <button
                                             onclick="confirm('Are you sure you want to unban this Employee\'s Login?')||event.stopImmediatePropagation()"
                                             wire:click="unban({{ $employee->ban->id }})" class="btn btn-secondary"><i
-                                                class="fas fa-unlock"></i>{{ $employee->ban->id }}
+                                                class="bi bi-unlock"></i>{{ $employee->ban->id }}
                                         </button>
                                     @endif
 
@@ -200,13 +187,13 @@
                                 <div class="flex-col mx-1">
                                     @if (!$employee->has_left)
                                         <a href="{{ route('admin.employees.mark-exit', $employee->id) }}"
-                                            class="btn btn-dark text-danger"><i class="fas fa-sign-out-alt"></i></a>
+                                            class="btn btn-dark text-danger"><i class="bi bi-box-arrow-left"></i></a>
                                     @else
                                         <button
                                             onclick="confirm('Are you sure you want to restore this employee?')||event.stopImmediatePropagation()"
                                             wire:click="restoreEmployee({{ $employee->id }})"
                                             class="btn btn-dark text-success"><i
-                                                class="fas fa-sign-in-alt"></i></button>
+                                                class="bi bi-box-arrow-right"></i></button>
                                     @endif
                                 </div>
                             </div>

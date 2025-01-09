@@ -1,10 +1,10 @@
 <div>
     <x-slot name="header">
-        Bonuses Overview
+        Welfare Contribuitions Overview
     </x-slot>
 
     <div class="container-fluid">
-        <div class="card-header d-flex">
+        <div class="my-3 d-flex">
             <button class="btn btn-primary ms-auto"  wire:loading.attr="disabled" wire:target="downloadWelfareContributionsData"
                 wire:click="downloadWelfareContributionsData">
                 <span wire:loading.remove wire:target="downloadWelfareContributionsData">
@@ -16,8 +16,12 @@
             </button>
         </div>
         <div class="card">
-            <div class="card-header">
+            <div class="card-header d-flex">
                 <h5>List of Issued Welfare Contributions</h5>
+                <div class="ms-auto">
+                    <a href="{{ route('admin.welfare_contributions.create') }}" class="btn btn-primary ml-auto">Create New</a>
+                    <a href="{{ route('admin.welfare_contributions.mass_addition') }}" class="btn btn-secondary ml-auto">Create Many</a>
+                </div>
             </div>
             <div class="card-body table-responsive">
                 <table class="table">
@@ -43,12 +47,12 @@
                                     <div class="flex-col me-2">
                                         <a href="{{ route('admin.welfare_contributions.edit', $welfare_contribution->id) }}"
                                             class="btn btn-secondary">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="bi bi-pencil"></i>
                                         </a>
                                     </div>
                                     <div class="flex-col">
-                                        <button class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
+                                        <button class="btn btn-danger" onclick="confirm('Are you sure you wish to delete this Advance?')||event.stopImmediatePropagation()" wire:click='delete({{ $welfare_contribution->id }})'>
+                                            <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
                                 </td>

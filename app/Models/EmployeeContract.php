@@ -21,7 +21,8 @@ class EmployeeContract extends Model
 
     public function getIsActiveAttribute()
     {
-        return Carbon::now()->lessThan($this->end_date);
+
+        return Carbon::now()->lessThan($this->end_date ?? 'now');
     }
 
 

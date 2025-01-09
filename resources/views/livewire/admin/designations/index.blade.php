@@ -27,11 +27,11 @@
                                 <td class="d-flex flex-row justify-content-center">
                                     <div class="flex-col mx-2">
                                         <a href="{{ route('admin.designations.edit', $designation->id) }}"
-                                            class="btn btn-secondary"><i class="fas fa-edit"></i></a>
+                                            class="btn btn-secondary"><i class="bi bi-pencil"></i></a>
                                     </div>
                                     <div class="flex-col mx-2">
                                         <button class="btn btn-danger" onclick="confirm('Are you Sure You want to delete the designation?')||event.stopImmediatePropagation()" wire:click="delete({{ $designation->id }})"><i
-                                                class="fas fa-trash"></i></button>
+                                                class="bi bi-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>

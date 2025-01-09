@@ -12,7 +12,7 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="" class="form-label">Year</label>
-                            <input wire:model="yearmonth" type="month" class="form-control" name=""
+                            <input wire:model.live="yearmonth" type="month" class="form-control" name=""
                                 id="" aria-describedby="helpId" placeholder="Choose the Year">
                             @error('yearmonth')
                                 <small id="helpId" class="form-text text-danger">{{ $message }}</small>
@@ -64,205 +64,146 @@
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        @if (!$payrolls)
-                            <tr>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
 
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                                <th>
-                                    <div class="spinner-grow" role="status"></div>
-                                </th>
-                            </tr>
-                        @else
-                            @foreach ($payrolls as $payroll)
-                                <tr class="">
-                                    <td scope="row">#{{ $payroll->id }}</td>
-                                    <td>{{ Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->format('F Y') }}
-                                    </td>
-                                    <td>KES <span class="text-primary">{{ number_format($payroll->total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->paye_total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->nssf_total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->nhif_total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->shif_total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->nita_total, 2) }}</span>
-                                    </td>
-                                    <td>KES <span
-                                            class="text-success">{{ number_format($payroll->housing_levy_total, 2) }}</span>
-                                    </td>
+                        @foreach ($payrolls as $payroll)
+                            <tr class="">
+                                <td scope="row">#{{ $payroll->id }}</td>
+                                <td>{{ Carbon\Carbon::parse($payroll->year . '-' . $payroll->month)->format('F Y') }}
+                                </td>
+                                <td>KES <span class="text-primary">{{ number_format($payroll->total, 2) }}</span>
+                                </td>
+                                <td>KES <span class="text-success">{{ number_format($payroll->paye_total, 2) }}</span>
+                                </td>
+                                <td>KES <span class="text-success">{{ number_format($payroll->nssf_total, 2) }}</span>
+                                </td>
+                                <td>KES <span class="text-success">{{ number_format($payroll->nhif_total, 2) }}</span>
+                                </td>
+                                <td>KES <span class="text-success">{{ number_format($payroll->shif_total, 2) }}</span>
+                                </td>
+                                <td>KES <span class="text-success">{{ number_format($payroll->nita_total, 2) }}</span>
+                                </td>
+                                <td>KES <span
+                                        class="text-success">{{ number_format($payroll->housing_levy_total, 2) }}</span>
+                                </td>
 
-                                    <td>
-                                        KES
-                                        <span class="text-success">{{ number_format($payroll->advances_total, 2) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        KES
-                                        <span class="text-success">{{ number_format($payroll->overtimes_total, 2) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        KES
-                                        <span class="text-success">{{ number_format($payroll->bonuses_total, 2) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        KES
-                                        <span class="text-success">{{ number_format($payroll->fines_total, 2) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        KES
-                                        <span class="text-success">{{ number_format($payroll->loans_total, 2) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        KES
-                                        <span
-                                            class="text-success">{{ number_format($payroll->welfare_contributions_total, 2) }}
-                                        </span>
-                                    </td>
-                                    <td class="bg-dark text-white">KES <span
-                                            class="text-success">{{ number_format($payroll->net_pay_total, 2) }}</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-row my-1 justify-content-center">
+                                <td>
+                                    KES
+                                    <span class="text-success">{{ number_format($payroll->advances_total, 2) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    KES
+                                    <span class="text-success">{{ number_format($payroll->overtimes_total, 2) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    KES
+                                    <span class="text-success">{{ number_format($payroll->bonuses_total, 2) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    KES
+                                    <span class="text-success">{{ number_format($payroll->fines_total, 2) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    KES
+                                    <span class="text-success">{{ number_format($payroll->loans_total, 2) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    KES
+                                    <span
+                                        class="text-success">{{ number_format($payroll->welfare_contributions_total, 2) }}
+                                    </span>
+                                </td>
+                                <td class="bg-dark text-white">KES <span
+                                        class="text-success">{{ number_format($payroll->net_pay_total, 2) }}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-row my-1 justify-content-center">
 
-                                            <div class="flex-col m-3">
-                                                <button class="btn btn-secondary" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Update Payroll"
-                                                    wire:click="update({{ $payroll->id }})">
-                                                    <i class="material-icons material-symbols-outlined">update</i>
-                                                </button>
-                                            </div>
-                                            <div class="flex-col m-3">
-                                                <button class="btn btn-secondary" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Download Excel Breakdown"
-                                                    wire:click="downloadPayrollBreakdown({{ $payroll->id }})">
-                                                    <i class="material-icons material-symbols-outlined">description</i>
-                                                </button>
-                                            </div>
-                                            @if (!count($payroll->payments) > 0)
-                                                <div class="flex-col m-3">
-                                                    <button class="btn btn-dark" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" title="Make Payments"
-                                                        wire:click="makePayment({{ $payroll->id }})">
-                                                        <i
-                                                            class="material-icons material-symbols-outlined">monetization_on</i>
-                                                    </button>
-                                                </div>
-                                            @else
-                                                <div class="flex-col m-3">
-                                                    <button class="btn btn-primary" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" title="Download NSSF Breakdown"
-                                                        wire:click="downloadStatutoriesBreakdown({{ $payroll->id }})">
-                                                        <i
-                                                            class="material-icons material-symbols-outlined">fact_check</i>
-                                                    </button>
-                                                </div>
-                                                <div class="flex-col m-3">
-                                                    <button class="btn btn-success" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" title="Download Banking Guide"
-                                                        wire:click="downloadBankSlip({{ $payroll->id }})">
-                                                        <i
-                                                            class="material-icons material-symbols-outlined">monetization_on</i>
-                                                    </button>
-                                                </div>
-                                            @endif
-                                            @if (count($payroll->payments) > 0)
-                                                <div class="flex-col m-3">
-                                                    <a href="{{ route('admin.payrolls.upload_payment', $payroll->id) }}"
-                                                        class="btn
-                                                    @if ($payroll->is_paid) btn-success
-                                                    @else
-                                                    btn-secondary @endif"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Upload Payment Slip">
-                                                        <i class="material-icons material-symbols-outlined">
-                                                            @if ($payroll->is_paid)
-                                                                file_download_done
-                                                            @else
-                                                                upload_file
-                                                            @endif
-                                                        </i>
-                                                    </a>
-                                                </div>
-                                            @endif
-                                            <div class="flex-col m-3">
-                                                <a href="{{ route('admin.payrolls.show', $payroll->id) }}"
-                                                    class="btn btn-primary" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="View Payroll Breakdown">
-                                                    <i class="material-icons material-symbols-outlined">list</i>
-                                                </a>
-                                            </div>
-
-                                            @if (file_exists('/' . $payroll->month_string . '.pdf'))
-                                                <a href="/{{ $payroll->month_string . '.pdf' }}">
-                                                    <i class="material-icons material-symbols-outlined">download</i>
-
-                                                </a>
-                                            @endif
-                                            <div class="flex-col m-3">
-                                                <button wire:click="delete({{ $payroll->id }})"
-                                                    class="btn btn-danger" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Delete">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
+                                        <div class="flex-col m-3">
+                                            <button class="btn btn-secondary" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" title="Update Payroll"
+                                                wire:click="update({{ $payroll->id }})">
+                                                <i wire:loading.remove wire:target='update({{ $payroll->id }})' class="bi bi-arrow-repeat"></i>
+                                                <i wire:loading wire:target='update({{ $payroll->id }})' class="spinner-border spinner-border-sm"></i>
+                                            </button>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
+                                        <div class="flex-col m-3">
+                                            <button class="btn btn-secondary" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" title="Download Payroll Breakdown"
+                                                wire:click="downloadPayrollBreakdown({{ $payroll->id }})">
+                                                <i wire:loading.remove wire:target='downloadPayrollBreakdown({{ $payroll->id }})' class="bi bi-file-earmark-spreadsheet"></i>
+                                                <i wire:loading wire:target='downloadPayrollBreakdown({{ $payroll->id }})' class="spinner-border spinner-border-sm"></i>
+                                            </button>
+                                        </div>
+                                        @if (!count($payroll->payments) > 0)
+                                            <div class="flex-col m-3">
+                                                <button class="btn btn-dark" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Make Payments"
+                                                    wire:click="makePayment({{ $payroll->id }})">
+                                                    <i wire:loading.remove wire:target='makePayment({{ $payroll->id }})' class="bi bi-wallet2"></i>
+                                                    <i wire:loading wire:target='makePayment({{ $payroll->id }})' class="spinner-border spinner-border-sm"></i>
+                                                </button>
+                                            </div>
+                                        @else
+                                            <div class="flex-col m-3">
+                                                <button class="btn btn-primary" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Download Statutories Breakdown"
+                                                    wire:click="downloadStatutoriesBreakdown({{ $payroll->id }})">
+                                                    <i wire:loading.remove wire:target='downloadStatutoriesBreakdown({{ $payroll->id }})' class="bi bi-list-check"></i>
+                                                    <i wire:loading wire:target='downloadStatutoriesBreakdown({{ $payroll->id }})' class="spinner-border spinner-border-sm"></i>
+                                                </button>
+                                            </div>
+                                            <div class="flex-col m-3">
+                                                <button class="btn btn-success" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Download Banking Bulk File"
+                                                    wire:click="downloadBankSlip({{ $payroll->id }})">
+                                                    <i wire:loading.remove wire:target='downloadBankSlip({{ $payroll->id }})' class="bi bi-file-earmark-arrow-down"></i>
+                                                    <i wire:loading wire:target='downloadBankSlip({{ $payroll->id }})' class="spinner-border spinner-border-sm"></i>
+                                                </button>
+                                            </div>
+                                        @endif
+                                        @if (count($payroll->payments) > 0)
+                                            <div class="flex-col m-3">
+                                                <a href="{{ route('admin.payrolls.upload_payment', $payroll->id) }}"
+                                                    class="btn btn-{{ $payroll->is_paid ? 'success' : 'secondary' }}"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Upload Payment Slip">
+                                                    <i
+                                                        class="bi bi-{{ $payroll->is_paid ? 'check-circle' : 'upload' }}">
+                                                    </i>
+                                                </a>
+                                            </div>
+                                        @endif
+                                        <div class="flex-col m-3">
+                                            <a href="{{ route('admin.payrolls.show', $payroll->id) }}"
+                                                class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="View Payroll Breakdown">
+                                                <i class="bi bi-list-columns"></i>
+                                            </a>
+                                        </div>
+
+                                        @if (file_exists('/' . $payroll->month_string . '.pdf'))
+                                            <a href="/{{ $payroll->month_string . '.pdf' }}">
+                                                <i class="bi bi-download"></i>
+
+                                            </a>
+                                        @endif
+                                        <div class="flex-col m-3">
+                                            <button wire:click="delete({{ $payroll->id }})" class="btn btn-danger"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Payroll" wire:loading.attr="disabled" wire:target="delete({{ $payroll->id }})">
+                                                <i wire:loading.remove wire:target="delete({{ $payroll->id }})" class="bi bi-trash"></i>
+                                                <i wire:loading wire:target="delete({{ $payroll->id }})" class="spinner-border spinner-border-sm" ></i>
+
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

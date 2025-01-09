@@ -9,7 +9,7 @@
             <div class="form-group">
                 <label for="date">Date</label>
                 <input type="date" class="form-control" name="date" id="date" aria-describedby="date"
-                    wire:model='date' placeholder="">
+                    wire:model.live='date' placeholder="">
                 @error('date')
                     <small id="date" class="form-text text-danger">{{ $message }}</small>
                 @enderror

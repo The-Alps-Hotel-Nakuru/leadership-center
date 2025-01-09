@@ -32,6 +32,7 @@
                             <th scope="col">Bonuses<span class="text-success">(+)</span></th>
                             <th scope="col">Fines <span class="text-danger">(-)</span></th>
                             <th scope="col">Loan Repayment <span class="text-danger">(-)</span></th>
+                            <th scope="col">Welfare Contributions <span class="text-danger">(-)</span></th>
                             <th scope="col">Additions <span class="text-success">(+)</span></th>
                             <th scope="col">Deductions <span class="text-success">(+)</span></th>
                             <th scope="col">Net Pay</th>
@@ -57,6 +58,7 @@
                             $total_bonuses = 0;
                             $total_fines = 0;
                             $total_loans = 0;
+                            $total_welfare = 0;
                         @endphp
                         @foreach ($payroll->monthlySalaries()->orderBy('basic_salary_kes', 'DESC')->get() as $salary)
                             <tr class="">
@@ -98,18 +100,18 @@
                                 <td>KES {{ number_format($salary->bonuses, 2) }}</td>
                                 <td>KES {{ number_format($salary->fines, 2) }}</td>
                                 <td>KES {{ number_format($salary->loans, 2) }}</td>
+                                <td>KES {{ number_format($salary->welfare_contributions, 2) }}</td>
                                 <td>KES {{ number_format($salary->total_additions, 2) }}</td>
                                 <td>KES {{ number_format($salary->total_deductions, 2) }}</td>
                                 <td>
                                     <strong class="text-success">KES
                                         {{ number_format($salary->net_pay, 2) }}</strong>
                                 </td>
-                                <td class="d-flex flex-row justify-content-center">
+                                <td>
                                     <div class="flex-col m-2">
-                                        <a href="{{ route('doc.payslip', $salary->id) }}" class="btn btn-primary">
-                                            <i class="material-icons material-symbols-outlined" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="View Payslip">
-                                                receipt_long
+                                        <a href="{{ route('doc.payslip', $salary->id) }}" class="btn btn-primary"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="View Payslip">
+                                            <i class="bi bi-file-earmark-pdf">
                                             </i>
                                         </a>
                                     </div>
@@ -127,6 +129,7 @@
                                     $total_bonuses += $salary->bonuses;
                                     $total_fines += $salary->fines;
                                     $total_loans += $salary->loans;
+                                    $total_welfare += $salary->welfare_contributions;
                                     $total_additions += $salary->total_additions;
                                     $total_deductions += $salary->total_deductions;
                                     $total_net += $salary->net_pay;
@@ -148,24 +151,25 @@
                             <td class="text-primary"><strong>KES {{ number_format($total_gross, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_nssf, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_paye, 2) }}</strong></td>
-                            @if ($total_nhif)
-                                <td class="text-danger"><strong>KES {{ number_format($total_nhif, 2) }}</strong></td>
-                            @endif
-                            @if ($total_shif)
-                                <td class="text-danger"><strong>KES {{ number_format($total_shif, 2) }}</strong></td>
-                            @endif
+
+                            <td class="text-danger"><strong>KES {{ number_format($total_nhif, 2) }}</strong></td>
+
+                            <td class="text-danger"><strong>KES {{ number_format($total_shif, 2) }}</strong></td>
+
                             <td class="text-danger"><strong>KES {{ number_format($total_nita, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_housing_levy, 2) }}</strong>
                             </td>
-                            <td class="text-danger"><strong>KES {{ number_format($total_overtimes, 2) }}</strong>
+                            <td class="text-success"><strong>KES {{ number_format($total_overtimes, 2) }}</strong>
                             </td>
                             <td class="text-success"><strong>KES {{ number_format($total_bonuses, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_fines, 2) }}</strong></td>
                             <td class="text-danger"><strong>KES {{ number_format($total_loans, 2) }}</strong></td>
+                            <td class="text-danger"><strong>KES {{ number_format($total_welfare, 2) }}</strong></td>
                             <td class="text-success"><strong>KES {{ number_format($total_additions, 2) }}</strong></td>
-                            <td class="text-danger"><strong>KES {{ number_format($total_deductions, 2) }}</strong>
+                            <td class="text-success"><strong>KES {{ number_format($total_deductions, 2) }}</strong>
                             </td>
-                            <td class="bg-dark text-white"><strong>KES {{ number_format($total_net, 2) }}</strong></td>
+                            <td class="bg-dark text-white"><strong>KES <span
+                                        class="text-success">{{ number_format($total_net, 2) }}</span></strong></td>
                         </tr>
                     </tfoot>
                 </table>
