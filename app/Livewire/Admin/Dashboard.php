@@ -16,6 +16,7 @@ use Asantibanez\LivewireCharts\Models\LineChartModel;
 use Carbon\Carbon;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
+use Livewire\Livewire;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -68,19 +69,24 @@ class Dashboard extends Component
         }
 
 
-        $chartModel = LivewireCharts::multiLineChartModel();
+        $chartModel = new ColumnChartModel();
         $chartModel->setTitle("Total Amount");
         $chartModel->setAnimated('ease-in');
-        $chartModel->setSmoothCurve();
-        $chartModel->setDataLabelsEnabled(true);
+        // $chartModel->setSmoothCurve();
+        $chartModel->withDataLabels();
         foreach ($data as $key => $value) {
-            $chartModel->addSeriesPoint( "Payroll Amount",$labels[$key], $value);
+            $chartModel->addColumn($labels[$key], $value, '#242464');
         }
 
+        // $chartModel->setColors(['#242464']);
         $chartModel->setJsonConfig([
-            'tooltip.y.formatter' => '(val) => `KES ${val.toLocaleString()}`',
-            'dataLabels.formatter' => '(val) => `KES ${val.toLocaleString()}`',
-            'yaxis.labels.formatter' => '(val) => `KES ${val.toLocaleString()}`',
+            'yaxis.labels.formatter' => "function (value) {
+                        return 'KES ' + value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});}",
+            'dataLabels.formatter' => "function (value) {
+                        return 'KES ' + value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});}",
+            'tooltip.y.formatter' => "function (value) {
+                        return 'KES ' + value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                    }",
         ]);
 
         return $chartModel;

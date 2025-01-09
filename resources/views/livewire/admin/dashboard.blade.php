@@ -132,7 +132,7 @@
                     <h3 class="text-center">Payroll Final Amounts</h3>
                 </div>
                 <div class="card-body" style="height: 32rem;">
-                    <livewire:livewire-line-chart :line-chart-model="$chartModel" />
+                    <livewire:livewire-column-chart :column-chart-model="$chartModel" />
                 </div>
 
             </div>
