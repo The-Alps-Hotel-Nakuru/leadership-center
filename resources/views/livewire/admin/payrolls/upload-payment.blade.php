@@ -7,7 +7,7 @@
             <h5>Upload File for Payroll ({{ $payroll->yearmonth }})</h5>
         </div>
         <div class="card-body">
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="">Payment Slip</label>
                 <input type="file" wire:model.live='payment_slip' class="form-control" name="" id=""
                     aria-describedby="helpId" placeholder="">
@@ -16,7 +16,7 @@
                 @enderror
             </div>
 
-            <button wire:click='upload' class="btn btn-primary">Save</button>
+            <button wire:click='save' class="btn btn-dark">Save</button>
         </div>
 
     </div>

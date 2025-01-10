@@ -12,7 +12,7 @@ class UploadPayment extends Component
 {
     use WithFileUploads;
 
-    public Payroll $payroll;
+    public $payroll;
     public $payment_slip;
 
     protected $rules = [
@@ -24,10 +24,10 @@ class UploadPayment extends Component
     ];
     public function mount($id)
     {
-        $this->payroll = Payroll::findOrFail($id);
+        $this->payroll = Payroll::find($id);
     }
 
-    public function upload()
+    public function save()
     {
         $this->validate();
 
@@ -35,6 +35,8 @@ class UploadPayment extends Component
         $this->payment_slip->storeAs('payment_slips/', $fileName, 'public');
         $this->payroll->payment_slip_path = 'payment_slips/'  . '/' . $fileName;
         $this->payroll->update();
+
+        // $this->dispatch('done', success: "Upload Successful");
 
         return redirect()->route('admin.payrolls.index');
     }
