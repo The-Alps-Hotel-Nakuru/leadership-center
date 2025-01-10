@@ -14,10 +14,10 @@
                 </div>
             </div>
             <div class="card-body table-responsive">
-                <table class="table table-hover  mb-5">
+                <table class="table table-hover table-bordered align-middle mb-5">
                     <thead>
                         <tr>
-                            <th>Employee Details</th>
+                            <th>Employee's Details</th>
                             <th>Days</th>
                         </tr>
                     </thead>
@@ -27,8 +27,8 @@
                                 <td>
                                     <div class="d-flex flex-row">
                                         <div class="flex-col m-2">
-                                            <img class="img-thumbnail rounded-circle shadow" width="100px"
-                                                height="100px" src="{{ $employee->user->profile_photo_url }}"
+                                            <img class="img-thumbnail rounded-circle shadow" width="80px"
+                                                height="80px" width="80px" src="{{ $employee->user->profile_photo_url }}"
                                                 alt="">
                                         </div>
                                         <div class="flex-col m-2">
@@ -85,14 +85,14 @@
                                             <a href="{{ route('admin.attendances.edit', [$employee->id, $instance->format('Y-m-d')]) }}"
                                                 class="btn btn-secondary"><i class="bi bi-pencil"></i></a>
                                         </div>
+                                    </div>
                                 </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-            </tr>
-            @endforeach
-            </tbody>
-            </table>
-        </div>
 
+        </div>
     </div>
-</div>
 </div>

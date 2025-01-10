@@ -15,20 +15,20 @@
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-hover table-bordered align-middle mb-5">
-                    <thead class="table-light">
+                    <thead>
                         <tr>
-                            <th>Employee's Full Name</th>
+                            <th>Employee's Details</th>
                             <th>Days</th>
                         </tr>
                     </thead>
-                    <tbody class="table-group-divider">
+                    <tbody>
                         @foreach ($employees as $employee)
                             <tr>
                                 <td>
                                     <div class="d-flex flex-row">
                                         <div class="flex-col m-2">
-                                            <img class="img-thumbnail rounded-circle shadow" width="100px"
-                                                height="100px" src="{{ $employee->user->profile_photo_url }}"
+                                            <img class="img-thumbnail rounded-circle shadow" width="80px"
+                                                height="80px" src="{{ $employee->user->profile_photo_url }}"
                                                 alt="">
                                         </div>
                                         <div class="flex-col m-2">
@@ -67,7 +67,7 @@
                                                     ->first();
                                             @endphp
                                             <div
-                                                class="p-2   {{ in_array($date, $employee->extra_work_dates) ? 'bg-success' : 'bg-danger' }}">
+                                                class="p-2   {{ in_array($date, $employee->extra_work_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1) ? 'bg-danger' : 'bg-secondary')) }}">
                                                 {{ sprintf('%02d', $i + 1) }}
                                                 @php
                                                     if (in_array($date, $employee->extra_work_dates)) {

@@ -1,10 +1,17 @@
 <div>
     <x-slot name="header">
-        Departments Overview
+        Designations Overview
     </x-slot>
     <div class="container-fluid">
         <div class="card">
-            <div class="table-responsive">
+            <div class="card-header d-flex">
+                <h5>List of Designations</h5>
+                <a href="{{ route('admin.designations.create') }}" class="btn btn-primary ms-auto" data-bs-toggle="tooltip"
+                    title="Create a Designation">
+                    <i class="bi bi-plus"></i>
+                </a>
+            </div>
+            <div class="table-responsive card-body">
                 <table class="table">
                     <thead>
                         <tr>
@@ -39,7 +46,9 @@
                     </tbody>
                 </table>
             </div>
-            <div class="my-3"> {{ $designations->links() }}</div>
+            <div class="card-footer">
+                <div class="my-3"> {{ $designations->links() }}</div>
+            </div>
         </div>
     </div>
 </div>
