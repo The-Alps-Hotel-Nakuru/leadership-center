@@ -97,7 +97,6 @@ p {
 
 .bg-gradient-black {
     background: darken($color: #bbbbcb, $amount: 60) !important;
-
 }
 .bg-gradient-maroon {
     background: darken($color: #bbbbcd, $amount: 60) !important;
@@ -112,4 +111,22 @@ p {
 }
 .content {
     background-color: #dddddd !important;
+}
+.force-bg {
+    background: linear-gradient(90deg, #010a1c, #242464) !important;
+    box-shadow: 2px 2px 5px #010a1c;
+    color: whitesmoke;
+    z-index: 1;
+    h1 {
+        // font-size: 30px;
+        font-size: 3.5vw;
+    }
+}
+.bg-force-grey {
+    background: linear-gradient(90deg, #d4d4d4, #ffffff) !important;
+    color: black;
+}
+
+.fullscreen {
+    height: 100vh;
 }

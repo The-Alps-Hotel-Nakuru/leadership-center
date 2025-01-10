@@ -39,12 +39,17 @@
     @livewireStyles
 </head>
 
-<body
-    style="background-image: url('/bg.jpg');height: 100%; background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;">
-    <div class="font-sans text-gray-900 antialiased">
-        {{ $slot }}
+<body class="fullscreen">
+    <div class="d-flex flex-row h-100 align-middle">
+        <div class="flex-col w-50 force-bg d-none d-md-block text-center">
+            <img class="my-5" src="{{ asset('logo_light.png') }}" width="30%" height="auto" alt="">
+            <h1 class="text-center"> Welcome to Force</h1>
+        </div>
+        <div class="flex-col w-50 bg-force-grey">
+            <div class="font-sans text-gray-900 antialiased my-auto">
+                {{ $slot }}
+            </div>
+        </div>
     </div>
 
     @livewireScripts

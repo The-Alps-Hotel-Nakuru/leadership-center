@@ -5,7 +5,7 @@
                 {{ $logo }}
             </div>
 
-            <div class="card shadow-sm px-1 mx-4">
+            <div class="card shadow px-2 mx-3">
                 {{ $slot }}
             </div>
         </div>
