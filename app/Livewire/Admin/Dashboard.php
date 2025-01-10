@@ -20,6 +20,7 @@ use Livewire\Livewire;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
+#[Lazy()]
 class Dashboard extends Component
 {
 
