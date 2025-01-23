@@ -43,7 +43,7 @@ class MonthlySalary extends Model
     {
         return $this->payroll->month;
     }
-    function contracts()
+    public function contracts()
     {
         return $this->employee->ActiveContractsDuring($this->getMonth()->format("Y-m"));
     }
@@ -64,11 +64,11 @@ class MonthlySalary extends Model
 
         return $contributions;
     }
-    function getDaysWorkedAttribute()
+    public function getDaysWorkedAttribute()
     {
         return $this->employee->daysWorked($this->payroll->year . '-' . $this->payroll->month);
     }
-    function getLeaveDaysAttribute()
+    public function getLeaveDaysAttribute()
     {
         return $this->employee->daysOnLeave($this->payroll->year . '-' . $this->payroll->month);
     }
@@ -118,7 +118,6 @@ class MonthlySalary extends Model
             }
         }
 
-        // return $nita;
         return $nita;
     }
     public function getTaxableIncomeAttribute()
@@ -147,7 +146,7 @@ class MonthlySalary extends Model
 
         return $this->is_taxable ? $calculations->getShif() : 0;
     }
-    function getHousingLevyAttribute()
+    public function getHousingLevyAttribute()
     {
         $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
 
@@ -195,7 +194,7 @@ class MonthlySalary extends Model
 
         return $f;
     }
-    function getOvertimesAttribute()
+    public function getOvertimesAttribute()
     {
         $o = 0;
 
