@@ -21,8 +21,8 @@
     <div class="card table-responsive">
         <div class="card-header d-flex">
             <h5>My Leave Requests</h5>
-            <a href="{{ route('employee.leave-requests.create') }}" class="btn btn-xs btn-secondary ml-auto"><i
-                    class="fas fa-plus"></i> New Leave Request</a>
+            <a href="{{ route('employee.leave-requests.create') }}" class="btn btn-xs btn-secondary ms-auto"><i
+                    class="bi bi-add"></i> New Leave Request</a>
         </div>
         <table class="table table-hover ">
             <thead class="">
@@ -51,12 +51,12 @@
                             <td class="d-flex flex-row justify-content-center">
                                 <div class="flex-col mx-2">
                                     <a href="{{ route('employee.leave-requests.edit', $request->id) }}"
-                                        class="btn btn-secondary"><i class="fas fa-edit"></i></a>
+                                        class="btn btn-secondary"><i class="bi bi-pencil"></i></a>
                                 </div>
                                 {{-- <div class="flex-col mx-2">
                                     <button class="btn btn-danger"
                                         onclick="confirm('Are you Sure You want to delete the Leave Request?')||event.stopImmediatePropagation()"
-                                        wire:click="delete({{ $request->id }})"><i class="fas fa-trash"></i></button>
+                                        wire:click="delete({{ $request->id }})"><i class="bi bi--trash"></i></button>
                                 </div> --}}
                             </td>
                         </tr>

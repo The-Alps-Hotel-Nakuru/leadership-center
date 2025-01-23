@@ -24,9 +24,10 @@ class P9Forms extends Component
         if ($employee) {
             $this->p9Data = $p9FormGenerator->generate($employee, $this->year);
         } else {
-            $this->emit('done', [
-                'warning' => "Employee Not Found"
-            ]);
+            $this->dispatch(
+                'done',
+                warning: "Employee Not Found"
+            );
         }
     }
 

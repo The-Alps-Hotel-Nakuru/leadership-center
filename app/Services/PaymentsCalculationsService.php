@@ -17,8 +17,6 @@ class PaymentsCalculationsService
     public function getNssf()
     {
         $nssf = 0;
-        // New NSSF Rates applied on the 1st February 2024
-
         if (Carbon::parse($this->date)->isBefore('2024-02-01')) {
             $nssf = 0.06 * $this->gross_salary;
 
@@ -32,13 +30,15 @@ class PaymentsCalculationsService
                 $nssf = 2160;
             }
         }
-
         return $nssf;
     }
 
     public function getTaxableIncome()
     {
-        return $this->gross_salary - $this->getNssf();
+        if (Carbon::parse($this->date)->isBefore("2025-01-01")) {
+            return $this->gross_salary - $this->getNssf();
+        }
+        return $this->gross_salary - ($this->getNssf() + $this->getHousingLevy() + $this->getShif());
     }
     public function getIncomeTax()
     {
@@ -86,8 +86,6 @@ class PaymentsCalculationsService
                 }
             }
         }
-
-
         return $nhif;
     }
 
@@ -104,7 +102,6 @@ class PaymentsCalculationsService
         } else {
             return 0;
         }
-
         return $shif;
     }
 
@@ -115,7 +112,6 @@ class PaymentsCalculationsService
         if (Carbon::parse($this->date)->isAfter('2024-02-29')) {
             $levy = $this->gross_salary * 0.015; // Get 1.5% of Gross Salary
         }
-
         return $levy;
     }
 
@@ -124,22 +120,29 @@ class PaymentsCalculationsService
         return $this->getInsuranceRelief() + $this->getHousingLevyRelief();
     }
 
-    function getInsuranceRelief()
+    public function getInsuranceRelief()
     {
-        $relief = 0;
+        if (Carbon::parse($this->date)->isBefore("2025-01-01")) {
+            $insurance = 0;
 
-        $relief += ($this->getNhif() * 0.15);
+            $insurance += $this->getNhif();
 
-        if (Carbon::parse($this->date)->isAfter("2024-10-31")) {
-            $relief += ($this->getShif() * 0.15) > 5000 ? 5000 : ($this->getShif() * 0.15);
+            if (Carbon::parse($this->date)->isAfter("2024-10-31")) {
+                $insurance += $this->getShif();
+            }
+
+            return 0.15 * $insurance;
         }
-
-        return $relief;
+        return 0;
     }
 
-    function getHousingLevyRelief()
+    public function getHousingLevyRelief()
     {
-        return 0.15 * $this->getHousingLevy();
+        if (Carbon::parse($this->date)->isBefore("2025-01-01")) {
+            return 0.15 * $this->getHousingLevy();
+        }
+
+        return 0;
     }
 
 

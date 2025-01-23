@@ -54,15 +54,17 @@ class Create extends Component
             // Mail::to(env('COMPANY_EMAIL'))->send(new MailLeaveRequest($this->leaveRequest));
             SendNewLeaveRequestEmailJob::dispatch($this->leaveRequest);
 
-            $this->emit('done', [
-                'success' => "Successfully made your Leave Request"
-            ]);
+            $this->dispatch(
+                'done',
+                success: "Successfully made your Leave Request"
+            );
             $this->reset();
         } catch (\Throwable $th) {
             //throw $th;
-            $this->emit('done', [
-                'warning' => $th->getMessage()
-            ]);
+            $this->dispatch(
+                'done',
+                warning: $th->getMessage()
+            );
         }
     }
     public function render()

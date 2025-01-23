@@ -41,14 +41,16 @@ class Edit extends Component
             // Mail::to(env('COMPANY_EMAIL'))->send(new LeaveRequestEdited($this->leaveRequest));
             SendEditedLeaveRequestEmailJob::dispatch($this->leaveRequest);
 
-            $this->emit('done', [
-                'success' => "Successfully made your Leave Request"
-            ]);
+            $this->dispatch(
+                'done',
+                success: "Successfully made your Leave Request"
+            );
         } catch (\Throwable $th) {
             //throw $th;
-            $this->emit('done', [
-                'warning' => $th->getMessage()
-            ]);
+            $this->dispatch(
+                'done',
+                warning: $th->getMessage()
+            );
         }
     }
     public function render()

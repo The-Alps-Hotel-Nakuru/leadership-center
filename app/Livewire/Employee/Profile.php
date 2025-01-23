@@ -63,9 +63,10 @@ class Profile extends Component
         $this->user->profile_photo_path = 'employees/' . Str::slug($this->user->name) . '/profile_photos/' . $fileName;
         $this->user->update();
 
-        $this->emit('done', [
-            'success'=>'Successfully Saved your Profile Photo'
-        ]);
+        $this->dispatch(
+            'done',
+            success: 'Successfully Saved your Profile Photo'
+        );
     }
 
     function saveBasicDetails()
@@ -86,7 +87,7 @@ class Profile extends Component
 
         // Prepare the log message with the old and new values
         $logMessage = "<strong>" . auth()->user()->name . "</strong> has edited their Basic Details at "
-        . Carbon::now()->format('h:i A') . " in the system.";
+            . Carbon::now()->format('h:i A') . " in the system.";
 
         if ($existingUser) {
             if ($existingUser->first_name != $this->user->first_name) {
@@ -127,9 +128,10 @@ class Profile extends Component
         $this->employee->update();
 
         // Emit success message
-        $this->emit('done', [
-            'success' => 'Successfully Saved Your Details'
-        ]);
+        $this->dispatch(
+            'done',
+            success: 'Successfully Saved Your Details'
+        );
 
         // Save the log entry
         $log = new Log();
@@ -152,7 +154,7 @@ class Profile extends Component
 
         // Prepare the log message with the old and new values
         $logMessage = "<strong>" . auth()->user()->name . "</strong> has edited their Govt. Details at "
-        . Carbon::now()->format('h:i A') . " in the system.";
+            . Carbon::now()->format('h:i A') . " in the system.";
 
         if ($existingDetails) {
             if ($existingDetails->kra_pin != $this->employee->kra_pin) {
@@ -178,9 +180,10 @@ class Profile extends Component
         $this->employee->update();
 
         // Emit success message
-        $this->emit('done', [
-            'success' => 'Successfully Saved Your Details'
-        ]);
+        $this->dispatch(
+            'done',
+            success: 'Successfully Saved Your Details'
+        );
 
         // Save the log entry
         $log = new Log();
@@ -202,7 +205,7 @@ class Profile extends Component
         }
 
         $logMessage = "<strong>" . auth()->user()->name . "</strong> has edited their Payment Details at "
-        . Carbon::now()->format('h:i A') . " in the system.";
+            . Carbon::now()->format('h:i A') . " in the system.";
 
         if ($existingAccount) {
             if ($existingAccount->bank_id != $this->account->bank_id) {
@@ -219,9 +222,10 @@ class Profile extends Component
         }
         $this->account->save();
 
-        $this->emit('done', [
-            'success' => 'Successfully Saved Your Account Details'
-        ]);
+        $this->dispatch(
+            'done',
+            success: 'Successfully Saved Your Account Details'
+        );
 
         $log = new Log();
         $log->user_id = auth()->user()->id;

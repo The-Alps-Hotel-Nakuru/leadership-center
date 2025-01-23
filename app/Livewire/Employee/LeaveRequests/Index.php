@@ -25,13 +25,15 @@ class Index extends Component
 
             $leaveRequest->delete();
 
-            $this->emit('done', [
-                "success" => "Successfully Deleted the Leave Request"
-            ]);
+            $this->dispatch(
+                'done',
+                success: "Successfully Deleted the Leave Request"
+            );
         } catch (\Throwable $th) {
-            $this->emit('done', [
-                "warning" => "Something went Wrong: " . $th->getMessage()
-            ]);
+            $this->dispatch(
+                'done',
+                warning: "Something went Wrong: " . $th->getMessage()
+            );
             //throw $th;
         }
     }
