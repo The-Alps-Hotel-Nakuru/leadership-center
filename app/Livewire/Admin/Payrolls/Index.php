@@ -53,7 +53,7 @@ class Index extends Component
         $this->readyToLoad = true;
     }
 
-    function downloadPayrollBreakdown($id)
+    public function downloadPayrollBreakdown($id)
     {
         try {
             return Excel::download(new PayrollExport($id), env('COMPANY_NAME') . "- Payroll for " . Payroll::find($id)->yearmonth . '.xlsx');
@@ -67,7 +67,7 @@ class Index extends Component
         // dd(Payroll::find($id));
     }
 
-    function downloadStatutoriesBreakdown($id)
+    public function downloadStatutoriesBreakdown($id)
     {
         try {
             return Excel::download(new StatutoriesExport($id), env('COMPANY_NAME') . "- Statutories for " . Payroll::find($id)->yearmonth . '.xlsx');
@@ -80,7 +80,7 @@ class Index extends Component
         }
     }
 
-    function downloadBankSlip($id)
+    public function downloadBankSlip($id)
     {
         try {
             switch (env('BANK_NAME')) {
@@ -124,23 +124,22 @@ class Index extends Component
             $payroll->save();
             foreach (EmployeesDetail::all() as $employee) {
                 $contracts = $employee->ActiveContractsDuring($payroll->year . '-' . $payroll->month);
-                if (count($contracts) > 0) {
-                    $salary = new MonthlySalary();
-                    $salary->payroll_id = $payroll->id;
-                    $salary->employees_detail_id = $employee->id;
-                    $salary->basic_salary_kes = 0;
 
-                    foreach ($contracts as $contract) {
-                        $salary->basic_salary_kes += $contract->EarnedSalaryKes($payroll->year . '-' . $payroll->month);
-                        $salary->is_taxable = $contract->is_taxable;
-                    }
+                $salary = new MonthlySalary();
+                $salary->payroll_id = $payroll->id;
+                $salary->employees_detail_id = $employee->id;
+                $salary->basic_salary_kes = 0;
 
-                    if ($salary->basic_salary_kes <= 0.1) {
-                        continue;
-                    }
-                    $salary->save();
-                    $count++;
+                foreach ($contracts as $contract) {
+                    $salary->basic_salary_kes += $contract->EarnedSalaryKes($payroll->year . '-' . $payroll->month);
+                    $salary->is_taxable = $contract->is_taxable;
                 }
+
+                if ($salary->net_pay <= 0.1) {
+                    continue;
+                }
+                $salary->save();
+                $count++;
             }
             $log = new Log();
             $log->user_id = auth()->user()->id;
@@ -155,7 +154,7 @@ class Index extends Component
         }
     }
 
-    function makePayment($id)
+    public function makePayment($id)
     {
         $payroll = Payroll::find($id);
 
@@ -240,23 +239,22 @@ class Index extends Component
 
         foreach (EmployeesDetail::all() as $employee) {
             $contracts = $employee->ActiveContractsDuring($payroll->year . '-' . $payroll->month);
-            if (count($contracts) > 0) {
-                $salary = new MonthlySalary();
-                $salary->payroll_id = $payroll->id;
-                $salary->employees_detail_id = $employee->id;
-                $salary->basic_salary_kes = 0;
 
-                foreach ($contracts as $contract) {
-                    $salary->basic_salary_kes += $contract->EarnedSalaryKes($payroll->year . '-' . $payroll->month);
-                    $salary->is_taxable = $contract->is_taxable;
-                }
+            $salary = new MonthlySalary();
+            $salary->payroll_id = $payroll->id;
+            $salary->employees_detail_id = $employee->id;
+            $salary->basic_salary_kes = 0;
 
-                if ($salary->basic_salary_kes <= 0.1) {
-                    continue;
-                }
-
-                $salary->save();
+            foreach ($contracts as $contract) {
+                $salary->basic_salary_kes += $contract->EarnedSalaryKes($payroll->year . '-' . $payroll->month);
+                $salary->is_taxable = $contract->is_taxable;
             }
+
+            if ($salary->net_pay <= 0.1) {
+                continue;
+            }
+
+            $salary->save();
         }
 
         // if (count($payroll->payments) > 0) {
@@ -315,7 +313,6 @@ class Index extends Component
     public function placeholder()
     {
         return view('livewire.placeholders.payroll.index');
-
     }
 
 

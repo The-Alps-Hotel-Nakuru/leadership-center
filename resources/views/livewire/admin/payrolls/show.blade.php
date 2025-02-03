@@ -66,7 +66,7 @@
                                 <td>{{ $salary->employee->user->name }}</td>
                                 <td>{{ $salary->employee->designation->title }}</td>
                                 <td class="text-uppercase">
-                                    <strong>{{ $salary->employee->ActiveContractDuring($salary->payroll->year . '-' . $salary->payroll->month)->employment_type->title }}</strong>
+                                    <strong>{{ $salary->employee->ActiveContractDuring($salary->payroll->year . '-' . $salary->payroll->month)?->employment_type->title }}</strong>
                                     <br>
                                     <small>({{ $salary->is_taxable ? 'Is Taxable' : 'Is Not Taxable' }})</small>
                                 </td>

@@ -31,16 +31,16 @@ class EmployeeContract extends Model
         return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');
     }
 
-    function getDurationAttribute()
+    public function getDurationAttribute()
     {
-        $months = Carbon::parse($this->start_date)->diffInMonths($this->end_date);
-        $weeks = Carbon::parse($this->start_date)->diffInWeeks($this->end_date);
-        $days = Carbon::parse($this->start_date)->diffInDays($this->end_date);
-        $hours = Carbon::parse($this->start_date)->diffInHours($this->end_date);
-        $monthsString = Carbon::parse($this->start_date)->diffInMonths($this->end_date) . " months";
-        $weeksString = Carbon::parse($this->start_date)->diffInWeeks($this->end_date) . " weeks";
-        $daysString = Carbon::parse($this->start_date)->diffInDays($this->end_date) . " days";
-        $hoursString = Carbon::parse($this->start_date)->diffInHours($this->end_date) . " hours";
+        $months = number_format(Carbon::parse($this->start_date)->diffInMonths($this->end_date));
+        $weeks = number_format(Carbon::parse($this->start_date)->diffInWeeks($this->end_date));
+        $days = number_format(Carbon::parse($this->start_date)->diffInDays($this->end_date));
+        $hours = number_format(Carbon::parse($this->start_date)->diffInHours($this->end_date));
+        $monthsString = $months . " months";
+        $weeksString = $weeks . " weeks";
+        $daysString = $days . " days";
+        $hoursString = $hours . " hours";
 
         return $months > 0 ? $monthsString : ($weeks > 0 ? $weeksString : ($days > 0 ? $daysString : $hoursString));
     }
@@ -100,7 +100,7 @@ class EmployeeContract extends Model
         return 0;
     }
 
-    function DailyRate($yearmonth)
+    public function DailyRate($yearmonth)
     {
         $daily_rate = 0;
         $monthdays = Carbon::parse($yearmonth)->daysInMonth;
@@ -158,7 +158,7 @@ class EmployeeContract extends Model
         return Carbon::parse($date)->isBefore($this->start_date) || Carbon::parse($date)->isBefore($this->end_date);
     }
 
-    function attendances()
+    public function attendances()
     {
         $attendances = $this->employee->attendances;
 
@@ -172,7 +172,7 @@ class EmployeeContract extends Model
 
         return collect($in);
     }
-    function extra_works()
+    public function extra_works()
     {
         $extras = $this->employee->extra_works;
 
@@ -187,7 +187,7 @@ class EmployeeContract extends Model
         return collect($in);
     }
 
-    function netDaysWorked($yearmonth)
+    public function netDaysWorked($yearmonth)
     {
 
         $month = Carbon::parse($yearmonth);
@@ -205,7 +205,7 @@ class EmployeeContract extends Model
         return $daysWorked;
     }
 
-    function EarnedOffDays($yearmonth)
+    public function EarnedOffDays($yearmonth)
     {
         $offdays = 0;
         $days = Carbon::parse($yearmonth)->daysInMonth;
@@ -217,7 +217,7 @@ class EmployeeContract extends Model
         return $days == 31 ? $offdays : $offdays - 1;
     }
 
-    function daysActive($yearmonth)
+    public function daysActive($yearmonth)
     {
         // Parse the year and month
         $month = Carbon::parse($yearmonth);
@@ -238,7 +238,7 @@ class EmployeeContract extends Model
 
         return $activeDays;
     }
-    function EarnedSalaryKes($yearmonth)
+    public function EarnedSalaryKes($yearmonth)
     {
         $salary = 0;
         $offdays = 0;
@@ -262,7 +262,7 @@ class EmployeeContract extends Model
 
         return $salary;
     }
-    function EarnedOvertimeKes($yearmonth)
+    public function EarnedOvertimeKes($yearmonth)
     {
         $extra_rate = 0;
         $now = Carbon::parse($yearmonth);
@@ -283,7 +283,7 @@ class EmployeeContract extends Model
 
 
 
-    function payrolls()
+    public function payrolls()
     {
         $usedPayrolls = [];
         $payrolls = Payroll::all();
@@ -298,7 +298,7 @@ class EmployeeContract extends Model
         return $usedPayrolls;
     }
 
-    function getHolidays($yearmonth)
+    public function getHolidays($yearmonth)
     {
         $days = [];
         $month = Carbon::parse($yearmonth);
@@ -311,7 +311,7 @@ class EmployeeContract extends Model
 
         return $days;
     }
-    function getAttendedHolidays($yearmonth)
+    public function getAttendedHolidays($yearmonth)
     {
         $days = [];
 
@@ -324,7 +324,7 @@ class EmployeeContract extends Model
         return $days;
     }
 
-    function getHolidayEarnings($yearmonth)
+    public function getHolidayEarnings($yearmonth)
     {
 
         $earning = 0;
