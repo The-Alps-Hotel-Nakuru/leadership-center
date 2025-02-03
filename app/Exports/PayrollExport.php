@@ -2,10 +2,10 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
 use App\Models\EmployeesDetail;
 use App\Models\Payroll;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
@@ -38,7 +38,7 @@ class PayrollExport implements FromCollection, WithHeadings, WithMapping, WithCo
         $salariesArray = [];
 
         foreach ($payroll->monthlySalaries as $salary) {
-            if ($salary->gross_salary > 0) {
+            if ($salary->net_pay > 0) {
                 array_push($salariesArray, $salary);
             }
         }
@@ -82,7 +82,7 @@ class PayrollExport implements FromCollection, WithHeadings, WithMapping, WithCo
 
     public function title(): string
     {
-        return "Full Time Payroll";
+        return "Payroll";
     }
 
 
@@ -123,7 +123,7 @@ class PayrollExport implements FromCollection, WithHeadings, WithMapping, WithCo
         ];
     }
 
-    function map($row): array
+    public function map($row): array
     {
         return [
             $row->id,
@@ -164,7 +164,7 @@ class PayrollExport implements FromCollection, WithHeadings, WithMapping, WithCo
 
 
 
-    function styles(Worksheet $sheet)
+    public function styles(Worksheet $sheet)
     {
         return [
             1 => [
@@ -224,7 +224,7 @@ class PayrollExport implements FromCollection, WithHeadings, WithMapping, WithCo
             },
         ];
     }
-    function columnFormats(): array
+    public function columnFormats(): array
     {
         $KES_FORMAT = '_("KES"* #,##0.00_);_("KES"* \(#,##0.00\);_("KES"* "-"??_);_(@_)';
         return [

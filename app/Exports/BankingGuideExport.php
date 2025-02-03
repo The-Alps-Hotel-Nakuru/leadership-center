@@ -12,8 +12,8 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class BankingGuideExport implements FromCollection, WithHeadings, WithMapping, WithTitle, WithColumnFormatting, ShouldAutoSize, WithEvents
 {
@@ -33,10 +33,7 @@ class BankingGuideExport implements FromCollection, WithHeadings, WithMapping, W
         $employees = [];
 
         foreach ($payroll->payments as $payment) {
-            $employee = EmployeesDetail::find($payment->employees_detail_id);
-            $first = Carbon::parse($payroll->year . '-' . $payroll->month)->firstOfMonth();
-            $last = Carbon::parse($payroll->year . '-' . $payroll->month)->lastOfMonth();
-            if ($employee->ActiveContractBetween($first, $last) && $payment->net_pay > 0.1) {
+            if ($payment->net_pay > 0.1) {
                 array_push($employees, $payment);
             }
         }
