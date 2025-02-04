@@ -26,7 +26,7 @@
                         </thead>
                         <tbody>
                             @foreach ($loans as $loan)
-                                <tr class="">
+                                <tr class="@if ($loan->unsettled_balance > 0) table-danger border-danger @else table-success border-success @endif">
                                     <td scope="row">{{ $loan->id }}</td>
                                     <td>{{ $loan->employee->user->name }}</td>
                                     <td><small>KES </small> <strong>{{ number_format($loan->amount, 2) }}</strong></td>
