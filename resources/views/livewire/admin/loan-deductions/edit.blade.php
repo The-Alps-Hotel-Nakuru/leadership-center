@@ -14,6 +14,10 @@
                   <small id="helpId" class="form-text text-danger">{{ $message }}</small>
               @enderror
             </div>
+            <div class="form-group">
+                <label for="yearmonth">Month</label>
+                <input type="month" class="form-control" wire:model="yearmonth" required>
+            </div>
             <button wire:click='save' class="btn btn-dark text-uppercase">Save</button>
         </div>
     </div>

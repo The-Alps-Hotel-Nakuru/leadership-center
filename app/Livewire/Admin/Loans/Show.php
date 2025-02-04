@@ -10,6 +10,10 @@ class Show extends Component
 {
     public Loan $loan;
 
+    protected $listeners = [
+        'done' => 'render'
+    ];
+
     public function mount($id)
     {
         $this->loan = Loan::find($id);
@@ -18,17 +22,21 @@ class Show extends Component
     public function delete($id)
     {
         $deduction = LoanDeduction::find($id);
-        if (!$deduction->is_settled || !$deduction->loan->hasBeganSettlement()) {
+        try {
+            if ($deduction->is_settled) {
+                throw new \Exception("This Loan Deduction has already been settled. Cannot be deleted");
+            }
             $deduction->delete();
             $this->dispatch(
                 'done',
                 success: "Loan Deduction successfully Deleted"
             );
+        } catch (\Exception $e) {
+            $this->dispatch(
+                'done',
+                error: $e->getMessage()
+            );
         }
-        $this->dispatch(
-            'done',
-            warning: "This Loan has already started the settlement process"
-        );
     }
 
 

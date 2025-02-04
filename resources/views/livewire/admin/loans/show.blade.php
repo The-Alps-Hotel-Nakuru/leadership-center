@@ -5,8 +5,19 @@
 
     <div class="container-fluid">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h5>List of Loan Deductions for Loan #{{ $loan->id }}</h5>
+                @if ($loan->unsettled_balance > 0)
+                    <a href="{{ route('admin.loan_deductions.create', [$loan->id]) }}" class="btn btn-primary ms-auto">
+                    <i class="bi bi-plus"></i>
+                    Create Deduction
+                </a>
+                @else
+                    <a href="#" class="btn btn-secondary disabled ms-auto">
+                        <i class="bi bi-plus"></i>
+                        Create Deduction
+                    </a>
+                @endif
             </div>
             <div class="card-body table-responsive">
                 <table class="table">
@@ -45,6 +56,12 @@
                                 </td>
                             </tr>
                         @endforeach
+
+                        <tr class="@if ($loan->unsettled_balance > 0) table-danger border-danger @else table-success border-success @endif  border-2">
+                            <td colspan="2">Total Unsettled Balance</td>
+                            <td><strong>KES {{ number_format($loan->unsettled_balance, 2) }}</strong></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

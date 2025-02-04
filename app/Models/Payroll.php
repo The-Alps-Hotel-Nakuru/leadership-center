@@ -11,10 +11,11 @@ class Payroll extends Model
     use HasFactory;
 
 
-    function getYearmonthAttribute()
+    public function getYearmonthAttribute()
     {
         return Carbon::parse($this->year . '-' . $this->month)->format('F \of Y');
     }
+
 
     public function monthlySalaries()
     {
@@ -305,7 +306,7 @@ class Payroll extends Model
         return $this->hasMany(PayrollPayment::class);
     }
 
-    function getIsPaidAttribute()
+    public function getIsPaidAttribute()
     {
         if ($this->payment_slip_path && file_exists($this->payment_slip_path)) {
             return true;
@@ -313,18 +314,21 @@ class Payroll extends Model
         return false;
     }
 
-    function getGrossSalaryTotalAttribute()
+
+    public function getGrossSalaryTotalAttribute()
     {
         $total = 0;
+
         foreach ($this->monthlySalaries as $key => $salary) {
             $total += $salary->gross_salary;
         }
 
         return $total;
     }
-    function getOvertimesTotalAttribute()
+    public function getOvertimesTotalAttribute()
     {
         $total = 0;
+
         foreach ($this->monthlySalaries as $key => $salary) {
             $total += $salary->overtimes;
         }
@@ -333,9 +337,10 @@ class Payroll extends Model
     }
 
 
-    function getGrossPaymentsTotalAttribute()
+    public function getGrossPaymentsTotalAttribute()
     {
         $amount = 0;
+
 
         foreach ($this->payments as $key => $payment) {
             $amount += $payment->gross_salary;
@@ -344,9 +349,10 @@ class Payroll extends Model
         return $amount;
     }
 
-    function getNetPayTotalAttribute()
+    public function getNetPayTotalAttribute()
     {
         $amount = 0;
+
 
         foreach ($this->monthlySalaries as $key => $salary) {
             $amount += $salary->net_pay;
@@ -355,9 +361,10 @@ class Payroll extends Model
         return $amount;
     }
 
-    function getPaymentsTotalAttribute()
+    public function getPaymentsTotalAttribute()
     {
         $amount = 0;
+
 
         foreach ($this->payments as $key => $payment) {
             $amount += $payment->net_pay;

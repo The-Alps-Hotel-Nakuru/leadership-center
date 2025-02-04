@@ -16,7 +16,7 @@ class Index extends Component
         'done' => 'render'
     ];
 
-    function delete($id)
+    public function delete($id)
     {
         $loan = Loan::find($id);
 

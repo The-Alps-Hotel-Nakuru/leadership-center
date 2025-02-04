@@ -9,17 +9,18 @@ class Loan extends Model
 {
     use HasFactory;
 
-    function employee()
+    public function employee()
     {
         return $this->belongsTo(EmployeesDetail::class, 'employees_detail_id');
     }
 
-    function loan_deductions()
+    public function loan_deductions()
     {
         return $this->hasMany(LoanDeduction::class);
     }
 
-    function hasBeganSettlement(){
+    public function hasBeganSettlement()
+    {
         foreach ($this->loan_deductions as $key => $deduction) {
             if ($deduction->is_settled) {
                 return true;
@@ -29,7 +30,7 @@ class Loan extends Model
         return false;
     }
 
-    function getTotalAmountAttribute()
+    public function getTotalAmountAttribute()
     {
         $t = 0;
 
@@ -40,16 +41,26 @@ class Loan extends Model
         return $t;
     }
 
-    function getBalanceAttribute(){
+    public function getBalanceAttribute()
+    {
         $balance = $this->amount;
 
         foreach ($this->loan_deductions as $key => $deduction) {
-            if ($deduction->is_settled) {
+            if (!$deduction->is_settled) {
                 $balance -= $deduction->amount;
             }
         }
 
         return $balance;
+    }
+    public function getUnsettledBalanceAttribute()
+    {
+        $balance = $this->amount;
 
+        foreach ($this->loan_deductions as $key => $deduction) {
+            $balance -= $deduction->amount;
+        }
+
+        return $balance;
     }
 }

@@ -19,7 +19,7 @@ class LoanDeduction extends Model
         return $this->hasOneThrough(EmployeesDetail::class, Loan::class, 'employees_detail_id', 'id', 'loan_id', 'id');
     }
 
-    function getIsSettledAttribute()
+    public function getIsSettledAttribute()
     {
         $payroll = Payroll::where('year', $this->year)->where('month', $this->month);
 
