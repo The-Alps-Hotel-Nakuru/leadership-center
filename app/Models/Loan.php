@@ -46,7 +46,7 @@ class Loan extends Model
         $balance = $this->amount;
 
         foreach ($this->loan_deductions as $key => $deduction) {
-            if (!$deduction->is_settled) {
+            if ($deduction->is_settled) {
                 $balance -= $deduction->amount;
             }
         }

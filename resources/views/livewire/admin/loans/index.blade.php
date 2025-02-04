@@ -20,13 +20,14 @@
                                 <th scope="col">Number of Repayments</th>
                                 <th scope="col">Deductions Total</th>
                                 <th scope="col">Balance</th>
+                                <th scope="col">Unrecorded Balance</th>
                                 <th scope="col">Date Issued</th>
                                 <th class="text-center" scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($loans as $loan)
-                                <tr class="@if ($loan->unsettled_balance > 0) table-danger border-danger @else table-success border-success @endif">
+                                <tr class="@if ($loan->unsettled_balance > 0) table-danger border-danger @endif border-2">
                                     <td scope="row">{{ $loan->id }}</td>
                                     <td>{{ $loan->employee->user->name }}</td>
                                     <td><small>KES </small> <strong>{{ number_format($loan->amount, 2) }}</strong></td>
@@ -35,6 +36,7 @@
                                     <td>{{ count($loan->loan_deductions) }} months</td>
                                     <td>KES {{ number_format($loan->total_amount, 2) }}</td>
                                     <td>KES {{ number_format($loan->balance, 2) }}</td>
+                                    <td>KES {{ number_format($loan->unsettled_balance, 2) }}</td>
                                     <td>{{ Carbon\Carbon::parse($loan->created_at)->format('jS F, Y h:i A') }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('admin.loans.show', $loan->id) }}" class="btn btn-secondary">
