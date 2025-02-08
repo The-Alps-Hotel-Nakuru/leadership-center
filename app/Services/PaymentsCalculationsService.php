@@ -17,17 +17,26 @@ class PaymentsCalculationsService
     public function getNssf()
     {
         $nssf = 0;
-        if (Carbon::parse($this->date)->isBefore('2024-02-01')) {
-            $nssf = 0.06 * $this->gross_salary;
+        if (Carbon::parse($this->date)->isBefore('2025-02-01')) {
+            if (Carbon::parse($this->date)->isBefore('2024-02-01')) {
+                $nssf = 0.06 * $this->gross_salary;
 
-            if ($nssf > 1080) {
-                $nssf = 1080;
+                if ($nssf > 1080) {
+                    $nssf = 1080;
+                }
+            } else {
+                $nssf = 0.06 * $this->gross_salary;
+
+                if ($nssf > 2160) {
+                    $nssf = 2160;
+                }
             }
+            return $nssf;
         } else {
             $nssf = 0.06 * $this->gross_salary;
 
-            if ($nssf > 2160) {
-                $nssf = 2160;
+            if ($nssf > 4320) {
+                $nssf = 4320;
             }
         }
         return $nssf;
