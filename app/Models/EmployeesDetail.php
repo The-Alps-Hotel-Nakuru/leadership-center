@@ -366,7 +366,7 @@ class EmployeesDetail extends Model
     {
         $contract = $this->contracts()->orderBy('start_date', 'asc')->first();
         if ($contract) {
-            return Carbon::parse($contract->start_date)->diffInMonths(now());
+            return Carbon::parse($contract->start_date)->diffInMonths($this->exit_date ?? now());
         }
         return 0;
     }
