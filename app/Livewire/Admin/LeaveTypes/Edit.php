@@ -37,7 +37,7 @@ class Edit extends Component
     public function save()
     {
         $this->validate();
-        if ($this->leaveType->full_pay_days+$this->leaveType->half_pay_days !== $this->leaveType->max_days) {
+        if ($this->leaveType->full_pay_days+$this->leaveType->half_pay_days != $this->leaveType->max_days) {
             throw ValidationException::withMessages([
                 'leaveType.full_pay_days' => 'Full Pay and Half pay must sum up to the Max Days'
             ]);
