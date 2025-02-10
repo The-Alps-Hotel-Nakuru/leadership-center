@@ -100,7 +100,7 @@
                             <ul class="list-unstyled">
                                 @foreach (App\Models\LeaveType::all() as $leaveType)
                                     @if ($employee->isLegibleforLeave($leaveType->id))
-                                        <li>{{ $leaveType->title }}: {{ $employee->getLeaveBalance($leaveType->id) }} days</li>
+                                        <li>{{ $leaveType->title }}: {{ number_format(floor($employee->getLeaveBalance($leaveType->id))) }} days</li>
                                     @endif
                                 @endforeach
                             </ul>
