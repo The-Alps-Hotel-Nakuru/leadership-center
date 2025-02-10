@@ -362,10 +362,39 @@ class EmployeesDetail extends Model
         return $this->hasOne(EmployeeAccount::class, 'employees_detail_id', 'id');
     }
 
-    // public function netSalary($yearmonth)
-    // {
-    //     $month = Carbon::parse($yearmonth);
+    public function getWorkedMonthsAttribute()
+    {
+        $contract = $this->contracts()->orderBy('start_date', 'asc')->first();
+        if ($contract) {
+            return Carbon::parse($contract->start_date)->diffInMonths(now());
+        }
+        return 0;
+    }
 
+    public function getLeaveBalance($leaveTypeId)
+    {
+        $leaveType = LeaveType::find($leaveTypeId);
+        if (!$leaveType) return 0;
 
-    // }
+        $workedMonths = $this->worked_months;
+        $earnedDays = min($workedMonths * $leaveType->monthly_accrual_rate, $leaveType->max_days);
+
+        $usedDays = $this->leaves()
+            ->where('leave_type_id', $leaveTypeId)
+            ->get()
+            ->sum('days_taken');
+
+        return $earnedDays - $usedDays;
+    }
+
+    public function isLegibleForLeave($leaveTypeId)
+    {
+        $leaveType = LeaveType::find($leaveTypeId);
+        if (!$leaveType) return false;
+
+        if ($leaveType->is_gender_specific) {
+            if ($leaveType->gender != $this->gender) return false;
+        }
+        return true;
+    }
 }

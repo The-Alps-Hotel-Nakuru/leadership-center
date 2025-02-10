@@ -64,6 +64,7 @@
                     <th scope="col">Basic Details</th>
                     <th scope="col">Designation</th>
                     <th scope="col" class="text-center">Contract Status</th>
+                    <th scope="col" class="text-center">Leave Balance</th>
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -93,6 +94,16 @@
                                     <small>{{ $employee->designation->department->title }}</small>
                                 </div>
                             </div>
+
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                                @foreach (App\Models\LeaveType::all() as $leaveType)
+                                    @if ($employee->isLegibleforLeave($leaveType->id))
+                                        <li>{{ $leaveType->title }}: {{ $employee->getLeaveBalance($leaveType->id) }} days</li>
+                                    @endif
+                                @endforeach
+                            </ul>
 
                         </td>
                         <td class="text-center">

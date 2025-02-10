@@ -87,6 +87,10 @@
     <x-new-nav-link bi_icon="" title="Create Multiple Overtime Records"
         route="admin.extra-works.mass_addition"></x-new-nav-link>
 </x-new-nav-link-dropdown>
+<x-new-nav-link-dropdown title="Leave Types" route="admin.leave-types*" bi_icon="bi-calendar">
+    <x-new-nav-link bi_icon="" title="Overview" route="admin.leave-types.index"></x-new-nav-link>
+    <x-new-nav-link bi_icon="" title="Create Leave Type" route="admin.leave-types.create"></x-new-nav-link>
+</x-new-nav-link-dropdown>
 <x-new-nav-link-dropdown title="Leaves" route="admin.leaves*" bi_icon="bi-calendar-week">
     <x-new-nav-link bi_icon="" title="Overview" route="admin.leaves.index"></x-new-nav-link>
     <x-new-nav-link bi_icon="" title="Add a Leave Record" route="admin.leaves.create"></x-new-nav-link>

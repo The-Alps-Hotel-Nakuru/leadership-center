@@ -174,6 +174,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/{id}/{instance}/edit', Admin\ExtraWorks\Edit::class)->name('admin.extra-works.edit');
             Route::get('/mass_addition', Admin\ExtraWorks\MassAddition::class)->name('admin.extra-works.mass_addition');
         });
+        Route::prefix('leave-types')->group(function () {
+            Route::get('/', Admin\LeaveTypes\Index::class)->name('admin.leave-types.index');
+            Route::get('/create', Admin\LeaveTypes\Create::class)->name('admin.leave-types.create');
+            Route::get('/{id}/edit', Admin\LeaveTypes\Edit::class)->name('admin.leave-types.edit');
+        });
         Route::prefix('leaves')->group(function () {
             Route::get('/', Admin\Leaves\Index::class)->name('admin.leaves.index');
             Route::get('/create', Admin\Leaves\Create::class)->name('admin.leaves.create');
