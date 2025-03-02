@@ -214,7 +214,7 @@ class EmployeeContract extends Model
             $offdays = ceil($this->weekly_offs * ($this->netDaysWorked($yearmonth) + $this->employee->daysOnLeave($yearmonth)) / (7 - $this->weekly_offs));
         }
 
-        return $days == 30 ? $offdays-1 : $offdays;
+        return $days == 31 ? $offdays : ($days == 30 ? $offdays - 1 : $offdays);
     }
 
     public function daysActive($yearmonth)
@@ -251,7 +251,7 @@ class EmployeeContract extends Model
 
         if ($this->employment_type->is_penalizable && $this->designation->is_penalizable) {
             $offdays = $this->EarnedOffDays($yearmonth);
-            $salary = $daily_rate  * ($daysWorked + $daysOnLeave + $offdays);
+            $salary = $daily_rate * ($daysWorked + $daysOnLeave + $offdays);
         } else {
             if ($this->employment_type->rate_type == 'daily') {
                 $salary = $daily_rate * $this->netDaysWorked($yearmonth);
