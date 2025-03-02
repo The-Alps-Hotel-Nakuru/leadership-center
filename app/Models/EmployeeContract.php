@@ -214,7 +214,7 @@ class EmployeeContract extends Model
             $offdays = ceil($this->weekly_offs * ($this->netDaysWorked($yearmonth) + $this->employee->daysOnLeave($yearmonth)) / (7 - $this->weekly_offs));
         }
 
-        return $days == 31 ? $offdays : $offdays - 1;
+        return $days == 30 ? $offdays-1 : $offdays;
     }
 
     public function daysActive($yearmonth)
