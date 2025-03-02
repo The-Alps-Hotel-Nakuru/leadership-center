@@ -211,10 +211,10 @@ class EmployeeContract extends Model
         $days = Carbon::parse($yearmonth)->daysInMonth;
 
         if ($this->employment_type->is_penalizable && $this->designation->is_penalizable) {
-            $offdays = ceil($this->weekly_offs * ($this->netDaysWorked($yearmonth) + $this->employee->daysOnLeave($yearmonth)) / (7 - $this->weekly_offs));
+            $offdays = $this->weekly_offs * ($this->netDaysWorked($yearmonth) + $this->employee->daysOnLeave($yearmonth)) / (7 - $this->weekly_offs);
         }
 
-        return $days == 31 ? $offdays : ($days == 30 ? $offdays - 1 : ($days == 28 ? $offdays : $offdays - 1));
+        return $days == 31 ? ceil($offdays) : ($days == 30 ? ceil($offdays) - 1 : ($days == 28 ? floor($offdays) : ceil($offdays) - 1));
     }
 
     public function daysActive($yearmonth)
