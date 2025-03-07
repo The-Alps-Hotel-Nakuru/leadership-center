@@ -3,8 +3,13 @@
     <x-slot:header>Payrolls</x-slot:header>
 
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex">
             <h5>Upload File for Payroll ({{ $payroll->yearmonth }})</h5>
+
+            @if ($payroll->payment_slip_path)
+                <button class="btn btn-dark ms-auto" wire:click='removePaymentSlip'>Remove Payments File</button>
+            @endif
+
         </div>
         <div class="card-body">
             <div class="form-group mb-3">
@@ -27,8 +32,8 @@
                 <h5>Current Document</h5>
             </div>
             <div class="card-body" style="height: 500px">
-                <iframe src="{{ asset($payroll->payment_slip_path) }}" type="application/pdf"
-                    width="100%" height="100%" ></iframe>
+                <iframe src="{{ asset($payroll->payment_slip_path) }}" type="application/pdf" width="100%"
+                    height="100%"></iframe>
 
             </div>
         </div>

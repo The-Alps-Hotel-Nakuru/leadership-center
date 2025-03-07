@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Payrolls;
 
 use App\Models\Payroll;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
@@ -40,6 +41,17 @@ class UploadPayment extends Component
 
         return redirect()->route('admin.payrolls.index');
     }
+
+    public function removePaymentSlip()
+    {
+        if (file_exists($this->payroll->payment_slip_path)) {
+            Storage::disk('public')->delete($this->payroll->payment_slip_path);
+        }
+        $this->payroll->payment_slip_path = null;
+        $this->payroll->update();
+        return redirect()->route('admin.payrolls.index');
+    }
+
     public function render()
     {
         if (!count($this->payroll->payments) > 0) {
