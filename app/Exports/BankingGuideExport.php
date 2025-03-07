@@ -11,11 +11,13 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class BankingGuideExport implements FromCollection, WithHeadings, WithMapping, WithTitle, WithColumnFormatting, ShouldAutoSize, WithEvents
+class BankingGuideExport implements FromCollection, WithHeadings, WithMapping, WithTitle, WithColumnFormatting, ShouldAutoSize, WithEvents,WithStyles
 {
     public $id;
 
@@ -55,11 +57,15 @@ class BankingGuideExport implements FromCollection, WithHeadings, WithMapping, W
         ];
     }
 
-    function title(): string
+    public function title(): string
     {
         return "Employees - KCB";
     }
 
+    public function styles(Worksheet $sheet)
+    {
+        $sheet->getStyle('G')->getNumberFormat()->setFormatCode('@');
+    }
 
     public function map($row): array
     {
