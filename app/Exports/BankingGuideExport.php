@@ -70,12 +70,12 @@ class BankingGuideExport implements FromCollection, WithHeadings, WithMapping, W
             $row->employee->bankAccount && $row->employee->bankAccount->bank ? $row->employee->bankAccount->bank->short_name : '',
             'NAIROBI',
             $row->employee->bankAccount && $row->employee->bankAccount->bank ? $row->employee->bankAccount->bank->bank_code : '',
-            $row->employee->bankAccount && $row->employee->bankAccount->bank ? $row->employee->bankAccount->account_number : '',
+            "'" .$row->employee->bankAccount && $row->employee->bankAccount->bank ? $row->employee->bankAccount->account_number : '',
             $row->net_pay
         ];
     }
 
-    function columnFormats(): array
+    public function columnFormats(): array
     {
         return [
             'A' => NumberFormat::FORMAT_TEXT,
