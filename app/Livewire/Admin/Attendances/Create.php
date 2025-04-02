@@ -34,7 +34,8 @@ class Create extends Component
     public function selectEmployee($id)
     {
         $this->employee_id = $id;
-        $this->search = EmployeesDetail::find($id)->user->name;
+        $search = $this->search;
+        $this->search = EmployeesDetail::find($id)?->user->name ?? $search;
     }
 
 
@@ -99,8 +100,6 @@ class Create extends Component
                 error: 'Error: ' . $th->getMessage(),
             );
         }
-
-
     }
 
     public function addFullMonth()
