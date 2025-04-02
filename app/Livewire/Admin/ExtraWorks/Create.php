@@ -37,32 +37,40 @@ class Create extends Component
 
     public function addToList()
     {
-        $this->validate();
+        try {
+            $this->validate();
 
 
-        if ($this->overtimesList) {
-            for ($i = 0; $i < count($this->overtimesList); $i++) {
-                if (intval($this->overtimesList[$i][0]) == intval($this->employee_id) && $this->overtimesList[$i][1] == $this->date) {
-                    throw ValidationException::withMessages([
-                        'employee_id' => "This Employee's attendance on this day is already in the List"
-                    ]);
+            if ($this->overtimesList) {
+                for ($i = 0; $i < count($this->overtimesList); $i++) {
+                    if (intval($this->overtimesList[$i][0]) == intval($this->employee_id) && $this->overtimesList[$i][1] == $this->date) {
+                        throw ValidationException::withMessages([
+                            'employee_id' => "This Employee's attendance on this day is already in the List"
+                        ]);
+                    }
                 }
             }
+
+
+
+            if (EmployeesDetail::find($this->employee_id)->hasOvertimeOn($this->date)) {
+                throw ValidationException::withMessages([
+                    'employee_id' => "This Employee already Clocked Overtime on this day"
+                ]);
+            }
+
+            array_push($this->overtimesList, [$this->employee_id, $this->date, $this->double_shift]);
+            $this->dispatch(
+                'done',
+                success: 'Successfully Added to the List',
+            );
+        } catch (\Throwable $th) {
+            //throw $th;
+            $this->dispatch(
+                'done',
+                error: 'Error: ' . $th->getMessage(),
+            );
         }
-
-
-
-        if (EmployeesDetail::find($this->employee_id)->hasOvertimeOn($this->date)) {
-            throw ValidationException::withMessages([
-                'employee_id' => "This Employee already Clocked Overtime on this day"
-            ]);
-        }
-
-        array_push($this->overtimesList, [$this->employee_id, $this->date, $this->double_shift]);
-        $this->dispatch(
-            'done',
-            success: 'Successfully Added to the List',
-        );
 
     }
 
