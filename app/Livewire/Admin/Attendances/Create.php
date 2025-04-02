@@ -34,58 +34,68 @@ class Create extends Component
     public function selectEmployee($id)
     {
         $this->employee_id = $id;
+        $this->search = EmployeesDetail::find($id)->user->name;
     }
 
 
     public function addToList()
     {
-        $this->validate();
+        try {
+            $this->validate();
 
-        if ($this->employee_id == 'all') {
-            foreach (EmployeesDetail::all() as $key => $employee) {
-                if (count($employee->ActiveContractsBetween($this->date, $this->second_date)) > 0) {
-                    if ($this->attendanceList) {
-                        for ($i = 0; $i < count($this->attendanceList); $i++) {
-                            if ((intval($this->attendanceList[$i][0]) == intval($employee->id) && Carbon::parse($this->attendanceList[$i][1])->toDateString() == Carbon::parse($this->date)->toDateString()) || !$employee->ActiveContractOn($this->attendanceList[$i][1])) {
-                                continue;
+            if ($this->employee_id == 'all') {
+                foreach (EmployeesDetail::all() as $key => $employee) {
+                    if (count($employee->ActiveContractsBetween($this->date, $this->second_date)) > 0) {
+                        if ($this->attendanceList) {
+                            for ($i = 0; $i < count($this->attendanceList); $i++) {
+                                if ((intval($this->attendanceList[$i][0]) == intval($employee->id) && Carbon::parse($this->attendanceList[$i][1])->toDateString() == Carbon::parse($this->date)->toDateString()) || !$employee->ActiveContractOn($this->attendanceList[$i][1])) {
+                                    continue;
+                                }
                             }
                         }
-                    }
 
 
 
-                    if ($employee->hasSignedOn($this->date)) {
-                        continue;
-                    }
+                        if ($employee->hasSignedOn($this->date)) {
+                            continue;
+                        }
 
-                    array_push($this->attendanceList, [$employee->id, $this->date, $this->check_in, $this->check_out]);
-                }
-            }
-        } else {
-            if ($this->attendanceList) {
-                for ($i = 0; $i < count($this->attendanceList); $i++) {
-                    if (intval($this->attendanceList[$i][0]) == intval($this->employee_id) && Carbon::parse($this->attendanceList[$i][1])->toDateString() == Carbon::parse($this->date)->toDateString()) {
-                        throw ValidationException::withMessages([
-                            'employee_id' => "This Employee's attendance on this day is already in the List"
-                        ]);
+                        array_push($this->attendanceList, [$employee->id, $this->date, $this->check_in, $this->check_out]);
                     }
                 }
+            } else {
+                if ($this->attendanceList) {
+                    for ($i = 0; $i < count($this->attendanceList); $i++) {
+                        if (intval($this->attendanceList[$i][0]) == intval($this->employee_id) && Carbon::parse($this->attendanceList[$i][1])->toDateString() == Carbon::parse($this->date)->toDateString()) {
+                            throw ValidationException::withMessages([
+                                'employee_id' => "This Employee's attendance on this day is already in the List"
+                            ]);
+                        }
+                    }
+                }
+
+
+
+                if (EmployeesDetail::find($this->employee_id)->hasSignedOn($this->date)) {
+                    throw ValidationException::withMessages([
+                        'employee_id' => "This Employee already signed in on this day"
+                    ]);
+                }
+
+                array_push($this->attendanceList, [$this->employee_id, $this->date, $this->check_in, $this->check_out]);
             }
-
-
-
-            if (EmployeesDetail::find($this->employee_id)->hasSignedOn($this->date)) {
-                throw ValidationException::withMessages([
-                    'employee_id' => "This Employee already signed in on this day"
-                ]);
-            }
-
-            array_push($this->attendanceList, [$this->employee_id, $this->date, $this->check_in, $this->check_out]);
+            $this->dispatch(
+                'done',
+                success: 'Successfully Added to the List',
+            );
+        } catch (\Throwable $th) {
+            $this->dispatch(
+                'done',
+                error: 'Error: ' . $th->getMessage(),
+            );
         }
 
 
-
-        $this->reset(['search', 'employee_id']);
     }
 
     public function addFullMonth()
