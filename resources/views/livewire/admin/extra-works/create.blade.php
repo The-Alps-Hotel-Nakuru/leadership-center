@@ -127,7 +127,7 @@
                                                 <div class="flex-col ml-1">
                                                     <button wire:click="removeFromList({{ $key }})"
                                                         class="btn btn-xs btn-danger"><i
-                                                            class="fas fa-trash"></i></button>
+                                                            class="bi bi-trash"></i></button>
                                                 </div>
                                             </td>
                                             <td>

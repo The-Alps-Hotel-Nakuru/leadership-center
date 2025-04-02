@@ -31,7 +31,7 @@
                                     </div>
                                     <div class="flex-col mx-1">
                                         <button wire:click='delete({{ $holiday->id }})' class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
                                 </td>

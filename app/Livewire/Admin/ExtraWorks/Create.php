@@ -31,6 +31,7 @@ class Create extends Component
     public function selectEmployee($id)
     {
         $this->employee_id = $id;
+        $this->search = EmployeesDetail::find($id)->user->name;
     }
 
 
@@ -57,13 +58,12 @@ class Create extends Component
             ]);
         }
 
-
-
-
-
         array_push($this->overtimesList, [$this->employee_id, $this->date, $this->double_shift]);
+        $this->dispatch(
+            'done',
+            success: 'Successfully Added to the List',
+        );
 
-        $this->reset(['search', 'employee_id']);
     }
 
     public function addFullMonth()

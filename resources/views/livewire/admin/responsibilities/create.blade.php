@@ -14,7 +14,7 @@
                             <button
                                 onclick="confirm('Are You Sure you want to delete this responsibility?')|| event.stopImmediatePropagation()"
                                 wire:click="delete({{ $responsibility->id }})" class="btn"><i
-                                    class="fas fa-trash"></i></button>
+                                    class="bi bi-trash"></i></button>
                         </li>
                     @endforeach
                 </ol>
