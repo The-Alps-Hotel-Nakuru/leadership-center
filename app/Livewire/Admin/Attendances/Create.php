@@ -81,6 +81,11 @@ class Create extends Component
                         'employee_id' => "This Employee already signed in on this day"
                     ]);
                 }
+                if (EmployeesDetail::find($this->employee_id)->onLeaveOn($this->date)) {
+                    throw ValidationException::withMessages([
+                        'employee_id' => "This Employee is on Leave on this day"
+                    ]);
+                }
 
                 array_push($this->attendanceList, [$this->employee_id, $this->date, $this->check_in, $this->check_out]);
             }
