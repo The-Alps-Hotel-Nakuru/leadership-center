@@ -122,13 +122,13 @@ class MonthlySalary extends Model
     }
     public function getTaxableIncomeAttribute()
     {
-        return $this->gross_salary - $this->nssf;
+        $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
+
+        return $this->is_taxable ? $calculations->getTaxableIncome() : 0;
     }
     public function getIncomeTaxAttribute()
     {
-
         $calculations = new PaymentsCalculationsService($this->gross_salary, $this->getMonth()->firstOfMonth()->toDateTimeString());
-
 
         return $this->is_taxable ? $calculations->getIncomeTax() : 0;
     }
