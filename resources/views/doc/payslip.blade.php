@@ -83,13 +83,15 @@
     <br>
     <table>
         <thead style="width: 100%">
+            @if ($salary->employee->designation->is_penalizable)
             <small>Days Worked: </small>
             <strong>{{ $salary->days_worked }} days</strong>
             <br><br>
             <small>Days On Leave: </small><strong>{{ $salary->leave_days }} days</strong><br><br>
             <small>Days Absent/Off: </small><strong>{{ $salary->days_missed }} days</strong><br><br>
             <small>Off Days Earned: </small><strong>{{ $salary->earned_off_days }} days</strong><br><br><br>
-            <small style="text-decoration: underline">Contract Value: </small><br>
+            @endif
+            <small style="text-decoration: underline">Contract(s) Value: </small><br>
             <ul>
                 @foreach ($salary->contracts() as $contract)
                 <li style="font-size: 11px"> Cont. #{{ $contract->id }}
