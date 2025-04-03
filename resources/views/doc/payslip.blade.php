@@ -220,6 +220,7 @@
                     <li style="font-size: 8px">{{ $advance->reason }}: <br><br><strong>KES
                             {{ number_format($advance->amount_kes, 2) }}</strong>
                     </li>
+                    <br>
                     @endif
                     @endforeach
                 </ul>
@@ -236,7 +237,7 @@
                 <ul>
                     @foreach ($salary->employee->fines as $fine)
                     @if ($fine->year == $salary->payroll->year && $fine->month == $salary->payroll->month)
-                    <li style="font-size: 8; margin-top: 5px;">{{ $fine->reason }}: <br><strong>KES
+                    <li style="font-size: 8;">{{ $fine->reason }}: <br><br><strong>KES
                             {{ number_format($fine->amount_kes, 2) }}</strong>
                     </li>
                     <br>
@@ -256,7 +257,7 @@
                 <ul>
                     @foreach ($salary->employee->loans as $loan)
                     @if ($loan->year == $salary->payroll->year && $loan->month == $salary->payroll->month)
-                    <li style="font-size: 8; margin-top: 5px;">{{ $loan->reason }}: <br><strong>KES
+                    <li style="font-size: 8;">{{ $loan->reason }}: <br><br><strong>KES
                             {{ number_format($loan->amount, 2) }}</strong>
                     </li>
                     <br>
@@ -278,7 +279,7 @@
                 <ul>
                     @foreach ($salary->employee->welfareContributions as $welfare_contribution)
                     @if ($welfare_contribution->year == $salary->payroll->year && $welfare_contribution->month == $salary->payroll->month)
-                    <li style="font-size: 8; margin-top: 5px;">{{ $welfare_contribution->reason }} <br><strong>KES
+                    <li style="font-size: 8;">{{ $welfare_contribution->reason }} <br><br><strong>KES
                             {{ number_format($welfare_contribution->amount_kes, 2) }}</strong>
                     </li>
                     <br>
@@ -315,7 +316,7 @@
                 <ul>
                     @foreach ($salary->employee->bonuses as $bonus)
                     @if ($bonus->year == $salary->payroll->year && $bonus->month == $salary->payroll->month)
-                    <li style="font-size: 8; margin-top: 5px;">{{ $bonus->reason }} <br><strong>KES
+                    <li style="font-size: 8;">{{ $bonus->reason }} <br><br><strong>KES
                             {{ number_format($bonus->amount_kes, 2) }}</strong>
                     </li>
                     <br>
