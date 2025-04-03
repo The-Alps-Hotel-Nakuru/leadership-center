@@ -142,7 +142,7 @@
                     {{ number_format($salary->gross_salary, 2) }} - KES {{ number_format($salary->nssf, 2) }}</small>
                 @else
                 <small style="font-size: 11px; width: 50%;">KES
-                    {{ number_format($salary->gross_salary, 2) }} - KES {{ number_format($salary->nssf, 2) }}<br> - KES {{ number_format($salary->shif) }} <br>- KES {{ number_format($salary->housing_levy) }}</small>
+                    {{ number_format($salary->gross_salary, 2) }} - KES {{ number_format($salary->nssf, 2) }}<br><br> - KES {{ number_format($salary->shif) }} - KES {{ number_format($salary->housing_levy) }}</small>
 
                 @endif
             </th>
