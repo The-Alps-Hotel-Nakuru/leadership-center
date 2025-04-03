@@ -47,23 +47,24 @@
     <table style="border:0">
         <thead>
             <h2 style="text-transform:uppercase; text-align:center">Payslip for
-                {{ Carbon\Carbon::parse($salary->payroll->year . '-' . $salary->payroll->month)->format('F, Y') }}</h2>
+                {{ Carbon\Carbon::parse($salary->payroll->year . '-' . $salary->payroll->month)->format('F, Y') }}
+            </h2>
         </thead>
     </table>
     @php
-        $active_contracts = $salary->employee->ActiveContractsDuring(
-            $salary->payroll->year . '-' . $salary->payroll->month,
-        );
-        $active_contract = $salary->employee->ActiveContractDuring(
-            Carbon\Carbon::createFromFormat(
-                'Y-m',
-                $salary->payroll->year . '-' . $salary->payroll->month,
-            )->firstOfMonth(),
-            Carbon\Carbon::createFromFormat(
-                'Y-m',
-                $salary->payroll->year . '-' . $salary->payroll->month,
-            )->lastOfMonth(),
-        );
+    $active_contracts = $salary->employee->ActiveContractsDuring(
+    $salary->payroll->year . '-' . $salary->payroll->month,
+    );
+    $active_contract = $salary->employee->ActiveContractDuring(
+    Carbon\Carbon::createFromFormat(
+    'Y-m',
+    $salary->payroll->year . '-' . $salary->payroll->month,
+    )->firstOfMonth(),
+    Carbon\Carbon::createFromFormat(
+    'Y-m',
+    $salary->payroll->year . '-' . $salary->payroll->month,
+    )->lastOfMonth(),
+    );
     @endphp
     <table>
         <thead>
@@ -71,10 +72,10 @@
             <small>Designation: </small><strong>{{ $salary->employee->designation->title }}</strong><br><br>
             <small>Employee No.: </small><strong>{{ $salary->employee->id }}</strong><br><br>
             @if ($salary->employee->ActiveContractDuring($salary->getMonth()->format('Y-m'))->is_full_time())
-                <small>KRA PIN: </small><strong
-                    style="text-transform: uppercase">{{ $salary->employee->kra_pin }}</strong><br><br>
-                <small>NSSF No.: </small><strong>{{ $salary->employee->nssf }}</strong><br><br>
-                <small>NHIF No.: </small><strong>{{ $salary->employee->nhif }}</strong><br><br>
+            <small>KRA PIN: </small><strong
+                style="text-transform: uppercase">{{ $salary->employee->kra_pin }}</strong><br><br>
+            <small>NSSF No.: </small><strong>{{ $salary->employee->nssf }}</strong><br><br>
+            <small>NHIF No.: </small><strong>{{ $salary->employee->nhif }}</strong><br><br>
             @endif
 
         </thead>
@@ -91,14 +92,14 @@
             <small style="text-decoration: underline">Contract Value: </small><br>
             <ul>
                 @foreach ($salary->contracts() as $contract)
-                    <li style="font-size: 11px"> Cont. #{{ $contract->id }}
-                        Value: {{ $contract->is_net ? 'NET SALARY of ' : 'GROSS SALARY of ' }}KES
-                        <strong>{{ number_format($contract->salary_kes) }}
-                            {{ $contract->is_casual() ? 'per day' : 'per month' }}</strong>
-                        <br><br>
-                        {{ $contract->netDaysWorked($salary->payroll->year . '-' . $salary->payroll->month) }}
-                        days worked
-                    </li>
+                <li style="font-size: 11px"> Cont. #{{ $contract->id }}
+                    Value: {{ $contract->is_net ? 'NET SALARY of ' : 'GROSS SALARY of ' }}KES
+                    <strong>{{ number_format($contract->salary_kes) }}
+                        {{ $contract->is_casual() ? 'per day' : 'per month' }}</strong>
+                    <br><br>
+                    {{ $contract->netDaysWorked($salary->payroll->year . '-' . $salary->payroll->month) }}
+                    days worked
+                </li>
                 @endforeach
             </ul>
             <br>
@@ -133,8 +134,15 @@
     </table>
     <table>
         <thead style="width: 100%;">
-            <th colspan="2" style="text-align: left">Taxable Income <br><br><small style="font-size: 11px">KES
+            <th colspan="2" style="text-align: left">Taxable Income <br><br>
+                @if (now()->isBefore('2025-01-01'))
+                <small style="font-size: 11px">KES
                     {{ number_format($salary->gross_salary, 2) }} - KES {{ number_format($salary->nssf, 2) }}</small>
+                @else
+                <small style="font-size: 11px">KES
+                    {{ number_format($salary->gross_salary, 2) }} - KES {{ number_format($salary->nssf, 2) }} - KES {{ number_format($salary->shif) }} - KES {{ number_format($salary->housing_levy) }}</small>
+
+                @endif
             </th>
             <th colspan="1" style="text-align: right"><small>KES
                 </small>{{ number_format($salary->taxable_income, 2) }}</th>
@@ -180,20 +188,20 @@
         </thead>
         <br>
         @if ($salary->nhif)
-            <thead style="width: 100%;">
-                <td colspan="2" style="text-align: left">NHIF Premium</td>
-                <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format($salary->nhif, 2) }})
-                </td>
-            </thead>
-            <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">NHIF Premium</td>
+            <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format($salary->nhif, 2) }})
+            </td>
+        </thead>
+        <br>
         @endif
         @if ($salary->shif)
-            <thead style="width: 100%;">
-                <td colspan="2" style="text-align: left">SHA Premium <br><br><small style="font-size: 11px">(2.75% of Gross)</small></td>
-                <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format($salary->shif, 2) }})
-                </td>
-            </thead>
-            <br>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">SHA Premium <br><br><small style="font-size: 11px">(2.75% of Gross)</small></td>
+            <td colspan="1" style="text-align: right">(<small>KES </small>{{ number_format($salary->shif, 2) }})
+            </td>
+        </thead>
+        <br>
         @endif
 
         <thead style="width: 100%;">
@@ -202,25 +210,19 @@
         </thead>
         <br>
         <thead style="width: 100%;">
-            <td colspan="2" style="text-align: left">NITA</td>
-            <td colspan="1" style="text-align: right">({{ number_format($salary->nita, 2) }})</td>
-        </thead>
-
-        <br>
-        <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">
                 Advances
                 @if (count($salary->employee->advances) > 0)
-                    <br>
-                    <ul>
-                        @foreach ($salary->employee->advances as $advance)
-                            @if ($advance->year == $salary->payroll->year && $advance->month == $salary->payroll->month)
-                                <li style="font-size: 8px">{{ $advance->reason }}: <br><br><strong>KES
-                                        {{ number_format($advance->amount_kes, 2) }}</strong>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
+                <br>
+                <ul>
+                    @foreach ($salary->employee->advances as $advance)
+                    @if ($advance->year == $salary->payroll->year && $advance->month == $salary->payroll->month)
+                    <li style="font-size: 8px">{{ $advance->reason }}: <br><br><strong>KES
+                            {{ number_format($advance->amount_kes, 2) }}</strong>
+                    </li>
+                    @endif
+                    @endforeach
+                </ul>
                 @endif
             </td>
             <td colspan="1" style="text-align: right">({{ number_format($salary->advances, 2) }})</td>
@@ -230,16 +232,17 @@
             <td colspan="2" style="text-align: left">
                 Fines
                 @if (count($salary->employee->fines) > 0)
+                <br>
+                <ul>
+                    @foreach ($salary->employee->fines as $fine)
+                    @if ($fine->year == $salary->payroll->year && $fine->month == $salary->payroll->month)
+                    <li style="font-size: 8; margin-top: 5px;">{{ $fine->reason }}: <br><strong>KES
+                            {{ number_format($fine->amount_kes, 2) }}</strong>
+                    </li>
                     <br>
-                    <ul>
-                        @foreach ($salary->employee->fines as $fine)
-                            @if ($fine->year == $salary->payroll->year && $fine->month == $salary->payroll->month)
-                                <li style="font-size: 8">{{ $fine->reason }}: <br><br><strong>KES
-                                        {{ number_format($fine->amount_kes, 2) }}</strong>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
+                    @endif
+                    @endforeach
+                </ul>
                 @endif
             </td>
             <td colspan="1" style="text-align: right">({{ number_format($salary->fines, 2) }})</td>
@@ -249,16 +252,17 @@
             <td colspan="2" style="text-align: left">
                 Loan Repayments
                 @if (count($salary->employee->loans) > 0)
+                <br>
+                <ul>
+                    @foreach ($salary->employee->loans as $loan)
+                    @if ($loan->year == $salary->payroll->year && $loan->month == $salary->payroll->month)
+                    <li style="font-size: 8; margin-top: 5px;">{{ $loan->reason }}: <br><strong>KES
+                            {{ number_format($loan->amount, 2) }}</strong>
+                    </li>
                     <br>
-                    <ul>
-                        @foreach ($salary->employee->loans as $loan)
-                            @if ($loan->year == $salary->payroll->year && $loan->month == $salary->payroll->month)
-                                <li style="font-size: 8">{{ $loan->reason }}: <br><br><strong>KES
-                                        {{ number_format($loan->amount, 2) }}</strong>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
+                    @endif
+                    @endforeach
+                </ul>
                 @endif
             </td>
             <td colspan="1" style="text-align: right">({{ number_format($salary->loans, 2) }})</td>
@@ -266,26 +270,27 @@
         <br>
 
         @if ($salary->employee->welfare_contributions != 0)
-            <thead style="width: 100%;">
-                <td colspan="2" style="text-align: left">
-                    Staff Welfare Contribution
-                    @if (count($salary->employee->welfareContributions) > 0)
-                        <br>
-                        <ul>
-                            @foreach ($salary->employee->welfareContributions as $welfare_contribution)
-                                @if ($welfare_contribution->year == $salary->payroll->year && $welfare_contribution->month == $salary->payroll->month)
-                                    <li style="font-size: 8">{{ $welfare_contribution->reason }} <br><br><strong>KES
-                                            {{ number_format($welfare_contribution->amount_kes, 2) }}</strong>
-                                    </li>
-                                @endif
-                            @endforeach
-                        </ul>
+        <thead style="width: 100%;">
+            <td colspan="2" style="text-align: left">
+                Staff Welfare Contribution
+                @if (count($salary->employee->welfareContributions) > 0)
+                <br>
+                <ul>
+                    @foreach ($salary->employee->welfareContributions as $welfare_contribution)
+                    @if ($welfare_contribution->year == $salary->payroll->year && $welfare_contribution->month == $salary->payroll->month)
+                    <li style="font-size: 8; margin-top: 5px;">{{ $welfare_contribution->reason }} <br><strong>KES
+                            {{ number_format($welfare_contribution->amount_kes, 2) }}</strong>
+                    </li>
+                    <br>
                     @endif
-                </td>
-                <td colspan="1" style="text-align: right">(<small>KES
-                    </small>{{ number_format($salary->welfare_contributions, 2) }})</td>
-            </thead>
-            <br>
+                    @endforeach
+                </ul>
+                @endif
+            </td>
+            <td colspan="1" style="text-align: right">(<small>KES
+                </small>{{ number_format($salary->welfare_contributions, 2) }})</td>
+        </thead>
+        <br>
         @endif
 
     </table>
@@ -306,16 +311,17 @@
         <thead style="width: 100%;">
             <td colspan="2" style="text-align: left">Total Bonuses
                 @if (count($salary->employee->bonuses) > 0)
+                <br>
+                <ul>
+                    @foreach ($salary->employee->bonuses as $bonus)
+                    @if ($bonus->year == $salary->payroll->year && $bonus->month == $salary->payroll->month)
+                    <li style="font-size: 8; margin-top: 5px;">{{ $bonus->reason }} <br><strong>KES
+                            {{ number_format($bonus->amount_kes, 2) }}</strong>
+                    </li>
                     <br>
-                    <ul>
-                        @foreach ($salary->employee->bonuses as $bonus)
-                            @if ($bonus->year == $salary->payroll->year && $bonus->month == $salary->payroll->month)
-                                <li style="font-size: 8">{{ $bonus->reason }} <br><br><strong>KES
-                                        {{ number_format($bonus->amount_kes, 2) }}</strong>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
+                    @endif
+                    @endforeach
+                </ul>
                 @endif
             </td>
             <td colspan="1" style="text-align: right"><small>KES
