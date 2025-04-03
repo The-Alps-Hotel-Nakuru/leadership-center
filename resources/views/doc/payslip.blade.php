@@ -136,17 +136,17 @@
     </table>
     <table>
         <thead style="width: 100%;">
-            <th colspan="1" style="text-align: left">Taxable Income <br><br>
+            <th colspan="2" style="text-align: left">Taxable Income <br><br>
                 @if (now()->isBefore('2025-01-01'))
                 <small style="font-size: 11px">KES
                     {{ number_format($salary->gross_salary, 2) }} - KES {{ number_format($salary->nssf, 2) }}</small>
                 @else
-                <small style="font-size: 11px">KES
+                <small style="font-size: 11px; width: 50%;">KES
                     {{ number_format($salary->gross_salary, 2) }} - KES {{ number_format($salary->nssf, 2) }} - KES {{ number_format($salary->shif) }} - KES {{ number_format($salary->housing_levy) }}</small>
 
                 @endif
             </th>
-            <th colspan="2" style="text-align: right"><small>KES
+            <th colspan="1" style="text-align: right"><small>KES
                 </small>{{ number_format($salary->taxable_income, 2) }}</th>
         </thead>
     </table>
