@@ -24,9 +24,9 @@
                             <div class="input-group-append">
                                 <button wire:click="toggleVisibility" class="btn btn-outline-secondary" type="button"
                                     id="button-addon2">@if ($passwordVisible)
-                                        <i class="fas fa-eye-slash"></i>
+                                        <i class="bi bi-eye-slash"></i>
                                     @else
-                                        <i class="fas fa-eye"></i>
+                                        <i class="bi bi-eye"></i>
                                     @endif</button>
                             </div>
                         </div>
