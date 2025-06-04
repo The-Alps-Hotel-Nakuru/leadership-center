@@ -26,7 +26,7 @@
                                     <div class="flex-col mx-1">
                                         <a href="{{ route('admin.holidays.edit', $holiday->id) }}"
                                             class="btn btn-secondary">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="bi bi-pencil"></i>
                                         </a>
                                     </div>
                                     <div class="flex-col mx-1">

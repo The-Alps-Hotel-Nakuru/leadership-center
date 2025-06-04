@@ -37,13 +37,13 @@
                                 <td class="d-flex flex-row justify-content-center">
                                     <div class="flex-col mx-2">
                                         <a href="{{ route('admin.leave-requests.approve', $leave_request->id) }}"
-                                            class="btn btn-success"><i class="fas fa-check"></i></a>
+                                            class="btn btn-success"><i class="bi bi-check"></i></a>
                                     </div>
                                     <div class="flex-col mx-2">
                                         <button class="btn btn-danger"
                                             onclick="confirm('Are you Sure You want to Reject the Leave Request?')||event.stopImmediatePropagation()"
                                             wire:click="reject({{ $leave_request->id }})"><i
-                                                class="fas fa-times"></i></button>
+                                                class="bi bi-x"></i></button>
                                     </div>
                                 </td>
                             </tr>

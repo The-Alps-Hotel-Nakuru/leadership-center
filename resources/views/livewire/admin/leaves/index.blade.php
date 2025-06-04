@@ -30,13 +30,13 @@
                                     <div class="d-flex flex-row">
                                         <div class="flex-col">
                                             <a href="{{ route('admin.leaves.edit', $leave->id) }}"
-                                                class="btn btn-secondary"><i class="fas fa-edit"></i></a>
+                                                class="btn btn-secondary"><i class="bi bi-pencil"></i></a>
                                         </div>
                                         <div class="flex-col">
                                             <button
                                                 onclick="confirm('Are you sure you want to Delete this Leave Record?')||event.stopImmediatePropagation()"
                                                 wire:click='delete({{ $leave->id }})' class="btn btn-danger"><i
-                                                    class="fas fa-edit"></i></button>
+                                                    class="bi bi-pencil"></i></button>
                                         </div>
                                     </div>
                                 </td>
