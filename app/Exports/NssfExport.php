@@ -72,12 +72,12 @@ class NssfExport implements FromCollection, WithHeadings, WithMapping, WithTitle
         ];
     }
 
-    function title(): string
+    public function title(): string
     {
         return "NSSF Payment";
     }
 
-    function columnFormats(): array
+    public function columnFormats(): array
     {
         return [
             'G' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED2

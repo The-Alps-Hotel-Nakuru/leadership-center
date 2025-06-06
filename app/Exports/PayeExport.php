@@ -51,36 +51,36 @@ class PayeExport implements FromCollection, WithMapping, WithTitle, WithColumnFo
             "resident",
             "Primary Employee",
             $row->gross_salary,
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "0",
-            "",
-            "0",
-            "0",
-            "",
-            "0",
-            "Benefit not given",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            $row->nssf,
-            "",
-            "0",
-            $row->housing_levy * 0.15,
-            "",
-            "",
-            "",
-            $row->tax_relief,
-            $row->shif * 0.15,
-            "",
-            $row->paye,
+            "0", //F
+            "0", //G
+            "0", //H
+            "0", //I
+            "0", //J
+            "0", //K
+            "0", //L
+            "", //M
+            "0", //N
+            "0", //O
+            "", //P
+            "0", //Q
+            "Benefit not given", //R
+            "", //S
+            "", //T
+            "", //U
+            "", //V
+            "", //W
+            $row->shif, //X
+            $row->nssf, //Y
+            "0", //Z
+            "0", //AA
+            $row->housing_levy, //AB
+            "", //AC
+            "", //AD
+            "", //AE
+            $row->tax_relief, //AF
+            "0", //AG
+            "", //AH
+            $row->paye ?? "0", //AI
 
         ];
     }
