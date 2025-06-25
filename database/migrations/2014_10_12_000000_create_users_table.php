@@ -34,7 +34,7 @@ return new class extends Migration
             [
                 'first_name' => 'Steve',
                 'last_name' => 'Nyanumba',
-                'email' => 'tech@thealpshotelnakuru.com',
+                'email' => 'reach@stevenyanumba.com',
                 'role_id' => 1,
                 'password' => Hash::make(env('DEFAULT_PASSWORD')),
             ]
