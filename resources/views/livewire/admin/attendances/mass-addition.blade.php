@@ -50,7 +50,7 @@
         <div class="col-md-4 col-12 mb-3">
             <div class="card" style="max-height: 500px">
                 <div class="card-header">
-                    <h5><strong>Attendances to Be Uploaded</strong></h5>
+                    <h5><strong>Attendances to Be Uploaded ({{ count($validAttendances) }})</strong></h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table ">
@@ -101,7 +101,7 @@
         <div class="col-md-4 col-12 mb-3">
             <div class="card" style="max-height: 500px">
                 <div class="card-header">
-                    <h5><strong>Already Existing Attendances</strong></h5>
+                    <h5><strong>Already Existing Attendances ({{ count( $alreadyExisting) }})</strong></h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table ">
@@ -136,7 +136,7 @@
         <div class="col-md-4 col-12 mb-3">
             <div class="card" style="max-height: 500px">
                 <div class="card-header">
-                    <h5><strong>Invalid Attendances</strong></h5>
+                    <h5><strong>Invalid Attendances ({{ count($invalidAttendances) }})</strong></h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table ">
