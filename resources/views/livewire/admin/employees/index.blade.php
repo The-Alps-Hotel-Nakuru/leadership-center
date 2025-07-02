@@ -80,6 +80,7 @@
                                 </div>
                                 <div class=" flex-col mx-3">
                                     <h5>{{ $employee->user->name }}</h5>
+                                    <h6>{{ $employee->national_id }}</h6>
                                     <small>{{ $employee->user->email }}</small><br>
                                     <small>{{ $employee->phone_number }}</small><br>
                                     <small>Gender: <span
