@@ -160,19 +160,19 @@ class MassAddition extends Component
         $count = 0;
         foreach ($this->validAttendances as $attendance) {
             $employee = EmployeesDetail::where('national_id', $attendance[0])->first();
-            if (Attendance::where('employees_detail_id', $employee->id)->where('date', Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $attendance[1])->toDateString())->exists()) {
+            if (Attendance::where('employees_detail_id', $employee->id)->where('date', Carbon::parse($attendance[1])->toDateString())->exists()) {
                 continue;
             }
             $newAttendance = new Attendance();
             $newAttendance->employees_detail_id = $employee->id;
-            $newAttendance->date = Carbon::createFromFormat(env('ATTENDANCE_DATE_FORMAT'), $attendance[1])->toDateString();
+            $newAttendance->date = Carbon::parse($attendance[1])->toDateString();
             $newAttendance->check_in = $attendance[2] ?
-                Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[2])->toDateTimeString() :
-                Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[3])->subHours(6);
+                Carbon::parse($attendance[1] . ' ' . $attendance[2])->toDateTimeString() :
+                Carbon::parse($attendance[1] . ' ' . $attendance[3])->subHours(6);
 
             $newAttendance->check_out = $attendance[3] ?
-                Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[3])->toDateTimeString() :
-                Carbon::createFromFormat('d/m/Y H:i', $attendance[1] . ' ' . $attendance[2])->addHours(6)->toDateTimeString();
+                Carbon::parse($attendance[1] . ' ' . $attendance[3])->toDateTimeString() :
+                Carbon::parse($attendance[1] . ' ' . $attendance[2])->addHours(6)->toDateTimeString();
             $newAttendance->created_by = 1;
             $newAttendance->save();
             $count++;
