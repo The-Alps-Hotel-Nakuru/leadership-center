@@ -131,18 +131,18 @@ class MassAddition extends Component
         for ($i = 1; $i < count($values); $i++) {
             $employee = EmployeesDetail::where('national_id', $values[$i][0]);
             if ($employee->exists()) {
-                if (!$values[$i][0] || !$values[$i][2] || !$employee->first()->ActiveContractOn(Carbon::parse($values[$i][4])->toDateString())) {
+                if (!$values[$i][0] || !$values[$i][2] || !$employee->first()->ActiveContractOn(Carbon::parse($values[$i][1])->toDateString())) {
                     array_push($this->invalidAttendances, [$values[$i], "Missing Values or No active Contract"]);
                 } else {
-                    if ($values[$i][2] && $employee->first()->ActiveContractOn(Carbon::parse($values[$i][4])->toDateString())) {
-                        if (!$employee->first()->hasSignedOn(Carbon::parse($values[$i][4])->toDateString())) {
+                    if ($values[$i][2] && $employee->first()->ActiveContractOn(Carbon::parse($values[$i][1])->toDateString())) {
+                        if (!$employee->first()->hasSignedOn(Carbon::parse($values[$i][1])->toDateString())) {
                             array_push($this->validAttendances, $values[$i]);
                         } else {
                             array_push($this->alreadyExisting, $values[$i]);
                         }
                     }
                     if (!$values[$i][2] && $values[$i][3]) {
-                        if (!$employee->first()->hasSignedOn(Carbon::parse($values[$i][4])->toDateString())) {
+                        if (!$employee->first()->hasSignedOn(Carbon::parse($values[$i][1])->toDateString())) {
                             array_push($this->validAttendances, $values[$i]);
                         } else {
                             array_push($this->alreadyExisting, $values[$i]);
