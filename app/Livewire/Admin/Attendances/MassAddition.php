@@ -122,7 +122,7 @@ class MassAddition extends Component
 
         foreach ($data as $item) {
             if ($item[0] != null && strtotime($item[4]) && $item[2] != null) {
-                array_push($values, [$item[0], $item[4], $item[2], $item[3] ?? null, false]);
+                array_push($values, [$item[0], $item[4], excelTime($item[2]), excelTime($item[3]) ?? null, false]);
                 // National Id, Date, Clock in, Clock Out, Absent
             }
         }
