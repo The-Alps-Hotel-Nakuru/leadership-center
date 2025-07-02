@@ -59,7 +59,7 @@ class MassAddition extends Component
 
         foreach ($data as $item) {
             if ($item[0] != null && !boolval($item[15])) {
-                array_push($values, [$item[2], $item[5], $item[9], $item[10] ?? null, $item[15]]);
+                array_push($values, [$item[2], str_replace('/', '-', $item[5]), $item[9], $item[10] ?? null, $item[15]]);
                 // National Id, Date, Clock in, Clock Out, Absent
             }
         }
