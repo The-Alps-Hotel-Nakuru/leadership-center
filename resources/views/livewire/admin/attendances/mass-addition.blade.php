@@ -72,7 +72,7 @@
                                     {{ Carbon\Carbon::parse( $attendance[1])->format('jS F,Y') }}
                                 </td>
                                 <td scope="row">
-                                    {{ Carbon\Carbon::parse($attendance[2])->format('h:i:s A') }}
+                                    {{ strtotime($attendance[2]) ?? Carbon\Carbon::parse($attendance[2])->format('h:i:s A') }}
                                 </td>
                                 <td scope="row">
                                     {{ $attendance[3] ? Carbon\Carbon::parse($attendance[3])->format('h:i:s A') : "Didn't Check Out" }}
