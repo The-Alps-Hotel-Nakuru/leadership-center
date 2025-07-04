@@ -26,7 +26,7 @@ class Index extends Component
     {
         $contract = EmployeeContract::find($id);
 
-        if (count($contract->payrolls()) > 0) {
+        if ($contract->hasPaidPayrolls()) {
             $this->dispatch(
                 'done',
                 warning: "You Cannot Delete this Contract since it has already been used for Payroll Payments"
@@ -58,7 +58,7 @@ class Index extends Component
     {
         $contract = EmployeeContract::find($id);
 
-        if (count($contract->payrolls()) > 0) {
+        if ($contract->hasPaidPayrolls()) {
             $this->dispatch(
                 'done',
                 warning: "You Cannot Delete this Contract since it has already been used for Payroll Payments"

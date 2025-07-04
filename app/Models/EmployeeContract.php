@@ -298,6 +298,17 @@ class EmployeeContract extends Model
         return $usedPayrolls;
     }
 
+    public function hasPaidPayrolls()
+    {
+        $usedPayrolls = $this->payrolls();
+        foreach ($usedPayrolls as $key => $payroll) {
+            if ($payroll->is_paid) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getHolidays($yearmonth)
     {
         $days = [];
