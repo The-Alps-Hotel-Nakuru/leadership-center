@@ -54,6 +54,25 @@ class Index extends Component
     }
 
 
+    public function delete($id)
+    {
+        $contract = EmployeeContract::find($id);
+
+        if (count($contract->payrolls()) > 0) {
+            $this->dispatch(
+                'done',
+                warning: "You Cannot Delete this Contract since it has already been used for Payroll Payments"
+            );
+            return;
+        } else {
+            $contract->delete();
+        }
+
+        $this->dispatch(
+            'done',
+            success: 'Successfully deleted this Contract'
+        );
+    }
 
     public function render()
     {
