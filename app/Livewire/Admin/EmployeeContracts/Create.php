@@ -22,7 +22,7 @@ class Create extends Component
         'contract.end_date' => 'required|date|after_or_equal:contract.start_date',
         'contract.employment_type_id' => 'required',
         'contract.salary_kes' => 'required',
-        'contract.is_taxable' => 'nullable',
+        'contract.is_taxable' => 'required|boolean',
         'contract.weekly_offs' => 'nullable',
         'contract.is_net' => 'nullable',
     ];
@@ -40,6 +40,7 @@ class Create extends Component
     public function mount()
     {
         $this->contract = new EmployeeContract();
+        $this->contract->is_taxable = true; // Default to taxable
     }
 
 
