@@ -29,6 +29,9 @@
                     </li>
                     <li class="user-footer">
                         <a href="{{ auth()->user()->is_employee?route('employee.profile'):route('profile.show') }}" class="btn btn-default btn-flat">Profile</a>
+                        @if (auth()->user()->is_admin)
+                        <a href="{{ route('admin.select-month') }}" class="btn btn-default btn-flat">Change Month</a>
+                        @endif
                         <a class="btn btn-default btn-flat float-end" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ __('Sign out') }}

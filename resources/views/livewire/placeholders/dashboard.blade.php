@@ -27,13 +27,7 @@
 
         </div>
         <div class="col-md-8 col-12">
-            <div class="card mb-3 shadow">
-                <div class="card-header bg-transparent border-0  ">
-                    <div class="d-flex flex-row justify-content-center align-items-center">
-                        <input class="form-control" type="month">
-                    </div>
-                </div>
-            </div>
+
             <div class="card shadow">
                 <div class="card-body">
                     <div class="row">

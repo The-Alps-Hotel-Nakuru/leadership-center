@@ -37,6 +37,8 @@ Route::get('/test-contract-earnings', function () {
     dd($dd);
 });
 
+
+
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 
     Route::get('dashboard', function () {
@@ -58,8 +60,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         }
     });
 
-
     Route::middleware('admin')->prefix('admin')->group(function () {
+        Route::get('select-month', Admin\SelectMonth::class)->name('admin.select-month');
+    });
+
+    Route::middleware(['admin', 'select-month'])->prefix('admin')->group(function () {
         Route::get('dashboard', Admin\Dashboard::class)->name('admin.dashboard');
 
         Route::prefix('settings')->group(function () {

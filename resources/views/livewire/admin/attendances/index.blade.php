@@ -9,9 +9,6 @@
                 <h3 class="text-success">
                     {{ $instance->format('F, Y') }}
                 </h3>
-                <div class="ms-auto">
-                    <input class="form-control" type="month" wire:model.live="month">
-                </div>
             </div>
             <div class="card-body table-responsive">
                 <table class="table table-hover table-bordered align-middle mb-5">

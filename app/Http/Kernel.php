@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'api-employee' => \App\Http\Middleware\ApiEmployee::class,
         'subscribed' => \App\Http\Middleware\Subscribed::class,
+        'select-month' => \App\Http\Middleware\SelectMonth::class,
     ];
 }

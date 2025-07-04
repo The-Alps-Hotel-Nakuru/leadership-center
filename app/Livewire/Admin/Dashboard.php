@@ -95,7 +95,7 @@ class Dashboard extends Component
 
     function mount()
     {
-        $this->instance = Carbon::now();
+        $this->instance = Carbon::parse(session('yearmonth', now()->format('Y-m')));
         $this->employees = EmployeesDetail::all();
         $this->month = $this->instance->format('Y-m');
 

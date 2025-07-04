@@ -38,20 +38,23 @@
     <!-- Styles -->
     @livewireStyles
 </head>
-
-<body class="fullscreen">
-    <div class="d-flex flex-row h-100 align-middle">
-        <div class="flex-col w-50 force-bg d-none d-md-block text-center">
-            <img class="my-5" src="{{ asset('logo_light.png') }}" width="30%" height="auto" alt="">
-            <h1 class="text-center"> Welcome to Force</h1>
-        </div>
-        <div class="flex-col w-50 bg-force-grey">
-            <div class="font-sans text-gray-900 antialiased my-auto">
-                {{ $slot }}
+<body class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="container-fluid min-vh-100">
+        <div class="row min-vh-100">
+            <!-- Left Side -->
+            <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center force-bg text-white p-5">
+                <img class="mb-4" src="{{ asset('logo_light.png') }}" style="max-width: 25%; height: auto;" alt="Logo">
+                <h1 class="display-4 fw-bold text-center">Welcome to Force</h1>
+                <p class="lead text-center mt-3">Empowering Leadership. Inspiring Change.</p>
+            </div>
+            <!-- Right Side -->
+            <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-secondary p-5 shadow-sm">
+                <div class="w-100" style="max-width: 400px;">
+                    {{ $slot }}
+                </div>
             </div>
         </div>
     </div>
-
     @livewireScripts
 </body>
 
