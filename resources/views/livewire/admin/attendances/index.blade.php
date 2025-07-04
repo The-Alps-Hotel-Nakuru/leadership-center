@@ -20,58 +20,56 @@
                     </thead>
                     <tbody>
                         @foreach ($employees as $employee)
-                            <tr>
-                                <td>
-                                    <div class="d-flex flex-row">
-                                        <div class="flex-col m-2">
-                                            <img class="img-thumbnail rounded-circle shadow" width="80px"
-                                                height="80px" width="80px" src="{{ $employee->user->profile_photo_url }}"
-                                                alt="">
-                                        </div>
-                                        <div class="flex-col m-2">
-
-                                            <h4>{{ $employee->user->name }}</h4>
-
-                                            <small>National ID: <strong>{{ $employee->national_id }}</strong></small>
-                                            <br>
-                                            <small>Des: <strong>{{ $employee->designation->title }}</small>
-                                            <br>
-                                            <br>
-                                            @if ($employee->ActiveContractDuring($currentYear . '-' . $currentMonthName))
-                                                <small class="text-success">Has Contract</small>
-                                            @else
-                                                <small class="text-danger">No Active Contract</small>
-                                            @endif
-                                        </div>
+                        <tr>
+                            <td>
+                                <div class="d-flex flex-row">
+                                    <div class="flex-col m-2">
+                                        <img class="img-thumbnail rounded-circle shadow" width="80px"
+                                            height="80px" width="80px" src="{{ $employee->user->profile_photo_url }}"
+                                            alt="">
                                     </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex flex-row">
+                                    <div class="flex-col m-2">
 
+                                        <h4>{{ $employee->user->name }}</h4>
+
+                                        <small>National ID: <strong>{{ $employee->national_id }}</strong></small>
+                                        <br>
+                                        <small>Des: <strong>{{ $employee->designation->title }}</small>
+                                        <br>
+                                        <br>
+                                        @if ($employee->ActiveContractDuring($currentYear . '-' . $currentMonthName))
+                                        <small class="text-success">Has Contract</small>
+                                        @else
+                                        <small class="text-danger">No Active Contract</small>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-row">
+
+                                    @php
+                                    $count = 0;
+
+                                    @endphp
+                                    @for ($i = 0; $i < $days; $i++)
                                         @php
-                                            $count = 0;
-
+                                        $date=$currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1);
+                                        $curr=App\Models\Attendance::where( 'employees_detail_id' ,
+                                        $employee->id,
+                                        )
+                                        ->where('date', $date)
+                                        ->first();
                                         @endphp
-                                        @for ($i = 0; $i < $days; $i++)
+                                        <div
+                                            class="p-2   {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : (now()->isAfter($currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1))  ? 'bg-danger' : 'bg-secondary')) }}">
+                                            {{ sprintf('%02d', $i + 1) }}
                                             @php
-                                                $date =
-                                                    $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1);
-                                                $curr = App\Models\Attendance::where(
-                                                    'employees_detail_id',
-                                                    $employee->id,
-                                                )
-                                                    ->where('date', $date)
-                                                    ->first();
+                                            if (in_array($date, $employee->attended_dates)) {
+                                            $count++;
+                                            }
                                             @endphp
-                                            <div
-                                                class="p-2   {{ in_array($date, $employee->attended_dates) ? 'bg-success' : (in_array($date, $employee->leave_dates) ? 'bg-dark text-white' : ($today > $currentYear . '-' . $currentMonth . '-' . sprintf('%02d', $i + 1) ? 'bg-danger' : 'bg-secondary')) }}">
-                                                {{ sprintf('%02d', $i + 1) }}
-                                                @php
-                                                    if (in_array($date, $employee->attended_dates)) {
-                                                        $count++;
-                                                    }
-                                                @endphp
-                                            </div>
+                                        </div>
                                         @endfor
                                         <div class="flex-col m-1">
                                             <div class="btn btn-dark">
@@ -82,9 +80,9 @@
                                             <a href="{{ route('admin.attendances.edit', [$employee->id, $instance->format('Y-m-d')]) }}"
                                                 class="btn btn-secondary"><i class="bi bi-pencil"></i></a>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>

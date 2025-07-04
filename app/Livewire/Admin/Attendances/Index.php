@@ -52,7 +52,7 @@ class Index extends Component
 
     public function render()
     {
-        $this->instance = Carbon::parse($this->month);
+        $this->instance = Carbon::parse(session('yearmonth', now()->format('Y-m')));
         $this->employees = EmployeesDetail::withCount(
             [
                 'attendances' => function ($query) {
