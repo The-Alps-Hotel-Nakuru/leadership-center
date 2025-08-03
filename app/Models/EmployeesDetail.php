@@ -220,7 +220,7 @@ class EmployeesDetail extends Model
         return $dates;
     }
 
-    function attendancesOfMonth($month)
+    public function attendancesOfMonth($month)
     {
         $initial = Carbon::parse($month);
         $attendances = [];
@@ -232,7 +232,7 @@ class EmployeesDetail extends Model
 
         return $attendances;
     }
-    function ExtraWorksOfMonth($month)
+    public function ExtraWorksOfMonth($month)
     {
         $initial = Carbon::parse($month);
         $extraWorks = [];
@@ -300,6 +300,16 @@ class EmployeesDetail extends Model
     public function hasSignedInToday()
     {
         return in_array(Carbon::now()->format('Y-m-d'), $this->attended_dates);
+    }
+    public function hasSignedInBetween($date1, $date2)
+    {
+        $startDate = Carbon::parse($date1)->format('Y-m-d');
+        $endDate = Carbon::parse($date2)->format('Y-m-d');
+
+        // Check if the employee has signed in on any date between the two dates
+        return collect($this->attended_dates)->filter(function ($date) use ($startDate, $endDate) {
+            return Carbon::parse($date)->between($startDate, $endDate);
+        })->isNotEmpty();
     }
 
     public function hasSignedOn($date)

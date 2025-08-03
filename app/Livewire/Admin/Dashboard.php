@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Exports\EmployeesDataExport;
+use App\Exports\FullDataExport;
 use App\Models\Advance;
 use App\Models\Bonus;
 use App\Models\EmployeesDetail;
@@ -53,6 +54,14 @@ class Dashboard extends Component
             success: 'Employees data exported successfully'
         );
         return Excel::download(new EmployeesDataExport, env('COMPANY_NAME') . ' - Employees Data - ' . Carbon::now()->getTimestamp() . '.xlsx')->deleteFileAfterSend();
+    }
+    public function downloadAllData()
+    {
+        $this->dispatch(
+            'done',
+            success: 'Company data exported successfully'
+        );
+        return Excel::download(new FullDataExport , env('COMPANY_NAME') . ' - Company Data - ' . Carbon::now()->getTimestamp() . '.xlsx')->deleteFileAfterSend();
     }
     function loadPayrollGraph()
     {

@@ -9,10 +9,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/admin-lte/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
@@ -38,6 +38,7 @@
     <!-- Styles -->
     @livewireStyles
 </head>
+
 <body class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
     <div class="container-fluid min-vh-100">
         <div class="row min-vh-100">

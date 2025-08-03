@@ -202,6 +202,15 @@
                             Downloading...
                         </span>
                     </button>
+                    <button class="btn btn-primary" wire:loading.attr="disabled" wire:target="downloadEmployeesData"
+                        wire:click="downloadAllData">
+                        <span wire:loading.remove wire:target="downloadAllData">
+                            Download All Company Data
+                        </span>
+                        <span wire:loading wire:target="downloadAllData">
+                            Downloading...
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>

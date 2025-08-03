@@ -33,7 +33,7 @@ class Create extends Component
         $this->selectedEmployee = $id;
     }
 
-    function save()
+    public function save()
     {
         $this->validate();
 
@@ -52,6 +52,11 @@ class Create extends Component
         if ($employee->onLeaveBetween($this->leave->start_date, $this->leave->end_date)) {
             throw ValidationException::withMessages([
                 'leave.start_date' => 'This employee is already on leave between these dates',
+            ]);
+        }
+        if ($employee->hasSignedInBetween($this->leave->start_date, $this->leave->end_date)) {
+            throw ValidationException::withMessages([
+                'leave.start_date' => 'This employee is on duty between these dates',
             ]);
         }
 
