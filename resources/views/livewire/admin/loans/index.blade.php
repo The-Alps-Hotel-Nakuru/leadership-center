@@ -47,7 +47,7 @@
                                     wire:click='delete({{ $loan->id }})' class="btn btn-danger">
                                     <i class="bi bi-trash"></i>
                                 </button>
-                                @if ($loan->hasBeganSettlement())
+                                @if ($loan->hasBeganSettlement() && $loan->hasUnsettledDeductions())
                                 <button onclick="confirm('Are you sure you want to delete the unsettled deductions?')||event.stopImmediatePropagation()"
                                     wire:click='deleteUnsettled({{ $loan->id }})' class="btn btn-warning">
                                     <i class="bi bi-x-circle"></i>

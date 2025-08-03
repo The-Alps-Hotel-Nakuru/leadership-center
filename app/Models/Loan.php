@@ -63,4 +63,15 @@ class Loan extends Model
 
         return $balance;
     }
+
+    public function hasUnsettledDeductions()
+    {
+        foreach ($this->loan_deductions as $deduction) {
+            if (!$deduction->is_settled) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
