@@ -36,6 +36,24 @@ class Index extends Component
             success: 'This Loan record has been Successfully Deleted'
         );
     }
+
+    public function deleteUnsettled($id)
+    {
+        $loan = Loan::find($id);
+        $count = 0;
+
+        foreach ($loan->loan_deductions as $deduction) {
+            if (!$deduction->is_settled) {
+                $deduction->delete();
+                $count++;
+            }
+        }
+
+        $this->dispatch(
+            'done',
+            success: "Successfully deleted $count unsettled deductions from this loan"
+        );
+    }
     public function render()
     {
         return view('livewire.admin.loans.index', [

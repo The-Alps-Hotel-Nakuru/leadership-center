@@ -12,7 +12,7 @@ class Index extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    function delete($id)
+    public function delete($id)
     {
         Leave::find($id)->delete();
         $this->dispatch(
