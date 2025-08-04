@@ -161,6 +161,9 @@ class Create extends Component
                 if (EmployeesDetail::find($this->employee_id)->hasSignedOn($date->format('Y-m-d'))) {
                     continue;
                 }
+                if (EmployeesDetail::find($this->employee_id)->onLeaveOn($date->format('Y-m-d'))) {
+                    continue;
+                }
                 array_push($this->attendanceList, [$this->employee_id, $date->format('Y-m-d'), $this->check_in, $this->check_out]);
             }
         }
