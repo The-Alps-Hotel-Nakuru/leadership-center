@@ -56,7 +56,10 @@ class Create extends Component
                     if ($employee->hasSignedOn($this->date)) {
                         continue;
                     }
-                    if ($employee->exit_date && Carbon::parse($this->date)->greaterThanOrEqualTo(Carbon::parse($employee->exit_date))) {
+                    if (Carbon::parse($this->date)->isAfter(Carbon::parse($employee->exit_date))) {
+                        continue;
+                    }
+                    if ($employee->onLeaveOn($this->date)) {
                         continue;
                     }
                     array_push($this->attendanceList, [$employee->id, $this->date, $this->check_in, $this->check_out]);
