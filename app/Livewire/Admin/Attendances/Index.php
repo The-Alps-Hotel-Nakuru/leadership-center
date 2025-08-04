@@ -62,6 +62,7 @@ class Index extends Component
             ]
         )
             ->where('exit_date', '>=', $this->instance->firstOfMonth()->toDateString())
+            ->orWhereNull('exit_date') // Include employees without an exit date
             ->orderBy('attendances_count', 'desc') // Order by the count of attendances
             ->get();
 
