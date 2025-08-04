@@ -61,7 +61,7 @@ class Index extends Component
                 }
             ]
         )
-            ->where('exit_date', '=', null)
+            ->where('exit_date', '>=', $this->instance->firstOfMonth()->toDateString())
             ->orderBy('attendances_count', 'desc') // Order by the count of attendances
             ->get();
 
