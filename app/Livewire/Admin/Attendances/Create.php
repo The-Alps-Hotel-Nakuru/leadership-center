@@ -46,23 +46,20 @@ class Create extends Component
 
             if ($this->employee_id == 'all') {
                 foreach (EmployeesDetail::all() as $key => $employee) {
-                    if (count($employee->ActiveContractsBetween($this->date, $this->second_date)) > 0) {
-                        if ($this->attendanceList) {
-                            for ($i = 0; $i < count($this->attendanceList); $i++) {
-                                if ((intval($this->attendanceList[$i][0]) == intval($employee->id) && Carbon::parse($this->attendanceList[$i][1])->toDateString() == Carbon::parse($this->date)->toDateString()) || !$employee->ActiveContractOn($this->attendanceList[$i][1])) {
-                                    continue;
-                                }
+                    if ($this->attendanceList) {
+                        for ($i = 0; $i < count($this->attendanceList); $i++) {
+                            if ((intval($this->attendanceList[$i][0]) == intval($employee->id) && Carbon::parse($this->attendanceList[$i][1])->toDateString() == Carbon::parse($this->date)->toDateString()) || !$employee->ActiveContractOn($this->attendanceList[$i][1])) {
+                                continue;
                             }
                         }
-
-
-
-                        if ($employee->hasSignedOn($this->date)) {
-                            continue;
-                        }
-
-                        array_push($this->attendanceList, [$employee->id, $this->date, $this->check_in, $this->check_out]);
                     }
+                    if ($employee->hasSignedOn($this->date)) {
+                        continue;
+                    }
+                    if ($employee->exit_date && Carbon::parse($this->date)->greaterThanOrEqualTo(Carbon::parse($employee->exit_date))) {
+                        continue;
+                    }
+                    array_push($this->attendanceList, [$employee->id, $this->date, $this->check_in, $this->check_out]);
                 }
             } else {
                 if ($this->attendanceList) {
