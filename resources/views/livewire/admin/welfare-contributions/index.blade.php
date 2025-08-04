@@ -41,7 +41,7 @@
                                 <td>{{ $welfare_contributions->firstItem() + $key }}</td>
                                 <td scope="row">{{ $welfare_contribution->employee->user->name }}</td>
                                 <td>{{ Carbon\Carbon::parse($welfare_contribution->year . '-' . $welfare_contribution->month)->format('F, Y') }}</td>
-                                <td>KES {{ number_format($welfare_contribution->amount_kes) }}</td>
+                                <td>KES {{ number_format($welfare_contribution->amount_kes, 2) }}</td>
                                 <td>{{ $welfare_contribution->reason }}</td>
                                 <td class="d-flex flex-row justify-content-center">
                                     <div class="flex-col me-2">

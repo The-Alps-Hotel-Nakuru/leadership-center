@@ -43,7 +43,7 @@ class Create extends Component
         $log = new Log();
         $log->user_id = auth()->user()->id;
         $log->model = 'App\Models\Fine';
-        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Created a new Fine for <strong>" . $this->fine->employee->user->name . ' on ' . Carbon::parse($this->fine->created_at)->format('j F, Y - h:i A') . "</strong> now amounting to <strong>KES " . number_format($this->fine->amount_kes) . "</strong> in the system";
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Created a new Fine for <strong>" . $this->fine->employee->user->name . ' on ' . Carbon::parse($this->fine->created_at)->format('j F, Y - h:i A') . "</strong> now amounting to <strong>KES " . number_format($this->fine->amount_kes, 2) . "</strong> in the system";
         $log->save();
 
         return redirect()->route('admin.fines.index');

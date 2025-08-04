@@ -41,7 +41,7 @@
                                 <td>{{ $bonuses->firstItem() + $key }}</td>
                                 <td scope="row">{{ $bonus->employee->user->name }}</td>
                                 <td>{{ Carbon\Carbon::parse($bonus->year . '-' . $bonus->month)->format('F, Y') }}</td>
-                                <td>KES {{ number_format($bonus->amount_kes) }}</td>
+                                <td>KES {{ number_format($bonus->amount_kes,2) }}</td>
                                 <td>{{ $bonus->reason }}</td>
                                 <td class="text-center">
 

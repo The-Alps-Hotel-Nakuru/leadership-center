@@ -43,7 +43,7 @@
                                 <td scope="row">{{ $advance->employee->user->name }}</td>
                                 <td>{{ Carbon\Carbon::parse($advance->year . '-' . $advance->month)->format('F, Y') }}
                                 </td>
-                                <td>KES {{ number_format($advance->amount_kes) }}</td>
+                                <td>KES {{ number_format($advance->amount_kes, 2) }}</td>
                                 <td>{{ $advance->reason }}</td>
                                 <td>{{ $advance->transaction }}</td>
                                 <td class="d-flex flex-row justify-content-center">

@@ -34,7 +34,7 @@ class Edit extends Component
         $log = new Log();
         $log->user_id = auth()->user()->id;
         $log->model = 'App\Models\Bonus';
-        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Edited the bonus for <strong>" . $this->bonus->employee->user->name . ' on ' . Carbon::parse($this->bonus->created_at)->format('j F, Y - h:i A') . "</strong> now amounting to <strong>KES " . number_format($this->bonus->amount_kes) . "</strong> in the system";
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Edited the bonus for <strong>" . $this->bonus->employee->user->name . ' on ' . Carbon::parse($this->bonus->created_at)->format('j F, Y - h:i A') . "</strong> now amounting to <strong>KES " . number_format($this->bonus->amount_kes, 2) . "</strong> in the system";
         $log->save();
 
         return redirect()->route('admin.bonuses.index');

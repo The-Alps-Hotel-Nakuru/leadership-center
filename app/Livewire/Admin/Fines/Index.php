@@ -28,7 +28,7 @@ class Index extends Component
         $log = new Log();
         $log->user_id = auth()->user()->id;
         $log->model = 'App\Models\Fine';
-        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Deleted Fine for <strong>" . $fine->employee->user->name . ' on ' . Carbon::parse($fine->created_at)->format('j F, Y - h:i A') . "</strong> amounting to <strong>KES " . number_format($fine->amount_kes) . "</strong> in the system";
+        $log->payload = "<strong>" . auth()->user()->name . "</strong> has Deleted Fine for <strong>" . $fine->employee->user->name . ' on ' . Carbon::parse($fine->created_at)->format('j F, Y - h:i A') . "</strong> amounting to <strong>KES " . number_format($fine->amount_kes, 2) . "</strong> in the system";
 
         $this->dispatch(
             'done',
