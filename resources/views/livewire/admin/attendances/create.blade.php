@@ -80,6 +80,28 @@
                                 </div>
                             @endif
 
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="exemptedDays">Exempted Days</label>
+                                    <select
+                                        multiple
+                                        class="form-select form-select-lg"
+                                        name="exemptedDays[]"
+                                        id="exemptedDays"
+                                        wire:model.live='exemptedDays'
+                                    >
+                                        <option selected>Select one</option>
+                                        @foreach ($days as $day)
+                                            <option value="{{ $day }}">{{ $day }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                @error('exemptedDays')
+                                    <small id="exemptedDays" class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="check_in">Check In</label>

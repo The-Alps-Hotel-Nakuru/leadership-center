@@ -16,6 +16,8 @@ class Create extends Component
     public $employee_id, $date, $second_date, $check_in, $check_out;
     public $search = "";
     public $attendanceList = [];
+    public $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    public $exemptedDays = [];
 
     public $full = false;
     protected $listeners = [
@@ -28,6 +30,7 @@ class Create extends Component
         'second_date' => 'nullable',
         'check_in' => 'required',
         'check_out' => 'nullable',
+        'exemptedDays' => 'array'
     ];
 
 
@@ -139,6 +142,13 @@ class Create extends Component
                         }
                         if ($employee->onLeaveOn($date->format('Y-m-d'))) {
                             continue;
+                        }
+                        if (!empty($this->exemptedDays)) {
+                            foreach ($this->exemptedDays as $exemptedDay) {
+                                if ($date->dayName == Carbon::parse($exemptedDay)->format('l')) {
+                                    continue 2;
+                                }
+                            }
                         }
                         array_push($this->attendanceList, [$employee->id, $date->format('Y-m-d'), $this->check_in, $this->check_out]);
                     }
