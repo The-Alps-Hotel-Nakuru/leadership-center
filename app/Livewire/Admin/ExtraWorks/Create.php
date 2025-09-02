@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\ExtraWorks;
 use App\Models\EmployeesDetail;
 use App\Models\ExtraWork;
 use App\Models\Log;
+use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -14,6 +15,9 @@ class Create extends Component
     public $employee_id, $date, $second_date, $double_shift;
     public $search = "";
     public $overtimesList = [];
+
+    public $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    public $exemptedDays = [];
 
     public $full = false;
     protected $listeners = [
@@ -107,6 +111,13 @@ class Create extends Component
 
             if (EmployeesDetail::find($this->employee_id)->hasOvertimeOn($date->format('Y-m-d'))) {
                 continue;
+            }
+            if (!empty($this->exemptedDays)) {
+                foreach ($this->exemptedDays as $exemptedDay) {
+                    if ($date->dayName == Carbon::parse($exemptedDay)->format('l')) {
+                        continue 2;
+                    }
+                }
             }
             array_push($this->overtimesList, [$this->employee_id, $date->format('Y-m-d'), $this->double_shift]);
         }
