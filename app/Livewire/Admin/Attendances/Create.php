@@ -143,13 +143,13 @@ class Create extends Component
                         if ($employee->onLeaveOn($date->format('Y-m-d'))) {
                             continue;
                         }
-                        if (!empty($this->exemptedDays)) {
-                            foreach ($this->exemptedDays as $exemptedDay) {
-                                if ($date->dayName == Carbon::parse($exemptedDay)->format('l')) {
-                                    continue;
-                                }
+
+                        foreach ($this->exemptedDays as $exemptedDay) {
+                            if ($date->dayName == Carbon::parse($exemptedDay)->format('l')) {
+                                continue;
                             }
                         }
+
                         array_push($this->attendanceList, [$employee->id, $date->format('Y-m-d'), $this->check_in, $this->check_out]);
                     }
                 }
@@ -168,19 +168,21 @@ class Create extends Component
                     }
                 }
 
+
+                foreach ($this->exemptedDays as $exemptedDay) {
+                    if ($date->format('l') == Carbon::parse($exemptedDay)->format('l')) {
+                        continue;
+                    }
+                }
+
+
                 if (EmployeesDetail::find($this->employee_id)->hasSignedOn($date->format('Y-m-d'))) {
                     continue;
                 }
                 if (EmployeesDetail::find($this->employee_id)->onLeaveOn($date->format('Y-m-d'))) {
                     continue;
                 }
-                if (!empty($this->exemptedDays)) {
-                    foreach ($this->exemptedDays as $exemptedDay) {
-                        if ($date->dayName == Carbon::parse($exemptedDay)->format('l')) {
-                            continue;
-                        }
-                    }
-                }
+
                 array_push($this->attendanceList, [$this->employee_id, $date->format('Y-m-d'), $this->check_in, $this->check_out]);
             }
         }
