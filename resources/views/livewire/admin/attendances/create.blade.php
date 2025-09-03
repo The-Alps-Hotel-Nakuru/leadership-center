@@ -86,7 +86,7 @@
                                     <select
                                         multiple
                                         class="form-select form-select-lg"
-                                        name="exemptedDays[]"
+                                        name="exemptedDays"
                                         id="exemptedDays"
                                         wire:model.live='exemptedDays'
                                     >
