@@ -146,7 +146,7 @@ class Create extends Component
                         if (!empty($this->exemptedDays)) {
                             foreach ($this->exemptedDays as $exemptedDay) {
                                 if ($date->dayName == Carbon::parse($exemptedDay)->format('l')) {
-                                    continue 2;
+                                    continue;
                                 }
                             }
                         }
