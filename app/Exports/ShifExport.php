@@ -82,8 +82,9 @@ class ShifExport implements FromCollection, WithHeadings, WithMapping, WithColum
     {
         return [
             'D' => NumberFormat::FORMAT_TEXT,
-            'G' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED2,
-            'H' => NumberFormat::FORMAT_TEXT,
+            'G' => NumberFormat::FORMAT_TEXT,
+            'H' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED2,
+            'I' => NumberFormat::FORMAT_TEXT,
         ];
     }
 }
