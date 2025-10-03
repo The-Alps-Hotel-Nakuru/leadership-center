@@ -35,7 +35,7 @@ class AbsaBankingGuideExport implements FromCollection, WithMapping, WithTitle, 
 
         foreach ($payroll->payments as $payment) {
             // $employee = EmployeesDetail::find($payment->employees_detail_id);
-            if ($payment->net_pay > 0.1) {
+            if ($payment->net_pay > 10) {
                 array_push($employees, $payment);
             }
         }
