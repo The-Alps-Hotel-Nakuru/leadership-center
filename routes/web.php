@@ -224,6 +224,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/', Admin\PayrollPayments\Index::class)->name('admin.payroll_payments.index');
             Route::get('/{id}/show', Admin\PayrollPayments\Show::class)->name('admin.payroll_payments.show');
         });
+        Route::prefix('export')->group(function () {
+            Route::get('/force-hrms', Admin\Exports\ForceHRMS::class)->name('admin.export.force-hrms');
+        });
     });
 
 

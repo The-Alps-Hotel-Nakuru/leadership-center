@@ -21,8 +21,20 @@ class FullDataExport implements WithMultipleSheets
             new Designations(),
             // new Employees(),
             // new EmploymentTypes(),
+            // new Contracts(),
             // new LeaveTypes(),
-            // 'designations' => new FullDataExport\Designations(),
+            // new Leaves(),
+            // new Holidays(),
+            // new Attendances(),
+            // new Bonuses(),
+            // new Fines(),
+            // new Loans(),
+            // new LeaveTypes(),
+            // new LeaveRequests(),
+            // new LeavesFromRequests(),
+            // new Salaries(),
+            // new Payrolls(),
+            // new Payments(),
         ];
     }
 }

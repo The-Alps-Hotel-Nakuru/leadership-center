@@ -130,3 +130,6 @@
         <x-new-nav-link bi_icon="" title="Overview" route="admin.payrolls.index"></x-new-nav-link>
         <x-new-nav-link bi_icon="" title="Payments" route="admin.payroll_payments.index"></x-new-nav-link>
     </x-new-nav-link-dropdown>
+
+    <li class="nav-header">Exports</li>
+    <x-new-nav-link title="Force HRMS Export" route="admin.export.force-hrms" bi_icon="bi-download"></x-new-nav-link>
