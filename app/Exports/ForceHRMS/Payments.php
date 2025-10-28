@@ -66,7 +66,7 @@ class Payments implements FromCollection, WithHeadings, WithTitle, ShouldAutoSiz
                 $payment->total_advances ?? 0,
                 $payment->total_bonuses ?? 0,
                 $payment->total_welfare_contributions ?? 0,
-                $payment->bank->name ?? '',
+                $payment->bank->short_name ?? '',
                 $payment->account_number ?? '',
                 $payment->created_at ?? '',
                 $payment->updated_at ?? '',
