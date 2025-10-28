@@ -2,21 +2,21 @@
 
 namespace App\Exports\ForceHRMS;
 
-use App\Models\ExtraWork;
+use App\Models\Ban;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ExtraWorks implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
+class Bans implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
     /**
      * @return string
      */
     public function title(): string
     {
-        return 'ExtraWorks';
+        return 'Bans';
     }
 
     /**
@@ -26,8 +26,8 @@ class ExtraWorks implements FromCollection, WithHeadings, WithTitle, ShouldAutoS
     {
         return [
             'employee_email',
-            'date',
-            'double_shift',
+            'reason',
+            'created_at',
         ];
     }
 
@@ -36,13 +36,12 @@ class ExtraWorks implements FromCollection, WithHeadings, WithTitle, ShouldAutoS
      */
     public function collection()
     {
-        $extraWorks = ExtraWork::with(['employee.user'])->get();
-
-        return $extraWorks->map(function ($extraWork) {
+        $bans = Ban::with(['employee.user'])->get();
+        return $bans->map(function ($ban) {
             return [
-                $extraWork->employee->user->email ?? '',
-                Carbon::parse($extraWork->date)->format('Y-m-d'),
-                $extraWork->double_shift ?? false,
+                $ban->employee->user->email ?? '',
+                $ban->reason ?? '',
+                $ban->created_at ? Carbon::parse($ban->created_at)->format('Y-m-d H:i:s') : '',
             ];
         });
     }

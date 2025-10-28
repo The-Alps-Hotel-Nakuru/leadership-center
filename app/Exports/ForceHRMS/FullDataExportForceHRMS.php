@@ -24,6 +24,10 @@ class FullDataExportForceHRMS implements WithMultipleSheets
             $sheets[] = new EmploymentTypes();
         }
 
+        if ($this->hasBans()) {
+            $sheets[] = new Bans();
+        }
+
         if ($this->hasLeaveTypes()) {
             $sheets[] = new LeaveTypes();
         }
@@ -59,6 +63,13 @@ class FullDataExportForceHRMS implements WithMultipleSheets
         if ($this->hasExtraWorks()) {
             $sheets[] = new ExtraWorks();
         }
+        if ($this->hasLoans()) {
+            $sheets[] = new Loans();
+        }
+
+        if ($this->hasLoanDeductions()) {
+            $sheets[] = new LoanDeductions();
+        }
 
         if ($this->hasPayrolls()) {
             $sheets[] = new Payrolls();
@@ -69,6 +80,30 @@ class FullDataExportForceHRMS implements WithMultipleSheets
         }
 
         return $sheets;
+    }
+
+    /**
+     * Check if company has bans data
+     */
+    private function hasBans(): bool
+    {
+        return \App\Models\Ban::exists();
+    }
+
+    /**
+     * Check if company has loans data
+     */
+    private function hasLoans(): bool
+    {
+        return \App\Models\Loan::exists();
+    }
+
+    /**
+     * Check if company has loan deductions data
+     */
+    private function hasLoanDeductions(): bool
+    {
+        return \App\Models\LoanDeduction::exists();
     }
 
     /**

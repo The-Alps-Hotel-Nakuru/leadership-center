@@ -4,9 +4,9 @@ namespace App\Exports\ForceHRMS;
 
 use App\Models\EmploymentType;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class EmploymentTypes implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
@@ -26,6 +26,8 @@ class EmploymentTypes implements FromCollection, WithHeadings, WithTitle, Should
         return [
             'name',
             'description',
+            'rate_type',
+            'penalizable',
         ];
     }
 
@@ -41,6 +43,8 @@ class EmploymentTypes implements FromCollection, WithHeadings, WithTitle, Should
             return [
                 $type->title ?? '',
                 $type->description ?? '',
+                $type->rate_type ?? '',
+                $type->penalizable ? true : false,
             ];
         });
     }

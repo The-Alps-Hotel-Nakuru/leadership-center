@@ -226,4 +226,18 @@ return [
     'nita' => env('NITA', false),
     'holidays' => env('HOLIDAYS', true),
     'hr_email' => env('COMPANY_HR_EMAIL') ?? env('COMPANY_EMAIL'),
+
+    /**
+     * Company Details
+     */
+    'company' => [
+        'name' => env('COMPANY_NAME'),
+        'email' => env('COMPANY_EMAIL'),
+        'location' => env('COMPANY_LOCATION'),
+        'hr_email' => env('COMPANY_HR_EMAIL'),
+        'address' => env('COMPANY_ADDRESS'),
+        'phone' => env('COMPANY_PHONE'),
+        'description' => env('COMPANY_DESCRIPTION'),
+        'opening_date' => env('COMPANY_OPENING_DATE'),
+    ],
 ];

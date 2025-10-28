@@ -5,9 +5,9 @@ namespace App\Exports\ForceHRMS;
 use App\Models\Advance;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class Advances implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
@@ -29,6 +29,7 @@ class Advances implements FromCollection, WithHeadings, WithTitle, ShouldAutoSiz
             'date',
             'amount',
             'reason',
+            'created_at',
         ];
     }
 
@@ -48,6 +49,7 @@ class Advances implements FromCollection, WithHeadings, WithTitle, ShouldAutoSiz
                 $date,
                 $advance->amount_kes ?? '',
                 $advance->reason ?? '',
+                $advance->created_at ? Carbon::parse($advance->created_at)->format('Y-m-d H:i:s') : '',
             ];
         });
     }

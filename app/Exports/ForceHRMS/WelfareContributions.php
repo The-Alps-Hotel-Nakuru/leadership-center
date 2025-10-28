@@ -5,9 +5,9 @@ namespace App\Exports\ForceHRMS;
 use App\Models\WelfareContribution;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class WelfareContributions implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
@@ -29,6 +29,7 @@ class WelfareContributions implements FromCollection, WithHeadings, WithTitle, S
             'date',
             'amount',
             'contribution_type',
+            'created_at',
         ];
     }
 
@@ -48,6 +49,7 @@ class WelfareContributions implements FromCollection, WithHeadings, WithTitle, S
                 $date,
                 $contribution->amount_kes ?? '',
                 $contribution->reason ?? '',
+                $contribution->created_at ? Carbon::parse($contribution->created_at)->format('Y-m-d H:i:s') : '',
             ];
         });
     }

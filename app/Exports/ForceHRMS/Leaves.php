@@ -5,9 +5,9 @@ namespace App\Exports\ForceHRMS;
 use App\Models\Leave;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class Leaves implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
@@ -29,7 +29,7 @@ class Leaves implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
             'leave_type',
             'start_date',
             'end_date',
-            'days',
+            'created_at',
         ];
     }
 
@@ -50,7 +50,7 @@ class Leaves implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
                 $leave->type->title ?? '',
                 $startDate->format('Y-m-d'),
                 $endDate->format('Y-m-d'),
-                $days,
+                $leave->created_at ? Carbon::parse($leave->created_at)->format('Y-m-d H:i:s') : '',
             ];
         });
     }

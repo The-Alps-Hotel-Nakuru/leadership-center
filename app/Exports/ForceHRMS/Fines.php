@@ -5,9 +5,9 @@ namespace App\Exports\ForceHRMS;
 use App\Models\Fine;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class Fines implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
@@ -29,6 +29,7 @@ class Fines implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
             'date',
             'amount',
             'reason',
+            'created_at',
         ];
     }
 
@@ -48,6 +49,7 @@ class Fines implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
                 $date,
                 $fine->amount_kes ?? '',
                 $fine->reason ?? '',
+                $fine->created_at ? Carbon::parse($fine->created_at)->format('Y-m-d H:i:s') : '',
             ];
         });
     }

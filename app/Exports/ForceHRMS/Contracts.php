@@ -5,9 +5,9 @@ namespace App\Exports\ForceHRMS;
 use App\Models\EmployeeContract;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class Contracts implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
@@ -25,11 +25,14 @@ class Contracts implements FromCollection, WithHeadings, WithTitle, ShouldAutoSi
     public function headings(): array
     {
         return [
-            'employee_email',
-            'contract_type',
-            'start_date',
-            'end_date',
-            'terms',
+            'Employee Email',
+            'Employment Type',
+            'Start Date',
+            'End Date',
+            'Salary (KES)',
+            'Weekly Offs',
+            'Is Taxable',
+            'Is Net Salary',
         ];
     }
 
@@ -51,7 +54,10 @@ class Contracts implements FromCollection, WithHeadings, WithTitle, ShouldAutoSi
                 $contract->employment_type->title ?? '',
                 Carbon::parse($contract->start_date)->format('Y-m-d'),
                 $contract->end_date ? Carbon::parse($contract->end_date)->format('Y-m-d') : '',
-                $terms,
+                $contract->salary_kes ?? '',
+                $contract->weekly_offs ?? '',
+                $contract->is_taxable ? true : false,
+                $contract->is_net ? true : false,
             ];
         });
     }

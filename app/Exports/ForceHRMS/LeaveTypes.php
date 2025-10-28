@@ -4,9 +4,9 @@ namespace App\Exports\ForceHRMS;
 
 use App\Models\LeaveType;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class LeaveTypes implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
@@ -24,8 +24,18 @@ class LeaveTypes implements FromCollection, WithHeadings, WithTitle, ShouldAutoS
     public function headings(): array
     {
         return [
-            'name',
-            'days_allowed',
+            'Title',
+            'Description',
+            'Max Days',
+            'Monthly Accrual Rate',
+            'Min Months Worked',
+            'Full Pay Days',
+            'Half Pay Days',
+            'Is Paid',
+            'Can Accumulate',
+            'Carry Forward Limit',
+            'Is Gender Specific',
+            'Gender',
         ];
     }
 
@@ -40,7 +50,17 @@ class LeaveTypes implements FromCollection, WithHeadings, WithTitle, ShouldAutoS
         return $leaveTypes->map(function ($type) {
             return [
                 $type->title ?? '',
+                $type->description ?? '',
                 $type->max_days ?? 0,
+                $type->monthly_accrual_rate ?? 0.00,
+                $type->min_months_worked ?? 0,
+                $type->full_pay_days ?? 0,
+                $type->half_pay_days ?? 0,
+                $type->is_paid ? true : false,
+                $type->can_accumulate ? true : false,
+                $type->carry_forward_limit ?? 0,
+                $type->is_gender_specific ? true : false,
+                $type->gender ?? '',
             ];
         });
     }

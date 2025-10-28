@@ -4,9 +4,9 @@ namespace App\Exports\ForceHRMS;
 
 use App\Models\Designation;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class Designations implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
@@ -26,7 +26,7 @@ class Designations implements FromCollection, WithHeadings, WithTitle, ShouldAut
         return [
             'title',
             'department_name',
-            'description',
+            'is_penalizable',
         ];
     }
 
@@ -41,7 +41,7 @@ class Designations implements FromCollection, WithHeadings, WithTitle, ShouldAut
             return [
                 $designation->title ?? '',
                 $designation->department->title ?? '',
-                $designation->description ?? '',
+                $designation->is_penalizable ? "true" : "false",
             ];
         });
     }

@@ -23,10 +23,14 @@ class Company implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
     public function headings(): array
     {
         return [
-            'company_name',
-            'email',
-            'phone',
+            'name',
             'address',
+            'phone',
+            'email',
+            'description',
+            'opening_date',
+            'bank_name',
+            'bank_account_number',
         ];
     }
 
@@ -36,10 +40,14 @@ class Company implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
     public function collection()
     {
         // Get company info from .env configuration
-        $name = config('app.company_name') ?? env('COMPANY_NAME');
-        $email = config('app.company_email') ?? env('COMPANY_EMAIL');
-        $phone = config('app.company_phone') ?? env('COMPANY_PHONE', '');
-        $address = config('app.company_address') ?? env('COMPANY_ADDRESS', '');
+        $name = config('app.company.name') ?? env('COMPANY_NAME');
+        $email = config('app.company.email') ?? env('COMPANY_EMAIL');
+        $phone = config('app.company.phone') ?? env('COMPANY_PHONE', '');
+        $address = config('app.company.address') ?? env('COMPANY_ADDRESS', '');
+        $description = config('app.company.description') ?? env('COMPANY_DESCRIPTION', '');
+        $openingDate = config('app.company.opening_date') ?? env('COMPANY_OPENING_DATE', '');
+        $bankName = env('COMPANY_BANK_NAME', '');
+        $bankAccountNumber = env('COMPANY_BANK_ACCOUNT_NUMBER', '');
 
         return collect([
             [
@@ -47,6 +55,10 @@ class Company implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
                 $email ?? '',
                 $phone ?? '',
                 $address ?? '',
+                $description ?? '',
+                $openingDate ?? '',
+                $bankName ?? '',
+                $bankAccountNumber ?? '',
             ],
         ]);
     }
