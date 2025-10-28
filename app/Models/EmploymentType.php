@@ -9,7 +9,12 @@ class EmploymentType extends Model
 {
     use HasFactory;
 
-    function contracts() {
+    protected $casts = [
+        'penalizable' => 'boolean',
+    ];
+
+    function contracts()
+    {
         return $this->hasMany(EmployeeContract::class);
     }
 }

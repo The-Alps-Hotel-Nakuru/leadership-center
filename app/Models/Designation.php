@@ -9,7 +9,9 @@ class Designation extends Model
 {
     use HasFactory;
 
-
+    protected $casts = [
+        'is_penalizable' => 'boolean',
+    ];
     public function department()
     {
         return $this->belongsTo(Department::class);

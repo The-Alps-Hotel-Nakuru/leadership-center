@@ -56,8 +56,8 @@ class Contracts implements FromCollection, WithHeadings, WithTitle, ShouldAutoSi
                 $contract->end_date ? Carbon::parse($contract->end_date)->format('Y-m-d') : '',
                 $contract->salary_kes ?? '',
                 $contract->weekly_offs ?? '',
-                $contract->is_taxable ? true : false,
-                $contract->is_net ? true : false,
+                $contract->is_taxable ? "1" : "0",
+                $contract->is_net ? "1" : "0",
             ];
         });
     }

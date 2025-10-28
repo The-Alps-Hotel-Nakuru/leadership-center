@@ -42,7 +42,7 @@ class ExtraWorks implements FromCollection, WithHeadings, WithTitle, ShouldAutoS
             return [
                 $extraWork->employee->user->email ?? '',
                 Carbon::parse($extraWork->date)->format('Y-m-d'),
-                $extraWork->double_shift ?? false,
+                $extraWork->double_shift ? "1" : "0",
             ];
         });
     }

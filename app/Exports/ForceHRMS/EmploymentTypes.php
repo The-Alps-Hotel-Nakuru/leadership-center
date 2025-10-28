@@ -8,6 +8,8 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
+use function Symfony\Component\String\b;
+
 class EmploymentTypes implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
     /**
@@ -44,7 +46,7 @@ class EmploymentTypes implements FromCollection, WithHeadings, WithTitle, Should
                 $type->title ?? '',
                 $type->description ?? '',
                 $type->rate_type ?? '',
-                $type->penalizable ? true : false,
+                $type->is_penalizable ? "1" : "0",
             ];
         });
     }

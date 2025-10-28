@@ -75,6 +75,9 @@ class FullDataExportForceHRMS implements WithMultipleSheets
             $sheets[] = new Payrolls();
         }
 
+        if ($this->hasSalaries()) {
+            $sheets[] = new Salaries();
+        }
         if ($this->hasPayments()) {
             $sheets[] = new Payments();
         }
@@ -194,6 +197,13 @@ class FullDataExportForceHRMS implements WithMultipleSheets
         return \App\Models\Payroll::exists();
     }
 
+    /**
+     * Check if company has salary data
+     */
+    private function hasSalaries(): bool
+    {
+        return \App\Models\MonthlySalary::exists();
+    }
     /**
      * Check if company has payment data
      */

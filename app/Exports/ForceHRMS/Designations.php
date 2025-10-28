@@ -41,7 +41,7 @@ class Designations implements FromCollection, WithHeadings, WithTitle, ShouldAut
             return [
                 $designation->title ?? '',
                 $designation->department->title ?? '',
-                $designation->is_penalizable ? "true" : "false",
+                $designation->is_penalizable ? "1" : "0",
             ];
         });
     }

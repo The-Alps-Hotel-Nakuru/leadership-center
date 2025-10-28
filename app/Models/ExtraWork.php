@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class ExtraWork extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'date' => 'date',
+        'double_shift' => 'boolean',
+    ];
     public function employee()
     {
         return $this->hasOne(EmployeesDetail::class, 'id', 'employees_detail_id');

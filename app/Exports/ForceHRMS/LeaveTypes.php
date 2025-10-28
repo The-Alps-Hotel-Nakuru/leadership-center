@@ -56,10 +56,10 @@ class LeaveTypes implements FromCollection, WithHeadings, WithTitle, ShouldAutoS
                 $type->min_months_worked ?? 0,
                 $type->full_pay_days ?? 0,
                 $type->half_pay_days ?? 0,
-                $type->is_paid ? true : false,
-                $type->can_accumulate ? true : false,
+                $type->is_paid ? "1" : "0",
+                $type->can_accumulate ? "1" : "0",
                 $type->carry_forward_limit ?? 0,
-                $type->is_gender_specific ? true : false,
+                $type->is_gender_specific ? "1" : "0",
                 $type->gender ?? '',
             ];
         });

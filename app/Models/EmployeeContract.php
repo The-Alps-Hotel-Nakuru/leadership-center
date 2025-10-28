@@ -18,6 +18,11 @@ class EmployeeContract extends Model
         'duration',
     ];
 
+    protected $casts = [
+        'is_taxable' => 'boolean',
+        'is_net' => 'boolean',
+    ];
+
 
     public function getIsActiveAttribute()
     {
