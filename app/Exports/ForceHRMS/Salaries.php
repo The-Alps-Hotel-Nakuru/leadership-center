@@ -25,16 +25,12 @@ class Salaries implements FromCollection, WithHeadings, WithTitle, ShouldAutoSiz
     public function headings(): array
     {
         return [
-            'ID',
             'Employee Email',
             'Year',
             'Month',
             'Basic Salary KES',
             'House Allowance KES',
             'Transport Allowance KES',
-            'Created By',
-            'Updated By',
-            'Deleted At',
             'Created At',
             'Updated At',
             'Is Taxable',
@@ -48,16 +44,12 @@ class Salaries implements FromCollection, WithHeadings, WithTitle, ShouldAutoSiz
     {
         return MonthlySalary::with(['employee.user', 'payroll'])->get()->map(function ($salary) {
             return [
-                $salary->id ?? '',
                 $salary->employee->user->email ?? '',
                 $salary->payroll->year ?? '',
                 $salary->payroll->month ?? '',
                 $salary->basic_salary_kes ?? 0,
                 $salary->house_allowance_kes ?? 0,
                 $salary->transport_allowance_kes ?? 0,
-                $salary->created_by ?? '',
-                $salary->updated_by ?? '',
-                $salary->deleted_at ?? '',
                 $salary->created_at ?? '',
                 $salary->updated_at ?? '',
                 $salary->is_taxable ?? 0,

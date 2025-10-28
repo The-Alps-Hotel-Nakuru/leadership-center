@@ -24,9 +24,6 @@ class Payments implements FromCollection, WithHeadings, WithTitle, ShouldAutoSiz
     public function headings(): array
     {
         return [
-            'ID',
-            'Payroll ID',
-            'Employee Detail ID',
             'Employee Email',
             'Payroll Year',
             'Payroll Month',
@@ -57,9 +54,6 @@ class Payments implements FromCollection, WithHeadings, WithTitle, ShouldAutoSiz
     {
         return PayrollPayment::with(['employee.user', 'payroll', 'bank'])->get()->map(function ($payment) {
             return [
-                $payment->id ?? '',
-                $payment->payroll_id ?? '',
-                $payment->employees_detail_id ?? '',
                 $payment->employee->user->email ?? '',
                 $payment->payroll->year ?? '',
                 $payment->payroll->month ?? '',
