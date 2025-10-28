@@ -49,7 +49,7 @@ class Loans implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
                 $loan->employee->user->email ?? '',
                 $loan->year,
                 $loan->month,
-                $loan->amount_kes ?? '',
+                $loan->amount ?? '',
                 $loan->reason . '- imported loan_id:' . $loan->id ?? '',
                 $loan->created_at ? Carbon::parse($loan->created_at)->format('Y-m-d H:i:s') : '',
             ];

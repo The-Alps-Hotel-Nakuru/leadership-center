@@ -49,7 +49,7 @@ class LoanDeductions implements FromCollection, WithHeadings, WithTitle, ShouldA
                 $loanDed->loan_id,
                 $loanDed->loan->employee->user->email ?? '',
                 $date,
-                $loanDed->amount_kes ?? '',
+                $loanDed->amount ?? '',
                 $loanDed->reason ?? '',
                 $loanDed->created_at ? Carbon::parse($loanDed->created_at)->format('Y-m-d H:i:s') : '',
             ];

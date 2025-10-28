@@ -52,9 +52,9 @@ class Company implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
         return collect([
             [
                 $name ?? '',
-                $email ?? '',
-                $phone ?? '',
                 $address ?? '',
+                $phone ?? '',
+                $email ?? '',
                 $description ?? '',
                 $openingDate ?? '',
                 $bankName ?? '',
