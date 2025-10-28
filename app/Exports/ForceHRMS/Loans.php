@@ -30,6 +30,7 @@ class Loans implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
             'Month',
             'Amount',
             'Reason',
+            'Transaction',
             'Created At',
         ];
     }
@@ -51,6 +52,7 @@ class Loans implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
                 $loan->month,
                 $loan->amount ?? '',
                 $loan->reason . '- imported loan_id:' . $loan->id ?? '',
+                $loan->transaction ?? '',
                 $loan->created_at ? Carbon::parse($loan->created_at)->format('Y-m-d H:i:s') : '',
             ];
         });
