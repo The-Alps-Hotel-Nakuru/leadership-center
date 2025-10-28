@@ -8,37 +8,35 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ForceHRMS extends Component
 {
-    public $exporting = false;
-    public $exportMessage = '';
-    public $exportSuccess = false;
+    public function getCompanyName()
+    {
+        return config('app.company.name', 'Company');
+    }
 
     public function export()
     {
-        $this->exporting = true;
-        $this->exportMessage = 'Generating Force HRMS export...';
-
         try {
             // Create the exporter
             $exporter = new FullDataExportForceHRMS();
 
-            // Generate filename
+            // Generate filename with company name
             $timestamp = now()->format('YmdHis');
-            $filename = "force_hrms_export_{$timestamp}.xlsx";
+            $companySlug = str(config('app.company.name', 'company'))->slug();
+            $filename = "force_hrm_{$companySlug}_{$timestamp}.xlsx";
+
+            // Log success
+            $this->dispatch('done', success: "Export generated successfully: {$filename}");
 
             // Download the file directly
             return Excel::download($exporter, $filename);
         } catch (\Exception $e) {
-            $this->exportMessage = "Export failed: {$e->getMessage()}";
-            $this->exportSuccess = false;
-
             // Log the error
-            \Log::error('Force HRMS Export Error', [
+            \Log::error('Force HRM Export Error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            session()->flash('error', "Export failed: {$e->getMessage()}");
-            $this->exporting = false;
+            $this->dispatch('done', error: "Export failed: {$e->getMessage()}");
         }
     }
 

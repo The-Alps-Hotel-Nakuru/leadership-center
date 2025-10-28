@@ -29,7 +29,7 @@ class ExportCompanyForceHRMS extends Command
     public function handle()
     {
         // Get company info from config
-        $companyName = config('app.company_name') ?? env('COMPANY_NAME');
+        $companyName = config('app.company.name') ?? env('COMPANY_NAME');
         if (!$companyName) {
             $this->error("No company configured. Please set COMPANY_NAME in .env");
             return 1;
