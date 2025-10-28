@@ -23,14 +23,14 @@ class Company implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
     public function headings(): array
     {
         return [
-            'name',
-            'address',
-            'phone',
-            'email',
-            'description',
-            'opening_date',
-            'bank_name',
-            'bank_account_number',
+            'Name',
+            'Address',
+            'Phone',
+            'Email',
+            'Description',
+            'Opening Date',
+            'Bank Name',
+            'Bank Account Number',
         ];
     }
 
@@ -46,8 +46,8 @@ class Company implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
         $address = config('app.company.address') ?? env('COMPANY_ADDRESS', '');
         $description = config('app.company.description') ?? env('COMPANY_DESCRIPTION', '');
         $openingDate = config('app.company.opening_date') ?? env('COMPANY_OPENING_DATE', '');
-        $bankName = env('COMPANY_BANK_NAME', '');
-        $bankAccountNumber = env('COMPANY_BANK_ACCOUNT_NUMBER', '');
+        $bankName = env('BANK_NAME', '');
+        $bankAccountNumber = env('BANK_ACCOUNT_NUMBER', '');
 
         return collect([
             [

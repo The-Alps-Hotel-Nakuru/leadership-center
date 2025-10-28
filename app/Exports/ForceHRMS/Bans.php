@@ -25,9 +25,9 @@ class Bans implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
     public function headings(): array
     {
         return [
-            'employee_email',
-            'reason',
-            'created_at',
+            'Employee Email',
+            'Reason',
+            'Created At',
         ];
     }
 

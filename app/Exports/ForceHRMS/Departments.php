@@ -4,9 +4,9 @@ namespace App\Exports\ForceHRMS;
 
 use App\Models\Department;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class Departments implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
@@ -24,8 +24,8 @@ class Departments implements FromCollection, WithHeadings, WithTitle, ShouldAuto
     public function headings(): array
     {
         return [
-            'name',
-            'description',
+            'Name',
+            'Description',
         ];
     }
 

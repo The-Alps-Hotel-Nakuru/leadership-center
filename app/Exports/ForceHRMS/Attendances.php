@@ -5,9 +5,9 @@ namespace App\Exports\ForceHRMS;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class Attendances implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
 {
@@ -25,10 +25,10 @@ class Attendances implements FromCollection, WithHeadings, WithTitle, ShouldAuto
     public function headings(): array
     {
         return [
-            'employee_email',
-            'date',
-            'check_in',
-            'check_out',
+            'Employee Email',
+            'Date',
+            'Check In',
+            'Check Out',
         ];
     }
 

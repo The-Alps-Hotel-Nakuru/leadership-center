@@ -25,11 +25,11 @@ class Advances implements FromCollection, WithHeadings, WithTitle, ShouldAutoSiz
     public function headings(): array
     {
         return [
-            'employee_email',
-            'date',
-            'amount',
-            'reason',
-            'created_at',
+            'Employee Email',
+            'Date',
+            'Amount',
+            'Reason',
+            'Created At',
         ];
     }
 

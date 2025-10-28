@@ -25,11 +25,11 @@ class Leaves implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
     public function headings(): array
     {
         return [
-            'employee_email',
-            'leave_type',
-            'start_date',
-            'end_date',
-            'created_at',
+            'Employee Email',
+            'Leave Type',
+            'Start Date',
+            'End Date',
+            'Created At',
         ];
     }
 

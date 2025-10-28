@@ -24,9 +24,9 @@ class Designations implements FromCollection, WithHeadings, WithTitle, ShouldAut
     public function headings(): array
     {
         return [
-            'title',
-            'department_name',
-            'is_penalizable',
+            'Title',
+            'Department Name',
+            'Is Penalizable',
         ];
     }
 

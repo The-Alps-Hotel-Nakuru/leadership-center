@@ -25,9 +25,9 @@ class ExtraWorks implements FromCollection, WithHeadings, WithTitle, ShouldAutoS
     public function headings(): array
     {
         return [
-            'employee_email',
-            'date',
-            'double_shift',
+            'Employee Email',
+            'Date',
+            'Double Shift',
         ];
     }
 

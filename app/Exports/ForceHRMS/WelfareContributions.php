@@ -25,11 +25,11 @@ class WelfareContributions implements FromCollection, WithHeadings, WithTitle, S
     public function headings(): array
     {
         return [
-            'employee_email',
-            'date',
-            'amount',
-            'contribution_type',
-            'created_at',
+            'Employee Email',
+            'Date',
+            'Amount',
+            'Contribution Type',
+            'Created At',
         ];
     }
 

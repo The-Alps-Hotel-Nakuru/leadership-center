@@ -25,12 +25,12 @@ class Loans implements FromCollection, WithHeadings, WithTitle, ShouldAutoSize
     public function headings(): array
     {
         return [
-            'employee_email',
-            'year',
-            'month',
-            'amount',
-            'reason',
-            'created_at',
+            'Employee Email',
+            'Year',
+            'Month',
+            'Amount',
+            'Reason',
+            'Created At',
         ];
     }
 

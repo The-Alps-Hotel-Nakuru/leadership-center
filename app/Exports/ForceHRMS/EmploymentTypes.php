@@ -24,10 +24,10 @@ class EmploymentTypes implements FromCollection, WithHeadings, WithTitle, Should
     public function headings(): array
     {
         return [
-            'name',
-            'description',
-            'rate_type',
-            'penalizable',
+            'Name',
+            'Description',
+            'Rate Type',
+            'Penalizable',
         ];
     }
 
